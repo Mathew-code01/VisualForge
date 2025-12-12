@@ -1,0 +1,166 @@
+/* src/styles/components/workcard.css */
+
+/* src/styles/components/workcard.css */
+/* src/styles/components/workcard.css */
+/* src/styles/components/workcard.css */
+/* src/styles/components/workcard.css */
+/* ============================
+   Cinematic Netflix WorkCard
+============================= */
+
+.work-card {
+  display: block;
+  width: 100%;
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: transform 0.35s var(--transition-snap), box-shadow 0.35s ease;
+}
+
+.work-card.fade-in-up {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hover Lift */
+.work-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-xl);
+}
+
+/* ============================
+   Thumbnail
+============================= */
+.work-thumb {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #111;
+}
+
+/* Shimmer skeleton */
+.work-thumb::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #111114 25%, #222225 50%, #111114 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+  z-index: 1;
+  transition: opacity 0.5s ease;
+}
+
+.work-thumb.loaded::before {
+  opacity: 0;
+}
+
+/* Thumbnail image */
+.work-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.85);
+  transition: transform 0.45s ease, filter 0.45s ease;
+  opacity: 0;
+  z-index: 2;
+  position: relative;
+}
+
+.work-thumb.loaded img {
+  opacity: 1;
+}
+
+/* Zoom on hover */
+.work-card:hover .work-thumb img {
+  transform: scale(1.08);
+  filter: brightness(1);
+}
+
+/* ============================
+   Hover Overlay
+============================= */
+.hover-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(3px);
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.35s ease, backdrop-filter 0.35s ease;
+  z-index: 3;
+}
+
+.work-card:hover .hover-overlay {
+  opacity: 1;
+}
+
+/* Play Button */
+.play-button {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.play-button svg {
+  color: #fff;
+  font-size: 22px;
+}
+
+.play-button:hover {
+  background: rgba(255, 255, 255, 0.23);
+  transform: scale(1.15);
+  box-shadow: 0 0 20px rgba(108, 211, 255, 0.55);
+}
+
+/* ============================
+   Text section
+============================= */
+.work-info {
+  text-align: center;
+  margin-top: 12px;
+}
+
+.work-title {
+  color: var(--color-heading);
+  font-size: 1.1rem;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.work-category {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+/* ============================
+   Animations
+============================= */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ============================
+   Responsive
+============================= */
+@media (max-width: 768px) {
+  .work-title { font-size: 1rem; }
+  .play-button { width: 52px; height: 52px; }
+}
+
+@media (max-width: 480px) {
+  .work-title { font-size: 0.95rem; }
+  .work-category { font-size: 0.8rem; }
+  .play-button { width: 44px; height: 44px; }
+}

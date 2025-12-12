@@ -1,0 +1,517 @@
+/* src/styles/pages/adminupload.css */
+/* src/styles/pages/adminupload.css */
+/* ===========================================
+      PREMIUM CINEMATIC VIDEO UPLOAD PAGE
+/* src/styles/pages/adminupload.css */
+/* src/styles/pages/adminupload.css */
+/* ============================================================
+   ADMIN UPLOAD — PREMIUM CINEMATIC DARK THEME
+   Clean design, soft blues, minimal red, matches theme.css
+   ============================================================ */
+
+.admin-upload {
+  padding: var(--spacing-xl);
+  max-width: 1200px;
+  margin: 0 auto;
+  color: var(--color-text);
+  background: var(--color-bg);
+  min-height: 100vh;
+}
+
+/* ============================================================
+   STORAGE PANEL
+   ============================================================ */
+
+.storage-panel {
+  display: flex;
+  gap: var(--spacing-lg);
+  flex-wrap: wrap;
+  margin-bottom: var(--spacing-xl);
+}
+
+.storage-box {
+  flex: 1;
+  min-width: 240px;
+  padding: var(--spacing-lg);
+  border-radius: 14px;
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  transition: var(--transition-medium);
+}
+
+.storage-box:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-primary);
+}
+
+.storage-box h3 {
+  margin-bottom: var(--spacing-sm);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  letter-spacing: 0.5px;
+  background: var(--color-primary);
+  color: #000;
+  font-weight: 600;
+}
+
+.vimeo-badge {
+  background: var(--color-primary-light);
+}
+
+.publitio-badge {
+  background: var(--color-primary-dark);
+}
+
+/* ============================================================
+   HEADER + CONTROLS
+   ============================================================ */
+
+.upload-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.upload-header h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  font-family: var(--font-heading);
+}
+
+/* Button styles */
+.btn {
+  padding: 8px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: var(--transition-fast);
+}
+
+.btn-primary {
+  background: var(--gradient-primary);
+  color: #000;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.1);
+}
+
+.btn-outline {
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  background: transparent;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-outline:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary-light);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-muted);
+}
+
+.btn-ghost:hover {
+  color: var(--color-text);
+}
+
+/* ============================================================
+   DRAG & DROP
+   ============================================================ */
+
+.drag-drop-area {
+  width: 100%;
+  padding: var(--spacing-xxl) var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+  text-align: center;
+  background: var(--color-bg-soft);
+  border: 2px dashed var(--color-border);
+  border-radius: 14px;
+  font-size: 1rem;
+  opacity: 0.85;
+  transition: var(--transition-medium);
+}
+
+.drag-drop-area:hover {
+  opacity: 1;
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+/* ============================================================
+   MESSAGES
+   ============================================================ */
+
+.upload-error {
+  color: #ff5757; /* error only */
+  margin-bottom: var(--spacing-sm);
+}
+
+.upload-message {
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+/* ============================================================
+   BULK ACTIONS
+   ============================================================ */
+
+.bulk-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-lg);
+  flex-wrap: wrap;
+}
+
+.bulk-actions button,
+.bulk-actions select {
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  transition: var(--transition-fast);
+}
+
+.bulk-actions button:hover,
+.bulk-actions select:hover {
+  border-color: var(--color-primary);
+}
+
+/* ============================================================
+   PREVIEW CARDS GRID
+   ============================================================ */
+
+.preview-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+}
+
+.preview-card {
+  background: var(--color-bg-alt);
+  border-radius: 14px;
+  padding: var(--spacing-md);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-medium);
+  position: relative;
+}
+
+.preview-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-primary);
+}
+
+.preview-card.selected {
+  border-color: var(--color-primary-light);
+  box-shadow: 0 0 18px rgba(108, 211, 255, 0.45);
+}
+
+/* Thumbnail */
+.preview-card img,
+.preview-card video {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: var(--spacing-md);
+}
+
+/* Checkbox */
+.select-checkbox {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  transform: scale(1.3);
+}
+
+/* ============================================================
+   DETAILS SECTION
+   ============================================================ */
+
+.preview-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.input-copy-group {
+  display: flex;
+  align-items: center;
+  background: var(--color-bg-soft);
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--color-border);
+  gap: 6px;
+}
+
+.input-copy-group input,
+.input-copy-group select {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--color-text);
+}
+
+.input-copy-group svg {
+  cursor: pointer;
+  opacity: 0.7;
+  transition: var(--transition-fast);
+}
+
+.input-copy-group svg:hover {
+  opacity: 1;
+  color: var(--color-primary);
+}
+
+.copied-indicator {
+  font-size: 0.7rem;
+  color: var(--color-primary);
+}
+
+/* ============================================================
+   PROGRESS BAR
+   ============================================================ */
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--color-border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.progress {
+  height: 100%;
+  background: var(--gradient-primary);
+  width: 0%;
+  transition: width 0.25s ease;
+}
+
+/* ============================================================
+   CARD ACTION — DELETE (Only red used)
+   ============================================================ */
+
+.remove-btn {
+  padding: 6px 12px;
+  border-radius: 10px;
+  background: var(--color-accent-dark);
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.82rem;
+  transition: var(--transition-fast);
+}
+
+.remove-btn:hover {
+  background: var(--color-accent);
+}
+
+/* ============================================================
+   FOOTER BUTTONS
+   ============================================================ */
+
+.upload-footer {
+  display: flex;
+  justify-content: space-between;
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-border);
+}
+
+.upload-btn {
+  padding: 12px 26px;
+  background: var(--gradient-primary);
+  border: none;
+  border-radius: 14px;
+  color: #000;
+  cursor: pointer;
+  font-weight: 600;
+  transition: var(--transition-fast);
+}
+
+.upload-btn:hover {
+  filter: brightness(1.1);
+}
+
+.upload-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 700px) {
+  .upload-header {
+    flex-direction: column;
+    gap: var(--spacing-md);
+    text-align: center;
+  }
+
+  .upload-footer {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+}
+
+/* ============================================================
+   TABS
+   ============================================================ */
+.upload-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: var(--spacing-lg);
+}
+
+.upload-tabs .tab {
+  padding: 8px 18px;
+  border-radius: 12px;
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  font-weight: 500;
+  transition: var(--transition-fast);
+  color: var(--color-text);
+}
+
+.upload-tabs .tab:hover {
+  border-color: var(--color-primary);
+}
+
+.upload-tabs .tab.active {
+  background: var(--gradient-primary);
+  color: #000;
+  border-color: var(--color-primary-light);
+}
+
+/* ============================================================
+   INLINE UPLOAD ERROR
+   ============================================================ */
+.upload-error-inline {
+  background-color: #ff4d4f; /* strong red for errors */
+  color: #fff;
+  padding: 8px 10px;
+  border-radius: 6px;
+  margin-top: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.upload-error-inline p {
+  margin: 0;
+  flex: 1;
+}
+
+/* RETRY BUTTON */
+.btn-retry {
+  background-color: #ffd700; /* gold/yellow for contrast */
+  color: #000;
+  border: none;
+  padding: 6px 12px;
+  margin-left: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: var(--transition-fast);
+}
+
+.btn-retry:hover {
+  filter: brightness(1.1);
+}
+
+/* ============================================================
+   BULK ACTIONS SELECT & BUTTONS (HOVER EFFECTS)
+   ============================================================ */
+.bulk-actions button:hover,
+.bulk-actions select:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary-light);
+  background: var(--color-bg-alt);
+}
+
+/* ============================================================
+   PREVIEW CARD ACTION BUTTONS
+   ============================================================ */
+.card-actions button {
+  background: var(--color-accent-dark);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  border: none;
+  transition: var(--transition-fast);
+}
+
+.card-actions button:hover {
+  background: var(--color-accent);
+}
+
+/* ============================================================
+   INPUT / COPY GROUP ENHANCEMENTS
+   ============================================================ */
+.input-copy-group input,
+.input-copy-group select {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--color-text);
+  font-size: 0.85rem;
+}
+
+.input-copy-group svg {
+  cursor: pointer;
+  opacity: 0.7;
+  transition: var(--transition-fast);
+}
+
+.input-copy-group svg:hover {
+  opacity: 1;
+  color: var(--color-primary);
+}
+
+.copied-indicator {
+  font-size: 0.7rem;
+  color: var(--color-primary);
+  margin-left: 6px;
+}
+
+/* ============================================================
+   RESPONSIVE UPDATES FOR TABS AND PREVIEW GRID
+   ============================================================ */
+@media (max-width: 700px) {
+  .upload-tabs {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .preview-section {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+}

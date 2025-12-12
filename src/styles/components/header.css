@@ -1,0 +1,195 @@
+/* src/styles/components/header.css */
+/* src/styles/components/header.css */
+/* src/styles/components/header.css */
+
+/* src/styles/components/header.css */
+/* src/styles/components/header.css */
+/* =============================
+      CINEMATIC HEADER
+   Premium Dark UI for Editors
+============================= */
+
+/* ===== Header Wrapper ===== */
+.header {
+  width: 100%;
+  background-color: var(--color-bg);
+  border-bottom: 1px solid var(--color-border-dark);
+  box-shadow: var(--shadow-md);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition: background-color var(--transition-medium),
+              box-shadow var(--transition-medium);
+}
+
+.nav {
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding: var(--spacing-md) var(--spacing-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ===== Logo ===== */
+.logo {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-heading);
+  letter-spacing: 1.2px;
+  /* text-transform: uppercase; */
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.logo:hover {
+  color: var(--color-primary-light);
+}
+
+/* ===== Desktop Navigation ===== */
+.nav-links {
+  display: flex;
+  gap: var(--spacing-lg);
+  list-style: none;
+}
+
+.nav-links li a {
+  font-size: var(--font-size-md);
+  font-weight: 500;
+  color: var(--color-text);
+  text-decoration: none;
+  position: relative;
+  padding: var(--spacing-xs) 0;
+  transition: color var(--transition-fast),
+              transform var(--transition-fast);
+}
+
+/* Underline Animation */
+.nav-links li a::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--gradient-primary);
+  border-radius: var(--radius-sm);
+  transition: width var(--transition-fast);
+}
+
+.nav-links li a:hover::after,
+.nav-links li a.active::after {
+  width: 100%;
+}
+
+/* Hover + Active */
+.nav-links li a:hover {
+  color: var(--color-primary-light);
+  transform: translateY(-2px);
+}
+
+.nav-links li a.active {
+  color: var(--color-primary-light);
+  font-weight: 600;
+}
+
+/* ===== Hamburger (Mobile) ===== */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
+  cursor: pointer;
+  z-index: 1100;
+}
+
+.menu-toggle span {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background-color: var(--color-text);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+/* Animate to X */
+.menu-toggle.active span:nth-child(1) {
+  transform: rotate(45deg) translateY(7px);
+}
+
+.menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg) translateY(-7px);
+}
+
+/* ===== Mobile Menu ===== */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: flex;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    right: var(--spacing-md);
+    width: 240px;
+    background-color: var(--color-bg-alt);
+    border: 1px solid var(--color-border);
+    flex-direction: column;
+    gap: 0;
+    transform: translateX(120%);
+    transition: transform var(--transition-medium) ease-in-out;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+
+  .nav-links.open {
+    transform: translateX(0);
+  }
+
+  .nav-links li {
+    width: 100%;
+    opacity: 0;
+    transform: translateX(20px);
+    animation: linkFadeIn 0.3s forwards;
+  }
+
+  /* Stagger fade-in */
+  .nav-links.open li:nth-child(1) { animation-delay: 0.05s; }
+  .nav-links.open li:nth-child(2) { animation-delay: 0.1s; }
+  .nav-links.open li:nth-child(3) { animation-delay: 0.15s; }
+  .nav-links.open li:nth-child(4) { animation-delay: 0.2s; }
+
+  .nav-links li a {
+    display: block;
+    padding: var(--spacing-md);
+    color: var(--color-text);
+    border-bottom: 1px solid var(--color-border);
+    transition: background-color var(--transition-fast),
+                color var(--transition-fast);
+  }
+
+  .nav-links li a:hover {
+    background-color: var(--color-bg-soft);
+    color: var(--color-primary-light);
+  }
+}
+
+/* ===== Animation ===== */
+@keyframes linkFadeIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Prevent horizontal scroll */
+body {
+  overflow-x: hidden;
+}

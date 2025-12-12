@@ -1,0 +1,23 @@
+/* src/styles/components/videoplayer.css */
+
+.video-player {
+  width: 100%;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  margin: var(--spacing-md) 0;
+}
+
+.video-player video {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius-md);
+  transition: transform var(--transition-medium), box-shadow var(--transition-medium);
+}
+
+.video-player video:hover {
+  transform: scale(1.02);
+  box-shadow: var(--shadow-lg);
+  cursor: pointer;
+}

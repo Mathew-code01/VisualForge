@@ -1,0 +1,128 @@
+/* src/styles/components/footer.css */
+/* src/styles/components/footer.css */
+/* src/styles/components/footer.css */
+/* ======================================
+      NETFLIX STYLE CINEMATIC FOOTER
+====================================== */
+
+.nf-footer {
+  width: 100%;
+  padding: 60px 20px;
+  background: rgba(10, 10, 12, 0.92);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.4);
+
+}
+
+.nf-footer-content {
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  text-align: center;
+  color: var(--color-text);
+}
+
+/* ===============================
+      FOOTER LINK GRID
+   Netflix style: 4–6 columns
+=============================== */
+
+.nf-footer-links {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+  padding: 0;
+  margin: 0 auto 30px;
+  max-width: 700px;
+}
+
+.nf-footer-links li {
+  text-align: center;
+}
+
+.nf-footer-links li a {
+  color: var(--color-text-soft);
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: color 0.25s ease, opacity 0.25s ease;
+}
+
+.nf-footer-links li a:hover {
+  color: var(--color-primary);
+  opacity: 1;
+}
+
+/* ===============================
+      FOOTER CREDITS
+=============================== */
+
+.nf-footer-credit {
+  color: var(--color-text-soft);
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+  opacity: 0.8;
+}
+
+.nf-footer-madeby {
+  font-size: 0.75rem;
+  opacity: 0.6;
+  color: var(--color-text-soft);
+}
+
+/* ===============================
+      RESPONSIVENESS
+=============================== */
+
+@media (max-width: 768px) {
+  .nf-footer {
+    padding: 45px 20px;
+  }
+
+  .nf-footer-links {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nf-footer {
+    padding: 35px 15px;
+  }
+
+  .nf-footer-links {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ======================================
+      GLOWING "MADE BY" ANIMATION
+====================================== */
+
+@keyframes nf-glow-pulse {
+  0% {
+    opacity: 0.45;
+    text-shadow: 0 0 2px rgba(108, 211, 255, 0.2),
+                 0 0 4px rgba(108, 211, 255, 0.15);
+  }
+  50% {
+    opacity: 1;
+    text-shadow: 0 0 6px rgba(108, 211, 255, 0.4),
+                 0 0 12px rgba(108, 211, 255, 0.25),
+                 0 0 20px rgba(108, 211, 255, 0.2);
+  }
+  100% {
+    opacity: 0.45;
+    text-shadow: 0 0 2px rgba(108, 211, 255, 0.2),
+                 0 0 4px rgba(108, 211, 255, 0.15);
+  }
+}
+
+.nf-footer-madeby {
+  font-size: 0.8rem;
+  color: var(--color-primary-light);
+  opacity: 0.75;
+  letter-spacing: 0.5px;
+
+  /* ✨ Apply glow animation */
+  animation: nf-glow-pulse 3.8s ease-in-out infinite;
+}

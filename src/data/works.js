@@ -1,0 +1,111 @@
+// src/data/works.js
+// src/data/works.js
+// src/data/works.js
+
+const works = [
+  {
+    id: "1",
+    title: "Cinematic Showreel",
+    category: "Video Editing",
+    thumbnail: "https://img.youtube.com/vi/YzOCzZ3FfeA/hqdefault.jpg",
+    video: "https://www.youtube.com/watch?v=YzOCzZ3FfeA",
+    description: "A showcase of cinematic editing and storytelling.",
+    date: "2024-01-15",
+    tools: ["Premiere Pro", "After Effects"],
+  },
+  {
+    id: "2",
+    title: "UI/UX Case Study – Finance App",
+    category: "UI/UX Design",
+    thumbnail: "https://img.youtube.com/vi/WAvchbP2kXM/hqdefault.jpg",
+    video: "https://www.youtube.com/watch?v=WAvchbP2kXM",
+    description: "Modern finance app design with intuitive workflows.",
+    date: "2024-03-20",
+    tools: ["Figma", "Framer"],
+  },
+  {
+    id: "3",
+    title: "Motion Graphics Ad",
+    category: "Motion Graphics",
+    thumbnail: "https://img.youtube.com/vi/3fumBcKC6RE/hqdefault.jpg",
+    video: "https://www.youtube.com/watch?v=3fumBcKC6RE",
+    description: "Animated commercial with bold typography.",
+    date: "2023-12-05",
+    tools: ["After Effects"],
+  },
+  {
+    id: "4",
+    title: "Short Film Teaser",
+    category: "Video Editing",
+    thumbnail: "https://img.youtube.com/vi/tgbNymZ7vqY/hqdefault.jpg",
+    video: "https://www.youtube.com/watch?v=tgbNymZ7vqY",
+    description: "A teaser of a narrative short film project.",
+    date: "2024-02-10",
+    tools: ["Premiere Pro", "DaVinci Resolve"],
+  },
+  {
+    id: "5",
+    title: "Animated Explainer",
+    category: "Motion Graphics",
+    thumbnail: "https://img.youtube.com/vi/aqz-KE-bpKQ/hqdefault.jpg",
+    video: "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
+    description: "Engaging motion graphics explainer video.",
+    date: "2024-04-01",
+    tools: ["After Effects", "Illustrator"],
+  },
+  {
+    id: "6",
+    title: "Cinematic Showreel",
+    category: "Video Editing",
+    thumbnail: "https://img.youtube.com/vi/YzOCzZ3FfeA/hqdefault.jpg",
+    video: "https://www.youtube.com/watch?v=YzOCzZ3FfeA",
+    description: "A showcase of cinematic editing and storytelling.",
+    date: "2024-01-15",
+    tools: ["Premiere Pro", "After Effects"],
+  },
+  {
+    id: "7",
+    title: "UI/UX Case Study – Finance App",
+    category: "UI/UX Design",
+    thumbnail: "https://img.youtube.com/vi/WAvchbP2kXM/hqdefault.jpg",
+    video: "https://www.youtube.com/watch?v=WAvchbP2kXM",
+    description: "Modern finance app design with intuitive workflows.",
+    date: "2024-03-20",
+    tools: ["Figma", "Framer"],
+  },
+  {
+    id: "8",
+    title: "Motion Graphics Ad",
+    category: "Motion Graphics",
+    thumbnail: "https://img.youtube.com/vi/3fumBcKC6RE/hqdefault.jpg",
+    video: "https://www.youtube.com/watch?v=3fumBcKC6RE",
+    description: "Animated commercial with bold typography.",
+    date: "2023-12-05",
+    tools: ["After Effects"],
+  },
+  {
+    id: "9",
+    title: "Short Film Teaser",
+    category: "Video Editing",
+    thumbnail: "https://img.youtube.com/vi/tgbNymZ7vqY/hqdefault.jpg",
+    video: "https://www.youtube.com/watch?v=tgbNymZ7vqY",
+    description: "A teaser of a narrative short film project.",
+    date: "2024-02-10",
+    tools: ["Premiere Pro", "DaVinci Resolve"],
+  },
+  {
+    id: "10",
+    title: "Animated Explainer",
+    category: "Motion Graphics",
+    thumbnail: "https://img.youtube.com/vi/aqz-KE-bpKQ/hqdefault.jpg",
+    video: "https://www.youtube.com/watch?v=aqz-KE-bpKQ",
+    description: "Engaging motion graphics explainer video.",
+    date: "2024-04-01",
+    tools: ["After Effects", "Illustrator"],
+  },
+];
+
+// fallback thumbnail
+export const placeholderThumb = "https://img.youtube.com/vi/YzOCzZ3FfeA/hqdefault.jpg";
+
+export default works;

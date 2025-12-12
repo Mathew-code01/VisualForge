@@ -1,0 +1,63 @@
+/* src/styles/pages/notfound.css */
+
+.notfound-page {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-xxl) var(--spacing-lg);
+  text-align: center;
+  background-color: var(--color-bg-alt);
+  color: var(--color-text);
+  gap: var(--spacing-md);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  transition: background-color var(--transition-medium), color var(--transition-medium);
+}
+
+.notfound-page h1 {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-xxl);
+  color: var(--color-heading);
+}
+
+.notfound-page p {
+  font-size: var(--font-size-md);
+  color: var(--color-muted);
+}
+
+.back-link {
+  font-size: var(--font-size-md);
+  color: var(--color-primary);
+  text-decoration: none;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.back-link:hover {
+  background-color: var(--color-primary);
+  color: #fff;
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+  cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .notfound-page h1 {
+    font-size: var(--font-size-xl);
+  }
+
+  .notfound-page p {
+    font-size: var(--font-size-md);
+  }
+}
+
+@media (max-width: 480px) {
+  .notfound-page h1 {
+    font-size: 1.5rem;
+  }
+}

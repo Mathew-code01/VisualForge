@@ -1,0 +1,122 @@
+/* src/styles/components/portfoliopreview.css */
+
+/* src/styles/components/portfoliopreview.css */
+
+.portfolio-preview {
+  text-align: center;
+  padding: var(--spacing-5xl) 0 var(--spacing-4xl);
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  position: relative;
+}
+
+/* --------------------------
+   TITLES
+--------------------------- */
+.pp-title {
+  font-size: var(--font-size-xxxl);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-heading);
+  margin-bottom: var(--spacing-md);
+  letter-spacing: -0.5px;
+}
+
+.pp-subtitle {
+  max-width: 680px;
+  margin: 0 auto var(--spacing-xxl);
+  font-size: var(--font-size-xl);
+  color: var(--color-text-light);
+  line-height: var(--line-height-loose);
+}
+
+/* --------------------------
+   GRID
+--------------------------- */
+.pp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: var(--spacing-xxl);
+  margin-bottom: var(--spacing-xl);
+}
+
+/* --------------------------
+   CTA BUTTON
+--------------------------- */
+.pp-cta {
+  margin-top: var(--spacing-xxl);
+}
+
+.pp-btn {
+  display: inline-block;
+  padding: var(--padding-button);
+  background: var(--gradient-primary);
+  color: #fff;
+  font-size: var(--font-size-lg);
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  box-shadow: var(--shadow-lg);
+  transition: transform var(--transition-snap), box-shadow var(--transition-medium);
+}
+
+.pp-btn:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: var(--shadow-xl);
+}
+
+/* --------------------------
+   SCROLL ANIMATIONS
+--------------------------- */
+.fade-section {
+  opacity: 0;
+  animation: fadeIn 0.8s var(--transition-snap) forwards;
+}
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 0.9s var(--transition-snap) forwards;
+}
+
+.delay-1 { animation-delay: 0.15s; }
+.delay-2 { animation-delay: 0.30s; }
+.delay-3 { animation-delay: 0.45s; }
+.delay-4 { animation-delay: 0.60s; }
+.delay-5 { animation-delay: 0.75s; }
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* --------------------------
+   RESPONSIVE
+--------------------------- */
+@media (max-width: 768px) {
+  .pp-title {
+    font-size: 2rem;
+  }
+
+  .pp-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .portfolio-preview {
+    padding: var(--spacing-xxl) 0 var(--spacing-xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .pp-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

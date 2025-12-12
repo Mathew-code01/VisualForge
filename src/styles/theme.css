@@ -1,0 +1,115 @@
+/* src/styles/theme.css */
+
+/* src/styles/theme.css */
+/* src/styles/theme.css */
+/* ============================================
+      PREMIUM CINEMATIC DARK THEME
+   For Professional Video Editor Websites
+============================================ */
+
+:root {
+  /* ===== Core Filmic Colors ===== */
+  --color-bg: #0a0a0c;               /* deep cinematic black */
+  --color-bg-alt: #111114;           /* elevated dark panel */
+  --color-bg-soft: #151518;          /* subtle separation */
+
+  --color-primary: #6cd3ff;          /* neon blue accent */
+  --color-primary-light: #8fe4ff;
+  --color-primary-dark: #3ba7d0;
+
+  --color-accent: #ff4f6d;           /* soft red for CTAs */
+  --color-accent-light: #ff7f94;
+  --color-accent-dark: #c13a51;
+
+  /* ===== Text ===== */
+  --color-text: #e6e6eb;             /* clean off-white */
+  --color-text-light: #b7b7c0;
+  --color-heading: #ffffff;          /* pure white */
+  --color-muted: #7d7d87;
+
+  /* ===== Borders ===== */
+  --color-border: #1f1f22;
+  --color-border-dark: #0f0f11;
+
+  /* ===== Shadows (cinematic softness) ===== */
+  --shadow-sm: 0 2px 6px rgba(0,0,0,0.35);
+  --shadow-md: 0 8px 24px rgba(0,0,0,0.45);
+  --shadow-lg: 0 16px 40px rgba(0,0,0,0.55);
+  --shadow-xl: 0 32px 60px rgba(0,0,0,0.65);
+  --shadow-2xl: 0 48px 80px rgba(0,0,0,0.75);
+  --shadow-inner: inset 0 2px 4px rgba(255,255,255,0.05);
+
+  /* ===== Cinematic Gradient ===== */
+  --gradient-primary: linear-gradient(135deg, #6cd3ff, #3ba7d0);
+  --gradient-accent: linear-gradient(135deg, #ff4f6d, #ff7f94);
+  --gradient-dark: linear-gradient(160deg, #0a0a0c, #121214, #0a0a0c);
+
+  /* =============================
+        Spacing Scale
+  ============================== */
+  --spacing-xxs: 2px;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 40px;
+  --spacing-xxl: 64px;
+  --spacing-xxxl: 96px;
+  --spacing-4xl: 128px;
+  --spacing-5xl: 160px;
+
+  /* =============================
+           Typography
+  ============================== */
+  --font-base: "Inter", system-ui, sans-serif;
+  --font-heading: "Bebas Neue", "Clash Display", "Poppins", sans-serif;
+
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.2rem;
+  --font-size-xl: 1.8rem;
+  --font-size-xxl: 2.6rem;
+  --font-size-xxxl: 3.8rem;
+  --font-size-display: 5rem;
+
+  --line-height-tight: 1.1;
+  --line-height-normal: 1.45;
+  --line-height-relaxed: 1.7;
+
+  /* =============================
+          Transitions
+  ============================== */
+  --transition-fast: 0.2s ease-out;
+  --transition-medium: 0.4s ease-out;
+  --transition-slow: 0.7s ease;
+  --transition-snap: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* =============================
+           Layout
+  ============================== */
+  --max-content-width: 1250px;
+  --container-padding: 24px;
+
+  /* =============================
+             Z-layers
+  ============================== */
+  --z-base: 1;
+  --z-dropdown: 100;
+  --z-overlay: 300;
+  --z-modal: 500;
+  --z-popover: 800;
+  --z-max: 9999;
+}
+
+/* ============================================
+     Dark Mode (For Future Toggle Support)
+============================================ */
+[data-theme="dark"] {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+#root {width: 100%; overflow-x: hidden;}
+
+/* section{ max-width: 1400px;} */

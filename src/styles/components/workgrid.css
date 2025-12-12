@@ -1,0 +1,85 @@
+/* src/styles/components/workgrid.css */
+/* src/styles/components/workgrid.css */
+/* src/styles/components/workgrid.css */
+/* src/styles/components/workgrid.css */
+/* src/styles/components/workgrid.css */
+
+/* ==========================================
+   NETFLIX - CINEMATIC WORK GRID
+   Clean • Cinematic • Editorial
+========================================== */
+
+.nf-section {
+  width: 100%;
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding: var(--spacing-xl) var(--spacing-md);
+}
+
+/* -------- Section Title -------- */
+.nf-section-title {
+  font-family: var(--font-heading);
+  color: var(--color-heading);
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: var(--spacing-lg);
+  text-align: left;
+  padding-left: 4px;
+  position: relative;
+}
+
+.nf-section-title::after {
+  content: "";
+  width: 120px;
+  height: 3px;
+  background: var(--gradient-primary);
+  display: block;
+  margin-top: 8px;
+  border-radius: 100px;
+  opacity: 0.9;
+}
+
+/* -------- Netflix Row Grid -------- */
+.nf-row {
+  display: grid;
+
+  /* Netflix-like wide cinematic tiles */
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+
+  gap: var(--spacing-xl);
+  padding-top: var(--spacing-md);
+}
+
+/* ----------------------------------
+      RESPONSIVE BEHAVIOR
+---------------------------------- */
+
+@media (max-width: 1200px) {
+  .nf-row {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+  }
+}
+
+@media (max-width: 900px) {
+  .nf-row {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--spacing-md);
+  }
+}
+
+@media (max-width: 600px) {
+  .nf-section-title {
+    text-align: center;
+  }
+
+  .nf-section-title::after {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .nf-row {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+}
