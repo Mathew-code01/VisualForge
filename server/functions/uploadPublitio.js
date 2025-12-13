@@ -10,6 +10,16 @@ export default async function handler(req, res) {
     const API_KEY = process.env.PUBLITIO_API_KEY;
     const API_SECRET = process.env.PUBLITIO_API_SECRET;
 
+    console.log(
+      "PUBLITIO KEY:",
+      process.env.PUBLITIO_API_KEY ? "OK" : "MISSING"
+    );
+    console.log(
+      "PUBLITIO SECRET:",
+      process.env.PUBLITIO_API_SECRET ? "OK" : "MISSING"
+    );
+
+
     if (!API_KEY || !API_SECRET) {
       return res.status(500).json({ error: "Publitio API keys missing." });
     }
