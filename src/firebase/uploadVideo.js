@@ -26,8 +26,7 @@ function getDb() {
   return window.db;
 }
 
-const API_BASE =
-  "https://visualforge-backend.onrender.com || http://localhost:3000";
+const API_BASE = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
 
 /* =======================================================
