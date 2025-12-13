@@ -328,6 +328,17 @@
   background: var(--color-accent);
 }
 
+.retry-btn {
+  padding: 6px 12px;
+  border-radius: 10px;
+  background: var(--gradient-primary);
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.82rem;
+  transition: var(--transition-fast);
+}
+
 /* ============================================================
    FOOTER BUTTONS
    ============================================================ */
