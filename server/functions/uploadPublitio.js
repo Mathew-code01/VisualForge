@@ -3,34 +3,26 @@
 import fetch from "node-fetch";
 import FormData from "form-data";
 import fs from "fs";
-// import path from "path";
 
 export default async function handler(req, res) {
   try {
     const API_KEY = process.env.PUBLITIO_API_KEY;
     const API_SECRET = process.env.PUBLITIO_API_SECRET;
 
-    console.log(
-      "PUBLITIO KEY:",
-      process.env.PUBLITIO_API_KEY ? "OK" : "MISSING"
-    );
-    console.log(
-      "PUBLITIO SECRET:",
-      process.env.PUBLITIO_API_SECRET ? "OK" : "MISSING"
-    );
-
-
     if (!API_KEY || !API_SECRET) {
       return res.status(500).json({ error: "Publitio API keys missing." });
     }
 
-    const filePath = req.file.path; // multer stores uploaded file
-    const fileStream = fs.createReadStream(filePath);
+    if (!req.file) {
+      return res.status(400).json({ error: "No file uploaded" });
+    }
+
+    const fileStream = fs.createReadStream(req.file.path);
 
     const formData = new FormData();
     formData.append("file", fileStream);
-    formData.append("privacy", 1);
-    formData.append("option_download", 1);
+    formData.append("privacy", "1");
+    formData.append("option_download", "1");
 
     const auth = Buffer.from(`${API_KEY}:${API_SECRET}`).toString("base64");
 
@@ -38,18 +30,19 @@ export default async function handler(req, res) {
       method: "POST",
       headers: {
         Authorization: `Basic ${auth}`,
+        ...formData.getHeaders(), // 🔥 THIS IS THE FIX
       },
       body: formData,
     });
 
     const json = await publitioRes.json();
 
-    fs.unlinkSync(filePath); // delete temp file
+    fs.unlinkSync(req.file.path);
 
     if (!json.success) {
-      return res
-        .status(400)
-        .json({ error: json.error?.message || "Publitio upload failed" });
+      return res.status(400).json({
+        error: json.error?.message || "Publitio upload failed",
+      });
     }
 
     return res.json({
