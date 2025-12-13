@@ -15,37 +15,43 @@ export default async function handler(req, res) {
     console.log("API SECRET exists:", !!API_SECRET);
 
     if (!API_KEY || !API_SECRET) {
-      console.log("❌ Publitio API keys missing in .env");
       return res.status(500).json({ error: "Publitio API keys missing." });
     }
 
     if (!req.file) {
-      console.log("❌ req.file is missing");
+      console.log("❌ No file received");
       return res.status(400).json({ error: "No file uploaded" });
     }
 
     console.log("Uploaded file info:", {
-      originalName: req.file.originalname,
-      mimeType: req.file.mimetype,
+      name: req.file.originalname,
       size: req.file.size,
+      type: req.file.mimetype,
       path: req.file.path,
     });
 
-    const fileStream = fs.createReadStream(req.file.path);
+    const stream = fs.createReadStream(req.file.path);
 
     const form = new FormData();
-    // Publitio requires api_key and api_secret as form fields
+
+    // ✅ Publitio auth MUST be form fields
     form.append("api_key", API_KEY);
     form.append("api_secret", API_SECRET);
-    form.append("file", fileStream);
+
+    // ✅ File
+    form.append("file", stream, {
+      filename: req.file.originalname,
+      contentType: req.file.mimetype,
+      knownLength: req.file.size, // 👈 IMPORTANT FIX
+    });
+
+    // Optional metadata
     form.append("title", req.file.originalname);
-    form.append("privacy", "1"); // 1 = private, 0 = public
+    form.append("privacy", "1");
     form.append("option_download", "1");
 
-    console.log("Form data fields prepared:", form.getLengthSync(), "bytes");
+    console.log("=== Sending upload to Publitio ===");
 
-    // Send POST request to Publitio
-    console.log("=== Sending request to Publitio ===");
     const response = await axios.post(
       "https://api.publit.io/v1/files/upload",
       form,
@@ -53,42 +59,41 @@ export default async function handler(req, res) {
         headers: {
           ...form.getHeaders(),
         },
-        maxBodyLength: Infinity, // allow large files
-        timeout: 60000, // 60s timeout
+        maxBodyLength: Infinity,
+        maxContentLength: Infinity,
+        timeout: 120000,
       }
     );
 
     console.log("Publitio HTTP status:", response.status);
-    console.log("Publitio response data:", response.data);
+    console.log("Publitio response:", response.data);
 
-    // Clean up uploaded file from server
     fs.unlinkSync(req.file.path);
-    console.log("✅ Local file deleted:", req.file.path);
+    console.log("✅ Temp file deleted");
 
-    if (!response.data || !response.data.success) {
-      console.log("❌ Publitio upload failed:", response.data);
+    if (!response.data?.success) {
       return res.status(400).json({
         error: response.data?.error?.message || "Publitio upload failed",
       });
     }
 
-    console.log("✅ Publitio upload success:", response.data.id);
+    console.log("✅ Upload SUCCESS:", response.data.id);
 
     return res.json({
       success: true,
       platform: "publitio",
+      id: response.data.id,
       url: response.data.url_preview,
-      resourceId: response.data.id,
     });
   } catch (err) {
-    console.error(
-      "🔥 Publitio backend crash:",
-      err.response?.data || err.message
-    );
-    if (req.file?.path && fs.existsSync(req.file.path))
+    console.error("🔥 Upload crash:", err.response?.data || err.message);
+
+    if (req.file?.path && fs.existsSync(req.file.path)) {
       fs.unlinkSync(req.file.path);
-    res
-      .status(500)
-      .json({ error: err.response?.data?.error?.message || err.message });
+    }
+
+    return res.status(500).json({
+      error: err.response?.data?.error?.message || err.message,
+    });
   }
 }
