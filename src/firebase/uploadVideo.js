@@ -26,7 +26,8 @@ function getDb() {
   return window.db;
 }
 
-const API_BASE = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+const API_BASE =
+  "https://visualforge-backend.onrender.com || http://localhost:3000";
 
 
 /* =======================================================
@@ -89,10 +90,16 @@ async function uploadToPublitio(file, onProgress) {
       if (e.lengthComputable) onProgress(((e.loaded / e.total) * 100).toFixed(2));
     };
 
+    
     xhr.onload = () => {
       const res = JSON.parse(xhr.responseText);
+      if (xhr.status !== 200) {
+        return reject(new Error(res?.error || "Upload failed"));
+      }
+
       if (!res.success) return reject(new Error(res.error || "Publitio failed"));
       resolve(res);
+      
     };
 
     xhr.onerror = () => reject(new Error("Backend upload error"));
