@@ -125,13 +125,13 @@ const About = () => {
         </ul>
       </section>
 
-      {/* Portfolio CTA */}
+      {/* work CTA */}
       <section className="af-about-portfolio-cta">
         <h2 className="af-section-title">Curious About Our Work?</h2>
         <p>
           Explore our cinematic projects that bring stories to life.{" "}
-          <a href="/portfolio" className="af-about-link">
-            Check out the Portfolio →
+          <a href="/work" className="af-about-link">
+            Check out the Project →
           </a>
         </p>
       </section>
@@ -163,5 +163,3 @@ const About = () => {
 export default About;
 
 
-
-// you know the website is for my client who is a video editor he just want a website that display is works not a portfolio so is this cool with what i discribed 

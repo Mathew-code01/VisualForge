@@ -7,13 +7,15 @@ import {
 
 const db = window.db;
 
+const API_BASE = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+
 // MAIN DELETE FUNCTION
 export async function deleteVideo(video) {
   const { id, platform, resourceId } = video;
 
   // 1. Delete from Publitio if needed
   if (platform === "publitio") {
-    await fetch(`http://localhost:3000/api/deletePublitio/${resourceId}`, {
+    await fetch(`${API_BASE}/api/deletePublitio/${resourceId}`, {
       method: "DELETE",
     });
   }

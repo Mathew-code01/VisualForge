@@ -2,6 +2,8 @@
 // src/firebase/useStorageUsage.js
 import { useState, useEffect } from "react";
 
+const API_BASE = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+
 export default function useStorageUsage() {
   const [usage, setUsage] = useState({
     publitio: { usedMB: 0, limitMB: 0, percent: 0, fileCount: 0 },
@@ -15,7 +17,7 @@ export default function useStorageUsage() {
     async function fetchUsage() {
       try {
         const [publitio, vimeo] = await Promise.all([
-          fetch("http://localhost:3000/api/getPublitioUsage")
+          fetch(`${API_BASE}/api/getPublitioUsage`)
             .then((r) => {
               if (!r.ok) throw new Error(`Publitio API: ${r.statusText}`);
               return r.json();
@@ -60,7 +62,7 @@ export default function useStorageUsage() {
 
 async function getVimeoUsageSafe() {
   try {
-    const res = await fetch("http://localhost:3000/api/getVimeoUsage");
+    const res = await fetch(`${API_BASE}/api/getVimeoUsage`);
     const data = await res.json();
 
     if (!data.success) {

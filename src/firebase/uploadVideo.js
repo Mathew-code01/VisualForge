@@ -26,6 +26,9 @@ function getDb() {
   return window.db;
 }
 
+const API_BASE = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+
+
 /* =======================================================
    MAIN UPLOAD HANDLER
    Publitio (<100MB) or Vimeo (>=100MB)
@@ -79,7 +82,8 @@ async function uploadToPublitio(file, onProgress) {
 
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://localhost:3000/api/uploadPublitio");
+    xhr.open("POST", `${API_BASE}/api/uploadPublitio`);
+
 
     xhr.upload.onprogress = (e) => {
       if (e.lengthComputable) onProgress(((e.loaded / e.total) * 100).toFixed(2));
@@ -101,11 +105,12 @@ async function uploadToPublitio(file, onProgress) {
 ======================================================= */
 async function uploadToVimeo(file, title, onProgress) {
   // 1) Ask backend for TUS upload session
-  const session = await fetch("http://localhost:3000/api/uploadVimeo", {
+  const session = await fetch(`${API_BASE}/api/uploadVimeo`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ title, size: file.size }),
   }).then((r) => r.json());
+
 
   if (!session.uploadUrl) {
     console.error("VIMEO BACKEND ERROR:", session);
@@ -209,24 +214,25 @@ export async function deleteVideo(docId, platform, resourceId) {
    DELETE FROM PUBLITIO
 ======================================================= */
 async function deletePublitio(resourceId) {
-  const res = await fetch("http://localhost:3000/api/deletePublitio", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ resourceId }),
+  const res = await fetch(`${API_BASE}/api/deletePublitio/${resourceId}`, {
+    method: "DELETE",
   });
+
   const json = await res.json();
   if (!json.success) throw new Error("Publitio delete failed");
 }
+
 
 /* =======================================================
    DELETE FROM VIMEO
 ======================================================= */
 async function deleteVimeo(resourceId) {
-  const res = await fetch("http://localhost:3000/api/deleteVimeo", {
+  const res = await fetch(`${API_BASE}/api/deleteVimeo`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ resourceId }),
   });
+
 
   const json = await res.json();
   if (!json.success) throw new Error(json.error || "Vimeo delete failed");
