@@ -19,57 +19,51 @@ export default async function handler(req, res) {
     }
 
     if (!req.file) {
-      console.log("❌ No file received");
-      return res.status(400).json({ error: "No file uploaded" });
+      return res.status(400).json({ error: "No file uploaded." });
     }
 
-    console.log("Uploaded file info:", {
+    console.log("Uploaded file:", {
       name: req.file.originalname,
       size: req.file.size,
       type: req.file.mimetype,
       path: req.file.path,
     });
 
-    const stream = fs.createReadStream(req.file.path);
-
     const form = new FormData();
 
-    // ✅ Publitio auth MUST be form fields
+    // ✅ AUTH — MUST be form fields
     form.append("api_key", API_KEY);
     form.append("api_secret", API_SECRET);
 
-    // ✅ File
-    form.append("file", stream, {
+    // ✅ FILE
+    form.append("file", fs.createReadStream(req.file.path), {
       filename: req.file.originalname,
       contentType: req.file.mimetype,
-      knownLength: req.file.size, // 👈 IMPORTANT FIX
+      knownLength: req.file.size,
     });
 
-    // Optional metadata
+    // Optional
     form.append("title", req.file.originalname);
     form.append("privacy", "1");
     form.append("option_download", "1");
 
-    console.log("=== Sending upload to Publitio ===");
+    console.log("=== Sending request to Publitio API ===");
 
     const response = await axios.post(
-      "https://api.publit.io/v1/files/upload",
+      "https://api.publit.io/v1/files/create", // ✅ CORRECT
       form,
       {
-        headers: {
-          ...form.getHeaders(),
-        },
+        headers: form.getHeaders(),
         maxBodyLength: Infinity,
         maxContentLength: Infinity,
         timeout: 120000,
       }
     );
 
-    console.log("Publitio HTTP status:", response.status);
+    console.log("Publitio status:", response.status);
     console.log("Publitio response:", response.data);
 
     fs.unlinkSync(req.file.path);
-    console.log("✅ Temp file deleted");
 
     if (!response.data?.success) {
       return res.status(400).json({
@@ -77,16 +71,16 @@ export default async function handler(req, res) {
       });
     }
 
-    console.log("✅ Upload SUCCESS:", response.data.id);
+    console.log("✅ UPLOAD SUCCESS");
 
     return res.json({
       success: true,
-      platform: "publitio",
       id: response.data.id,
       url: response.data.url_preview,
+      platform: "publitio",
     });
   } catch (err) {
-    console.error("🔥 Upload crash:", err.response?.data || err.message);
+    console.error("🔥 Upload error:", err.response?.data || err.message);
 
     if (req.file?.path && fs.existsSync(req.file.path)) {
       fs.unlinkSync(req.file.path);
