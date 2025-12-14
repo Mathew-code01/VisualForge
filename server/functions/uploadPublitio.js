@@ -1,9 +1,11 @@
 // server/functions/uploadPublitio.js
+// server/functions/uploadPublitio.js
+
 import axios from "axios";
 import FormData from "form-data";
 import fs from "fs";
 
-const ENDPOINT = "https://api.publit.io/v1/files/create";
+const PUBLITIO_ENDPOINT = "https://api.publit.io/v1/files/create";
 
 export default async function handler(req, res) {
   console.log("\n====================================");
@@ -21,61 +23,71 @@ export default async function handler(req, res) {
   }
 
   if (!req.file) {
+    console.log("❌ No file in request");
     return res.status(400).json({ error: "No file uploaded" });
   }
 
-  console.log("📁 File:", {
+  console.log("📁 File received:", {
     name: req.file.originalname,
     size: req.file.size,
     type: req.file.mimetype,
     path: req.file.path,
   });
 
+  /* ---------------- FORM DATA ---------------- */
   const form = new FormData();
+
+  // 🔥 THIS IS THE KEY FIX
+  form.append("api_key", API_KEY);
+  form.append("api_secret", API_SECRET);
+
   form.append("file", fs.createReadStream(req.file.path));
   form.append("title", req.file.originalname);
   form.append("privacy", "1");
   form.append("option_download", "1");
 
-  const authHeader =
-    "Basic " + Buffer.from(`${API_KEY}:${API_SECRET}`).toString("base64");
-
   try {
-    console.log("📡 POST", ENDPOINT);
+    console.log("📡 POST →", PUBLITIO_ENDPOINT);
 
-    const response = await axios.post(ENDPOINT, form, {
-      headers: {
-        ...form.getHeaders(),
-        Authorization: authHeader,
-      },
+    const response = await axios.post(PUBLITIO_ENDPOINT, form, {
+      headers: form.getHeaders(),
       maxBodyLength: Infinity,
       timeout: 120000,
     });
 
-    console.log("📥 HTTP:", response.status);
-    console.log("📥 BODY:", response.data);
+    console.log("📥 HTTP STATUS:", response.status);
+    console.log("📥 RESPONSE DATA:", response.data);
 
     fs.unlinkSync(req.file.path);
 
     if (!response.data?.success) {
-      throw new Error(response.data?.error?.message || "Upload failed");
+      throw new Error(response.data?.error?.message || "Publitio upload failed");
     }
 
-    console.log("✅ UPLOAD SUCCESS");
+    console.log("✅ PUBLITIO UPLOAD SUCCESS");
 
     return res.json({
       success: true,
+      platform: "publitio",
       id: response.data.id,
       url: response.data.url_preview,
-      platform: "publitio",
+      download: response.data.url_download,
     });
   } catch (err) {
-    console.error("🔥 Upload error:", err.response?.data || err.message);
+    console.error(
+      "🔥 UPLOAD ERROR:",
+      err.response?.data || err.message
+    );
 
-    if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
+    if (fs.existsSync(req.file.path)) {
+      fs.unlinkSync(req.file.path);
+    }
 
     return res.status(500).json({
-      error: err.response?.data?.error?.message || err.message,
+      error:
+        err.response?.data?.error?.message ||
+        err.message ||
+        "Publitio upload failed",
     });
   }
 }
