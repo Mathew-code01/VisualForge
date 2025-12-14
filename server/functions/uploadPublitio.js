@@ -94,6 +94,7 @@ export default async function handler(req, res) {
       success: true,
       platform: "publitio",
       id: response.data.id,
+      resourceId: response.data.id,
       url: response.data.url_preview,
       download: response.data.url_download,
     });
