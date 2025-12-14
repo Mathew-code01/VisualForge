@@ -1,9 +1,12 @@
 // server/functions/uploadPublitio.js
 // server/functions/uploadPublitio.js
 
+// server/functions/uploadPublitio.js
+
 import axios from "axios";
 import FormData from "form-data";
 import fs from "fs";
+import crypto from "crypto"; // <-- 1. NEW IMPORT: Needed for SHA-1 signature
 
 const PUBLITIO_ENDPOINT = "https://api.publit.io/v1/files/create";
 
@@ -34,13 +37,34 @@ export default async function handler(req, res) {
     path: req.file.path,
   });
 
+  /* ---------------- 2. GENERATE SIGNATURE ---------------- */
+  // a. Get the current UNIX timestamp (seconds since Jan 1, 1970)
+  const api_timestamp = Math.floor(Date.now() / 1000).toString(); 
+
+  // b. Generate an 8-character random nonce (4 bytes = 8 hex characters)
+  const api_nonce = crypto.randomBytes(4).toString('hex');
+
+  // c. Concatenate the string: <timestamp><nonce><secret>
+  const signature_string = api_timestamp + api_nonce + API_SECRET;
+
+  // d. Generate the SHA-1 signature (HEX digest)
+  const api_signature = crypto
+    .createHash("sha1")
+    .update(signature_string)
+    .digest("hex");
+  /* -------------------------------------------------------- */
+
+
   /* ---------------- FORM DATA ---------------- */
   const form = new FormData();
 
-  // 🔥 THIS IS THE KEY FIX
+  // 🔑 3. Use the FOUR required authentication parameters
   form.append("api_key", API_KEY);
-  form.append("api_secret", API_SECRET);
+  form.append("api_timestamp", api_timestamp);
+  form.append("api_nonce", api_nonce);
+  form.append("api_signature", api_signature);
 
+  // File and other options
   form.append("file", fs.createReadStream(req.file.path));
   form.append("title", req.file.originalname);
   form.append("privacy", "1");
