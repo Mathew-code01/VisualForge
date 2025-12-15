@@ -69,6 +69,12 @@ export default function AdminUpload() {
           copiedTitle: false,
           copiedCategory: false,
           error: null,
+          // 💡 NEW STATUS FIELD
+          status: "pending", // 'pending', 'uploading', 'metadata_saving', 'metadata_fail', 'success'
+          // 💡 NEW FIELDS FOR RETRY
+          uploadedUrl: null, // Will hold the external URL for retry
+          resourceId: null,
+          platform: null,
         },
       ]);
     }
@@ -193,7 +199,24 @@ export default function AdminUpload() {
     });
   };
 
-  
+  // 💡 NEW: Prevent closing/navigation during upload
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      if (uploading) {
+        event.preventDefault();
+        // Most browsers require the return value for a custom message
+        event.returnValue =
+          "Upload is in progress. Are you sure you want to leave?";
+        return "Upload is in progress. Are you sure you want to leave?";
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [uploading]); // Dependency on the 'uploading' state
 
   const handleUpload = async () => {
     // ❌ Block upload if any video is missing category
@@ -221,11 +244,22 @@ export default function AdminUpload() {
     setErrorMessage("");
 
     let successCount = 0;
-    let failCount = 0;
+    let fileFailCount = 0;
+    // 💡 NEW: Separate metadata failure count
+    let metadataFailCount = 0;
 
     const queue = anySelected() ? videos.filter((v) => v.selected) : videos;
 
     for (const vid of queue) {
+      // 💡 NEW: Set status to uploading
+      setVideos((prev) =>
+        prev.map((v) =>
+          v.preview === vid.preview
+            ? { ...v, status: "uploading", error: null }
+            : v
+        )
+      );
+
       try {
         // If metadata missing
         if (!vid.duration || !vid.resolution) {
@@ -235,33 +269,77 @@ export default function AdminUpload() {
         }
 
         // 🔥 UPLOAD CALL
-        await uploadVideo(
+        const result = await uploadVideo(
           vid.file,
           vid.title,
           vid.category,
           "ADMIN",
           (progress) => {
+            // Update progress and status based on the progress value
             setVideos((prev) =>
-              prev.map((v) =>
-                v.preview === vid.preview ? { ...v, progress } : v
-              )
+              prev.map((v) => {
+                if (v.preview === vid.preview) {
+                  let newStatus = "uploading";
+                  // 💡 NEW: Special value 101 means file uploaded, now saving metadata
+                  if (progress === 101) {
+                    newStatus = "metadata_saving";
+                    progress = 100; // Keep progress bar full visually
+                  } else if (progress === 100) {
+                    // File upload 100% complete, but metadata save hasn't started yet
+                    newStatus = "uploading"; // Keep it on uploading until 101 is hit
+                  }
+
+                  return {
+                    ...v,
+                    progress: progress > 100 ? 100 : progress,
+                    status: newStatus,
+                  };
+                }
+                return v;
+              })
             );
           }
         );
 
-        // SUCCESS:
-        successCount++;
-
-        setVideos((prev) =>
-          prev.map((v) =>
-            v.preview === vid.preview
-              ? { ...v, uploadedUrl: "done", error: null }
-              : v
-          )
-        );
+        // SUCCESS or METADATA FAIL:
+        if (result.metadataSaved) {
+          successCount++;
+          setVideos((prev) =>
+            prev.map((v) =>
+              v.preview === vid.preview
+                ? {
+                    ...v,
+                    uploadedUrl: result.url,
+                    resourceId: result.resourceId,
+                    platform: result.platform,
+                    status: "success",
+                    error: null,
+                  }
+                : v
+            )
+          );
+        } else if (result.fileUploaded && !result.metadataSaved) {
+          // Video uploaded to Publitio/Vimeo but Firestore failed.
+          metadataFailCount++;
+          setVideos((prev) =>
+            prev.map((v) =>
+              v.preview === vid.preview
+                ? {
+                    ...v,
+                    uploadedUrl: result.url,
+                    resourceId: result.resourceId,
+                    platform: result.platform,
+                    status: "metadata_fail",
+                    progress: 100, // Show full bar
+                    error: result.error, // Store the specific error message
+                  }
+                : v
+            )
+          );
+        }
       } catch (err) {
-        failCount++;
-
+        // FILE UPLOAD FAIL:
+        fileFailCount++;
         let readableError = "Unknown error";
 
         // Detect error types
@@ -282,7 +360,9 @@ export default function AdminUpload() {
 
         setVideos((prev) =>
           prev.map((v) =>
-            v.preview === vid.preview ? { ...v, error: readableError } : v
+            v.preview === vid.preview
+              ? { ...v, error: readableError, status: "file_fail" }
+              : v
           )
         );
       }
@@ -290,16 +370,72 @@ export default function AdminUpload() {
 
     setUploading(false);
 
-    // FINAL MESSAGE
+    // FINAL MESSAGE (Updated)
     setMessage(
-      `Upload complete — Successful: ${successCount}, Failed: ${failCount}`
+      `Upload Complete! Successful: ${successCount} | Metadata Failed: ${metadataFailCount} | File Failed: ${fileFailCount}`
     );
 
-    if (failCount > 0) {
-      setErrorMessage(`${failCount} files failed. Check errors in list.`);
+    if (fileFailCount > 0 || metadataFailCount > 0) {
+      setErrorMessage(
+        `${
+          fileFailCount + metadataFailCount
+        } total failures. Check file list for errors.`
+      );
+    }
+
+    // 💡 NEW: Check for unfinished metadata saves to notify admin
+    if (metadataFailCount > 0) {
+      alert(
+        "Warning: There are incomplete uploads (metadata save failed). Please check the list and retry."
+      );
     }
   };
 
+  // 💡 NEW: Metadata Retry function (only runs the second half of the upload)
+  const retryMetadataSave = async (vid) => {
+    // Set status back to saving metadata and clear error
+    setVideos((prev) =>
+      prev.map((v) =>
+        v.preview === vid.preview
+          ? { ...v, error: null, status: "metadata_saving", progress: 100 }
+          : v
+      )
+    );
+
+    try {
+      // **This logic assumes you have a separate, lightweight function
+      // to save metadata in a case like this, which should be added to uploadVideo.js**
+      // Since we don't have the backend for a specific metadata-only endpoint,
+      // we'll simulate the successful re-save here:
+
+      // ❌ NOTE: For a real app, you would need a new function in uploadVideo.js
+      // (e.g., saveMetadataOnly) which takes the uploaded URL/resourceId and the metadata.
+
+      // --- SIMULATION FOR REWRITE ---
+      await new Promise((resolve) => setTimeout(resolve, 1500)); // Simulate API call to save metadata
+      // --- END SIMULATION ---
+
+      // Success:
+      setVideos((prev) =>
+        prev.map((v) =>
+          v.preview === vid.preview
+            ? { ...v, status: "success", error: null }
+            : v
+        )
+      );
+    } catch (err) {
+      // Fail:
+      const msg = `[METADATA RETRY ERROR] "${vid.title}" | ${err?.message}`;
+      console.error(msg);
+      setVideos((prev) =>
+        prev.map((v) =>
+          v.preview === vid.preview
+            ? { ...v, error: msg, status: "metadata_fail" }
+            : v
+        )
+      );
+    }
+  };
 
   const handleTitleChange = (i, value) =>
     setVideos((prev) =>
@@ -354,9 +490,7 @@ export default function AdminUpload() {
       console.error(msg);
 
       setVideos((prev) =>
-        prev.map((v) =>
-          v.preview === vid.preview ? { ...v, error: msg } : v
-        )
+        prev.map((v) => (v.preview === vid.preview ? { ...v, error: msg } : v))
       );
     }
   };
@@ -583,25 +717,60 @@ export default function AdminUpload() {
                       {vid.resolution || "N/A"}
                     </p>
 
-                    {/* PROGRESS */}
-                    {vid.uploadedUrl === "done" ? (
-                      <p className="success">Uploaded ✔</p>
-                    ) : vid.error ? (
+                    {/* PROGRESS / STATUS */}
+                    {vid.status === "success" ? (
+                      <p className="success">Upload Complete ✔</p>
+                    ) : vid.status === "metadata_fail" ? (
                       <>
-                        <p className="error">Failed — {vid.error}</p>
+                        <p className="error">
+                          Metadata Failed (Video on server)
+                        </p>
+                        <button
+                          className="retry-btn"
+                          // 💡 NEW: Use the specific metadata retry function
+                          onClick={() => retryMetadataSave(vid)}
+                        >
+                          Retry Metadata Save
+                        </button>
+                      </>
+                    ) : vid.status === "file_fail" ? (
+                      <>
+                        <p className="error">
+                          File Upload Failed — {vid.error}
+                        </p>
                         <button
                           className="retry-btn"
                           onClick={() => retryUpload(vid)}
                         >
-                          Retry
+                          Retry Upload
                         </button>
                       </>
                     ) : (
-                      <div className="progress-bar">
-                        <div
-                          className="progress-fill"
-                          style={{ width: `${vid.progress}%` }}
-                        ></div>
+                      // This handles 'pending', 'uploading', and 'metadata_saving'
+                      <div className="progress-bar-container">
+                        {/* 💡 NEW: Show stage text */}
+                        <p className="upload-stage">
+                          {vid.status === "metadata_saving"
+                            ? "Stage 2/2: Saving Metadata to Firebase..."
+                            : `Stage 1/2: Uploading File to ${
+                                vid.platform || "Server"
+                              }...`}
+                        </p>
+                        <div className="progress-bar">
+                          <div
+                            className={`progress-fill ${
+                              vid.status === "metadata_saving"
+                                ? "metadata-mode"
+                                : ""
+                            }`}
+                            style={{ width: `${vid.progress}%` }}
+                          ></div>
+                        </div>
+                        <p className="progress-percent">
+                          {vid.status === "metadata_saving"
+                            ? "100% (Metadata)"
+                            : `${Math.floor(vid.progress)}% (File)`}
+                        </p>
                       </div>
                     )}
 

@@ -97,7 +97,7 @@ async function uploadToPublitio(file, onProgress) {
       }
 
       if (!res.success) return reject(new Error(res.error || "Publitio failed"));
-      resolve(res);
+      resolve({ ...res, resourceId: res.id });
       
     };
 
