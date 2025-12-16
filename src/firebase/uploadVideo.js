@@ -28,6 +28,42 @@ function getDb() {
 
 const API_BASE = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
+/* =======================================================
+    METADATA ONLY SAVE FOR RETRY
+    This function is used by the client when the file is already uploaded 
+    to Publitio/Vimeo but the Firestore save failed.
+======================================================= */
+export async function saveMetadataOnly(videoMetadata) {
+    const db = getDb();
+    
+    // Log the start of the retry
+    console.log(`[FIREBASE LOG] METADATA RETRY START for: ${videoMetadata.title}`);
+    
+    // 1. Save metadata to Firestore (Metadata Save Phase)
+    const docRef = await addDoc(collection(db, "videos"), {
+        title: videoMetadata.title,
+        category: videoMetadata.category,
+        uploaderId: videoMetadata.uploaderId || "ADMIN", // Use a default if not provided
+        createdAt: serverTimestamp(),
+        size: videoMetadata.size, 
+        duration: videoMetadata.duration,
+        resolution: videoMetadata.resolution,
+        thumbnail: videoMetadata.thumbnail,
+        platform: videoMetadata.platform,
+        url: videoMetadata.uploadedUrl, // Crucial: Use the existing file URL
+        resourceId: videoMetadata.resourceId, // Crucial: Use the existing resource ID
+        tags: [],
+    });
+
+    console.log(`[FIREBASE LOG] METADATA RETRY SUCCESS. Document ID: ${docRef.id}`);
+
+    return { 
+        id: docRef.id, 
+        metadataSaved: true,
+        url: videoMetadata.uploadedUrl,
+        resourceId: videoMetadata.resourceId,
+    };
+}
 
 /* =======================================================
     MAIN UPLOAD HANDLER

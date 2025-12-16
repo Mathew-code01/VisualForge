@@ -6,7 +6,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { FiCopy, FiClipboard } from "react-icons/fi";
-import uploadVideo from "../firebase/uploadVideo.js";
+import uploadVideo, { saveMetadataOnly } from "../firebase/uploadVideo.js";
 import useStorageUsage from "../firebase/useStorageUsage";
 import videoPlaceholder from "../assets/images/video-placeholder.png";
 import AdminVideos from "./AdminVideos";
@@ -394,6 +394,7 @@ export default function AdminUpload() {
   // 💡 NEW: Metadata Retry function (only runs the second half of the upload)
   const retryMetadataSave = async (vid) => {
     // Set status back to saving metadata and clear error
+    // Set status back to saving metadata and clear error
     setVideos((prev) =>
       prev.map((v) =>
         v.preview === vid.preview
@@ -403,17 +404,19 @@ export default function AdminUpload() {
     );
 
     try {
-      // **This logic assumes you have a separate, lightweight function
-      // to save metadata in a case like this, which should be added to uploadVideo.js**
-      // Since we don't have the backend for a specific metadata-only endpoint,
-      // we'll simulate the successful re-save here:
-
-      // ❌ NOTE: For a real app, you would need a new function in uploadVideo.js
-      // (e.g., saveMetadataOnly) which takes the uploaded URL/resourceId and the metadata.
-
-      // --- SIMULATION FOR REWRITE ---
-      await new Promise((resolve) => setTimeout(resolve, 1500)); // Simulate API call to save metadata
-      // --- END SIMULATION ---
+      // 🔥 ACTUAL CALL: Pass the necessary data for the Firestore save
+      await saveMetadataOnly({
+        title: vid.title,
+        category: vid.category,
+        uploaderId: "ADMIN", // Or actual admin ID
+        size: vid.file.size,
+        duration: vid.duration,
+        resolution: vid.resolution,
+        thumbnail: vid.thumbnail,
+        platform: vid.platform, // Crucial for identifying the storage (e.g., 'vimeo', 'publitio')
+        uploadedUrl: vid.uploadedUrl, // Crucial for the link to the file
+        resourceId: vid.resourceId, // Crucial for identifying the file on the platform
+      });
 
       // Success:
       setVideos((prev) =>
@@ -808,18 +811,3 @@ export default function AdminUpload() {
   );
 }
 
-
-// 🔥 FINAL SUMMARY (Simple)
-// ✔️ Your upload failed because:
-
-// Publitio blocks CORS client-side uploads.
-
-// You must upload from backend.
-
-// ✔️ Admin deletes a video by:
-
-// Calling your backend → Publitio delete API
-
-// Removing item from UI
-
-// Removing from database
