@@ -6,25 +6,20 @@
 // Stores metadata in Firebase
 // Works with Firebase CDN (no npm imports)
 // -------------------------------------------------------
+// ✅ NEW: Import the initialized db instance
+import { db } from "./config.js"; 
 
+// ✅ NEW: Import Firestore functions from the installed npm package
 import {
-  collection,
-  addDoc,
-  serverTimestamp,
-  query,
-  orderBy,
-  getDocs,
-  deleteDoc,
-  doc,
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-/**
- * Safely access Firestore initialized via CDN
- */
-function getDb() {
-  if (!window.db) throw new Error("Firestore not initialized yet! Make sure Firebase script runs first.");
-  return window.db;
-}
+    collection,
+    addDoc,
+    serverTimestamp,
+    query,
+    orderBy,
+    getDocs,
+    deleteDoc,
+    doc,
+} from "firebase/firestore";
 
 const API_BASE = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
@@ -34,7 +29,7 @@ const API_BASE = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
     to Publitio/Vimeo but the Firestore save failed.
 ======================================================= */
 export async function saveMetadataOnly(videoMetadata) {
-    const db = getDb();
+   
     
     // Log the start of the retry
     console.log(`[FIREBASE LOG] METADATA RETRY START for: ${videoMetadata.title}`);
@@ -70,7 +65,7 @@ export async function saveMetadataOnly(videoMetadata) {
     Publitio (<100MB) or Vimeo (>=100MB)
 ======================================================= */
 export async function uploadVideo(file, title, category, uploaderId, onProgress = () => {}) {
-  const db = getDb();
+ 
   const sizeMB = file.size / (1024 * 1024);
 
   // 💡 NEW: Initialize internal tracking for error/platform
@@ -259,7 +254,7 @@ function generateThumbnail(file) {
    GET VIDEOS
 ======================================================= */
 export async function getVideos() {
-  const db = getDb();
+  
   const q = query(collection(db, "videos"), orderBy("createdAt", "desc"));
   const snap = await getDocs(q);
   return snap.docs.map((doc) => ({
@@ -272,7 +267,7 @@ export async function getVideos() {
    DELETE VIDEO
 ======================================================= */
 export async function deleteVideo(docId, platform, resourceId) {
-  const db = getDb();
+
   try {
     if (platform === "publitio") await deletePublitio(resourceId);
     if (platform === "vimeo") await deleteVimeo(resourceId);

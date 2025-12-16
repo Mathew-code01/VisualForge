@@ -1,14 +1,11 @@
 // src/firebase/config.js
 // src/firebase/config.js
+// src/firebase/config.js
 
-// ❌ OLD: import { initializeApp } from "firebase/app";
-// ❌ OLD: import { getStorage } from "firebase/storage";
-// ❌ OLD: import { getFirestore } from "firebase/firestore";
-
-// ✅ NEW: Use CDN imports for all required modules
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { getStorage } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+// ✅ Use standard npm imports
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -21,16 +18,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-// ❌ OLD: export const storage = getStorage(app);
-// ❌ OLD: export const db = getFirestore(app);
-
-// ✅ NEW: Set the initialized objects on the global window object.
-// This is what the getDb() function in your other files is expecting.
-window.db = getFirestore(app);
-window.storage = getStorage(app);
-
-// You can keep the exports if your framework requires them, 
-// but the primary fix is setting the window properties.
-// For maximum compatibility with all your files:
-export const storage = window.storage;
-export const db = window.db;
+// ✅ Export the initialized instances directly
+export const db = getFirestore(app);
+export const storage = getStorage(app);

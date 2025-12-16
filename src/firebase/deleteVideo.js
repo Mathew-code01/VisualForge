@@ -1,11 +1,7 @@
 // src/firebase/deleteVideo.js
 
-import {
-  doc,
-  deleteDoc,
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-const db = window.db;
+import { db } from "./config.js";
+import { doc, deleteDoc } from "firebase/firestore";
 
 const API_BASE = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
