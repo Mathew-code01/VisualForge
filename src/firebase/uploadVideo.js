@@ -67,12 +67,19 @@ export async function saveMetadataOnly(videoMetadata) {
 // src/firebase/uploadVideo.js
 
 // ✅ UPDATE: Added 'metadata' as the last argument
-export async function uploadVideo(file, title, category, uploaderId, onProgress = () => {}, metadata = {}) {
- 
+export async function uploadVideo(
+  file,
+  title,
+  category,
+  uploaderId,
+  onProgress = () => {},
+  metadata = {}
+) {
   const sizeMB = file.size / (1024 * 1024);
-  let uploadResult = null; 
+  let uploadResult = null;
 
   try {
+    // Stage 1: File Upload (Publitio/Vimeo)
     uploadResult =
       sizeMB < 100
         ? await uploadToPublitio(file, onProgress)
@@ -80,43 +87,47 @@ export async function uploadVideo(file, title, category, uploaderId, onProgress 
 
     const thumbnail = await generateThumbnail(file);
 
-    onProgress(100); 
-    onProgress(101); // Signal: Video uploaded, now saving metadata
+    onProgress(100);
+    onProgress(101); // UI Switch to "Saving Metadata..."
 
     console.log(`[FIREBASE] Saving metadata for: ${title}`);
 
-    // ✅ UPDATE: Use metadata.duration and metadata.resolution instead of 0 and ""
-    const docRef = await addDoc(collection(db, "videos"), {
-      title,
-      category,
-      uploaderId,
-      createdAt: serverTimestamp(),
-      size: +sizeMB.toFixed(2),
-      duration: metadata.duration || 0,        // <--- Dynamic value
-      resolution: metadata.resolution || "",    // <--- Dynamic value
-      thumbnail,
-      platform: uploadResult.platform,
-      url: uploadResult.url,
-      resourceId: uploadResult.resourceId,
-      tags: [],
-    });
+    // Stage 2: Firestore Save
+    try {
+      const docRef = await addDoc(collection(db, "videos"), {
+        title,
+        category,
+        uploaderId,
+        createdAt: serverTimestamp(),
+        size: +sizeMB.toFixed(2),
+        duration: metadata.duration || 0,
+        resolution: metadata.resolution || "",
+        thumbnail,
+        platform: uploadResult.platform,
+        url: uploadResult.url,
+        resourceId: uploadResult.resourceId,
+        tags: [],
+      });
 
-    return {
-      id: docRef.id,
-      ...uploadResult,
-      thumbnail,
-      metadataSaved: true,
-    };
-  } catch (err) {
-    console.error("❌ Upload failed:", err.message);
-    if (uploadResult) {
-       return { 
-           ...uploadResult, 
-           error: `Metadata failed: ${err.message}`,
-           metadataSaved: false, 
-           fileUploaded: true,
-       };
+      return {
+        id: docRef.id,
+        ...uploadResult,
+        thumbnail,
+        metadataSaved: true,
+      };
+    } catch (firestoreErr) {
+      // 🔥 This catches the connection drop error
+      console.error("METADATA SAVE FAILED:", firestoreErr.message);
+      return {
+        ...uploadResult,
+        error: "Database connection lost. Please click 'Retry Metadata'.",
+        metadataSaved: false,
+        fileUploaded: true,
+      };
     }
+  } catch (err) {
+    // This catches the actual file upload failure
+    console.error("❌ Upload failed:", err.message);
     throw new Error(err.message || "Video upload failed.");
   }
 }
