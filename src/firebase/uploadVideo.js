@@ -64,43 +64,36 @@ export async function saveMetadataOnly(videoMetadata) {
     MAIN UPLOAD HANDLER
     Publitio (<100MB) or Vimeo (>=100MB)
 ======================================================= */
-export async function uploadVideo(file, title, category, uploaderId, onProgress = () => {}) {
+// src/firebase/uploadVideo.js
+
+// ✅ UPDATE: Added 'metadata' as the last argument
+export async function uploadVideo(file, title, category, uploaderId, onProgress = () => {}, metadata = {}) {
  
   const sizeMB = file.size / (1024 * 1024);
-
-  // 💡 NEW: Initialize internal tracking for error/platform
   let uploadResult = null; 
 
   try {
-    // 1. Select storage provider (Video Upload Phase: 0% to 100% network progress)
     uploadResult =
       sizeMB < 100
         ? await uploadToPublitio(file, onProgress)
         : await uploadToVimeo(file, title, onProgress);
 
-    // 2. Generate thumbnail
     const thumbnail = await generateThumbnail(file);
 
-    // 🔥 IMPORTANT CHANGE: Signal file upload complete (100% on client UI)
-    // The client will use this 100% to switch to the "Saving Metadata" stage.
     onProgress(100); 
-    
-    // 💡 NEW: Signal the start of the Metadata save stage on the client side
-    // We'll use a special 'progress' value (e.g., 101) to mean 'Saving Metadata'
-    // in the client component.
-    onProgress(101); // <-- Signal: Video uploaded, now saving metadata
+    onProgress(101); // Signal: Video uploaded, now saving metadata
 
-    console.log(`[FIREBASE] Saving metadata for: ${title}`); // Admin check
+    console.log(`[FIREBASE] Saving metadata for: ${title}`);
 
-    // 3. Save metadata to Firestore (Metadata Save Phase)
+    // ✅ UPDATE: Use metadata.duration and metadata.resolution instead of 0 and ""
     const docRef = await addDoc(collection(db, "videos"), {
       title,
       category,
       uploaderId,
       createdAt: serverTimestamp(),
       size: +sizeMB.toFixed(2),
-      duration: 0,
-      resolution: "",
+      duration: metadata.duration || 0,        // <--- Dynamic value
+      resolution: metadata.resolution || "",    // <--- Dynamic value
       thumbnail,
       platform: uploadResult.platform,
       url: uploadResult.url,
@@ -112,26 +105,18 @@ export async function uploadVideo(file, title, category, uploaderId, onProgress 
       id: docRef.id,
       ...uploadResult,
       thumbnail,
-      // 💡 NEW: Indicate successful metadata save
       metadataSaved: true,
     };
   } catch (err) {
     console.error("❌ Upload failed:", err.message);
-
-    // 💡 NEW: If the video was uploaded (uploadResult exists) but metadata failed
-    // we want to return a special object that the client can use to log this.
     if (uploadResult) {
-       // The video file is on Publitio/Vimeo but the Firestore write failed.
-       // The error should be logged as a metadata failure.
        return { 
            ...uploadResult, 
            error: `Metadata failed: ${err.message}`,
-           metadataSaved: false, // Explicitly mark failure
+           metadataSaved: false, 
            fileUploaded: true,
        };
     }
-    
-    // If uploadResult is null, the file upload itself failed.
     throw new Error(err.message || "Video upload failed.");
   }
 }

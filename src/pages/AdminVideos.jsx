@@ -62,6 +62,11 @@ export default function AdminVideos() {
     <div className="adminvideos-container">
       <h1 className="adminvideos-title">Uploaded Videos</h1>
 
+      {/* NEW MANUAL RELOAD BUTTON */}
+      <button onClick={loadVideos} disabled={loading} className="btn-refresh">
+        {loading ? "Refreshing..." : "Refresh Video List"}
+      </button>
+
       {errorMessage && (
         <div className="adminvideos-error">⚠ {errorMessage}</div>
       )}

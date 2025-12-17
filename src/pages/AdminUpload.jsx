@@ -275,6 +275,7 @@ export default function AdminUpload() {
           vid.category,
           "ADMIN",
           (progress) => {
+            
             // Update progress and status based on the progress value
             setVideos((prev) =>
               prev.map((v) => {
@@ -288,8 +289,10 @@ export default function AdminUpload() {
                     // File upload 100% complete, but metadata save hasn't started yet
                     newStatus = "uploading"; // Keep it on uploading until 101 is hit
                   }
+                  
 
                   return {
+                    
                     ...v,
                     progress: progress > 100 ? 100 : progress,
                     status: newStatus,
@@ -298,8 +301,11 @@ export default function AdminUpload() {
                 return v;
               })
             );
-          }
+            
+          },
+          { duration: vid.duration, resolution: vid.resolution } 
         );
+        
 
         // SUCCESS or METADATA FAIL:
         if (result.metadataSaved) {
@@ -478,8 +484,9 @@ export default function AdminUpload() {
               v.preview === vid.preview ? { ...v, progress } : v
             )
           );
-        }
-      );
+        },
+        { duration: vid.duration, resolution: vid.resolution } 
+        );
 
       setVideos((prev) =>
         prev.map((v) =>
