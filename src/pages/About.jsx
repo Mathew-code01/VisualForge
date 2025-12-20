@@ -161,7 +161,7 @@ const About = () => {
                   "https://images.unsplash.com/photo-1492691523567-6170c3295db5?q=80&w=2071"; // Fallback image
               }}
             />
-            <div className="experience-tag">Since 2016</div>
+            <div className="experience-tag">Since 2020</div>
           </div>
           <article className="vision-text">
             <h2 className="section-label">The Vision</h2>

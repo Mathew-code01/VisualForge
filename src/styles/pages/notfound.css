@@ -1,63 +1,150 @@
 /* src/styles/pages/notfound.css */
 
-.notfound-page {
-  min-height: 80vh;
+/* ============================================
+    NOT FOUND - CINEMATIC "LOST SCENE"
+============================================ */
+
+.notfound-root {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: var(--spacing-xxl) var(--spacing-lg);
-  text-align: center;
-  background-color: var(--color-bg-alt);
-  color: var(--color-text);
-  gap: var(--spacing-md);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-md);
-  transition: background-color var(--transition-medium), color var(--transition-medium);
+  background-color: var(--color-bg);
+  position: relative;
+  overflow: hidden;
 }
 
-.notfound-page h1 {
+/* Background ambiance to match WorkDetail */
+.notfound-ambient-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 50%, 
+    rgba(108, 211, 255, 0.08) 0%, 
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.notfound-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  padding: var(--spacing-4xl) var(--container-padding);
+  text-align: center;
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+}
+
+/* --- Visual Elements --- */
+.notfound-visual-container {
+  margin-bottom: var(--spacing-xl);
+  position: relative;
+}
+
+.notfound-icon {
+  font-size: 80px;
+  color: var(--color-primary-dark);
+  opacity: 0.3;
+  margin-bottom: var(--spacing-md);
+}
+
+.notfound-code {
+  font-family: var(--font-heading);
+  font-size: 10rem;
+  line-height: 1;
+  color: var(--color-heading);
+  margin: 0;
+  letter-spacing: -5px;
+  opacity: 0.9;
+  position: relative;
+}
+
+/* Subtle Technical Glitch Effect */
+.notfound-code::before {
+  content: attr(data-text);
+  position: absolute;
+  left: -2px;
+  text-shadow: 2px 0 var(--color-accent);
+  top: 0;
+  color: var(--color-heading);
+  background: var(--color-bg);
+  overflow: hidden;
+  clip: rect(0, 900px, 0, 0);
+  animation: noise-anim-2 3s infinite linear alternate-reverse;
+}
+
+/* --- Text & Actions --- */
+.notfound-title {
   font-family: var(--font-heading);
   font-size: var(--font-size-xxl);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: var(--spacing-md);
   color: var(--color-heading);
 }
 
-.notfound-page p {
-  font-size: var(--font-size-md);
-  color: var(--color-muted);
+.notfound-desc {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-light);
+  max-width: 500px;
+  margin: 0 auto var(--spacing-xxl);
+  line-height: var(--line-height-relaxed);
 }
 
-.back-link {
-  font-size: var(--font-size-md);
-  color: var(--color-primary);
+.notfound-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+}
+
+.back-home-cta {
+  background: var(--gradient-primary);
+  color: #000;
+  padding: 16px 32px;
+  border-radius: 4px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   text-decoration: none;
-  padding: var(--spacing-xs) var(--spacing-sm);
-  border-radius: var(--radius-sm);
-  transition: all var(--transition-fast);
-  box-shadow: var(--shadow-sm);
+  transition: var(--transition-medium);
 }
 
-.back-link:hover {
-  background-color: var(--color-primary);
-  color: #fff;
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
-  cursor: pointer;
+.back-home-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(108, 211, 255, 0.3);
 }
 
-/* Responsive */
+.secondary-cta {
+  background: var(--color-bg-soft);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  padding: 16px 32px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+.secondary-cta:hover {
+  background: var(--color-border);
+}
+
+/* --- Glitch Keyframes --- */
+@keyframes noise-anim-2 {
+  0% { clip: rect(10px, 9999px, 50px, 0); }
+  20% { clip: rect(80px, 9999px, 90px, 0); }
+  40% { clip: rect(20px, 9999px, 60px, 0); }
+  60% { clip: rect(40px, 9999px, 80px, 0); }
+  80% { clip: rect(10px, 9999px, 100px, 0); }
+  100% { clip: rect(50px, 9999px, 70px, 0); }
+}
+
 @media (max-width: 768px) {
-  .notfound-page h1 {
-    font-size: var(--font-size-xl);
-  }
-
-  .notfound-page p {
-    font-size: var(--font-size-md);
-  }
-}
-
-@media (max-width: 480px) {
-  .notfound-page h1 {
-    font-size: 1.5rem;
-  }
+  .notfound-code { font-size: 6rem; }
+  .notfound-actions { flex-direction: column; align-items: stretch; }
 }

@@ -4,17 +4,23 @@
 /* src/styles/components/workcard.css */
 /* src/styles/components/workcard.css */
 /* src/styles/components/workcard.css */
-
+/* --- Core Container --- */
 .work-card-container {
   text-decoration: none;
   display: block;
-  opacity: 0;
-  transform: translateY(30px);
+  opacity: 1; /* Visible by default for Work.jsx */
+  transform: translateY(0);
   cursor: pointer;
   width: 100%;
 }
 
-.section-visible .work-card-container {
+/* --- Home Page Specific: Fade-in animation logic --- */
+.home-page-unique .work-card-container {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.home-page-unique .section-visible .work-card-container {
   animation: revealUp 0.8s var(--transition-snap) forwards;
   animation-delay: var(--delay, 0s);
 }
@@ -24,7 +30,7 @@
   transition: all 0.4s var(--transition-snap);
 }
 
-/* --- Thumbnail Wrapper --- */
+/* --- Thumbnail & Video Wrapper --- */
 .work-thumb-wrapper {
   position: relative;
   aspect-ratio: 16/9;
@@ -33,6 +39,7 @@
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.05);
   transition: all 0.5s var(--transition-snap);
+  z-index: 1;
 }
 
 .main-thumb {
@@ -40,8 +47,13 @@
   height: 100%;
   object-fit: cover;
   transition: transform 1.2s var(--transition-snap), filter 0.5s ease;
+  display: block;
 }
 
+.main-thumb.hidden { opacity: 0; }
+.main-thumb.visible { opacity: 1; }
+
+/* --- HOVER VIDEO FIX --- */
 .hover-video {
   position: absolute;
   inset: 0;
@@ -50,13 +62,16 @@
   object-fit: cover;
   opacity: 0;
   transition: opacity 0.6s ease;
+  z-index: 2; /* Sits above thumbnail */
+  pointer-events: none;
 }
 
 .hover-video.active {
-  opacity: 1;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
-/* --- The New UI Layer --- */
+/* --- UI Overlay Layer --- */
 .card-ui-layer {
   position: absolute;
   inset: 0;
@@ -70,15 +85,7 @@
   transition: all 0.4s ease;
 }
 
-.card-ui-layer.active {
-  opacity: 1;
-}
-
-/* Top Right Expand Icon */
-.top-actions {
-  display: flex;
-  justify-content: flex-end;
-}
+.card-ui-layer.active { opacity: 1; }
 
 .expand-indicator {
   width: 40px;
@@ -90,26 +97,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: translateY(-10px);
-  transition: all 0.4s var(--transition-snap);
+  margin-left: auto;
 }
 
-.expand-icon {
-  font-size: 1.5rem;
-  color: #fff;
-}
-
-.card-ui-layer.active .expand-indicator {
-  transform: translateY(0);
-}
-
-/* Bottom Hint */
 .bottom-info {
-  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
-  margin: -15px; /* Pull back to edges */
-  padding: 20px 15px 15px;
-  transform: translateY(10px);
-  transition: all 0.4s var(--transition-snap);
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+  margin: -15px;
+  padding: 30px 15px 15px;
 }
 
 .click-hint {
@@ -118,14 +112,9 @@
   text-transform: uppercase;
   letter-spacing: 1.5px;
   font-weight: 600;
-  opacity: 0.8;
 }
 
-.card-ui-layer.active .bottom-info {
-  transform: translateY(0);
-}
-
-/* --- Hover State Container --- */
+/* --- Hover Effects --- */
 .work-card-container:hover .work-thumb-wrapper {
   transform: scale(1.02);
   border-color: var(--color-primary);
@@ -133,10 +122,10 @@
 }
 
 .work-card-container:hover .main-thumb {
-  filter: brightness(0.6) blur(2px);
+  filter: brightness(0.5) blur(2px);
 }
 
-/* --- Meta Footer --- */
+/* --- Meta Data --- */
 .work-card-meta {
   display: flex;
   justify-content: space-between;
@@ -147,7 +136,7 @@
 .work-card-title {
   font-size: 1.1rem;
   color: #fff;
-  margin-bottom: 5px;
+  margin: 0 0 5px 0;
 }
 
 .tag-row {
@@ -157,34 +146,9 @@
   font-size: 0.75rem;
 }
 
-.work-card-tag {
-  color: var(--color-primary);
-  font-weight: 600;
-  text-transform: uppercase;
-}
+.work-card-tag { color: var(--color-primary); font-weight: 600; }
+.project-year { color: rgba(255,255,255,0.4); }
 
-.project-year {
-  color: rgba(255,255,255,0.4);
-}
-
-.meta-arrow {
-  font-size: 1.4rem;
-  color: rgba(255,255,255,0.2);
-  transition: all 0.3s ease;
-}
-
-.work-card-container:hover .meta-arrow {
-  color: var(--color-primary);
-  transform: translateX(5px);
-}
-
-/* --- Animations --- */
 @keyframes revealUp {
   to { opacity: 1; transform: translateY(0); }
 }
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.spinner-icon { animation: spin 1s linear infinite; }
