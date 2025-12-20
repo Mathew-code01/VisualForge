@@ -6,29 +6,39 @@ import { doc, deleteDoc } from "firebase/firestore";
 const API_BASE = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
 export async function deleteVideo(id, platform, resourceId) {
-  // 1. Delete the physical file from the storage platform
+  // 1. Try to delete from Cloud Provider
   try {
+    let response;
     if (platform === "publitio") {
-      await fetch(`${API_BASE}/api/deletePublitio/${resourceId}`, {
+      response = await fetch(`${API_BASE}/api/deletePublitio/${resourceId}`, {
         method: "DELETE",
       });
     } else if (platform === "vimeo") {
-      await fetch(`${API_BASE}/api/deleteVimeo`, {
-        method: "POST", // Your Vimeo handler expects body, so POST or DELETE work depending on server setup
+      response = await fetch(`${API_BASE}/api/deleteVimeo`, {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ resourceId }),
       });
     }
+
+    // CRITICAL: Fetch doesn't throw on 404/500, we must check response.ok
+    if (response && !response.ok) {
+      const errorData = await response.json();
+      console.warn(`Cloud deletion warning: ${errorData.error}`);
+      // We continue to Firebase deletion anyway so the UI stays clean
+    }
   } catch (error) {
-    console.error(
-      "Storage deletion failed, but continuing to metadata:",
-      error
-    );
-    // We continue so the user doesn't see a broken entry if the file is already gone
+    console.error("Network error during cloud deletion:", error);
+    // Even if the network fails, we usually want to allow metadata deletion
+    // or notify the user specifically.
   }
 
-  // 2. Delete metadata from Firestore
-  await deleteDoc(doc(db, "videos", id));
-
-  return { success: true };
+  // 2. Always attempt to delete metadata from Firestore
+  try {
+    await deleteDoc(doc(db, "videos", id));
+    return { success: true };
+  } catch (dbError) {
+    console.error("Firestore deletion failed:", dbError);
+    throw new Error("Metadata wipe failed."); // This triggers the "Asset protection" alert
+  }
 }
