@@ -7,6 +7,7 @@ import React, {
   useEffect,
   useMemo,
   useCallback,
+  memo,
 } from "react";
 import {
   FiCopy,
@@ -14,6 +15,12 @@ import {
   FiRefreshCw,
   FiTrash2,
   FiPlus,
+  FiCheckCircle,
+  FiAlertCircle,
+  FiX,
+  FiSquare,
+  FiCheckSquare,
+  FiEdit3,
 } from "react-icons/fi";
 import uploadVideo, { saveMetadataOnly } from "../firebase/uploadVideo.js";
 import useStorageUsage from "../firebase/useStorageUsage";
@@ -23,19 +30,175 @@ import { extractMetadata, generateThumbnail } from "../utils/processVideo";
 import "../styles/pages/adminupload.css";
 
 const CATEGORIES = [
-  "cinematic",
-  "motivational",
-  "travel",
-  "commercial",
-  "music",
-  "documentary",
-  "sports",
-  "lifestyle",
-  "education",
+  "Wedding",
+  "Corporate",
+  "Commercial",
+  "Cinematic",
+  "Travel",
+  "Event",
+  "Music Video",
+  "Documentary",
+  "Motivational",
+  "Sports",
+  "Lifestyle",
+  "Education",
 ];
 
+/* =====================================================================
+    SUB-COMPONENT: VideoItem
+===================================================================== */
+const VideoItem = memo(
+  ({
+    vid,
+    index,
+    updateItemStatus,
+    handleCopyPaste,
+    multiSelectMode,
+    uploading,
+  }) => {
+    return (
+      <div className={`preview-card ${vid.selected ? "is-selected" : ""}`}>
+        {multiSelectMode && (
+          <div
+            className="selection-overlay"
+            onClick={() =>
+              updateItemStatus(vid.preview, { selected: !vid.selected })
+            }
+          >
+            <div className="custom-checkbox">
+              {vid.selected ? <FiCheckSquare /> : <FiSquare />}
+            </div>
+          </div>
+        )}
+
+        <div className="card-thumb">
+          <img src={vid.thumbnail || videoPlaceholder} alt="Preview" />
+          <span className="duration-tag">{vid.duration}s</span>
+          {vid.resolution && <span className="res-tag">{vid.resolution}</span>}
+
+          {!uploading && !multiSelectMode && (
+            <button
+              className="remove-card-btn"
+              title="Remove from queue"
+              onClick={(e) => {
+                e.stopPropagation();
+                updateItemStatus(vid.preview, { isRemoved: true });
+              }}
+            >
+              <FiX />
+            </button>
+          )}
+        </div>
+
+        <div className="card-body">
+          <div className="field-row">
+            <input
+              type="text"
+              value={vid.title}
+              placeholder="Video Title"
+              onChange={(e) =>
+                updateItemStatus(vid.preview, { title: e.target.value })
+              }
+            />
+            <button
+              className={`copy-btn ${vid.copiedTitle ? "success-flash" : ""}`}
+              onClick={() =>
+                handleCopyPaste(index, "title", vid.title ? "copy" : "paste")
+              }
+            >
+              {vid.copiedTitle ? (
+                <FiCheckCircle />
+              ) : vid.title ? (
+                <FiCopy />
+              ) : (
+                <FiClipboard />
+              )}
+            </button>
+          </div>
+
+          <div className="field-row">
+            <select
+              value={vid.category}
+              onChange={(e) =>
+                updateItemStatus(vid.preview, { category: e.target.value })
+              }
+            >
+              <option value="">Category</option>
+              {CATEGORIES.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </select>
+            <button
+              className={`copy-btn ${
+                vid.copiedCategory ? "success-flash" : ""
+              }`}
+              onClick={() =>
+                handleCopyPaste(
+                  index,
+                  "category",
+                  vid.category ? "copy" : "paste"
+                )
+              }
+            >
+              {vid.copiedCategory ? (
+                <FiCheckCircle />
+              ) : vid.category ? (
+                <FiCopy />
+              ) : (
+                <FiClipboard />
+              )}
+            </button>
+          </div>
+
+          <div className="status-container">
+            {vid.status === "success" ? (
+              <span className="status-badge success">
+                <FiCheckCircle /> Ready
+              </span>
+            ) : vid.status === "uploading" ||
+              vid.status === "metadata_saving" ? (
+              <div className="upload-progress-wrapper">
+                <div className="progress-info">
+                  <small>
+                    {vid.status === "metadata_saving"
+                      ? "Finalizing..."
+                      : "Uploading..."}
+                  </small>
+                  <small>{vid.progress}%</small>
+                </div>
+                <div className="progress-bar-bg">
+                  <div
+                    className="progress-bar-fill"
+                    style={{ width: `${vid.progress}%` }}
+                  />
+                </div>
+              </div>
+            ) : vid.error ? (
+              <div className="error-retry-flex">
+                <small className="error-text">{vid.error}</small>
+                <button
+                  className="btn-retry"
+                  onClick={() => saveMetadataOnly(vid)}
+                >
+                  Retry
+                </button>
+              </div>
+            ) : (
+              <span className="status-badge pending">Pending</span>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+);
+
+/* =====================================================================
+    MAIN COMPONENT: AdminUpload
+===================================================================== */
 export default function AdminUpload() {
-  // --- State ---
   const [videos, setVideos] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState("");
@@ -53,49 +216,36 @@ export default function AdminUpload() {
     refetch,
   } = useStorageUsage();
 
-  // --- Computed State ---
   const selectedVideos = useMemo(
     () => videos.filter((v) => v.selected),
     [videos]
   );
   const isAnySelected = selectedVideos.length > 0;
-
-  /* =====================================================================
-      LIFECYCLE & GUARDS
-  ===================================================================== */
-
-  useEffect(() => {
-    const handleBeforeUnload = (e) => {
-      if (uploading) {
-        e.preventDefault();
-        e.returnValue =
-          "Upload in progress. Leaving will cancel remaining uploads.";
-      }
-    };
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, [uploading]);
+  const isAllSelected =
+    videos.length > 0 && selectedVideos.length === videos.length;
+  const hasSuccessful = useMemo(
+    () => videos.some((v) => v.status === "success"),
+    [videos]
+  );
 
   useEffect(() => {
     return () =>
       videos.forEach((v) => v.preview && URL.revokeObjectURL(v.preview));
   }, [videos]);
 
-  /* =====================================================================
-      LOGIC HANDLERS
-  ===================================================================== */
-
   const updateItemStatus = useCallback((preview, updates) => {
-    setVideos((prev) =>
-      prev.map((v) => (v.preview === preview ? { ...v, ...updates } : v))
-    );
+    setVideos((prev) => {
+      if (updates.isRemoved) return prev.filter((v) => v.preview !== preview);
+      return prev.map((v) =>
+        v.preview === preview ? { ...v, ...updates } : v
+      );
+    });
   }, []);
 
   const handleFiles = async (fileList) => {
     const list = Array.from(fileList).filter((f) =>
       ["video/mp4", "video/webm", "video/quicktime"].includes(f.type)
     );
-
     for (const file of list) {
       const preview = URL.createObjectURL(file);
       try {
@@ -106,7 +256,6 @@ export default function AdminUpload() {
             resolution: "N/A",
           })),
         ]);
-
         setVideos((prev) => [
           ...prev,
           {
@@ -124,20 +273,19 @@ export default function AdminUpload() {
           },
         ]);
       } catch (err) {
-        console.error("Error processing file:", file.name, err);
+        console.error(err);
       }
     }
   };
 
+  const toggleSelectAll = () => {
+    const newState = !isAllSelected;
+    setVideos((prev) => prev.map((v) => ({ ...v, selected: newState })));
+  };
+
   const handleUpload = async () => {
     const queue = isAnySelected ? selectedVideos : videos;
-
     if (!queue.length) return setErrorMessage("No videos to upload.");
-    if (queue.some((v) => !v.category))
-      return setErrorMessage("Please assign categories to all videos.");
-    if (publitio?.percent >= 99 || vimeo?.percent >= 99)
-      return setErrorMessage("Storage is full.");
-
     setUploading(true);
     setErrorMessage("");
     let successCount = 0;
@@ -145,24 +293,22 @@ export default function AdminUpload() {
 
     for (const vid of queue) {
       if (vid.status === "success") continue;
-
       updateItemStatus(vid.preview, {
         status: "uploading",
         error: null,
         progress: 0,
       });
-
       try {
         const result = await uploadVideo(
           vid.file,
           vid.title,
           vid.category,
           "ADMIN",
-          (progress) => {
-            const status = progress >= 101 ? "metadata_saving" : "uploading";
+          (p) => {
+            const s = p >= 101 ? "metadata_saving" : "uploading";
             updateItemStatus(vid.preview, {
-              progress: Math.min(progress, 100),
-              status,
+              progress: Math.min(p, 100),
+              status: s,
             });
           },
           {
@@ -171,7 +317,6 @@ export default function AdminUpload() {
             thumbnail: vid.thumbnail,
           }
         );
-
         if (result.metadataSaved) {
           successCount++;
           updateItemStatus(vid.preview, { ...result, status: "success" });
@@ -179,7 +324,7 @@ export default function AdminUpload() {
           failCount++;
           updateItemStatus(vid.preview, {
             status: "metadata_fail",
-            error: "Database save failed",
+            error: "DB Save Failed",
           });
         }
       } catch (err) {
@@ -190,11 +335,8 @@ export default function AdminUpload() {
         });
       }
     }
-
     setUploading(false);
-    setMessage(
-      `Upload complete: ${successCount} successful, ${failCount} failed.`
-    );
+    setMessage(`Complete: ${successCount} success, ${failCount} failed.`);
     if (refetch) refetch();
   };
 
@@ -206,7 +348,7 @@ export default function AdminUpload() {
       updateItemStatus(video.preview, { [copyKey]: true });
       setTimeout(
         () => updateItemStatus(video.preview, { [copyKey]: false }),
-        1000
+        1200
       );
     } else {
       setVideos((prev) =>
@@ -217,9 +359,19 @@ export default function AdminUpload() {
     }
   };
 
-  /* =====================================================================
-      RENDER FRAGMENTS
-  ===================================================================== */
+  const clearSuccessful = () => {
+    setVideos((prev) => prev.filter((v) => v.status !== "success"));
+    setMessage("");
+  };
+
+  const bulkRename = () => {
+    const newTitle = prompt("Enter new title for all selected videos:");
+    if (newTitle !== null) {
+      setVideos((prev) =>
+        prev.map((v) => (v.selected ? { ...v, title: newTitle } : v))
+      );
+    }
+  };
 
   const renderStorageBox = (title, data, type, badge) => (
     <div className={`storage-box ${badge.toLowerCase()}`}>
@@ -246,23 +398,15 @@ export default function AdminUpload() {
   );
 
   return (
-    <section
-      className="admin-upload"
-      onDragOver={(e) => e.preventDefault()}
-      onDrop={(e) => {
-        e.preventDefault();
-        handleFiles(e.dataTransfer.files);
-      }}
-    >
+    <section className="admin-upload">
       <div className="upload-container">
-        {/* Storage Dashboard */}
         <div className="storage-panel">
           <div className="panel-header">
             <h4>Cloud Storage</h4>
             <button
               className="icon-btn"
               onClick={() => refetch?.()}
-              title="Refresh Usage"
+              title="Refresh"
             >
               <FiRefreshCw className={usageLoading ? "spin" : ""} />
             </button>
@@ -277,7 +421,6 @@ export default function AdminUpload() {
           )}
         </div>
 
-        {/* Tab Navigation */}
         <div className="upload-tabs">
           <button
             className={`tab ${activeTab === "upload" ? "active" : ""}`}
@@ -298,12 +441,21 @@ export default function AdminUpload() {
             <div className="upload-header">
               <h2>New Uploads ({videos.length})</h2>
               <div className="upload-controls">
+                {hasSuccessful && (
+                  <button
+                    className="btn btn-ghost text-success"
+                    onClick={clearSuccessful}
+                  >
+                    <FiCheckCircle /> Clear Done
+                  </button>
+                )}
                 {videos.length > 0 && (
                   <button
                     className="btn btn-ghost text-danger"
                     onClick={() => setVideos([])}
+                    disabled={uploading}
                   >
-                    <FiTrash2 /> Clear List
+                    <FiTrash2 /> Clear All
                   </button>
                 )}
                 <button
@@ -323,62 +475,61 @@ export default function AdminUpload() {
               </div>
             </div>
 
-            <div
-              className="drag-drop-area"
-              onClick={() => inputRef.current?.click()}
-            >
-              <input
-                type="file"
-                multiple
-                accept="video/mp4,video/webm,video/quicktime"
-                ref={inputRef}
-                hidden
-                onChange={(e) => handleFiles(e.target.files)}
-              />
-              <p>
-                Drag videos here or <span>browse files</span>
-              </p>
+            <div className="drag-drop-area-wrapper">
+              <div
+                className="drag-drop-area"
+                onClick={() => inputRef.current?.click()}
+              >
+                <input
+                  type="file"
+                  multiple
+                  accept="video/*"
+                  ref={inputRef}
+                  hidden
+                  onChange={(e) => handleFiles(e.target.files)}
+                />
+                <p>
+                  Drag videos here or <span>browse files</span>
+                </p>
+              </div>
+              {videos.length > 0 && (
+                <div className="select-all-bar" onClick={toggleSelectAll}>
+                  {isAllSelected ? <FiCheckSquare /> : <FiSquare />}
+                  <span>Select All Videos</span>
+                </div>
+              )}
             </div>
 
-            {/* Notifications */}
-            {errorMessage && (
-              <div className="alert alert-error">{errorMessage}</div>
+            {(errorMessage || message) && (
+              <div
+                className={`alert ${
+                  errorMessage ? "alert-error" : "alert-success"
+                }`}
+              >
+                {errorMessage ? <FiAlertCircle /> : <FiCheckCircle />}{" "}
+                {errorMessage || message}
+              </div>
             )}
-            {message && <div className="alert alert-success">{message}</div>}
 
-            {/* Bulk Actions Bar */}
             {(multiSelectMode || isAnySelected) && (
               <div className="bulk-actions-bar">
                 <div className="action-buttons">
-                  <button
-                    onClick={() =>
-                      setVideos((v) => v.map((x) => ({ ...x, selected: true })))
-                    }
-                  >
-                    All
-                  </button>
-                  <button
-                    onClick={() =>
-                      setVideos((v) =>
-                        v.map((x) => ({ ...x, selected: false }))
-                      )
-                    }
-                  >
-                    None
-                  </button>
                   <button
                     className="text-danger"
                     onClick={() =>
                       setVideos((v) => v.filter((x) => !x.selected))
                     }
                   >
-                    Remove
+                    <FiTrash2 /> Remove Selected
+                  </button>
+                  <button className="text-primary" onClick={bulkRename}>
+                    <FiEdit3 /> Rename Selected
                   </button>
                 </div>
                 <select
                   onChange={(e) =>
-                    setVideos((prev) =>
-                      prev.map((v) =>
+                    setVideos((p) =>
+                      p.map((v) =>
                         v.selected ? { ...v, category: e.target.value } : v
                       )
                     )
@@ -394,148 +545,17 @@ export default function AdminUpload() {
               </div>
             )}
 
-            {/* Video Preview Grid */}
             <div className="preview-grid">
               {videos.map((vid, i) => (
-                <div
+                <VideoItem
                   key={vid.preview}
-                  className={`preview-card ${
-                    vid.selected ? "is-selected" : ""
-                  }`}
-                >
-                  {multiSelectMode && (
-                    <div
-                      className="selection-overlay"
-                      onClick={() =>
-                        updateItemStatus(vid.preview, {
-                          selected: !vid.selected,
-                        })
-                      }
-                    >
-                      <input
-                        type="checkbox"
-                        checked={!!vid.selected}
-                        readOnly
-                      />
-                    </div>
-                  )}
-
-                  <div className="card-thumb">
-                    <img
-                      src={vid.thumbnail || videoPlaceholder}
-                      alt="Preview"
-                    />
-                    <span className="duration-tag">{vid.duration}s</span>
-                  </div>
-
-                  <div className="card-body">
-                    <div className="field-row">
-                      <input
-                        type="text"
-                        value={vid.title}
-                        placeholder="Video Title"
-                        onChange={(e) =>
-                          updateItemStatus(vid.preview, {
-                            title: e.target.value,
-                          })
-                        }
-                      />
-                      <button
-                        className="copy-btn"
-                        onClick={() =>
-                          handleCopyPaste(
-                            i,
-                            "title",
-                            vid.title ? "copy" : "paste"
-                          )
-                        }
-                      >
-                        {vid.title ? <FiCopy /> : <FiClipboard />}
-                      </button>
-                    </div>
-
-                    <div className="field-row">
-                      <select
-                        value={vid.category}
-                        onChange={(e) =>
-                          updateItemStatus(vid.preview, {
-                            category: e.target.value,
-                          })
-                        }
-                      >
-                        <option value="">Category</option>
-                        {CATEGORIES.map((c) => (
-                          <option key={c} value={c}>
-                            {c}
-                          </option>
-                        ))}
-                      </select>
-                      <button
-                        className="copy-btn"
-                        onClick={() =>
-                          handleCopyPaste(
-                            i,
-                            "category",
-                            vid.category ? "copy" : "paste"
-                          )
-                        }
-                      >
-                        {vid.category ? <FiCopy /> : <FiClipboard />}
-                      </button>
-                    </div>
-
-                    {/* Status & Progress */}
-                    <div className="status-container">
-                      {vid.status === "success" ? (
-                        <span className="status-badge success">Ready</span>
-                      ) : vid.status === "uploading" ||
-                        vid.status === "metadata_saving" ? (
-                        <div className="upload-progress-wrapper">
-                          <div className="progress-info">
-                            <small>
-                              {vid.status === "metadata_saving"
-                                ? "Finalizing..."
-                                : "Uploading..."}
-                            </small>
-                            <small>{vid.progress}%</small>
-                          </div>
-                          <div className="progress-bar-bg">
-                            <div
-                              className="progress-bar-fill"
-                              style={{ width: `${vid.progress}%` }}
-                            />
-                          </div>
-                        </div>
-                      ) : vid.error ? (
-                        <button
-                          className="btn-retry"
-                          onClick={() =>
-                            vid.status === "metadata_fail"
-                              ? saveMetadataOnly(vid)
-                              : handleUpload()
-                          }
-                        >
-                          Retry Upload
-                        </button>
-                      ) : (
-                        <span className="status-badge pending">Pending</span>
-                      )}
-                    </div>
-
-                    {!uploading && (
-                      <button
-                        className="remove-card-btn"
-                        onClick={() =>
-                          setVideos((v) =>
-                            v.filter((x) => x.preview !== vid.preview)
-                          )
-                        }
-                      >
-                        &times;
-                      </button>
-                    )}
-                  </div>
-                </div>
+                  vid={vid}
+                  index={i}
+                  updateItemStatus={updateItemStatus}
+                  handleCopyPaste={handleCopyPaste}
+                  multiSelectMode={multiSelectMode}
+                  uploading={uploading}
+                />
               ))}
             </div>
 
