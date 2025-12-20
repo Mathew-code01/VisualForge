@@ -2,99 +2,70 @@
 // src/components/ContactForm.jsx
 // src/components/ContactForm.jsx
 // src/components/ContactForm.jsx
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "../styles/components/contactform.css";
-import "../styles/theme.css";
 
 function ContactForm() {
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
-  const [status, setStatus] = useState({ loading: false, success: "", error: "" });
-  const [fade, setFade] = useState(false);
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [status, setStatus] = useState({ loading: false, success: false });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus({ loading: true, success: "", error: "" });
-    setFade(false);
-
-    if (!formData.name || !formData.email || !formData.message) {
-      setStatus({ loading: false, success: "", error: "Please fill in all fields." });
-      setFade(true);
-      return;
-    }
-
-    try {
-      // Simulated API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      setStatus({ loading: false, success: "✅ Your message has been sent!", error: "" });
-      setFormData({ name: "", email: "", message: "" });
-      setFade(true);
-    } catch {
-      setStatus({ loading: false, success: "", error: "❌ Something went wrong. Please try again." });
-      setFade(true);
-    }
+    setStatus({ loading: true, success: false });
+    // Simulate API
+    await new Promise((r) => setTimeout(r, 2000));
+    setStatus({ loading: false, success: true });
+    setFormData({ name: "", email: "", message: "" });
   };
-
-  useEffect(() => {
-    if (fade) {
-      const timer = setTimeout(() => setFade(false), 4000);
-      return () => clearTimeout(timer);
-    }
-  }, [fade]);
 
   return (
     <form className="contact-form" onSubmit={handleSubmit}>
-      {status.success && (
-        <p className={`form-success ${!fade ? "fade-out" : ""}`}>{status.success}</p>
-      )}
-      {status.error && (
-        <p className={`form-error ${!fade ? "fade-out" : ""}`}>{status.error}</p>
-      )}
-
-      <div className="form-group">
-        <label htmlFor="name">Your Name</label>
+      <div className="input-group">
         <input
-          id="name"
           type="text"
-          name="name"
+          required
           value={formData.name}
-          onChange={handleChange}
-          placeholder="Enter your name"
-          required
+          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
         />
+        <label>Your Name</label>
+        <span className="bar"></span>
       </div>
 
-      <div className="form-group">
-        <label htmlFor="email">Your Email</label>
+      <div className="input-group">
         <input
-          id="email"
           type="email"
-          name="email"
+          required
           value={formData.email}
-          onChange={handleChange}
-          placeholder="you@example.com"
-          required
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
         />
+        <label>Work Email</label>
+        <span className="bar"></span>
       </div>
 
-      <div className="form-group">
-        <label htmlFor="message">Your Message</label>
+      <div className="input-group">
         <textarea
-          id="message"
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
-          placeholder="Tell us about your project..."
-          rows="5"
+          rows="1"
           required
-        />
+          value={formData.message}
+          onChange={(e) =>
+            setFormData({ ...formData, message: e.target.value })
+          }
+        ></textarea>
+        <label>Project Brief</label>
+        <span className="bar"></span>
       </div>
 
-      <button type="submit" className="btn" disabled={status.loading}>
-        {status.loading ? <span className="spinner"></span> : "Send Message"}
+      <button type="submit" className="submit-btn" disabled={status.loading}>
+        {status.loading
+          ? "Sending..."
+          : status.success
+          ? "Message Sent"
+          : "Inquire Now"}
+        <span className="btn-arrow">→</span>
       </button>
     </form>
   );

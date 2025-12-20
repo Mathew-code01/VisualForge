@@ -2,60 +2,108 @@
 // src/components/WorkCard.jsx
 // src/components/WorkCard.jsx
 // src/components/WorkCard.jsx
+// src/components/WorkCard.jsx
 import { Link } from "react-router-dom";
-import { FaPlay } from "react-icons/fa";
-import { useState, useRef, useEffect } from "react";
+import { FaSpinner } from "react-icons/fa";
+import { MdFullscreen, MdArrowForward } from "react-icons/md"; // Cleaner icons
+import { useState, useRef } from "react";
 import "../styles/components/workcard.css";
 
-const WorkCard = ({ work, delay = 0 }) => {
-  const [loaded, setLoaded] = useState(false);
-  const cardRef = useRef();
+const WorkCard = ({ work, index, enableHoverPreview }) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
+  const videoRef = useRef(null);
 
-  // Fade-in on scroll
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          cardRef.current?.classList.add("fade-in-up");
-          observer.unobserve(cardRef.current);
-        }
-      },
-      { threshold: 0.15 }
-    );
+  const videoSrc = work.url; 
+  const isVimeo = videoSrc?.includes("vimeo.com");
 
-    if (cardRef.current) observer.observe(cardRef.current);
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+    if (enableHoverPreview && videoSrc && videoReady && !isVimeo) {
+      videoRef.current.play().catch((e) => console.warn("Playback blocked", e));
+    }
+  };
 
-    return () => observer.disconnect();
-  }, []);
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+    if (videoRef.current && !isVimeo) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+    }
+  };
 
   return (
     <Link
       to={`/work/${work.id}`}
-      ref={cardRef}
-      className="work-card"
-      style={{ animationDelay: `${delay}s` }}
+      className="work-card-container"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      style={{ "--delay": `${index * 0.1}s` }}
     >
-      {/* Thumbnail */}
-      <div className={`work-thumb ${loaded ? "loaded" : ""}`}>
-        <img
-          src={work.thumbnail}
-          alt={work.title}
-          loading="lazy"
-          onLoad={() => setLoaded(true)}
-        />
+      <div className="work-card-inner">
+        <div className="work-thumb-wrapper">
+          
+          {/* Main Loader */}
+          {!imageLoaded && (
+            <div className="card-loader-overlay">
+              <div className="shimmer-effect"></div>
+              <FaSpinner className="spinner-icon" />
+            </div>
+          )}
 
-        {/* Hover overlay */}
-        <div className="hover-overlay">
-          <div className="play-button">
-            <FaPlay />
+          <img
+            src={work.thumbnail}
+            alt={work.title}
+            className={`main-thumb ${imageLoaded ? "visible" : "hidden"}`}
+            onLoad={() => setImageLoaded(true)}
+          />
+
+          {enableHoverPreview && videoSrc && !isVimeo && (
+            <video
+              ref={videoRef}
+              src={videoSrc}
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              crossOrigin="anonymous" 
+              onLoadedData={() => setVideoReady(true)}
+              className={`hover-video ${isHovering && videoReady ? "active" : ""}`}
+            />
+          )}
+
+          {/* New Overlay UI: Top-right indicator and bottom title fade */}
+          <div className={`card-ui-layer ${isHovering ? "active" : ""}`}>
+            <div className="top-actions">
+              <div className="expand-indicator">
+                {isHovering && !videoReady && !isVimeo ? (
+                  <FaSpinner className="spinner-icon mini" />
+                ) : (
+                  <MdFullscreen className="expand-icon" />
+                )}
+              </div>
+            </div>
+            
+            <div className="bottom-info">
+               <span className="click-hint">View Case Study</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Text Info */}
-      <div className="work-info">
-        <h3 className="work-title">{work.title}</h3>
-        <p className="work-category">{work.category}</p>
+        <div className="work-card-meta">
+          <div className="meta-left">
+            <h3 className="work-card-title">{work.title}</h3>
+            <div className="tag-row">
+                <span className="work-card-tag">{work.category}</span>
+                <span className="dot">•</span>
+                <span className="project-year">{work.year || "2025"}</span>
+            </div>
+          </div>
+          <div className="meta-right">
+             <MdArrowForward className="meta-arrow" />
+          </div>
+        </div>
       </div>
     </Link>
   );

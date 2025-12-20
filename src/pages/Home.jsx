@@ -2,64 +2,54 @@
 // src/pages/Home.jsx
 // src/pages/Home.jsx
 // src/pages/Home.jsx
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Hero from "../components/Hero";
 import WorkGrid from "../components/WorkGrid";
 import Contact from "./Contact";
 import Loader from "../components/Loader.jsx";
-import works from "../data/works";
 import "../styles/pages/home.css";
-import "../styles/theme.css";
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
-  const [animateSections, setAnimateSections] = useState(false);
+  const [animateHero, setAnimateHero] = useState(false);
+  const scrollRefs = useRef([]);
 
+  // 1. Initial Loader logic
   useEffect(() => {
-    console.log("[Home] Mounting, starting preload...");
-
-    const featuredWorks = works.slice(0, 6);
-    let loadedCount = 0;
-
-    if (!featuredWorks.length) {
-      console.log("[Home] No featured works found");
-      setLoading(false);
-      setAnimateSections(true);
-      return;
-    }
-
-    const checkLoaded = () => {
-      loadedCount++;
-      console.log(`[Home] Image loaded ${loadedCount}/${featuredWorks.length}`);
-      if (loadedCount === featuredWorks.length) {
-        console.log("[Home] All featured images loaded, preparing fade-in...");
-
-        // Delay slightly to ensure browser can trigger CSS animation
-        setTimeout(() => {
-          setLoading(false);
-          setAnimateSections(true);
-          console.log("[Home] Sections now animating");
-        }, 50);
-      }
-    };
-
-    featuredWorks.forEach((work) => {
-      const img = new Image();
-      img.src = work.thumbnail;
-      if (img.complete) {
-        console.log(`[Home] Image already cached: ${work.title}`);
-        checkLoaded();
-      } else {
-        img.onload = checkLoaded;
-        img.onerror = checkLoaded;
-      }
-    });
+    const timer = setTimeout(() => setLoading(false), 1500);
+    return () => clearTimeout(timer);
   }, []);
 
-  // Scroll to top on mount
+  // 2. Animation Logic
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+    if (loading) return;
+
+    // Small delay to ensure DOM is painted before observing
+    const timeout = setTimeout(() => {
+      setAnimateHero(true);
+
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("section-visible");
+          }
+        });
+      }, observerOptions);
+
+      scrollRefs.current.forEach((ref) => {
+        if (ref) observer.observe(ref);
+      });
+
+      return () => observer.disconnect();
+    }, 100);
+
+    return () => clearTimeout(timeout);
+  }, [loading]);
 
   if (loading) return <Loader />;
 
@@ -68,59 +58,49 @@ const Home = () => {
       {/* Hero Section */}
       <section
         id="hero"
-        className={`home-section-unique ${animateSections ? "fade-in-up" : ""}`}
+        className={`home-hero-wrapper ${animateHero ? "fade-in" : ""}`}
       >
         <Hero />
       </section>
 
-      {/* Featured Works */}
+      {/* Featured Section */}
       <section
-        id="featured"
-        className={`home-section-unique ${
-          animateSections ? "fade-in-up delay-1" : ""
-        }`}
+        className="home-section-unique"
+        ref={(el) => (scrollRefs.current[0] = el)}
       >
         <div className="home-container-unique">
-          <h2 className="section-heading-unique">Cinematic Edits</h2>
-          <p className="section-subheading-unique">
-            Signature works blending <strong>story</strong>,{" "}
-            <strong>rhythm</strong>, and <strong>emotion</strong>.
-          </p>
-
-          <WorkGrid
-            featured
-            uniqueClass="work-grid-unique"
-            enableHoverPreview
-            preload={true} // Preload images for faster display
-            animate={animateSections} // Trigger animation after section fade-in
-          />
+          <header className="section-header-block">
+            <span className="section-index">01</span>
+            <h2 className="section-heading-unique">Featured Work</h2>
+            <div className="accent-line"></div>
+          </header>
+          <div className="grid-interaction-wrapper">
+            <WorkGrid featured={true} />
+          </div>
         </div>
       </section>
 
-      {/* Full Work Collection */}
+      {/* Full Collection Section */}
       <section
-        id="works"
-        className={`home-section-unique ${
-          animateSections ? "fade-in-up delay-2" : ""
-        }`}
+        className="home-section-unique"
+        ref={(el) => (scrollRefs.current[1] = el)}
       >
         <div className="home-container-unique">
-          <h2 className="section-heading-unique">All Projects</h2>
-          <WorkGrid
-            uniqueClass="work-grid-unique"
-            enableHoverPreview
-            preload={false} // Animate on scroll
-            animate={animateSections}
-          />
+          <header className="section-header-block">
+            <span className="section-index">02</span>
+            <h2 className="section-heading-unique">Full Collection</h2>
+            <div className="accent-line"></div>
+          </header>
+          <div className="grid-interaction-wrapper">
+            <WorkGrid featured={false} />
+          </div>
         </div>
       </section>
 
       {/* Contact Section */}
       <section
-        id="contact"
-        className={`home-section-unique ${
-          animateSections ? "fade-in-up delay-3" : ""
-        }`}
+        className="home-section-unique"
+        ref={(el) => (scrollRefs.current[2] = el)}
       >
         <Contact />
       </section>
@@ -129,8 +109,3 @@ const Home = () => {
 };
 
 export default Home;
-
-// ok can you give well struture netflex like 
-
-// for a professional video editor website I recommend Option B — NETFLIX CINEMATIC STYLE.
-// Why: it gives your portfolio the dramatic, premium depth editors love — heavy shadows, large thumbnails, floating panels and bold typography that emphasize the visuals (your strongest asset). It’s still usable and responsive but reads as “studio-grade” instead of just “portfolio”.

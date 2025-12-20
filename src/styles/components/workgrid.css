@@ -3,83 +3,113 @@
 /* src/styles/components/workgrid.css */
 /* src/styles/components/workgrid.css */
 /* src/styles/components/workgrid.css */
-
-/* ==========================================
-   NETFLIX - CINEMATIC WORK GRID
-   Clean • Cinematic • Editorial
-========================================== */
-
-.nf-section {
-  width: 100%;
+/* --- Section Layout --- */
+.nf-section.cinematic-grid-section {
+  padding: var(--spacing-xxl) 0;
   max-width: var(--max-content-width);
   margin: 0 auto;
-  padding: var(--spacing-xl) var(--spacing-md);
 }
 
-/* -------- Section Title -------- */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: var(--spacing-xl);
+  flex-wrap: wrap;
+  gap: var(--spacing-lg);
+}
+
 .nf-section-title {
   font-family: var(--font-heading);
+  /* font-size: var(--font-size-xxl); */
   color: var(--color-heading);
-  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  margin: 0;
+}
+
+/* --- Filter Bar --- */
+.filter-bar {
+  display: flex;
+  gap: var(--spacing-xs);
+  background: var(--color-bg-alt);
+  padding: var(--spacing-xs);
+  border-radius: 50px;
+  border: 1px solid var(--color-border);
+}
+
+.filter-btn {
+  background: transparent;
+  border: none;
+  color: var(--color-muted);
+  padding: 8px 20px;
+  border-radius: 40px;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-medium);
+  text-transform: uppercase;
   letter-spacing: 1px;
-  margin-bottom: var(--spacing-lg);
-  text-align: left;
-  padding-left: 4px;
-  position: relative;
 }
 
-.nf-section-title::after {
-  content: "";
-  width: 120px;
-  height: 3px;
-  background: var(--gradient-primary);
-  display: block;
-  margin-top: 8px;
-  border-radius: 100px;
-  opacity: 0.9;
+.filter-btn:hover {
+  color: var(--color-text);
 }
 
-/* -------- Netflix Row Grid -------- */
+.filter-btn.active {
+  background: var(--color-bg-soft);
+  color: var(--color-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+/* --- The Grid --- */
 .nf-row {
   display: grid;
-
-  /* Netflix-like wide cinematic tiles */
-  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
-
-  gap: var(--spacing-xl);
-  padding-top: var(--spacing-md);
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: var(--spacing-lg);
+  justify-content: center;
 }
 
-/* ----------------------------------
-      RESPONSIVE BEHAVIOR
----------------------------------- */
-
-@media (max-width: 1200px) {
-  .nf-row {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--spacing-lg);
-  }
+/* --- Empty & Loading States --- */
+.empty-state {
+  grid-column: 1 / -1;
+  padding: var(--spacing-xxxl) 0;
+  text-align: center;
+  color: var(--color-muted);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--spacing-md);
 }
 
-@media (max-width: 900px) {
-  .nf-row {
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: var(--spacing-md);
-  }
+.work-card-skeleton {
+  aspect-ratio: 16/9;
+  background: var(--color-bg-alt);
+  border-radius: var(--spacing-md);
+  position: relative;
+  overflow: hidden;
 }
 
-@media (max-width: 600px) {
-  .nf-section-title {
-    text-align: center;
-  }
+.work-card-skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+  animation: shimmer 1.5s infinite;
+}
 
-  .nf-section-title::after {
-    margin-left: auto;
-    margin-right: auto;
-  }
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
 
+@media (max-width: 768px) {
+  .nf-row { grid-template-columns: 1fr; }
+  .section-header { flex-direction: column; align-items: flex-start; }
+}
+
+/* --- Media Query for Large Screens --- */
+@media (min-width: 1600px) {
   .nf-row {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-md);
+    /* On very large screens, force 4 columns to keep height in check */
+    grid-template-columns: repeat(4, 1fr);
   }
 }

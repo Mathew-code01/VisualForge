@@ -4,163 +4,187 @@
 /* src/styles/components/workcard.css */
 /* src/styles/components/workcard.css */
 /* src/styles/components/workcard.css */
-/* ============================
-   Cinematic Netflix WorkCard
-============================= */
 
-.work-card {
-  display: block;
-  width: 100%;
+.work-card-container {
   text-decoration: none;
+  display: block;
   opacity: 0;
-  transform: translateY(20px);
-  transition: transform 0.35s var(--transition-snap), box-shadow 0.35s ease;
-}
-
-.work-card.fade-in-up {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Hover Lift */
-.work-card:hover {
-  transform: translateY(-8px);
-  box-shadow: var(--shadow-xl);
-}
-
-/* ============================
-   Thumbnail
-============================= */
-.work-thumb {
-  position: relative;
+  transform: translateY(30px);
+  cursor: pointer;
   width: 100%;
+}
+
+.section-visible .work-card-container {
+  animation: revealUp 0.8s var(--transition-snap) forwards;
+  animation-delay: var(--delay, 0s);
+}
+
+.work-card-inner {
+  position: relative;
+  transition: all 0.4s var(--transition-snap);
+}
+
+/* --- Thumbnail Wrapper --- */
+.work-thumb-wrapper {
+  position: relative;
   aspect-ratio: 16/9;
+  background: #000;
   border-radius: 14px;
   overflow: hidden;
-  background: #111;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.5s var(--transition-snap);
 }
 
-/* Shimmer skeleton */
-.work-thumb::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, #111114 25%, #222225 50%, #111114 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.6s linear infinite;
-  z-index: 1;
-  transition: opacity 0.5s ease;
-}
-
-.work-thumb.loaded::before {
-  opacity: 0;
-}
-
-/* Thumbnail image */
-.work-thumb img {
+.main-thumb {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(0.85);
-  transition: transform 0.45s ease, filter 0.45s ease;
-  opacity: 0;
-  z-index: 2;
-  position: relative;
+  transition: transform 1.2s var(--transition-snap), filter 0.5s ease;
 }
 
-.work-thumb.loaded img {
-  opacity: 1;
-}
-
-/* Zoom on hover */
-.work-card:hover .work-thumb img {
-  transform: scale(1.08);
-  filter: brightness(1);
-}
-
-/* ============================
-   Hover Overlay
-============================= */
-.hover-overlay {
+.hover-video {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(3px);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   opacity: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.35s ease, backdrop-filter 0.35s ease;
-  z-index: 3;
+  transition: opacity 0.6s ease;
 }
 
-.work-card:hover .hover-overlay {
+.hover-video.active {
   opacity: 1;
 }
 
-/* Play Button */
-.play-button {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  border: 2px solid rgba(255, 255, 255, 0.25);
+/* --- The New UI Layer --- */
+.card-ui-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 15px;
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+.card-ui-layer.active {
+  opacity: 1;
+}
+
+/* Top Right Expand Icon */
+.top-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.expand-indicator {
+  width: 40px;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  transform: translateY(-10px);
+  transition: all 0.4s var(--transition-snap);
 }
 
-.play-button svg {
+.expand-icon {
+  font-size: 1.5rem;
   color: #fff;
-  font-size: 22px;
 }
 
-.play-button:hover {
-  background: rgba(255, 255, 255, 0.23);
-  transform: scale(1.15);
-  box-shadow: 0 0 20px rgba(108, 211, 255, 0.55);
+.card-ui-layer.active .expand-indicator {
+  transform: translateY(0);
 }
 
-/* ============================
-   Text section
-============================= */
-.work-info {
-  text-align: center;
-  margin-top: 12px;
+/* Bottom Hint */
+.bottom-info {
+  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+  margin: -15px; /* Pull back to edges */
+  padding: 20px 15px 15px;
+  transform: translateY(10px);
+  transition: all 0.4s var(--transition-snap);
 }
 
-.work-title {
-  color: var(--color-heading);
-  font-size: 1.1rem;
-  font-family: var(--font-heading);
+.click-hint {
+  color: #fff;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
   font-weight: 600;
-  margin-bottom: 4px;
+  opacity: 0.8;
 }
 
-.work-category {
-  color: var(--color-muted);
-  font-size: 0.9rem;
+.card-ui-layer.active .bottom-info {
+  transform: translateY(0);
 }
 
-/* ============================
-   Animations
-============================= */
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+/* --- Hover State Container --- */
+.work-card-container:hover .work-thumb-wrapper {
+  transform: scale(1.02);
+  border-color: var(--color-primary);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
 }
 
-/* ============================
-   Responsive
-============================= */
-@media (max-width: 768px) {
-  .work-title { font-size: 1rem; }
-  .play-button { width: 52px; height: 52px; }
+.work-card-container:hover .main-thumb {
+  filter: brightness(0.6) blur(2px);
 }
 
-@media (max-width: 480px) {
-  .work-title { font-size: 0.95rem; }
-  .work-category { font-size: 0.8rem; }
-  .play-button { width: 44px; height: 44px; }
+/* --- Meta Footer --- */
+.work-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 5px 5px;
 }
+
+.work-card-title {
+  font-size: 1.1rem;
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+.tag-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+}
+
+.work-card-tag {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.project-year {
+  color: rgba(255,255,255,0.4);
+}
+
+.meta-arrow {
+  font-size: 1.4rem;
+  color: rgba(255,255,255,0.2);
+  transition: all 0.3s ease;
+}
+
+.work-card-container:hover .meta-arrow {
+  color: var(--color-primary);
+  transform: translateX(5px);
+}
+
+/* --- Animations --- */
+@keyframes revealUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinner-icon { animation: spin 1s linear infinite; }

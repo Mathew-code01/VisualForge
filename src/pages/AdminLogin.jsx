@@ -1,187 +1,163 @@
 // src/pages/AdminLogin.jsx
 // src/pages/AdminLogin.jsx
 import { useState, useEffect } from "react";
+import { Eye, EyeOff, UserCheck, ShieldAlert, Lock } from "lucide-react";
 import "../styles/pages/adminlogin.css";
-import { Eye, EyeOff, UserCheck, ShieldAlert } from "lucide-react";
 
 export default function AdminLogin() {
-  const [showGate, setShowGate] = useState(true);
+  const [view, setView] = useState("gate"); // "gate", "form", "locked"
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
   const [attempts, setAttempts] = useState(0);
-  const [locked, setLocked] = useState(false);
   const [countdown, setCountdown] = useState(6);
 
-  // Redirect timer after lock
-  useEffect(() => {
-    if (!locked) return;
+  const MAX_ATTEMPTS = 5;
 
+  // Handle Redirection when locked
+  useEffect(() => {
+    if (view !== "locked") return;
     if (countdown === 0) {
       window.location.href = "/";
       return;
     }
-
-    const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
+    const timer = setTimeout(() => setCountdown((prev) => prev - 1), 1000);
     return () => clearTimeout(timer);
-  }, [locked, countdown]);
+  }, [view, countdown]);
 
-  // -----------------------------
-  // ⚡ LOGIN HANDLER
-  // -----------------------------
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (locked) return;
+    if (view === "locked") return;
 
     setError("");
     setLoading(true);
 
-    // ==============================
-    // ⚠️ DEVELOPMENT BYPASS
-    // Skip Firebase completely
-    // ==============================
-    if (password.includes("admin")) {
+    // Development Bypass Logic
+    if (password.toLowerCase().includes("admin")) {
       localStorage.setItem("dev-admin", "true");
       window.location.href = "/admin-upload?dev=1";
       return;
     }
 
-    // ==============================
-    // REAL LOGIN (kept for later)
-    // ==============================
     try {
       const res = await window.firebaseSignIn(
         window.firebaseAuth,
         email,
         password
       );
-
       const token = await res.user.getIdTokenResult();
 
       if (!token.claims.admin) {
-        setError("ACCESS DENIED — You are not registered as an Admin.");
+        setError("ACCESS DENIED — Unauthorized Account.");
         setLoading(false);
         return;
       }
-
       window.location.href = "/admin-upload";
     } catch (err) {
-      console.log(err);
-      setAttempts((prev) => prev + 1);
-      setError("Invalid email or password.");
+      console.log(err)
+      const newAttempts = attempts + 1;
+      setAttempts(newAttempts);
+      setError("Invalid credentials. Access logged.");
 
-      if (attempts + 1 >= 5) {
-        setLocked(true);
+      if (newAttempts >= MAX_ATTEMPTS) {
+        setView("locked");
       }
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
+  // --- Sub-Views ---
 
-  // -----------------------------
-  // ⚡ ADMIN GATE SCREEN
-  // -----------------------------
-  if (showGate) {
+  if (view === "gate")
     return (
-      <div className="admin-gate-container">
-        <div className="admin-gate-box">
-          <UserCheck size={80} className="gate-icon" />
-          <h1 className="gate-title">Admin Verification</h1>
-          <p className="gate-subtitle">Are you an authorized administrator?</p>
-
-          <div className="gate-buttons">
-            <button className="yes-btn" onClick={() => setShowGate(false)}>
-              Yes, Continue
+      <div className="admin-page-wrapper">
+        <div className="admin-glass-card gate-anim">
+          <UserCheck size={64} className="accent-icon" />
+          <h1>Verification</h1>
+          <p>Are you an authorized administrator?</p>
+          <div className="gate-actions">
+            <button className="btn-primary" onClick={() => setView("form")}>
+              Yes, Access Panel
             </button>
-
-            <button className="no-btn" onClick={() => (window.location.href = "/")}>
-              No, Take Me Home
+            <button
+              className="btn-outline"
+              onClick={() => (window.location.href = "/")}
+            >
+              Exit
             </button>
           </div>
         </div>
       </div>
     );
-  }
 
-  // -----------------------------
-  // ⚡ LOCKED STATE UI
-  // -----------------------------
-  if (locked) {
+  if (view === "locked")
     return (
-      <div className="admin-login-container">
-        <div className="admin-login-box lock-box">
-          <ShieldAlert size={80} className="lock-icon" />
-          <h2>Too Many Attempts</h2>
-          <p>You will be redirected to the homepage in {countdown} seconds.</p>
+      <div className="admin-page-wrapper">
+        <div className="admin-glass-card lock-anim">
+          <ShieldAlert size={64} className="error-icon" />
+          <h2 className="text-error">System Lockdown</h2>
+          <p>Too many failed attempts. Security protocol initiated.</p>
+          <div className="timer-badge">Redirecting in {countdown}s</div>
         </div>
       </div>
     );
-  }
 
-  // -----------------------------
-  // ⚡ MAIN LOGIN FORM
-  // -----------------------------
   return (
-    <div className="admin-login-container">
-      <div className="admin-login-box">
-        {/* LOGO AREA */}
-        <div className="admin-login-logo">
-          <div className="logo-circle"></div>
-          <h1>Admin Panel</h1>
-          <p className="subtitle">Secure Access • Authorized Personnel Only</p>
-        </div>
+    <div className="admin-page-wrapper">
+      <div className="admin-glass-card">
+        <header className="admin-header">
+          <div className="logo-ring">
+            <Lock size={24} />
+          </div>
+          <h1>Admin Portal</h1>
+          <p>Secure Encrypted Session</p>
+        </header>
 
         <form onSubmit={handleLogin} className="admin-form">
-          {error && <p className="error">{error}</p>}
+          {error && <div className="error-banner">{error}</div>}
 
-          {/* EMAIL */}
-          <div className="input-group">
-            <label>Email Address</label>
+          <div className="input-field">
+            <label>Identity (Email)</label>
             <input
               type="email"
+              required
               autoFocus
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="admin@example.com"
+              placeholder="name@visualforge.com"
             />
           </div>
 
-          {/* PASSWORD */}
-          <div className="input-group password-group">
-            <label>Password</label>
-            <div className="password-wrapper">
+          <div className="input-field">
+            <label>Security Key (Password)</label>
+            <div className="password-input-container">
               <input
                 type={showPassword ? "text" : "password"}
+                required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="•••••••••"
+                placeholder="••••••••"
               />
-
-              <span
-                className="eye-toggle"
+              <button
+                type="button"
+                className="eye-btn"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? (
-                  <EyeOff size={20} />
-                ) : (
-                  <Eye size={20} />
-                )}
-              </span>
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
             </div>
           </div>
 
-          <button type="submit" disabled={loading}>
-            {loading ? "Authenticating..." : "Login"}
+          <button type="submit" className="btn-submit" disabled={loading}>
+            {loading ? "Verifying..." : "Authorize Access"}
           </button>
 
-          <p className="attempt-text">
-            Attempts left: <strong>{5 - attempts}</strong>
-          </p>
+          <div className="security-footer">
+            Attempts Remaining: <span>{MAX_ATTEMPTS - attempts}</span>
+          </div>
         </form>
       </div>
     </div>

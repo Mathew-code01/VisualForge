@@ -2,91 +2,60 @@
 // src/pages/Contact.jsx
 // src/pages/Contact.jsx
 // src/pages/Contact.jsx
-// src/pages/Contact.jsx
-// src/pages/Contact.jsx
-import {
-  FaEnvelope,
-  FaPhoneAlt,
-  FaInstagram,
-  FaLinkedin,
-  FaTwitter,
-} from "react-icons/fa";
+import { FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
 import ContactForm from "../components/ContactForm";
 import "../styles/pages/contact.css";
-import "../styles/theme.css";
 
 function Contact() {
   return (
     <section className="contact-page">
-      {/* Header */}
-      <div className="contact-header">
-        <h1>Let’s Collaborate</h1>
-        <p>
-          Have an idea, project, or partnership in mind?  
-          We’d love to hear from you and explore how we can create something
-          impactful together.
-        </p>
-      </div>
+      <div className="contact-container">
+        {/* Left Side: Editorial Info */}
+        <div className="contact-editorial">
+          <div className="editorial-content">
+            <span className="subtitle">Let's Connect</span>
+            <h1 className="hero-title">
+              Tell us about <br /> your <span>vision</span>.
+            </h1>
+            <p className="description">
+              Whether you're starting a new brand, looking for cinematic
+              production, or just want to say hi—our door is always open.
+            </p>
 
-      {/* Content */}
-      <div className="contact-content">
-        {/* Contact Info */}
-        <div className="contact-info">
-          <h2>Get in Touch</h2>
-          <ul>
-            <li>
-              <a href="mailto:studio@email.com">
-                <FaEnvelope className="icon" />
-                studio@email.com
-              </a>
-            </li>
-            <li>
-              <a href="tel:+2349064583027">
-                <FaPhoneAlt className="icon" />
-                +234 90 6458 3027
-              </a>
-            </li>
-          </ul>
+            <div className="contact-methods">
+              <div className="method-item">
+                <span className="method-label">Email us</span>
+                <a href="mailto:studio@visualforge.com" className="method-link">
+                  studio@visualforge.com
+                </a>
+              </div>
+              <div className="method-item">
+                <span className="method-label">Call us</span>
+                <a href="tel:+2349064583027" className="method-link">
+                  +234 90 6458 3027
+                </a>
+              </div>
+            </div>
 
-          {/* Social Links */}
-          <div className="contact-socials">
-            <h3>Connect With Us</h3>
-            <div className="social-links">
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Instagram"
-                className="social-circle"
-              >
-                <FaInstagram />
+            <div className="contact-social-row">
+              <a href="#" className="s-link">
+                Instagram
               </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="LinkedIn"
-                className="social-circle"
-              >
-                <FaLinkedin />
+              <a href="#" className="s-link">
+                LinkedIn
               </a>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Twitter"
-                className="social-circle"
-              >
-                <FaTwitter />
+              <a href="#" className="s-link">
+                Twitter
               </a>
             </div>
           </div>
         </div>
 
-        {/* Contact Form */}
-        <div className="contact-form-wrapper">
-          <h2>Send Us a Message</h2>
-          <ContactForm />
+        {/* Right Side: The Form */}
+        <div className="contact-form-section">
+          <div className="form-card">
+            <ContactForm />
+          </div>
         </div>
       </div>
     </section>

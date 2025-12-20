@@ -1,129 +1,104 @@
 /* src/styles/components/contactform.css */
 /* src/styles/components/contactform.css */
-/* ================================
-   Contact Form
-================================ */
+/* src/styles/components/contactform.css */
+/* src/styles/components/contactform.css */
+
 .contact-form {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-md);
+  gap: 45px;
+  width: 100%;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xs);
+.input-group {
+  position: relative;
+  width: 100%;
 }
 
-.form-group label {
-  font-size: var(--font-size-md);
-  font-weight: 500;
-  color: var(--color-text);
-}
-
-.contact-form input,
-.contact-form textarea {
-  padding: var(--spacing-sm) var(--spacing-md);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  font-size: var(--font-size-md);
-  color: var(--color-text);
-  background-color: var(--color-bg-alt);
-  transition: all var(--transition-fast);
-}
-
-.contact-form input:hover,
-.contact-form textarea:hover {
-  border-color: var(--color-primary);
-}
-
-.contact-form input:focus,
-.contact-form textarea:focus {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(108, 211, 255, 0.25);
-  outline: none;
-}
-
-/* Button */
-.btn {
-  background-color: var(--color-primary);
-  color: #fff;
-  font-size: var(--font-size-md);
-  font-weight: 600;
-  padding: var(--spacing-sm) var(--spacing-lg);
+.input-group input, 
+.input-group textarea {
+  width: 100%;
+  background: transparent;
   border: none;
-  border-radius: var(--radius-md);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 0;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.4s ease;
+}
+
+.input-group label {
+  position: absolute;
+  top: 12px;
+  left: 0;
+  color: rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+}
+
+/* Floating effect */
+.input-group input:focus ~ label,
+.input-group input:valid ~ label,
+.input-group textarea:focus ~ label,
+.input-group textarea:valid ~ label {
+  top: -20px;
+  font-size: 0.65rem;
+  color: var(--color-primary);
+  letter-spacing: 2px;
+}
+
+.input-group .bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--color-primary);
+  transition: width 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.input-group input:focus ~ .bar,
+.input-group textarea:focus ~ .bar {
+  width: 100%;
+}
+
+.submit-btn {
+  margin-top: 20px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #fff;
+  padding: 25px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
   cursor: pointer;
-  align-self: flex-start;
-  transition: all var(--transition-fast);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.4s ease;
+  font-size: 0.8rem;
 }
 
-.btn:hover {
-  background-color: var(--color-primary-dark);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-sm);
+.submit-btn:hover {
+  background: #fff;
+  color: #000;
+  border-color: #fff;
 }
 
-.btn:disabled {
-  background-color: var(--color-primary-dark);
-  opacity: 0.8;
-  cursor: not-allowed;
+.submit-btn:disabled {
+  opacity: 0.5;
+  cursor: wait;
 }
 
-/* Feedback */
-.form-success,
-.form-error {
-  margin-bottom: var(--spacing-sm);
-  font-size: var(--font-size-sm);
-  font-weight: 500;
-  opacity: 1;
-  transition: opacity 0.5s ease;
+.btn-arrow {
+  font-size: 1.2rem;
+  transition: transform 0.4s ease;
 }
 
-.form-success {
-  color: var(--color-success);
-}
-
-.form-error {
-  color: var(--color-error);
-}
-
-/* Fade out helper */
-.fade-out {
-  opacity: 0;
-  transition: opacity 1s ease;
-}
-
-/* Spinner */
-.spinner {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top-color: #fff;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-  vertical-align: middle;
-  margin-left: var(--spacing-xs);
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Responsive */
-@media (max-width: 480px) {
-  .contact-form input,
-  .contact-form textarea {
-    font-size: var(--font-size-sm);
-  }
-
-  .btn {
-    font-size: var(--font-size-sm);
-    padding: var(--spacing-xs) var(--spacing-md);
-    width: 100%;
-    text-align: center;
-  }
+.submit-btn:hover .btn-arrow {
+  transform: translateX(10px);
 }

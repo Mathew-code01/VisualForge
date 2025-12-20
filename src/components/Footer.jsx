@@ -1,32 +1,89 @@
 // src/components/Footer.jsx
 // src/components/Footer.jsx
 // src/components/Footer.jsx
+import { NavLink } from "react-router-dom";
+import { FiInstagram, FiTwitter, FiYoutube } from "react-icons/fi";
 import "../styles/components/footer.css";
 
 function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="nf-footer">
+    <footer className="vf-footer">
+      <div className="vf-footer-container">
+        {/* Top Section: Brand & Action */}
+        <div className="vf-footer-top">
+          <div className="vf-footer-brand">
+            <h2 className="footer-logo">VisualForge</h2>
+            <p className="footer-tagline">
+              Elevating stories through cinematic precision.
+            </p>
+          </div>
 
-      <div className="nf-footer-content">
+          <div className="vf-footer-cta">
+            <p>Ready to start a project?</p>
+            <NavLink to="/contact" className="footer-contact-link">
+              Get in touch <span className="arrow">→</span>
+            </NavLink>
+          </div>
+        </div>
 
-        {/* Footer Links (Netflix style grid) */}
-        <ul className="nf-footer-links">
-          <li><a href="/work">Work</a></li>
-          <li><a href="/about">About</a></li>
-          <li><a href="/contact">Contact</a></li>
-          <li><a href="/privacy">Privacy Policy</a></li>
-          <li><a href="/terms">Terms of Service</a></li>
-        </ul>
+        <hr className="footer-divider" />
 
-        {/* Small Credits */}
-        <p className="nf-footer-credit">
-          © {new Date().getFullYear()} VisualForge — All rights reserved.
-        </p>
-        <small className="nf-footer-madeby">
-          Crafted with care by Larry K.
-        </small>
+        {/* Middle Section: Links & Social */}
+        <div className="vf-footer-mid">
+          <nav className="footer-nav">
+            <div className="footer-nav-group">
+              <h4>Navigation</h4>
+              <ul>
+                <li>
+                  <NavLink to="/">Home</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/work">Work</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/about">About</NavLink>
+                </li>
+              </ul>
+            </div>
+
+            <div className="footer-nav-group">
+              <h4>Legal</h4>
+              <ul>
+                <li>
+                  <NavLink to="/privacy">Privacy Policy</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/terms">Terms of Service</NavLink>
+                </li>
+              </ul>
+            </div>
+          </nav>
+
+          <div className="footer-socials">
+            <a href="#" aria-label="Instagram">
+              <FiInstagram />
+            </a>
+            <a href="#" aria-label="Twitter">
+              <FiTwitter />
+            </a>
+            <a href="#" aria-label="YouTube">
+              <FiYoutube />
+            </a>
+          </div>
+        </div>
+
+        {/* Bottom Section: Copyright */}
+        <div className="vf-footer-bottom">
+          <div className="copyright">
+            © {currentYear} VisualForge Studio. All rights reserved.
+          </div>
+          <div className="credits">
+            Crafted with care by <span>Larry K.</span>
+          </div>
+        </div>
       </div>
-
     </footer>
   );
 }

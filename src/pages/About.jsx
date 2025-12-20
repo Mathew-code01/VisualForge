@@ -3,163 +3,242 @@
 // src/pages/About.jsx
 // src/pages/About.jsx
 // src/pages/About.jsx
-// src/pages/About.jsx
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useMemo } from "react";
+import {
+  FaVideo,
+  FaPalette,
+  FaBolt,
+  FaFilm,
+  FaArrowRight,
+  FaCogs,
+  FaMagic,
+  FaCheckCircle,
+} from "react-icons/fa";
+import bgVideo from "../assets/videos/bg1.mp4";
 import "../styles/pages/about.css";
-import "../styles/theme.css";
-import { FaVideo, FaPalette, FaBolt, FaFilm, FaLinkedin } from "react-icons/fa";
+
+// --- Configuration Data ---
+const PROCESS_STEPS = [
+  {
+    icon: <FaCogs />,
+    title: "Discovery",
+    desc: "Understanding your brand's DNA and project goals.",
+  },
+  {
+    icon: <FaMagic />,
+    title: "Forging",
+    desc: "The creative phase where we edit, animate, and grade.",
+  },
+  {
+    icon: <FaCheckCircle />,
+    title: "Delivery",
+    desc: "Refining every pixel until it's ready for the world.",
+  },
+];
+
+const EXPERTISE = [
+  {
+    icon: <FaVideo />,
+    title: "Cinematography",
+    desc: "Premium post-production & film editing.",
+  },
+  {
+    icon: <FaBolt />,
+    title: "Motion Design",
+    desc: "Fluid animations that capture attention.",
+  },
+  {
+    icon: <FaFilm />,
+    title: "Color Grading",
+    desc: "Scientific color science for mood & tone.",
+  },
+  {
+    icon: <FaPalette />,
+    title: "Visual Identity",
+    desc: "Branding that lives in the digital space.",
+  },
+];
 
 const About = () => {
-  const [floatingLights, setFloatingLights] = useState([]);
-  const lightsCount = 12;
+  const heroRef = useRef(null);
+
+  // Memoize light properties to prevent re-calculation on every render
+  const lights = useMemo(
+    () =>
+      Array.from({ length: 10 }).map((_, i) => ({
+        id: `light-${i}`,
+        top: Math.random() * 100,
+        left: Math.random() * 100,
+        size: 2 + Math.random() * 6,
+        duration: 10 + Math.random() * 20,
+        delay: Math.random() * 5,
+      })),
+    []
+  );
 
   useEffect(() => {
-    // Auto scroll to top when page is loaded
     window.scrollTo({ top: 0, behavior: "smooth" });
-
-    const lightsArray = Array.from({ length: lightsCount }).map(() => ({
-      id: Math.random().toString(36).substr(2, 9),
-      top: Math.random() * 100,
-      left: Math.random() * 100,
-      size: 4 + Math.random() * 8,
-      delay: Math.random() * 5,
-    }));
-    setFloatingLights(lightsArray);
-  }, []);
-
-  // Parallax scroll effect
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      document
-        .querySelectorAll(".af-about-hero .af-floating-light")
-        .forEach((light, i) => {
-          light.style.transform = `translate(${
-            Math.sin(scrollY * 0.01 + i) * 20
-          }px, ${Math.cos(scrollY * 0.01 + i) * 20}px)`;
-        });
-      const heroContent = document.querySelector(
-        ".af-about-hero .af-hero-content"
-      );
-      if (heroContent)
-        heroContent.style.transform = `translateY(${scrollY * 0.3}px)`;
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const timer = setTimeout(
+      () => heroRef.current?.classList.add("is-visible"),
+      100
+    );
+    return () => clearTimeout(timer);
   }, []);
 
   return (
-    <main className="af-about-page">
-      {/* Hero Section */}
-      <section className="af-about-hero">
-        <video
-          className="af-hero-video"
-          src="src/assets/videos/bg1.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-        />
-        <div className="af-floating-lights">
-          {floatingLights.map((light) => (
+    <main className="about-page">
+      {/* --- HERO SECTION --- */}
+      <section className="about-hero" ref={heroRef}>
+        <div className="hero-video-container">
+          <video
+            className="hero-video"
+            src={bgVideo}
+            autoPlay
+            muted
+            loop
+            playsInline
+          />
+          <div className="hero-overlay" />
+        </div>
+
+        <div className="floating-lights">
+          {lights.map((light) => (
             <span
               key={light.id}
-              className="af-floating-light"
+              className="about-light-orb"
               style={{
                 top: `${light.top}%`,
                 left: `${light.left}%`,
                 width: `${light.size}px`,
                 height: `${light.size}px`,
+                animationDuration: `${light.duration}s`,
                 animationDelay: `${light.delay}s`,
               }}
             />
           ))}
         </div>
-        <div className="af-hero-content">
-          <h1 className="af-about-title">
-            <FaVideo className="af-icon af-title-icon" /> VisualForge
+
+        <div className="hero-content">
+          <span className="badge">Digital Post-Production Studio</span>
+          <h1 className="about-title">
+            Visual<span className="accent">Forge</span>
           </h1>
-          <p className="af-about-subtitle">
-            Cinematic video edits that turn ideas into{" "}
-            <strong>visual stories</strong>.
+          <p className="about-subtitle">
+            We don't just edit video. We forge{" "}
+            <strong>cinematic experiences</strong>.
           </p>
-          <p className="af-about-tagline">Where imagination meets motion ✨</p>
         </div>
       </section>
 
-      {/* Highlights Section */}
-      <section className="af-about-highlights">
-        <div className="af-highlight">
-          <FaVideo className="af-highlight-icon" />
-          <h3>120+</h3>
-          <p>Videos Produced</p>
+      {/* --- TICKER --- */}
+      <aside className="awards-ticker">
+        <div className="ticker-track">
+          {[1, 2].map(
+            (
+              group // Double for seamless loop
+            ) => (
+              <div key={group} className="ticker-group">
+                <span>CINEMATOGRAPHY 2024</span> <span className="dot">•</span>
+                <span>BEST MOTION GRAPHICS</span> <span className="dot">•</span>
+                <span>CREATIVE EXCELLENCE</span> <span className="dot">•</span>
+              </div>
+            )
+          )}
         </div>
-        <div className="af-highlight">
-          <FaPalette className="af-highlight-icon" />
-          <h3>40+</h3>
-          <p>Design Projects</p>
-        </div>
-        <div className="af-highlight">
-          <FaBolt className="af-highlight-icon" />
-          <h3>8 yrs</h3>
-          <p>Creative Experience</p>
+      </aside>
+
+      {/* --- THE VISION --- */}
+      <section className="about-vision container">
+        <div className="vision-grid">
+          <div className="vision-image-wrapper">
+            <img
+              src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&q=80&w=2070"
+              alt="Creative Studio Setup"
+              loading="lazy"
+              onLoad={(e) => e.target.classList.add("loaded")}
+              onError={(e) => {
+                e.target.src =
+                  "https://images.unsplash.com/photo-1492691523567-6170c3295db5?q=80&w=2071"; // Fallback image
+              }}
+            />
+            <div className="experience-tag">Since 2016</div>
+          </div>
+          <article className="vision-text">
+            <h2 className="section-label">The Vision</h2>
+            <h3>
+              Bridging the gap between <span>Art</span> and{" "}
+              <span>Technology</span>.
+            </h3>
+            <p>
+              Founded on the principle of technical excellence, VisualForge
+              operates at the intersection of high-end cinematography and
+              precision motion design.
+            </p>
+            <div className="vision-stats">
+              <div className="mini-stat">
+                <strong>8+</strong> Years
+              </div>
+              <div className="mini-stat">
+                <strong>120+</strong> Projects
+              </div>
+            </div>
+          </article>
         </div>
       </section>
 
-      {/* Craft / Skills Section */}
-      <section className="af-about-craft">
-        <h2 className="af-section-title">Our Craft</h2>
-        <ul className="af-skills-list">
-          <li>
-            <FaVideo className="af-icon" /> Video Editing & Post-Production
-          </li>
-          <li>
-            <FaBolt className="af-icon" /> Motion Graphics & Animation
-          </li>
-          <li>
-            <FaFilm className="af-icon" /> Cinematic Color Grading
-          </li>
-          <li>
-            <FaPalette className="af-icon" /> UI/UX & Digital Interfaces
-          </li>
-        </ul>
+      {/* --- WORKFLOW --- */}
+      <section className="about-process bg-alt">
+        <div className="container">
+          <h2 className="section-label centered">The Workflow</h2>
+          <div className="process-grid">
+            {PROCESS_STEPS.map((step, idx) => (
+              <div key={step.title} className="process-card">
+                <span className="process-number">0{idx + 1}</span>
+                <div className="process-icon">{step.icon}</div>
+                <h4>{step.title}</h4>
+                <p>{step.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
-      {/* work CTA */}
-      <section className="af-about-portfolio-cta">
-        <h2 className="af-section-title">Curious About Our Work?</h2>
-        <p>
-          Explore our cinematic projects that bring stories to life.{" "}
-          <a href="/work" className="af-about-link">
-            Check out the Project →
-          </a>
-        </p>
+      {/* --- EXPERTISE --- */}
+      <section className="about-craft container">
+        <header className="craft-header">
+          <h2 className="section-label">Our Expertise</h2>
+          <h3 className="craft-title">Mastering the Digital Alchemy</h3>
+        </header>
+        <div className="skills-grid">
+          {EXPERTISE.map((skill) => (
+            <div key={skill.title} className="skill-item">
+              <div className="skill-icon-box">{skill.icon}</div>
+              <div className="skill-content">
+                <h4>{skill.title}</h4>
+                <p>{skill.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
 
-      {/* Connect Section */}
-      <section className="af-about-connect">
-        <h2 className="af-section-title">Let’s Connect</h2>
-        <p>
-          Interested in collaborating or exploring opportunities?{" "}
-          <a href="/contact" className="af-about-link">
-            Get in touch
-          </a>{" "}
-          or connect on{" "}
-          <a
-            href="https://www.linkedin.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="af-about-link af-linkedin-link"
-          >
-            <FaLinkedin className="af-icon" /> LinkedIn
-          </a>
-          .
-        </p>
+      {/* --- CALL TO ACTION --- */}
+      <section className="about-cta container">
+        <div className="cta-card">
+          <h2>Ready to tell your story?</h2>
+          <p>Let's collaborate on your next visual masterpiece.</p>
+          <div className="cta-group">
+            <a href="/work" className="btn-main">
+              View Archive <FaArrowRight />
+            </a>
+            <a href="/contact" className="btn-ghost">
+              Get in Touch
+            </a>
+          </div>
+        </div>
       </section>
     </main>
   );
 };
 
 export default About;
-
-
