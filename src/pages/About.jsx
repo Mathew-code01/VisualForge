@@ -3,6 +3,7 @@
 // src/pages/About.jsx
 // src/pages/About.jsx
 // src/pages/About.jsx
+// src/pages/About.jsx
 import { useEffect, useRef, useMemo } from "react";
 import {
   FaVideo,
@@ -14,7 +15,6 @@ import {
   FaMagic,
   FaCheckCircle,
 } from "react-icons/fa";
-import bgVideo from "../assets/videos/bg1.mp4";
 import "../styles/pages/about.css";
 
 // --- Configuration Data ---
@@ -59,10 +59,15 @@ const EXPERTISE = [
   },
 ];
 
+// Reliable Direct Image Links
+const aboutBgImage =
+  "https://images.pexels.com/photos/3062541/pexels-photo-3062541.jpeg?auto=compress&cs=tinysrgb&w=1920";
+const visionImage =
+  "https://images.pexels.com/photos/2510428/pexels-photo-2510428.jpeg?auto=compress&cs=tinysrgb&w=1200";
+
 const About = () => {
   const heroRef = useRef(null);
 
-  // Memoize light properties to prevent re-calculation on every render
   const lights = useMemo(
     () =>
       Array.from({ length: 10 }).map((_, i) => ({
@@ -90,13 +95,18 @@ const About = () => {
       {/* --- HERO SECTION --- */}
       <section className="about-hero" ref={heroRef}>
         <div className="hero-video-container">
-          <video
+          <img
+            src={aboutBgImage}
+            alt="Cinematic Studio"
             className="hero-video"
-            src={bgVideo}
-            autoPlay
-            muted
-            loop
-            playsInline
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              display: "block",
+              opacity: 1,
+              filter: "brightness(0.4) contrast(1.1)",
+            }}
           />
           <div className="hero-overlay" />
         </div>
@@ -133,17 +143,13 @@ const About = () => {
       {/* --- TICKER --- */}
       <aside className="awards-ticker">
         <div className="ticker-track">
-          {[1, 2].map(
-            (
-              group // Double for seamless loop
-            ) => (
-              <div key={group} className="ticker-group">
-                <span>CINEMATOGRAPHY 2024</span> <span className="dot">•</span>
-                <span>BEST MOTION GRAPHICS</span> <span className="dot">•</span>
-                <span>CREATIVE EXCELLENCE</span> <span className="dot">•</span>
-              </div>
-            )
-          )}
+          {[1, 2].map((group) => (
+            <div key={group} className="ticker-group">
+              <span>CINEMATOGRAPHY 2024</span> <span className="dot">•</span>
+              <span>BEST MOTION GRAPHICS</span> <span className="dot">•</span>
+              <span>CREATIVE EXCELLENCE</span> <span className="dot">•</span>
+            </div>
+          ))}
         </div>
       </aside>
 
@@ -152,13 +158,15 @@ const About = () => {
         <div className="vision-grid">
           <div className="vision-image-wrapper">
             <img
-              src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&q=80&w=2070"
+              src={visionImage}
               alt="Creative Studio Setup"
-              loading="lazy"
-              onLoad={(e) => e.target.classList.add("loaded")}
-              onError={(e) => {
-                e.target.src =
-                  "https://images.unsplash.com/photo-1492691523567-6170c3295db5?q=80&w=2071"; // Fallback image
+              className="vision-image"
+              style={{
+                opacity: 1,
+                display: "block",
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
               }}
             />
             <div className="experience-tag">Since 2020</div>

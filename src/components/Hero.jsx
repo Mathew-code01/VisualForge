@@ -1,55 +1,90 @@
 // src/components/Hero.jsx
 // src/components/Hero.jsx
 // src/components/Hero.jsx
-// src/components/Hero.jsx
 import { useEffect, useRef, useState } from "react";
 import useParallax from "../hooks/useParallax";
 import useIntersection from "../hooks/useIntersection";
 import "../styles/components/hero.css";
 
-const words = ["Cinematography", "Color Grading", "Motion Graphics", "Visual Storytelling"];
+const words = [
+  "Cinematography",
+  "Color Grading",
+  "Motion Graphics",
+  "Visual Storytelling",
+];
 const subtitles = [
   "High-impact visuals crafted for modern brands.",
   "Atmospheric grading that defines the mood.",
   "Motion that breathes life into static ideas.",
-  "Cinematic narratives that drive engagement."
+  "Cinematic narratives that drive engagement.",
 ];
 
-// FIX 1: Add placeholder images so the map function actually renders layers
+// High-quality, direct cinematic images
 const fallbackImages = [
-  "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80&w=2000",
-  "https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&q=80&w=2000",
-  "https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&q=80&w=2000"
-]; 
+  "https://images.pexels.com/photos/3062541/pexels-photo-3062541.jpeg?auto=compress&cs=tinysrgb&w=1920", // Camera/Cinematography
+  "https://images.pexels.com/photos/2510428/pexels-photo-2510428.jpeg?auto=compress&cs=tinysrgb&w=1920", // Studio/Coloring
+  "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=1920", // Abstract/Motion
+  "https://images.pexels.com/photos/3379934/pexels-photo-3379934.jpeg?auto=compress&cs=tinysrgb&w=1920", // Storytelling/Mood
+];
 
 export default function Hero() {
   const [index, setIndex] = useState(0);
   const heroRef = useRef(null);
   const mediaRef = useRef(null);
-  
-  // FIX 2: Default to true if you want it visible immediately on load
-  const visible = useIntersection(heroRef, "-10%") || true; 
+
+  // Intersection logic - fallback to true if the hook isn't detecting properly
+  const intersection = useIntersection(heroRef, "-10%");
+  const visible = intersection || true;
   const mediaY = useParallax(mediaRef, 0.1);
 
   useEffect(() => {
-    const id = setInterval(() => setIndex((p) => (p + 1) % words.length), 5000);
+    // Cycles every 5 seconds to match the word changes
+    const id = setInterval(() => {
+      setIndex((p) => (p + 1) % words.length);
+    }, 5000);
     return () => clearInterval(id);
   }, []);
 
   return (
-    <section className={`hero-cinematic ${visible ? "is-active" : ""}`} ref={heroRef}>
-      <div className="hero-visuals" ref={mediaRef} style={{ transform: `translate3d(0, ${mediaY}px, 0)` }}>
+    <section
+      className={`hero-cinematic ${visible ? "is-active" : ""}`}
+      ref={heroRef}
+    >
+      <div
+        className="hero-visuals"
+        ref={mediaRef}
+        style={{ transform: `translate3d(0, ${mediaY}px, 0)` }}
+      >
         {fallbackImages.map((img, i) => (
-          <div key={i} className={`hero-bg-wrapper ${index === i ? "active" : ""}`}>
-            <img src={img} alt="" className="hero-bg-image" />
+          <div
+            key={i}
+            className={`hero-bg-wrapper ${index === i ? "active" : ""}`}
+            style={{
+              opacity: index === i ? 1 : 0,
+              transition: "opacity 1.5s ease-in-out",
+              position: "absolute",
+              inset: 0,
+            }}
+          >
+            <img
+              src={img}
+              alt={words[i]}
+              className="hero-bg-image"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
           </div>
         ))}
+        {/* These layers sit on top of the images */}
         <div className="hero-overlay-dark" />
         <div className="hero-noise" />
       </div>
 
       <div className="hero-container">
-        {/* FIX 3: Add key={index} to the content wrapper to restart animations on word change */}
+        {/* Re-rendering this div on index change triggers the CSS entry animations */}
         <div className="hero-content" key={index}>
           <div className="hero-pre-title">
             <span className="dot"></span>

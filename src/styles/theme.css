@@ -112,10 +112,6 @@
 
 #root {width: 100%; overflow-x: hidden;}
 
-/* section{ max-width: 1400px;} */
-
-/* main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} */
+a.hover {
+  color: var(--color-primary-light);
+}

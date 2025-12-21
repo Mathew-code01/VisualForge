@@ -4,7 +4,7 @@
 import { useEffect, useState } from "react";
 import WorkGrid from "../components/WorkGrid";
 import ParticleBackground from "../components/ParticleBackground";
-import bgVideo from "../assets/videos/bg1.mp4";
+
 import { FaArrowDown } from "react-icons/fa";
 import "../styles/pages/work.css";
 
@@ -43,19 +43,26 @@ const FloatingLights = ({ count = 15 }) => {
   );
 };
 
+// src/pages/Work.jsx
+
+const bgImageUrl = "https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=2000&auto=format&fit=crop";
+
 const Work = () => {
   return (
     <main className="portfolio-page">
-      {/* --- HERO SECTION --- */}
       <section className="portfolio-hero">
         <div className="hero-video-wrapper">
-          <video
-            className="hero-video"
-            src={bgVideo}
-            autoPlay
-            muted
-            loop
-            playsInline
+          {/* Replaced video with the Cinematic Hero-style Image */}
+          <img 
+            src={bgImageUrl} 
+            alt="Cinematic Background" 
+            className="hero-video" 
+            style={{ 
+              objectFit: 'cover',
+              width: '100%',
+              height: '100%',
+              filter: 'brightness(0.3) contrast(1.2) saturate(0.8)' // Mimics the Hero overlay
+            }} 
           />
           <div className="hero-vignette" />
         </div>
@@ -80,6 +87,8 @@ const Work = () => {
           </a>
         </div>
       </section>
+      
+      {/* ... Rest of code */}
 
       {/* --- CONTENT SECTIONS --- */}
       <section id="featured" className="portfolio-section featured-section">

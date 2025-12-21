@@ -120,3 +120,19 @@ div.hero-content a.scroll-hint {
     justify-content: center;
     align-items: center;
 }
+
+/* src/styles/pages/work.css */
+.hero-video-wrapper {
+  background: #050505; /* Matches the dark void of the Hero section */
+  overflow: hidden;
+}
+
+.hero-video {
+  /* This animation adds a subtle 'breathing' effect like a slow video */
+  animation: slowZoom 20s infinite alternate ease-in-out;
+}
+
+@keyframes slowZoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
+}

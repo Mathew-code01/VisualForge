@@ -1,90 +1,83 @@
 // src/firebase/useStorageUsage.js
 // src/firebase/useStorageUsage.js
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 const API_BASE = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
 export default function useStorageUsage() {
-  const [usage, setUsage] = useState({
-    publitio: { usedMB: 0, limitMB: 0, percent: 0, fileCount: 0 },
-    vimeo: { usedGB: 0, totalGB: 0, percent: 0, connected: false },
-    loading: true,
-    error: null,
-    developerError: null,
+  const [data, setData] = useState({
+    publitio: { usedMB: 0, limitMB: 0, percent: 0, fileCount: 0, error: null },
+    vimeo: { usedGB: 0, totalGB: 0, percent: 0, connected: false, error: null },
   });
+  const [loading, setLoading] = useState(true);
+  const [globalError, setGlobalError] = useState(null);
 
-  useEffect(() => {
-    async function fetchUsage() {
-      try {
-        const [publitio, vimeo] = await Promise.all([
-          fetch(`${API_BASE}/api/getPublitioUsage`)
-            .then((r) => {
-              if (!r.ok) throw new Error(`Publitio API: ${r.statusText}`);
-              return r.json();
-            })
-            .catch((err) => ({
-              success: false,
-              usedMB: 0,
-              limitMB: 0,
-              percent: 0,
-              fileCount: 0,
-              error:
-                err.message ||
-                "Network/CORS error while fetching Publitio storage",
-            })),
-          getVimeoUsageSafe(),
-        ]);
+  const refetch = useCallback(async () => {
+    setLoading(true);
+    setGlobalError(null); // Reset error on new attempt
 
-        setUsage({
-          publitio,
-          vimeo,
-          loading: false,
-          error: publitio.error || vimeo.error || null,
-          developerError: null,
-        });
-      } catch (err) {
-        console.error("[STORAGE FETCH ERROR]", err);
-        setUsage({
-          publitio: { usedMB: 0, limitMB: 0, percent: 0, fileCount: 0 },
-          vimeo: { usedGB: 0, totalGB: 0, percent: 0, connected: false },
-          loading: false,
-          error: "Failed to fetch storage usage.",
-          developerError: err.message,
-        });
+    try {
+      const [publitioRes, vimeoRes] = await Promise.all([
+        // Publitio Fetch
+        fetch(`${API_BASE}/api/getPublitioUsage`)
+          .then((r) =>
+            r.ok
+              ? r.json()
+              : r
+                  .json()
+                  .then((err) => ({
+                    error: err.message || "Publitio Error",
+                    success: false,
+                  }))
+          )
+          .catch((err) => ({
+            error: `Network Error: ${err.message}`,
+            success: false,
+          })),
+
+        // Vimeo Fetch
+        getVimeoUsageSafe(),
+      ]);
+
+      setData({
+        publitio: {
+          ...publitioRes,
+          error: publitioRes.success ? null : publitioRes.error,
+        },
+        vimeo: { ...vimeoRes, error: vimeoRes.success ? null : vimeoRes.error },
+      });
+
+      // If both failed, set a global error
+      if (!publitioRes.success && !vimeoRes.success) {
+        setGlobalError("All storage services failed to connect.");
       }
+    } catch (err) {
+      console.error("Storage Hook Crash:", err);
+      setGlobalError("An unexpected error occurred while fetching usage.");
+    } finally {
+      setLoading(false);
     }
-
-    fetchUsage();
   }, []);
 
-  return usage;
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+
+  return {
+    ...data,
+    loading,
+    error: globalError,
+    refetch,
+  };
 }
 
 async function getVimeoUsageSafe() {
   try {
     const res = await fetch(`${API_BASE}/api/getVimeoUsage`);
     const data = await res.json();
-
-    if (!data.success) {
-      return {
-        connected: false,
-        usedGB: 0,
-        totalGB: 0,
-        percent: 0,
-        error: data.error || "Failed to load Vimeo storage",
-      };
-    }
-
-    return data;
+    return data.success ? data : { ...data, success: false, connected: false };
   } catch (err) {
-    console.error("VIMEO FETCH ERROR", err);
-    return {
-      connected: false,
-      usedGB: 0,
-      totalGB: 0,
-      percent: 0,
-      error: "Network error contacting backend",
-    };
+    console.log(err)
+    return { success: false, connected: false, error: "Vimeo Network Error" };
   }
 }
-

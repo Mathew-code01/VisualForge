@@ -397,6 +397,22 @@ export default function AdminUpload() {
     </div>
   );
 
+  // Add this near your other handlers (like handleFiles)
+  const handleDragOver = (e) => {
+    e.preventDefault(); // Required to allow a drop
+    e.stopPropagation();
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const files = e.dataTransfer.files;
+    if (files && files.length > 0) {
+      handleFiles(files); // Pass the dropped files to your existing logic
+    }
+  };
+
   return (
     <section className="admin-upload">
       <div className="upload-container">
@@ -479,6 +495,8 @@ export default function AdminUpload() {
               <div
                 className="drag-drop-area"
                 onClick={() => inputRef.current?.click()}
+                onDragOver={handleDragOver} // Added
+                onDrop={handleDrop} // Added
               >
                 <input
                   type="file"
