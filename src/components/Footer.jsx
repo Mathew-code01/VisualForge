@@ -14,7 +14,7 @@ function Footer() {
         {/* Top Section: Brand & Action */}
         <div className="vf-footer-top">
           <div className="vf-footer-brand">
-            <h2 className="footer-logo">VisualForge</h2>
+            <h2 className="footer-logo">BigDay-Media</h2>
             <p className="footer-tagline">
               Elevating stories through cinematic precision.
             </p>
@@ -77,7 +77,7 @@ function Footer() {
         {/* Bottom Section: Copyright */}
         <div className="vf-footer-bottom">
           <div className="copyright">
-            © {currentYear} VisualForge Studio. All rights reserved.
+            © {currentYear} BigDay-Media Studio. All rights reserved.
           </div>
           <div className="credits">
             Crafted with care by <span>Larry K.</span>

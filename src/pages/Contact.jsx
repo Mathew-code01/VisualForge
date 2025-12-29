@@ -26,7 +26,7 @@ function Contact() {
               <div className="method-item">
                 <span className="method-label">Email us</span>
                 <a href="mailto:studio@visualforge.com" className="method-link">
-                  studio@visualforge.com
+                  studio@BigDay-Media.com
                 </a>
               </div>
               <div className="method-item">

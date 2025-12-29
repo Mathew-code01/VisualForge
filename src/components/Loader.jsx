@@ -10,8 +10,8 @@ export default function Loader() {
 
       <div className="loader-content">
         <div className="loader-text-group">
-          <h1 className="loader-brand" data-text="VisualForge">
-            VisualForge
+          <h1 className="loader-brand" data-text="BigDay-Media">
+            BigDay-Media
           </h1>
           <span className="loader-status">Initializing Creative Assets...</span>
         </div>

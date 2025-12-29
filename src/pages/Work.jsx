@@ -53,16 +53,16 @@ const Work = () => {
       <section className="portfolio-hero">
         <div className="hero-video-wrapper">
           {/* Replaced video with the Cinematic Hero-style Image */}
-          <img 
-            src={bgImageUrl} 
-            alt="Cinematic Background" 
-            className="hero-video" 
-            style={{ 
-              objectFit: 'cover',
-              width: '100%',
-              height: '100%',
-              filter: 'brightness(0.3) contrast(1.2) saturate(0.8)' // Mimics the Hero overlay
-            }} 
+          <img
+            src={bgImageUrl}
+            alt="Cinematic Background"
+            className="hero-video"
+            style={{
+              objectFit: "cover",
+              width: "100%",
+              height: "100%",
+              filter: "brightness(0.3) contrast(1.2) saturate(0.8)", // Mimics the Hero overlay
+            }}
           />
           <div className="hero-vignette" />
         </div>
@@ -73,7 +73,7 @@ const Work = () => {
         </div>
 
         <div className="hero-content">
-          <span className="pre-title">VisualForge Studio — Est. 2024</span>
+          <span className="pre-title">BigDay-Media Studio — Est. 2024</span>
           <h1 className="portfolio-title">
             Creative <span className="gradient-text">Direction</span>
           </h1>
@@ -87,7 +87,7 @@ const Work = () => {
           </a>
         </div>
       </section>
-      
+
       {/* ... Rest of code */}
 
       {/* --- CONTENT SECTIONS --- */}

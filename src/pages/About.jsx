@@ -131,7 +131,7 @@ const About = () => {
         <div className="hero-content">
           <span className="badge">Digital Post-Production Studio</span>
           <h1 className="about-title">
-            Visual<span className="accent">Forge</span>
+            BigDay<span className="accent">Media</span>
           </h1>
           <p className="about-subtitle">
             We don't just edit video. We forge{" "}
@@ -178,7 +178,7 @@ const About = () => {
               <span>Technology</span>.
             </h3>
             <p>
-              Founded on the principle of technical excellence, VisualForge
+              Founded on the principle of technical excellence, BigDay-Media
               operates at the intersection of high-end cinematography and
               precision motion design.
             </p>

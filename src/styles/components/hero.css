@@ -4,18 +4,18 @@
 /* src/styles/components/hero.css */
 /* src/styles/components/hero.css */
 /* src/styles/components/hero.css */
-
 /* --- Core Section --- */
 .hero-cinematic {
   position: relative;
   width: 100%;
   height: 100vh;
-  min-height: 550px; /* Better for mobile landscape */
+  min-height: 550px;
   background: #000;
   overflow: hidden;
   display: flex;
   align-items: center;
   color: #fff;
+  margin-top: 70px;
 }
 
 /* --- Media Background Layers --- */
@@ -49,7 +49,6 @@
 .hero-overlay-dark {
   position: absolute;
   inset: 0;
-  /* Dual gradient ensures readability on all widths */
   background: 
     linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.8) 100%),
     linear-gradient(to right, rgba(0,0,0,0.5) 0%, transparent 75%);
@@ -65,10 +64,9 @@
   background-image: url("https://grainy-gradients.vercel.app/noise.svg");
 }
 
-/* --- Container & Layout (THE PLACEMENT FIX) --- */
+/* --- Container & Layout --- */
 .hero-container {
   width: 100%;
-  /* Increased to 1600px for better placement on large monitors */
   max-width: 1600px; 
   margin: 0 auto;
   padding: 0 6%;
@@ -81,10 +79,9 @@
   opacity: 1 !important; 
 }
 
-/* --- Typography --- */
+/* --- Typography & Reveal Animation --- */
 .hero-title {
   font-family: var(--font-heading, "Bebas Neue", sans-serif);
-  /* Fluid typography: grows from 2.8rem to 9.5rem based on width */
   font-size: clamp(2.8rem, 9.5vw, 9.5rem);
   line-height: 0.85;
   text-transform: uppercase;
@@ -94,12 +91,11 @@
 
 .title-row {
   display: block;
-  overflow: visible; 
+  overflow: visible; /* Keeping this visible so text never disappears */
 }
 
 .row-inner {
   display: block;
-  /* 'both' ensures the text stays visible after animating */
   animation: revealFade 0.8s cubic-bezier(0.2, 1, 0.3, 1) both;
 }
 
@@ -108,20 +104,13 @@
 }
 
 @keyframes revealFade {
-  0% { 
-    opacity: 0; 
-    transform: translateY(35px); 
-  }
-  100% { 
-    opacity: 1; 
-    transform: translateY(0); 
-  }
+  0% { opacity: 0; transform: translateY(35px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
-/* --- Bottom Row: Flexible Placement --- */
+/* --- Bottom Row --- */
 .hero-bottom-row {
   display: flex;
-  /* Pushes CTA to the far right on wide screens */
   justify-content: space-between; 
   align-items: flex-end;
   gap: 40px;
@@ -135,12 +124,12 @@
   line-height: 1.6;
 }
 
-/* --- Interaction elements --- */
+/* --- UI Elements --- */
 .hero-pre-title {
   display: flex;
   align-items: center;
   gap: 12px;
-  color: var(--color-primary);
+  color: var(--color-primary, #6cd3ff);
   letter-spacing: 3px;
   font-weight: 700;
   font-size: 0.75rem;
@@ -150,7 +139,7 @@
 .dot {
   width: 8px;
   height: 8px;
-  background: var(--color-primary);
+  background: var(--color-primary, #6cd3ff);
   border-radius: 50%;
   box-shadow: 0 0 10px var(--color-primary);
 }
@@ -184,39 +173,73 @@
   transform: scale(1.1) rotate(-45deg);
 }
 
-/* --- RESPONSIVE BREAKPOINTS --- */
+/* --- MOBILE & TABLET FIXES (THE SYMMETRY UPGRADE) --- */
 
-/* Tablet & Smaller Laptops */
 @media (max-width: 1024px) {
   .hero-bottom-row {
     flex-direction: column; 
     align-items: flex-start;
     gap: 30px;
   }
-  .hero-subtext {
-    max-width: 100%;
-  }
+  .hero-subtext { max-width: 100%; }
 }
 
-/* Mobile Phones */
-@media (max-width: 480px) {
+@media (max-width: 580px) {
   .hero-container {
-    padding: 0 8%;
+    padding: 0 10%;
+    display: flex;
+    justify-content: center;
   }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero-pre-title {
+    justify-content: center;
+    font-size: 0.65rem;
+  }
+
+  /* HIGH-END STROKE EFFECT FOR MOBILE */
   .hero-title {
-    font-size: 3.2rem;
+    font-size: clamp(3rem, 15vw, 4.5rem);
     line-height: 0.95;
+    margin: 15px 0;
   }
-  .btn-circle {
-    width: 50px;
-    height: 50px;
+
+  .primary .row-inner {
+    color: transparent !important;
+    -webkit-text-stroke: 1px var(--color-primary, #6cd3ff);
+    text-shadow: none;
+  }
+
+  .hero-bottom-row {
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .hero-subtext {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+
+  .btn-elite {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .hero-overlay-dark {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.9) 100%);
   }
 }
 
 /* Ultrawide Enhancement */
 @media (min-width: 2000px) {
-  .hero-container {
-    max-width: 1800px;
-    padding: 0 4%;
-  }
+  .hero-container { max-width: 1800px; padding: 0 4%; }
 }
