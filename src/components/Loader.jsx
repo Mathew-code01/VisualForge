@@ -6,23 +6,35 @@ import "../styles/components/loader.css";
 export default function Loader() {
   return (
     <div className="loader-wrapper">
-      <div className="loader-ambient-glow" />
+      {/* Background Cinematic Glows */}
+      <div className="ambient-light top-left" />
+      <div className="ambient-light bottom-right" />
 
       <div className="loader-content">
-        <div className="loader-text-group">
-          <h1 className="loader-brand" data-text="BigDay-Media">
-            BigDay-Media
+        <div className="brand-section">
+          <h1 className="loader-brand" data-text="BIGDAY MEDIA">
+            BIGDAY MEDIA
           </h1>
-          <span className="loader-status">Initializing Creative Assets...</span>
+          <div className="status-line">
+            <span className="status-dot"></span>
+            <span className="status-text">INITIALIZING CREATIVE ASSETS</span>
+          </div>
         </div>
 
-        <div className="loader-progress-container">
-          <div className="loader-progress-bar">
-            <div className="loader-progress-fill" />
+        <div className="progress-section">
+          <div className="progress-track">
+            <div className="progress-fill" />
           </div>
-          <div className="loader-technical-data">
-            <span>4K_RENDER_MODE</span>
-            <span>FPS: 60.0</span>
+
+          <div className="technical-metadata">
+            <div className="meta-item">
+              <span className="label">ENCODING</span>
+              <span className="value">4K_RAW</span>
+            </div>
+            <div className="meta-item">
+              <span className="label">BITRATE</span>
+              <span className="value">60.0 FPS</span>
+            </div>
           </div>
         </div>
       </div>
