@@ -1,150 +1,140 @@
 /* src/styles/pages/notfound.css */
 
-/* ============================================
-    NOT FOUND - CINEMATIC "LOST SCENE"
-============================================ */
+/* src/styles/pages/notfound.css */
 
 .notfound-root {
+  background-color: var(--color-bg);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: var(--color-bg);
-  position: relative;
-  overflow: hidden;
 }
 
-/* Background ambiance to match WorkDetail */
-.notfound-ambient-overlay {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    circle at 50% 50%, 
-    rgba(108, 211, 255, 0.08) 0%, 
-    transparent 70%
-  );
-  pointer-events: none;
-  z-index: 1;
-}
-
-.notfound-content {
+.notfound-main {
   flex: 1;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
-  z-index: 2;
-  padding: var(--spacing-4xl) var(--container-padding);
-  text-align: center;
-  max-width: var(--max-content-width);
-  margin: 0 auto;
-}
-
-/* --- Visual Elements --- */
-.notfound-visual-container {
-  margin-bottom: var(--spacing-xl);
-  position: relative;
-}
-
-.notfound-icon {
-  font-size: 80px;
-  color: var(--color-primary-dark);
-  opacity: 0.3;
-  margin-bottom: var(--spacing-md);
-}
-
-.notfound-code {
-  font-family: var(--font-heading);
-  font-size: 10rem;
-  line-height: 1;
-  color: var(--color-heading);
-  margin: 0;
-  letter-spacing: -5px;
-  opacity: 0.9;
-  position: relative;
-}
-
-/* Subtle Technical Glitch Effect */
-.notfound-code::before {
-  content: attr(data-text);
-  position: absolute;
-  left: -2px;
-  text-shadow: 2px 0 var(--color-accent);
-  top: 0;
-  color: var(--color-heading);
-  background: var(--color-bg);
+  padding: 120px 5%;
   overflow: hidden;
-  clip: rect(0, 900px, 0, 0);
-  animation: noise-anim-2 3s infinite linear alternate-reverse;
 }
 
-/* --- Text & Actions --- */
-.notfound-title {
-  font-family: var(--font-heading);
-  font-size: var(--font-size-xxl);
+/* Vibrant Blue Orb Background */
+.notfound-vibrant-orb {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40vw;
+  height: 40vw;
+  background: var(--gradient-vibrant);
+  filter: blur(120px);
+  opacity: 0.08;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.notfound-container {
+  position: relative;
+  z-index: 10;
+  max-width: 800px;
+  text-align: center;
+}
+
+/* --- The Big 404 Display --- */
+.notfound-404 {
+  font-size: clamp(8rem, 25vw, 15rem);
+  font-weight: 900;
+  line-height: 0.8;
+  color: var(--color-primary-dark);
+  letter-spacing: -10px;
+  margin-bottom: 20px;
+}
+
+.notfound-line-accent {
+  width: 80px;
+  height: 6px;
+  background: var(--color-secondary-bright);
+  margin: 0 auto 40px;
+  border-radius: 10px;
+}
+
+/* --- Typography --- */
+.notfound-tagline {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: var(--spacing-md);
-  color: var(--color-heading);
+  letter-spacing: 5px;
+  color: var(--color-secondary-bright);
+  margin-bottom: 15px;
 }
 
-.notfound-desc {
-  font-size: var(--font-size-lg);
+.notfound-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: var(--color-primary-deep);
+  font-weight: 900;
+  margin-bottom: 20px;
+}
+
+.notfound-description {
+  font-size: 1.1rem;
   color: var(--color-text-light);
   max-width: 500px;
-  margin: 0 auto var(--spacing-xxl);
-  line-height: var(--line-height-relaxed);
+  margin: 0 auto 50px;
+  line-height: 1.6;
 }
 
+/* --- Agency Pill Buttons --- */
 .notfound-actions {
   display: flex;
-  gap: var(--spacing-md);
+  gap: 20px;
   justify-content: center;
 }
 
-.back-home-cta {
-  background: var(--gradient-primary);
-  color: #000;
-  padding: 16px 32px;
-  border-radius: 4px;
+.btn-vibrant {
+  background: var(--gradient-vibrant);
+  color: #ffffff;
+  padding: 18px 36px;
+  border-radius: 50px; /* Pill Shape */
   font-weight: 700;
   display: flex;
   align-items: center;
-  gap: 10px;
-  text-decoration: none;
-  transition: var(--transition-medium);
+  gap: 12px;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-md);
 }
 
-.back-home-cta:hover {
+.btn-vibrant:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(108, 211, 255, 0.3);
+  box-shadow: var(--shadow-lg);
+  filter: brightness(1.1);
 }
 
-.secondary-cta {
-  background: var(--color-bg-soft);
-  border: 1px solid var(--color-border);
-  color: var(--color-text);
-  padding: 16px 32px;
-  border-radius: 4px;
-  text-decoration: none;
-  transition: var(--transition-fast);
+.btn-outline {
+  background: transparent;
+  color: var(--color-primary-dark);
+  border: 2px solid var(--color-border);
+  padding: 18px 36px;
+  border-radius: 50px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s ease;
 }
 
-.secondary-cta:hover {
-  background: var(--color-border);
+.btn-outline:hover {
+  background: var(--color-bg-alt);
+  border-color: var(--color-secondary-bright);
 }
 
-/* --- Glitch Keyframes --- */
-@keyframes noise-anim-2 {
-  0% { clip: rect(10px, 9999px, 50px, 0); }
-  20% { clip: rect(80px, 9999px, 90px, 0); }
-  40% { clip: rect(20px, 9999px, 60px, 0); }
-  60% { clip: rect(40px, 9999px, 80px, 0); }
-  80% { clip: rect(10px, 9999px, 100px, 0); }
-  100% { clip: rect(50px, 9999px, 70px, 0); }
-}
-
-@media (max-width: 768px) {
-  .notfound-code { font-size: 6rem; }
-  .notfound-actions { flex-direction: column; align-items: stretch; }
+/* --- Responsive --- */
+@media (max-width: 600px) {
+  .notfound-actions {
+    flex-direction: column;
+  }
+  .btn-vibrant, .btn-outline {
+    justify-content: center;
+  }
 }

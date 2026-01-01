@@ -1,7 +1,8 @@
 // src/pages/NotFound.jsx
 // src/pages/NotFound.jsx
+// src/pages/NotFound.jsx
 import { Link } from "react-router-dom";
-import { MdOutlineMovieFilter, MdWest } from "react-icons/md";
+import { FiHome, FiGrid } from "react-icons/fi"; // Switched to cleaner icons
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "../styles/pages/notfound.css";
@@ -10,36 +11,35 @@ export default function NotFound() {
   return (
     <div className="notfound-root">
       <Header />
+      
+      <main className="notfound-main">
+        {/* Vibrant Accent Orb */}
+        <div className="notfound-vibrant-orb" />
+        
+        <div className="notfound-container">
+          <div className="notfound-visual">
+            <h1 className="notfound-404">404</h1>
+            <div className="notfound-line-accent" />
+          </div>
 
-      {/* Cinematic Background Ambiance */}
-      <div className="notfound-ambient-overlay" />
+          <div className="notfound-text-content">
+            <span className="notfound-tagline">Sequence Interrupted</span>
+            <h2 className="notfound-title">Scene Not Found.</h2>
+            <p className="notfound-description">
+              The page you're looking for either never made the final cut 
+              or has been moved to a new project.
+            </p>
 
-      <main className="notfound-content">
-        <div className="notfound-visual-container">
-          <MdOutlineMovieFilter className="notfound-icon" />
-          <div className="glitch-wrapper">
-            <h1 className="notfound-code" data-text="404">
-              404
-            </h1>
+            <div className="notfound-actions">
+              <Link to="/" className="btn-vibrant">
+                <FiHome /> <span>Back to Home</span>
+              </Link>
+              <Link to="/work" className="btn-outline">
+                <FiGrid /> <span>View Portfolio</span>
+              </Link>
+            </div>
           </div>
         </div>
-
-        <section className="notfound-text-block">
-          <h2 className="notfound-title">Scene Not Found</h2>
-          <p className="notfound-desc">
-            The sequence you're looking for was either moved, deleted, or never
-            made it to the final cut.
-          </p>
-
-          <div className="notfound-actions">
-            <Link to="/" className="back-home-cta">
-              <MdWest /> <span>Return to Home</span>
-            </Link>
-            <Link to="/work" className="secondary-cta">
-              Browse Portfolio
-            </Link>
-          </div>
-        </section>
       </main>
 
       <Footer />
