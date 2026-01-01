@@ -3,44 +3,49 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>VisualForge Admin</title>
-    <link rel="icon" href="/vite.svg" type="image/svg+xml" />
+    
+    <title>BigDay Media Agency | Creative Production & Strategy</title>
+
+    <meta name="description" content="BigDay Media Agency - High-end cinematography, motion design, and brand storytelling." />
+    <meta name="author" content="BigDay Media Agency" />
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%232b75ff%22/><text y=%22.9em%22 x=%2250%25%22 font-family=%22Poppins, sans-serif%22 font-weight=%22900%22 font-size=%2270%22 text-anchor=%22middle%22 fill=%22white%22>B</text></svg>" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   </head>
   <body>
     <div id="root"></div>
 
-    <!-- React app -->
     <script type="module" src="/src/main.jsx"></script>
 
-    <!-- Firebase CDN FULL AUTH + FIRESTORE + STORAGE -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import {
-    getAuth,
-    onAuthStateChanged,
-    signInWithEmailAndPassword
-  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-  import { getStorage } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+      import {
+        getAuth,
+        onAuthStateChanged,
+        signInWithEmailAndPassword
+      } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+      import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+      import { getStorage } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyC0-F702qG8oz_igUMBNT7ZlKU99bzAmbw",
-    authDomain: "visualforge-metadata.firebaseapp.com",
-    projectId: "visualforge-metadata",
-    storageBucket: "visualforge-metadata.appspot.com",
-    messagingSenderId: "564296353308",
-    appId: "1:564296353308:web:3672ffd9c8f015d3a541d9"
-  };
+      const firebaseConfig = {
+        apiKey: "AIzaSyC0-F702qG8oz_igUMBNT7ZlKU99bzAmbw",
+        authDomain: "BigDay-Media-metadata.firebaseapp.com",
+        projectId: "visualforge-metadata",
+        storageBucket: "visualforge-metadata.appspot.com",
+        messagingSenderId: "564296353308",
+        appId: "1:564296353308:web:3672ffd9c8f015d3a541d9"
+      };
 
-  const app = initializeApp(firebaseConfig);
+      const app = initializeApp(firebaseConfig);
 
-  // Expose to window (global)
-  window.db = getFirestore(app);
-  window.storage = getStorage(app);
-  window.firebaseAuth = getAuth(app);
-  window.firebaseOnAuthStateChanged = onAuthStateChanged;
-  window.firebaseSignIn = signInWithEmailAndPassword;
-</script>
-
+      // Expose to window (global) for the Admin Dashboard
+      window.db = getFirestore(app);
+      window.storage = getStorage(app);
+      window.firebaseAuth = getAuth(app);
+      window.firebaseOnAuthStateChanged = onAuthStateChanged;
+      window.firebaseSignIn = signInWithEmailAndPassword;
+    </script>
   </body>
 </html>
