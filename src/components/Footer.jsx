@@ -2,48 +2,60 @@
 // src/components/Footer.jsx
 // src/components/Footer.jsx
 import { NavLink } from "react-router-dom";
-import { FiInstagram, FiTwitter, FiYoutube } from "react-icons/fi";
+import {
+  FiInstagram,
+  FiTwitter,
+  FiYoutube,
+  FiArrowUpRight,
+} from "react-icons/fi";
 import "../styles/components/footer.css";
 
 function Footer() {
   const currentYear = new Date().getFullYear();
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <footer className="vf-footer">
       <div className="vf-footer-container">
-        {/* Top Section: Brand & Action */}
+        {/* Top Section: High Impact CTA */}
         <div className="vf-footer-top">
           <div className="vf-footer-brand">
-            <h2 className="footer-logo">BigDay-Media</h2>
+            <h2 className="footer-logo">
+              BIGDAY<span>.</span>
+            </h2>
             <p className="footer-tagline">
-              Elevating stories through cinematic precision.
+              Premium post-production for brands that <br /> move the world.
             </p>
           </div>
 
           <div className="vf-footer-cta">
-            <p>Ready to start a project?</p>
+            <span className="cta-label">Have a vision?</span>
             <NavLink to="/contact" className="footer-contact-link">
-              Get in touch <span className="arrow">→</span>
+              Let's Create It <FiArrowUpRight className="icon-up" />
             </NavLink>
           </div>
         </div>
 
-        <hr className="footer-divider" />
-
-        {/* Middle Section: Links & Social */}
-        <div className="vf-footer-mid">
-          <nav className="footer-nav">
+        <div className="footer-main-grid">
+          {/* Navigation Groups */}
+          <div className="footer-nav-wrapper">
             <div className="footer-nav-group">
-              <h4>Navigation</h4>
+              <h4>Explore</h4>
               <ul>
                 <li>
                   <NavLink to="/">Home</NavLink>
                 </li>
                 <li>
-                  <NavLink to="/work">Work</NavLink>
+                  <NavLink to="/work">Featured Work</NavLink>
                 </li>
                 <li>
-                  <NavLink to="/about">About</NavLink>
+                  <NavLink to="/about">Our Studio</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/services">Capabilities</NavLink>
                 </li>
               </ul>
             </div>
@@ -59,28 +71,32 @@ function Footer() {
                 </li>
               </ul>
             </div>
-          </nav>
+          </div>
 
-          <div className="footer-socials">
-            <a href="#" aria-label="Instagram">
-              <FiInstagram />
-            </a>
-            <a href="#" aria-label="Twitter">
-              <FiTwitter />
-            </a>
-            <a href="#" aria-label="YouTube">
-              <FiYoutube />
-            </a>
+          {/* Contact & Socials */}
+          <div className="footer-info-group">
+            <div className="footer-socials">
+              <a href="#" aria-label="Instagram">
+                <FiInstagram />
+              </a>
+              <a href="#" aria-label="Twitter">
+                <FiTwitter />
+              </a>
+              <a href="#" aria-label="YouTube">
+                <FiYoutube />
+              </a>
+            </div>
+            <button className="back-to-top" onClick={scrollToTop}>
+              Back to Top ↑
+            </button>
           </div>
         </div>
 
-        {/* Bottom Section: Copyright */}
+        {/* Bottom Section: Clean Credits */}
         <div className="vf-footer-bottom">
-          <div className="copyright">
-            © {currentYear} BigDay-Media Studio. All rights reserved.
-          </div>
+          <div className="copyright">© {currentYear} BigDay Media Studio.</div>
           <div className="credits">
-            Crafted with care by <span>Larry K.</span>
+            Design & Direction by <span>Larry K.</span>
           </div>
         </div>
       </div>

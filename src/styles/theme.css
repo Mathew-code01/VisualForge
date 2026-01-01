@@ -2,116 +2,131 @@
 
 /* src/styles/theme.css */
 /* src/styles/theme.css */
+/* src/styles/theme.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
 /* ============================================
-      PREMIUM CINEMATIC DARK THEME
-   For Professional Video Editor Websites
+      BIGDAY MEDIA - VIBRANT CREATIVE THEME
+      Inspired by High-Energy Creative Agencies
 ============================================ */
 
 :root {
-  /* ===== Core Filmic Colors ===== */
-  --color-bg: #0a0a0c;               /* deep cinematic black */
-  --color-bg-alt: #111114;           /* elevated dark panel */
-  --color-bg-soft: #151518;          /* subtle separation */
+  /* ===== The 4-Blue Palette ===== */
+  --color-secondary-bright: #2b75ff;   /* Most Used - Vibrant */
+  --color-secondary-mid: #164bb2;      /* Most Used - Dynamic */
+  --color-primary-deep: #08008d;       /* Dark Use - Anchor */
+  --color-primary-dark: #08015c;       /* Dark Use - Professional */
 
-  --color-primary: #6cd3ff;          /* neon blue accent */
-  --color-primary-light: #8fe4ff;
-  --color-primary-dark: #3ba7d0;
+  /* ===== Layout Backgrounds ===== */
+  --color-bg: #ffffff;                 /* Clean White */
+  --color-bg-alt: #f4f7ff;             /* Very Light Blue Tint */
+  --color-bg-soft: #ffffff;
 
-  --color-accent: #ff4f6d;           /* soft red for CTAs */
-  --color-accent-light: #ff7f94;
-  --color-accent-dark: #c13a51;
+  /* ===== Brand Accents ===== */
+  --color-primary: #2b75ff;
+  --color-primary-light: #528fff;
+  --color-primary-dark: #164bb2;
+  --color-accent: #ff3b3b;             /* Example Red Accent */
 
   /* ===== Text ===== */
-  --color-text: #e6e6eb;             /* clean off-white */
-  --color-text-light: #b7b7c0;
-  --color-heading: #ffffff;          /* pure white */
-  --color-muted: #7d7d87;
+  --color-text: #08015c;               /* Deep Blue Text */
+  --color-text-light: #64748b;         /* Muted Slate */
+  --color-heading: #08008d;            /* Bold Deep Blue */
+  --color-muted: #94a3b8;
 
-  /* ===== Borders ===== */
-  --color-border: #1f1f22;
-  --color-border-dark: #0f0f11;
+  /* ===== Borders & Shadows ===== */
+  --color-border: rgba(43, 117, 255, 0.1);
+  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 10px 15px -3px rgba(43, 117, 255, 0.1);
+  --shadow-lg: 0 20px 25px -5px rgba(43, 117, 255, 0.15);
 
-  /* ===== Shadows (cinematic softness) ===== */
-  --shadow-sm: 0 2px 6px rgba(0,0,0,0.35);
-  --shadow-md: 0 8px 24px rgba(0,0,0,0.45);
-  --shadow-lg: 0 16px 40px rgba(0,0,0,0.55);
-  --shadow-xl: 0 32px 60px rgba(0,0,0,0.65);
-  --shadow-2xl: 0 48px 80px rgba(0,0,0,0.75);
-  --shadow-inner: inset 0 2px 4px rgba(255,255,255,0.05);
-
-  /* ===== Cinematic Gradient ===== */
-  --gradient-primary: linear-gradient(135deg, #6cd3ff, #3ba7d0);
-  --gradient-accent: linear-gradient(135deg, #ff4f6d, #ff7f94);
-  --gradient-dark: linear-gradient(160deg, #0a0a0c, #121214, #0a0a0c);
+  /* ===== Vibrant Gradients ===== */
+  --gradient-vibrant: linear-gradient(135deg, #2b75ff, #164bb2);
+  --gradient-deep: linear-gradient(135deg, #08008d, #08015c);
+  --gradient-mixed: linear-gradient(135deg, #2b75ff, #08008d);
 
   /* =============================
-        Spacing Scale
+        Typography (Poppins)
   ============================== */
-  --spacing-xxs: 2px;
-  --spacing-xs: 4px;
-  --spacing-sm: 8px;
-  --spacing-md: 16px;
-  --spacing-lg: 24px;
-  --spacing-xl: 40px;
-  --spacing-xxl: 64px;
-  --spacing-xxxl: 96px;
-  --spacing-4xl: 128px;
-  --spacing-5xl: 160px;
-
-  /* =============================
-           Typography
-  ============================== */
-  --font-base: "Inter", system-ui, sans-serif;
-  --font-heading: "Bebas Neue", "Clash Display", "Poppins", sans-serif;
+  --font-base: 'Poppins', sans-serif;
+  --font-heading: 'Poppins', sans-serif;
 
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-md: 1rem;
-  --font-size-lg: 1.2rem;
-  --font-size-xl: 1.8rem;
-  --font-size-xxl: 2.6rem;
-  --font-size-xxxl: 3.8rem;
-  --font-size-display: 5rem;
-
-  --line-height-tight: 1.1;
-  --line-height-normal: 1.45;
-  --line-height-relaxed: 1.7;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.5rem;
+  --font-size-xxl: 2.5rem;
+  --font-size-xxxl: 4rem;
+  --font-size-display: 5.5rem;
 
   /* =============================
-          Transitions
+        Spacing & Layout
   ============================== */
-  --transition-fast: 0.2s ease-out;
-  --transition-medium: 0.4s ease-out;
-  --transition-slow: 0.7s ease;
-  --transition-snap: cubic-bezier(0.16, 1, 0.3, 1);
-
-  /* =============================
-           Layout
-  ============================== */
-  --max-content-width: 1250px;
+  --spacing-md: 16px;
+  --spacing-lg: 32px;
+  --spacing-xl: 64px;
+  --max-content-width: 1400px;
   --container-padding: 24px;
-
-  /* =============================
-             Z-layers
-  ============================== */
-  --z-base: 1;
-  --z-dropdown: 100;
-  --z-overlay: 300;
-  --z-modal: 500;
-  --z-popover: 800;
   --z-max: 9999;
+
+  /* Transitions */
+  --transition-medium: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ============================================
-     Dark Mode (For Future Toggle Support)
-============================================ */
-[data-theme="dark"] {
-  background: var(--color-bg);
+/* Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-base);
+  background-color: var(--color-bg);
   color: var(--color-text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
-#root {width: 100%; overflow-x: hidden;}
-
-a.hover {
-  color: var(--color-primary-light);
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-heading);
 }
+
+#root { width: 100%; overflow-x: hidden; }
+
+a {
+  text-decoration: none;
+  transition: var(--transition-medium);
+}
+
+
+/* Project Pivot: "Bright Creative" Refresh
+
+1. The "BigDay Blue" Palette:
+
+    Secondary (Most Active/Vibrant): #2b75ff and #164bb2. Use these for backgrounds, buttons, and high-energy accents.
+
+    Primary (Deep/Anchor): #08008d and #08015c. Use these for text, icons, and contrast in darker sections.
+
+2. Visual Style & Layout:
+
+    Move away from "Cinematic Dark": No more black backgrounds or "editor" vibes.
+
+    The "Agency" Look: Clean, bright, and bold (Inspired by ideasdesignpro.com).
+
+    Banded Section Logic: Alternate high-energy colors with clean white sections to keep the eye moving.
+
+        Example Flow: [Vibrant Blue/Gradient] → [White] → [Deep Blue/Accent Color] → [White].
+
+    Typography: Switch everything to Poppins. It must be bold, clean, and professional.
+
+3. Key Style Changes:
+
+    Header: Shift to a light/white background with deep blue text.
+
+    Buttons: Use rounded/pill-shaped buttons with vibrant blue fills (agency style).
+
+    Content: High-quality imagery, but with brighter filters and more white space. */

@@ -4,25 +4,34 @@
 /* src/styles/pages/home.css */
 /* src/styles/pages/home.css */
 
+/* src/styles/pages/home.css */
+
 .home-page-unique {
   background-color: var(--color-bg);
-  color: var(--color-text);
 }
 
-/* --- Section Animation Base --- */
+/* --- Banded Background Logic --- */
+.bg-white { background-color: #ffffff; color: var(--color-primary-dark); }
+.bg-vibrant { 
+  background: var(--gradient-vibrant); 
+  color: #ffffff; 
+}
+.bg-deep { 
+  background: var(--color-primary-dark); 
+  color: #ffffff; 
+}
+
+/* --- Section Layout --- */
 .home-section-unique {
-  padding: 100px 0;
+  padding: clamp(80px, 10vw, 150px) 0;
   opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 1.2s var(--transition-snap), 
-              transform 1.2s var(--transition-snap);
-  will-change: transform, opacity;
+  transform: translateY(60px);
+  transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Triggered by Intersection Observer */
 .section-visible {
-  opacity: 1 !important;
-  transform: translateY(0) !important;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .home-container-unique {
@@ -31,63 +40,70 @@
   padding: 0 5%;
 }
 
-/* --- Premium Header Styling --- */
+/* --- Section Headers --- */
 .section-header-block {
-  margin-bottom: 60px;
-  position: relative;
+  margin-bottom: 80px;
 }
 
 .section-index {
-  display: block;
-  font-family: var(--font-base);
-  font-size: 0.8rem;
-  color: var(--color-primary);
+  font-size: 0.85rem;
   font-weight: 800;
-  letter-spacing: 2px;
-  margin-bottom: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--color-secondary-bright);
+  margin-bottom: 20px;
+  display: block;
 }
 
+/* White bg headers should be deep blue */
+.bg-white .section-heading-unique { color: var(--color-primary-dark); }
+/* Blue bg headers should be white */
+.bg-vibrant .section-heading-unique, 
+.bg-deep .section-heading-unique { color: #ffffff; }
+
 .section-heading-unique {
-  font-family: var(--font-heading);
-  font-size: clamp(2.5rem, 6vw, 2rem);
+  font-size: clamp(3rem, 8vw, 3.7rem);
+  font-weight: 900;
+  line-height: 0.9;
   text-transform: uppercase;
-  line-height: 1;
-  margin: 0;
+  letter-spacing: -2px;
 }
 
 .accent-line {
-  height: 2px;
+  height: 4px;
   width: 0;
-  background: var(--color-primary);
-  margin-top: 15px;
-  transition: width 1s var(--transition-snap) 0.3s;
+  background: var(--color-secondary-bright);
+  margin-top: 30px;
+  transition: width 1.2s ease 0.4s;
 }
 
 .section-visible .accent-line {
-  width: 80px;
+  width: 120px;
 }
 
-/* --- Interaction Wrapper --- */
-.grid-interaction-wrapper {
-  margin-top: 40px;
+/* --- Capabilities Band Styling --- */
+.capabilities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 60px;
 }
 
-/* --- Hero Wrapper --- */
-.home-hero-wrapper {
-  opacity: 0;
-  transition: opacity 1.5s ease;
+.cap-item h3 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 15px;
+  text-transform: uppercase;
 }
 
-.home-hero-wrapper.fade-in {
-  opacity: 1;
+.cap-item p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  max-width: 350px;
 }
 
-/* Mobile Adjustments */
+/* --- Responsive Adjustments --- */
 @media (max-width: 768px) {
-  .home-section-unique {
-    padding: 60px 0;
-  }
-  .section-heading-unique {
-    font-size: 2.5rem;
-  }
+  .home-section-unique { padding: 80px 0; }
+  .section-heading-unique { font-size: 2.7rem; }
+  .capabilities-grid { gap: 40px; }
 }

@@ -7,9 +7,8 @@ import WorkCard from "./WorkCard";
 import { getVideos } from "../firebase/uploadVideo.js";
 import "../styles/components/workgrid.css";
 
-// Separate Skeleton Component for a cleaner look
 const GridSkeleton = () => (
-  <div className="nf-row">
+  <div className="work-grid-vibrant">
     {[1, 2, 3, 4, 5, 6].map((i) => (
       <div key={i} className="work-card-skeleton" />
     ))}
@@ -17,7 +16,7 @@ const GridSkeleton = () => (
 );
 
 const WorkGrid = ({
-  title = "Featured Work",
+  title, // Removed default to let parent (Work.jsx) handle it via section-labels
   featured = false,
   enableHoverPreview = true,
 }) => {
@@ -39,9 +38,8 @@ const WorkGrid = ({
     fetchVideos();
   }, []);
 
-  // Filter logic
   const categories = useMemo(
-    () => ["All", ...new Set(allWorks.map((w) => w.category))],
+    () => ["All", ...new Set(allWorks.map((w) => w.category))].filter(Boolean),
     [allWorks]
   );
 
@@ -50,28 +48,43 @@ const WorkGrid = ({
       activeCategory === "All"
         ? allWorks
         : allWorks.filter((w) => w.category === activeCategory);
-    return featured ? works.slice(0, 8) : works;
+
+    // Sort by year descending (newest first)
+    works = [...works].sort((a, b) => (b.year || 0) - (a.year || 0));
+
+    return featured ? works.slice(0, 6) : works;
   }, [allWorks, activeCategory, featured]);
 
   return (
-    <section className="nf-section cinematic-grid-section">
-      <div className="section-header">
-        <h2 className="nf-section-title">{title}</h2>
+    <div className="work-grid-container">
+      <div className="grid-header-vibrant">
+        {title && <h2 className="grid-title">{title}</h2>}
 
-        {/* Category Filter - Essential for Premium feel */}
-        {!featured && (
-          <div className="filter-bar">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                className={`filter-btn ${
-                  activeCategory === cat ? "active" : ""
-                }`}
-                onClick={() => setActiveCategory(cat)}
-              >
-                {cat}
-              </button>
-            ))}
+        {!featured && categories.length > 1 && (
+          <div className="filter-system">
+            <span className="filter-label">Filter By:</span>
+            <div className="filter-pills">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  className={`filter-pill ${
+                    activeCategory === cat ? "active" : ""
+                  }`}
+                  onClick={() => setActiveCategory(cat)}
+                >
+                  {cat}
+                  <span className="count">
+                    (
+                    {
+                      allWorks.filter(
+                        (w) => cat === "All" || w.category === cat
+                      ).length
+                    }
+                    )
+                  </span>
+                </button>
+              ))}
+            </div>
           </div>
         )}
       </div>
@@ -79,7 +92,7 @@ const WorkGrid = ({
       {loading ? (
         <GridSkeleton />
       ) : (
-        <div className="nf-row">
+        <div className="work-grid-vibrant">
           {filteredWorks.length > 0 ? (
             filteredWorks.map((work, index) => (
               <WorkCard
@@ -90,13 +103,14 @@ const WorkGrid = ({
               />
             ))
           ) : (
-            <div className="empty-state">
-              <p>No projects found in this category.</p>
+            <div className="grid-empty-state">
+              <h3>No projects in {activeCategory}</h3>
+              <p>Check back soon for new releases.</p>
             </div>
           )}
         </div>
       )}
-    </section>
+    </div>
   );
 };
 

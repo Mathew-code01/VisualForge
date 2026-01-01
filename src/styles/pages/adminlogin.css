@@ -1,143 +1,229 @@
 /* src/styles/pages/adminlogin.css */
 
-/* Container */
+/* src/styles/pages/adminlogin.css */
+/* src/styles/pages/adminlogin.css */
+/* src/styles/pages/adminlogin.css */
+
 .admin-page-wrapper {
   min-height: 100vh;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: radial-gradient(circle at top right, rgba(108, 211, 255, 0.1), transparent),
-              radial-gradient(circle at bottom left, rgba(255, 79, 109, 0.05), transparent),
-              #0a0a0c;
-  padding: 20px;
-  padding-top: 70px;
+  background-color: var(--color-bg-alt);
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(43, 117, 255, 0.12) 0, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(22, 75, 178, 0.08) 0, transparent 50%);
+  
+  /* Pushes content down to account for your fixed Header/Navbar */
+  padding: 100px var(--container-padding) 40px; 
 }
 
-/* Glass Card */
+/* The White Card */
 .admin-glass-card {
   width: 100%;
-  max-width: 420px;
-  background: rgba(25, 25, 30, 0.6);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 24px;
-  padding: 40px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  max-width: 460px;
+  background: #ffffff;
+  border-radius: 28px;
+  padding: 50px 40px;
+  /* Stronger shadow for a 'elevated' UI feel */
+  box-shadow: 0 25px 50px -12px rgba(8, 0, 141, 0.12); 
   text-align: center;
+  border: 1px solid #ffffff;
+  position: relative;
+  z-index: 2;
 }
 
-/* Header & Logo */
-.admin-header { margin-bottom: 30px; }
+/* Header Section inside Card */
+.admin-header { margin-bottom: 40px; }
 
 .logo-ring {
-  width: 60px;
-  height: 60px;
-  margin: 0 auto 15px;
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  background: rgba(108, 211, 255, 0.1);
-  color: #6cd3ff;
-  border: 1px solid rgba(108, 211, 255, 0.3);
-  box-shadow: 0 0 20px rgba(108, 211, 255, 0.2);
+  border-radius: 20px;
+  background: var(--gradient-vibrant);
+  color: #ffffff;
+  box-shadow: 0 10px 20px rgba(43, 117, 255, 0.3);
 }
 
-.admin-header h1 { font-size: 1.8rem; color: #fff; margin-bottom: 4px; }
-.admin-header p { color: #888; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; }
+.admin-header h1 { 
+  font-size: 2.2rem; 
+  font-weight: 800;
+  color: var(--color-heading); 
+  margin-bottom: 8px; 
+  letter-spacing: -0.8px;
+}
 
-/* Form Elements */
-.admin-form { display: flex; flex-direction: column; gap: 20px; }
+.admin-header p { 
+  color: var(--color-primary-mid); 
+  font-size: 0.8rem; 
+  font-weight: 700;
+  letter-spacing: 2px; 
+  text-transform: uppercase; 
+}
+
+/* Form Styling */
+.admin-form { display: flex; flex-direction: column; gap: 24px; }
 
 .input-field { text-align: left; }
-.input-field label { display: block; font-size: 0.8rem; color: #aaa; margin-bottom: 8px; margin-left: 4px; }
+.input-field label { 
+  display: block; 
+  font-size: 0.85rem; 
+  font-weight: 700;
+  color: var(--color-primary-deep); 
+  margin-bottom: 10px; 
+  padding-left: 4px;
+}
 
 .input-field input {
   width: 100%;
-  padding: 14px 16px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  color: #fff;
-  transition: all 0.3s ease;
+  padding: 18px 20px;
+  background: #f8faff;
+  border: 2px solid #edf2f7;
+  border-radius: 16px;
+  color: var(--color-text);
+  font-family: var(--font-base);
+  font-size: 1rem;
+  transition: all 0.25s ease;
 }
 
 .input-field input:focus {
   outline: none;
-  border-color: #6cd3ff;
-  background: rgba(0, 0, 0, 0.5);
-  box-shadow: 0 0 0 4px rgba(108, 211, 255, 0.1);
+  background: #ffffff;
+  border-color: var(--color-secondary-bright);
+  box-shadow: 0 0 0 4px rgba(43, 117, 255, 0.1);
 }
 
-/* Password Group */
+/* Buttons - Visible & Vibrant */
+
+/* Primary Submit Action */
+.btn-submit {
+  width: 100%;
+  padding: 18px;
+  background: var(--color-secondary-bright);
+  border: none;
+  border-radius: 16px;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 10px;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background: var(--color-secondary-mid);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(43, 117, 255, 0.3);
+}
+
+.btn-submit:active:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+/* Verification Gate Actions */
+.gate-actions { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 14px; 
+  margin-top: 35px; 
+}
+
+.btn-primary-vibrant { 
+  background: var(--color-secondary-bright); 
+  color: #ffffff; 
+  padding: 18px; 
+  border-radius: 16px; 
+  border: none; 
+  font-weight: 700; 
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary-vibrant:hover {
+  background: var(--color-secondary-mid);
+  transform: scale(1.02);
+  box-shadow: 0 10px 20px rgba(43, 117, 255, 0.2);
+}
+
+/* Secondary/Outline Button */
+.btn-outline { 
+  background: #ffffff; 
+  color: var(--color-text-light); 
+  padding: 16px; 
+  border-radius: 16px; 
+  border: 2px solid var(--color-border); 
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+  border-color: var(--color-secondary-bright);
+  color: var(--color-secondary-bright);
+  background: rgba(43, 117, 255, 0.02);
+}
+
+/* Utility Styles */
 .password-input-container { position: relative; }
 .eye-btn {
   position: absolute;
-  right: 12px;
+  right: 18px;
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: #666;
+  color: var(--color-muted);
   cursor: pointer;
-  padding: 4px;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
 }
-
-/* Buttons */
-.btn-submit {
-  width: 100%;
-  padding: 16px;
-  background: linear-gradient(135deg, #6cd3ff, #3ba7d0);
-  border: none;
-  border-radius: 12px;
-  color: #000;
-  font-weight: 700;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.btn-submit:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(108, 211, 255, 0.3);
-}
-
-.btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
-
-/* States & Icons */
-.accent-icon { color: #6cd3ff; margin-bottom: 20px; }
-.error-icon { color: #ff4f6d; margin-bottom: 20px; }
-.text-error { color: #ff4f6d; }
+.eye-btn:hover { color: var(--color-secondary-bright); }
 
 .error-banner {
-  background: rgba(255, 79, 109, 0.1);
-  color: #ff4f6d;
-  padding: 12px;
-  border-radius: 10px;
-  border-left: 4px solid #ff4f6d;
+  background: #fff5f5;
+  color: #e53e3e;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(229, 62, 62, 0.1);
   font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-align: left;
 }
 
-.security-footer { font-size: 0.85rem; color: #666; }
-.security-footer span { color: #fff; font-weight: bold; }
-
-.timer-badge {
-  margin-top: 20px;
-  display: inline-block;
-  padding: 8px 16px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 20px;
-  color: #aaa;
+.security-footer { 
+  margin-top: 25px;
+  font-size: 0.85rem; 
+  color: var(--color-text-light); 
 }
 
-/* Gate Actions */
-.gate-actions { display: flex; flex-direction: column; gap: 12px; margin-top: 30px; }
-.btn-primary { background: #6cd3ff; color: #000; padding: 14px; border-radius: 12px; border: none; font-weight: 600; cursor: pointer; }
-.btn-outline { background: none; color: #aaa; padding: 14px; border-radius: 12px; border: 1px solid #333; cursor: pointer; }
+.security-footer span { 
+  color: var(--color-secondary-bright); 
+  font-weight: 800; 
+}
 
 /* Animations */
-.gate-anim { animation: slideUp 0.5s ease-out; }
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
+.gate-anim { animation: adminSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+@keyframes adminSlideUp {
+  from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile Adjustments */
+@media (max-width: 480px) {
+  .admin-glass-card {
+    padding: 40px 24px;
+    border-radius: 20px;
+  }
+  .admin-page-wrapper {
+    padding-top: 80px;
+  }
 }

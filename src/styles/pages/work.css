@@ -3,136 +3,351 @@
 /* src/styles/pages/portfolio.css */
 /* src/styles/pages/portfolio.css */
 /* src/styles/pages/work.css */
-.portfolio-page {
-  background-color: var(--color-bg);
-  min-height: 100vh;
+/* src/styles/pages/work.css */
+/* src/styles/pages/work.css */
+/* src/styles/pages/work.css */
+
+:root {
+  --blue-vibrant: #2b75ff;
+  --dark-void: #08015c;
+  --text-primary: #08015c;
+  --text-secondary: #64748b;
+  --white-pure: #ffffff;
+  --ease-agency: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* --- HERO --- */
-.portfolio-hero {
+.work-page-main {
+  background-color: var(--white-pure);
+  overflow-x: hidden;
+}
+
+/* --- HERO SECTION --- */
+.work-hero-standard {
+  height: 90vh;
+  min-height: 700px;
+  background: var(--dark-void);
   position: relative;
-  height: 90vh; /* Slightly taller for more impact */
   display: flex;
   align-items: center;
-  justify-content: center;
+  padding: 0 5%;
   overflow: hidden;
-  background: #000;
 }
 
-.hero-video-wrapper {
+.hero-bg-canvas {
   position: absolute;
   inset: 0;
-  z-index: 0;
-}
-
-.hero-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.4;
-}
-
-.hero-vignette {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle, transparent 20%, var(--color-bg) 100%);
   z-index: 1;
 }
 
-/* Layering Particles & Lights */
-.hero-background-effects {
+.glow-sphere {
   position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2;
+  top: -10%; right: -5%;
+  width: 50vw; height: 50vw;
+  background: radial-gradient(circle, rgba(43, 117, 255, 0.3) 0%, transparent 70%);
+  filter: blur(100px);
 }
 
-.floating-light {
-  position: absolute;
-  background: var(--color-primary);
-  border-radius: 50%;
-  filter: blur(8px);
-  opacity: 0.3;
-  animation: float-around linear infinite;
-}
-
-@keyframes float-around {
-  0% { transform: translate(0, 0); opacity: 0; }
-  20% { opacity: 0.4; }
-  80% { opacity: 0.4; }
-  100% { transform: translate(100px, -100px); opacity: 0; }
-}
-
-.hero-content {
+.work-hero-grid {
   position: relative;
-  z-index: 10;
-  text-align: center;
-  max-width: 800px;
-  padding: 0 20px;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 80px;
+  width: 100%;
 }
 
-.pre-title {
+.hero-tag {
   display: block;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
   letter-spacing: 4px;
-  color: var(--color-primary);
-  margin-bottom: 20px;
+  color: var(--blue-vibrant);
+  margin-bottom: 25px;
 }
 
-.portfolio-title {
-  font-family: var(--font-heading);
-  font-size: clamp(3rem, 10vw, 6rem);
-  line-height: 0.9;
-  color: #fff;
+.hero-display-title {
+  font-size: clamp(3rem, 7vw, 6rem);
+  font-weight: 900;
+  line-height: 0.95;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: -2px;
   margin-bottom: 30px;
 }
 
-.gradient-text {
-  background: var(--gradient-primary);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.stroke-text {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.8);
 }
 
-/* --- CONTENT SECTIONS --- */
-.portfolio-section {
-  position: relative;
-  padding: 100px 0;
-  background: var(--color-bg);
-  z-index: 11; /* Keep content above hero background */
+.hero-summary {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.6);
+  max-width: 500px;
+  line-height: 1.6;
+  margin-bottom: 40px;
 }
 
-.featured-section {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+.hero-action-btn {
+  padding: 20px 45px;
+  background: var(--blue-vibrant);
+  color: white;
+  border: none;
+  border-radius: 100px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.4s var(--ease-agency);
 }
 
-.archive-section {
-  background: var(--color-bg-alt);
+.hero-action-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(43, 117, 255, 0.4);
 }
 
-.container {
-  max-width: var(--max-content-width);
+/* Capability Cards */
+.hero-capabilities-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.capability-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 35px 25px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+}
+
+.card-index {
+  font-size: 0.8rem;
+  color: var(--blue-vibrant);
+  font-weight: 900;
+  margin-bottom: 15px;
+}
+
+.card-label {
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* --- SECTION LAYOUTS --- */
+.work-section-vibrant {
+  padding: 120px 5%;
+}
+
+.bg-offset { background-color: #f8fbff; }
+
+.section-inner {
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 var(--container-padding);
 }
 
-div.hero-content a.scroll-hint {
-    display: flex;
-    flex-direction: column-reverse;
-    justify-content: center;
-    align-items: center;
+.work-header-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 80px;
+  border-bottom: 1px solid rgba(8, 1, 92, 0.08);
+  padding-bottom: 40px;
+}
+
+.index-label {
+  font-size: 0.8rem;
+  font-weight: 900;
+  color: var(--blue-vibrant);
+  display: block;
+  margin-bottom: 10px;
+}
+
+.title-md {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--dark-void);
+}
+
+.header-context {
+  max-width: 280px;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* --- THE BIG CTA --- */
+.work-page-cta {
+  padding: 150px 5%;
+  background: var(--dark-void);
+  text-align: center;
+}
+
+.cta-headline {
+  font-size: clamp(3rem, 10vw, 8rem);
+  font-weight: 900;
+  color: white;
+  line-height: 0.9;
+  margin-bottom: 60px;
+  text-transform: uppercase;
+}
+
+.cta-headline span { color: var(--blue-vibrant); }
+
+.cta-massive-btn {
+  width: 220px; height: 220px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  transition: all 0.5s var(--ease-agency);
+  text-decoration: none;
+}
+
+.cta-massive-btn:hover {
+  background: var(--blue-vibrant);
+  border-color: var(--blue-vibrant);
+  transform: scale(1.1);
+}
+
+.cta-massive-btn span {
+  font-size: 0.9rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1100px) {
+  .work-hero-grid { grid-template-columns: 1fr; gap: 60px; }
+  .hero-display-title { font-size: 4rem; }
+}
+
+@media (max-width: 768px) {
+  .work-header-box { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .hero-capabilities-grid { grid-template-columns: 1fr; }
+  .cta-headline { font-size: 4rem; }
+  .cta-massive-btn { width: 160px; height: 160px; }
 }
 
 /* src/styles/pages/work.css */
-.hero-video-wrapper {
-  background: #050505; /* Matches the dark void of the Hero section */
+
+:root {
+  --blue-vibrant: #2b75ff;
+  --dark-void: #08015c;
+  --text-primary: #08015c;
+  --text-secondary: #64748b;
+  --white-pure: #ffffff;
+  --ease-agency: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Adjust this value to match your header's actual height */
+  --header-height: 80px; 
+}
+
+.work-page-main {
+  background-color: var(--white-pure);
+  overflow-x: hidden;
+  /* Ensure the whole page starts after the fixed header if necessary */
+  padding-top: 0; 
+}
+
+/* --- HERO SECTION --- */
+.work-hero-standard {
+  /* Use min-height to ensure content fits, and calc to account for header */
+  min-height: calc(100vh - var(--header-height));
+  height: auto; 
+  padding: var(--header-height) 5% 80px 5%; /* Top padding prevents overlap */
+  background: var(--dark-void);
+  position: relative;
+  display: flex;
+  align-items: center; /* This now centers content in the REMAINING space */
   overflow: hidden;
 }
 
-.hero-video {
-  /* This animation adds a subtle 'breathing' effect like a slow video */
-  animation: slowZoom 20s infinite alternate ease-in-out;
+.hero-bg-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
 }
 
-@keyframes slowZoom {
-  from { transform: scale(1); }
-  to { transform: scale(1.1); }
+.glow-sphere {
+  position: absolute;
+  top: 0; right: -5%;
+  width: 50vw; height: 50vw;
+  background: radial-gradient(circle, rgba(43, 117, 255, 0.3) 0%, transparent 70%);
+  filter: blur(100px);
+}
+
+.work-hero-grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 80px;
+  width: 100%;
+  max-width: 1400px; /* Standardize width */
+  margin: 0 auto;
+}
+
+/* --- Content Styling --- */
+.hero-tag {
+  display: block;
+  font-size: 0.7rem; /* Reduced slightly */
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: var(--blue-vibrant);
+  margin-bottom: 20px;
+}
+
+.hero-display-title {
+  font-size: clamp(2.5rem, 6vw, 5rem); /* Reduced slightly for cleaner look */
+  font-weight: 900;
+  line-height: 1.0;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: -2px;
+  margin-bottom: 25px;
+}
+
+.stroke-text {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.8);
+}
+
+.hero-summary {
+  font-size: 1.05rem; /* Reduced for agency clarity */
+  color: rgba(255, 255, 255, 0.6);
+  max-width: 450px;
+  line-height: 1.6;
+  margin-bottom: 40px;
+}
+
+/* ... keep your existing .hero-action-btn and capability cards ... */
+
+/* --- RESPONSIVE UPDATES --- */
+@media (max-width: 1100px) {
+  .work-hero-standard {
+    padding-top: calc(var(--header-height) + 40px);
+    height: auto;
+  }
+  .work-hero-grid { grid-template-columns: 1fr; gap: 50px; }
+  .hero-display-title { font-size: 3.5rem; }
+}
+
+@media (max-width: 768px) {
+  .work-hero-standard {
+    padding-top: calc(var(--header-height) + 20px);
+  }
+  .hero-capabilities-grid { 
+    grid-template-columns: 1fr; 
+    gap: 15px;
+  }
 }

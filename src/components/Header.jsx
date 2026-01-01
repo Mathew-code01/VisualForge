@@ -5,41 +5,44 @@ import { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import "../styles/components/header.css";
 
+const navigationItems = [
+  { name: "Discovery", path: "/", color: "#2b75ff" },
+  {
+    name: "Our Work",
+    path: "/work",
+    color: "#164bb2",
+  },
+  {
+    name: "Agency",
+    path: "/about",
+    color: "#08008d",
+  },
+];
+
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
 
-  // 1. Handle Scroll Effect
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 40);
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    // FIX: Auto-close menu if user expands the window to desktop size
+    const handleResize = () => {
+      if (window.innerWidth > 1024) setMenuOpen(false);
+    };
+
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
-  // 2. Auto-Close Menu on Screen Resize (Fixes the "Stuck" menu issue)
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 1024 && menuOpen) {
-        setMenuOpen(false);
-        document.body.style.overflow = "unset";
-      }
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [menuOpen]);
-
-  // 3. Reset menu on page navigation
   useEffect(() => {
     setMenuOpen(false);
     document.body.style.overflow = "unset";
   }, [location]);
-
-  const toggleMenu = () => {
-    const newState = !menuOpen;
-    setMenuOpen(newState);
-    document.body.style.overflow = newState ? "hidden" : "unset";
-  };
 
   return (
     <header
@@ -48,72 +51,73 @@ function Header() {
       }`}
     >
       <div className="header-container">
-        {/* Left: Logo */}
-        <NavLink to="/" className="logo-box" onClick={() => setMenuOpen(false)}>
-          <div className="logo-visual">
-            <span className="logo-dot"></span>
-            <div className="logo-line"></div>
+        <NavLink to="/" className="logo-box">
+          <div className="logo-symbol">
+            B<span>D</span>
           </div>
-          <h2 className="logo-text">BigDay-Media</h2>
+          <div className="logo-text-wrapper">
+            <span className="logo-brand">BigDay</span>
+            <span className="logo-suffix">Media Agency</span>
+          </div>
         </NavLink>
 
-        {/* Center: Desktop Navigation - Always Horizontal on Top */}
         <nav className="desktop-nav">
           <ul className="nav-list">
-            {["Home", "Work", "About"].map((item) => (
-              <li key={item}>
+            {navigationItems.map((item) => (
+              <li key={item.name}>
                 <NavLink
-                  to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+                  to={item.path}
                   className="nav-link"
+                  style={({ isActive }) => ({
+                    "--hover-color": item.color,
+                    color: isActive ? item.color : "inherit",
+                  })}
                 >
-                  <span className="link-text">{item}</span>
+                  <span className="link-text">{item.name}</span>
+                  <span
+                    className="link-dot"
+                    style={{ backgroundColor: item.color }}
+                  ></span>
                 </NavLink>
               </li>
             ))}
           </ul>
         </nav>
 
-        {/* Right: CTA + Mobile Toggle */}
         <div className="header-actions">
-          <NavLink to="/contact" className="cta-btn-header">
-            Let's Talk
+          <NavLink to="/contact" className="cta-button">
+            Launch Project
           </NavLink>
-
           <button
-            className={`nav-toggle ${menuOpen ? "active" : ""}`}
-            onClick={toggleMenu}
-            aria-label="Toggle Menu"
+            className={`burger-btn ${menuOpen ? "active" : ""}`}
+            onClick={() => setMenuOpen(!menuOpen)}
           >
-            <div className="bar"></div>
-            <div className="bar"></div>
+            <div className="burger-line line-top"></div>
+            <div className="burger-line line-bottom"></div>
           </button>
         </div>
+      </div>
 
-        {/* Fullscreen Drawer (The part that shows your background image) */}
-        <nav className={`nav-menu ${menuOpen ? "is-open" : ""}`}>
-          <div className="menu-bg-image"></div>
-          <div className="menu-overlay"></div>
-          <div className="menu-grain"></div>
-
-          <div className="menu-content">
-            <ul className="mobile-nav-list">
-              {["Home", "Work", "About", "Contact"].map((item, idx) => (
-                <li key={item} style={{ "--idx": idx }}>
-                  <NavLink
-                    to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
-                    className="mobile-link"
-                  >
-                    <span className="m-num">0{idx + 1}</span>
-                    <span className="m-text">{item}</span>
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-            <div className="menu-footer">
-              <p>© 2025 BigDay-Media Studio</p>
-              <div className="social-mini">TW / IG / BE</div>
-            </div>
-          </div>
+      <div className={`mobile-drawer ${menuOpen ? "show" : ""}`}>
+        <nav className="mobile-nav-content">
+          {navigationItems.map((item, idx) => (
+            <NavLink
+              key={item.name}
+              to={item.path}
+              className="m-link"
+              style={{ "--idx": idx, "--m-color": item.color }}
+            >
+              <span className="m-num">0{idx + 1}</span>
+              <span className="m-text">{item.name}</span>
+            </NavLink>
+          ))}
+          <NavLink
+            to="/contact"
+            className="m-link m-cta"
+            style={{ "--idx": 3 }}
+          >
+            Contact Us
+          </NavLink>
         </nav>
       </div>
     </header>

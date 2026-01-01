@@ -1,113 +1,93 @@
 // src/pages/Work.jsx
 // src/pages/Work.jsx
 // src/pages/Work.jsx
-import { useEffect, useState } from "react";
+// src/pages/Work.jsx
+// src/pages/Work.jsx
+// src/pages/Work.jsx
+import { FiArrowRight, FiArrowDown } from "react-icons/fi";
 import WorkGrid from "../components/WorkGrid";
-import ParticleBackground from "../components/ParticleBackground";
-
-import { FaArrowDown } from "react-icons/fa";
 import "../styles/pages/work.css";
 
-const FloatingLights = ({ count = 15 }) => {
-  const [lights, setLights] = useState([]);
-
-  useEffect(() => {
-    const lightsArray = Array.from({ length: count }).map(() => ({
-      id: Math.random().toString(36).substr(2, 9),
-      top: Math.random() * 100,
-      left: Math.random() * 100,
-      size: 2 + Math.random() * 10,
-      delay: Math.random() * 5,
-      duration: 10 + Math.random() * 20,
-    }));
-    setLights(lightsArray);
-  }, [count]);
-
-  return (
-    <div className="floating-lights-container">
-      {lights.map((light) => (
-        <span
-          key={light.id}
-          className="floating-light"
-          style={{
-            top: `${light.top}%`,
-            left: `${light.left}%`,
-            width: `${light.size}px`,
-            height: `${light.size}px`,
-            animationDelay: `${light.delay}s`,
-            animationDuration: `${light.duration}s`,
-          }}
-        />
-      ))}
-    </div>
-  );
-};
-
-// src/pages/Work.jsx
-
-const bgImageUrl = "https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=2000&auto=format&fit=crop";
-
 const Work = () => {
+  const services = ["Post-Production", "Color Grading", "Visual Effects", "Creative Direction"];
+
+  const scrollToFeatured = () => {
+    document.getElementById("featured").scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
-    <main className="portfolio-page">
-      <section className="portfolio-hero">
-        <div className="hero-video-wrapper">
-          {/* Replaced video with the Cinematic Hero-style Image */}
-          <img
-            src={bgImageUrl}
-            alt="Cinematic Background"
-            className="hero-video"
-            style={{
-              objectFit: "cover",
-              width: "100%",
-              height: "100%",
-              filter: "brightness(0.3) contrast(1.2) saturate(0.8)", // Mimics the Hero overlay
-            }}
-          />
-          <div className="hero-vignette" />
+    <main className="work-page-main">
+      {/* 1. HERO SECTION: High Energy */}
+      <section className="work-hero-standard">
+        <div className="hero-bg-canvas">
+          <div className="glow-sphere"></div>
+          <div className="grain-filter"></div>
         </div>
+        
+        <div className="work-hero-grid">
+          <div className="work-hero-content">
+            <span className="hero-tag">Portfolio 2026</span>
+            <h1 className="hero-display-title">
+              Visual <br /> 
+              <span className="stroke-text">Excellence</span>
+            </h1>
+            <p className="hero-summary">
+              High-end cinematic experiences for brands that demand technical
+              precision and a creative edge.
+            </p>
+            <button onClick={scrollToFeatured} className="hero-action-btn">
+              Explore Projects <FiArrowDown />
+            </button>
+          </div>
 
-        <div className="hero-background-effects">
-          <ParticleBackground className="hero-particles" />
-          <FloatingLights count={15} />
+          <div className="hero-capabilities-grid">
+            {services.map((service, index) => (
+              <div key={index} className="capability-card">
+                <span className="card-index">0{index + 1}</span>
+                <span className="card-label">{service}</span>
+              </div>
+            ))}
+          </div>
         </div>
+      </section>
 
-        <div className="hero-content">
-          <span className="pre-title">BigDay-Media Studio — Est. 2024</span>
-          <h1 className="portfolio-title">
-            Creative <span className="gradient-text">Direction</span>
-          </h1>
-          <p className="portfolio-subtitle">
-            Exploring the intersection of cinematic storytelling and technical
-            precision.
-          </p>
-          <a href="#featured" className="scroll-hint">
-            <FaArrowDown className="scroll-icon" />
-            <span>View Portfolio</span>
+      {/* 2. FEATURED PROJECTS: Standard Grid */}
+      <section className="work-section-vibrant" id="featured">
+        <div className="section-inner">
+          <header className="work-header-box">
+            <div className="header-title-group">
+              <span className="index-label">01</span>
+              <h2 className="title-md">Selected <br/> Works</h2>
+            </div>
+            <p className="header-context">
+              A curated selection of our most impactful visual stories.
+            </p>
+          </header>
+          <WorkGrid featured={true} />
+        </div>
+      </section>
+
+      {/* 3. ARCHIVE SECTION: Subtle Shift */}
+      <section className="work-section-vibrant bg-offset">
+        <div className="section-inner">
+          <header className="work-header-box">
+            <div className="header-title-group">
+              <span className="index-label">02</span>
+              <h2 className="title-md">Full <br/> Archive</h2>
+            </div>
+          </header>
+          <WorkGrid featured={false} />
+        </div>
+      </section>
+
+      {/* 4. CALL TO ACTION: The "Big Finish" */}
+      <section className="work-page-cta">
+        <div className="cta-wrap">
+          <h2 className="cta-headline">Let's build <br/> your <span>vision.</span></h2>
+          <a href="/contact" className="cta-massive-btn">
+            <span>Start a Project</span>
+            <FiArrowRight />
           </a>
-        </div>
-      </section>
-
-      {/* ... Rest of code */}
-
-      {/* --- CONTENT SECTIONS --- */}
-      <section id="featured" className="portfolio-section featured-section">
-        <div className="container">
-          <WorkGrid
-            title="Featured Selection"
-            featured={true}
-            enableHoverPreview={true}
-          />
-        </div>
-      </section>
-
-      <section className="portfolio-section archive-section">
-        <div className="container">
-          <WorkGrid
-            title="Full Archive"
-            featured={false}
-            enableHoverPreview={true}
-          />
         </div>
       </section>
     </main>

@@ -1,42 +1,45 @@
 // src/components/Loader.jsx
 // src/components/Loader.jsx
 // src/components/Loader.jsx
+// src/components/Loader.jsx
+// src/components/Loader.jsx
 import "../styles/components/loader.css";
 
 export default function Loader() {
   return (
-    <div className="loader-wrapper">
-      {/* Background Cinematic Glows */}
-      <div className="ambient-light top-left" />
-      <div className="ambient-light bottom-right" />
+    <div className="loader-vibrant-clean">
+      {/* Top and Bottom Decorative Lines */}
+      <div className="loader-border-top" />
+      <div className="loader-border-bottom" />
 
-      <div className="loader-content">
-        <div className="brand-section">
-          <h1 className="loader-brand" data-text="BIGDAY MEDIA">
-            BIGDAY MEDIA
+      <div className="loader-main-content">
+        <div className="loader-text-reveal">
+          <span className="loader-label">BigDay Media Agency</span>
+          <h1 className="loader-giant-text">
+            BIGDAY<span className="dot">.</span>
           </h1>
-          <div className="status-line">
-            <span className="status-dot"></span>
-            <span className="status-text">INITIALIZING CREATIVE ASSETS</span>
+          <div className="loader-capabilities">
+            <span>Strategy</span>
+            <span className="sep">•</span>
+            <span>Production</span>
+            <span className="sep">•</span>
+            <span>Design</span>
           </div>
         </div>
 
-        <div className="progress-section">
-          <div className="progress-track">
-            <div className="progress-fill" />
+        <div className="loader-progress-block">
+          <div className="loader-bar-bg">
+            <div className="loader-bar-active" />
           </div>
-
-          <div className="technical-metadata">
-            <div className="meta-item">
-              <span className="label">ENCODING</span>
-              <span className="value">4K_RAW</span>
-            </div>
-            <div className="meta-item">
-              <span className="label">BITRATE</span>
-              <span className="value">60.0 FPS</span>
-            </div>
+          <div className="loader-percentage">
+            <span>Loading Experience</span>
+            <span className="pct-num">99%</span>
           </div>
         </div>
+      </div>
+
+      <div className="loader-corner-info">
+        <span>EST 2024</span>
       </div>
     </div>
   );

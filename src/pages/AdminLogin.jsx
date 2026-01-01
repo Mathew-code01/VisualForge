@@ -1,5 +1,6 @@
 // src/pages/AdminLogin.jsx
 // src/pages/AdminLogin.jsx
+// src/pages/AdminLogin.jsx
 import { useState, useEffect } from "react";
 import { Eye, EyeOff, UserCheck, ShieldAlert, Lock } from "lucide-react";
 import "../styles/pages/adminlogin.css";
@@ -56,7 +57,7 @@ export default function AdminLogin() {
       }
       window.location.href = "/admin-upload";
     } catch (err) {
-      console.log(err)
+      console.log(err);
       const newAttempts = attempts + 1;
       setAttempts(newAttempts);
       setError("Invalid credentials. Access logged.");
@@ -71,28 +72,36 @@ export default function AdminLogin() {
 
   // --- Sub-Views ---
 
+  // 1. VIBRANT VERIFICATION GATE
   if (view === "gate")
     return (
       <div className="admin-page-wrapper">
         <div className="admin-glass-card gate-anim">
-          <UserCheck size={64} className="accent-icon" />
-          <h1>Verification</h1>
-          <p>Are you an authorized administrator?</p>
+          <div className="logo-ring">
+            <UserCheck size={32} />
+          </div>
+          <h1>System Access</h1>
+          <p>BigDay Media Management Portal</p>
           <div className="gate-actions">
-            <button className="btn-primary" onClick={() => setView("form")}>
-              Yes, Access Panel
+            <button
+              className="btn-primary-vibrant"
+              onClick={() => setView("form")}
+            >
+              Authorize Administrator
             </button>
             <button
               className="btn-outline"
+              style={{ color: "#fff", borderColor: "rgba(255,255,255,0.2)" }}
               onClick={() => (window.location.href = "/")}
             >
-              Exit
+              Return to Site
             </button>
           </div>
         </div>
       </div>
     );
 
+  // 2. LOCKOUT VIEW
   if (view === "locked")
     return (
       <div className="admin-page-wrapper">
@@ -105,12 +114,13 @@ export default function AdminLogin() {
       </div>
     );
 
+  // 3. MAIN LOGIN FORM (Vibrant Refresh)
   return (
     <div className="admin-page-wrapper">
-      <div className="admin-glass-card">
+      <div className="admin-glass-card gate-anim">
         <header className="admin-header">
           <div className="logo-ring">
-            <Lock size={24} />
+            <Lock size={28} />
           </div>
           <h1>Admin Portal</h1>
           <p>Secure Encrypted Session</p>
@@ -127,7 +137,7 @@ export default function AdminLogin() {
               autoFocus
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="name@visualforge.com"
+              placeholder="name@BigDay-Media.com"
             />
           </div>
 
@@ -151,8 +161,13 @@ export default function AdminLogin() {
             </div>
           </div>
 
+          {/* VIBRANT SUBMIT BUTTON */}
           <button type="submit" className="btn-submit" disabled={loading}>
-            {loading ? "Verifying..." : "Authorize Access"}
+            {loading ? (
+              <span className="loading-dots">Verifying Identity...</span>
+            ) : (
+              "Authorize Access"
+            )}
           </button>
 
           <div className="security-footer">

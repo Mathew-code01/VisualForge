@@ -4,56 +4,40 @@
 /* src/styles/components/workcard.css */
 /* src/styles/components/workcard.css */
 /* src/styles/components/workcard.css */
-/* --- Core Container --- */
-.work-card-container {
+/* src/styles/components/workcard.css */
+
+.work-card-vibrant {
   text-decoration: none;
   display: block;
-  opacity: 1; /* Visible by default for Work.jsx */
-  transform: translateY(0);
-  cursor: pointer;
   width: 100%;
-}
-
-/* --- Home Page Specific: Fade-in animation logic --- */
-.home-page-unique .work-card-container {
-  opacity: 0;
-  transform: translateY(30px);
-}
-
-.home-page-unique .section-visible .work-card-container {
-  animation: revealUp 0.8s var(--transition-snap) forwards;
-  animation-delay: var(--delay, 0s);
+  cursor: pointer;
+  background: transparent;
 }
 
 .work-card-inner {
   position: relative;
-  transition: all 0.4s var(--transition-snap);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-/* --- Thumbnail & Video Wrapper --- */
+/* --- Thumbnail & Video Container --- */
 .work-thumb-wrapper {
   position: relative;
-  aspect-ratio: 16/9;
-  background: #000;
-  border-radius: 14px;
+  aspect-ratio: 16/10; /* Slightly taller for modern look */
+  background: #f8f9fa;
+  border-radius: 4px; /* Agency style: either very sharp or very round. Sharp is "Premium" */
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: all 0.5s var(--transition-snap);
-  z-index: 1;
+  transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .main-thumb {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 1.2s var(--transition-snap), filter 0.5s ease;
-  display: block;
+  transition: transform 1.2s ease, filter 0.6s ease;
 }
 
-.main-thumb.hidden { opacity: 0; }
-.main-thumb.visible { opacity: 1; }
-
-/* --- HOVER VIDEO FIX --- */
 .hover-video {
   position: absolute;
   inset: 0;
@@ -61,94 +45,149 @@
   height: 100%;
   object-fit: cover;
   opacity: 0;
-  transition: opacity 0.6s ease;
-  z-index: 2; /* Sits above thumbnail */
-  pointer-events: none;
+  transition: opacity 0.5s ease;
+  z-index: 2;
 }
 
 .hover-video.active {
-  opacity: 1 !important;
-  visibility: visible !important;
+  opacity: 1;
 }
 
-/* --- UI Overlay Layer --- */
-.card-ui-layer {
+/* --- The "Bright" Overlay --- */
+.card-overlay-vibrant {
   position: absolute;
   inset: 0;
   z-index: 5;
-  pointer-events: none;
+  background: rgba(43, 117, 255, 0.1); /* Subtle brand tint */
+  backdrop-filter: blur(0px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 15px;
+  padding: 20px;
   opacity: 0;
   transition: all 0.4s ease;
 }
 
-.card-ui-layer.active { opacity: 1; }
-
-.expand-indicator {
-  width: 40px;
-  height: 40px;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: auto;
+.work-card-vibrant:hover .card-overlay-vibrant {
+  opacity: 1;
+  backdrop-filter: blur(4px);
 }
 
-.bottom-info {
-  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
-  margin: -15px;
-  padding: 30px 15px 15px;
-}
-
-.click-hint {
-  color: #fff;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  font-weight: 600;
-}
-
-/* --- Hover Effects --- */
-.work-card-container:hover .work-thumb-wrapper {
-  transform: scale(1.02);
-  border-color: var(--color-primary);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-}
-
-.work-card-container:hover .main-thumb {
-  filter: brightness(0.5) blur(2px);
-}
-
-/* --- Meta Data --- */
-.work-card-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 5px 5px;
-}
-
-.work-card-title {
-  font-size: 1.1rem;
-  color: #fff;
-  margin: 0 0 5px 0;
-}
-
-.tag-row {
+.overlay-badge {
+  background: #fff;
+  color: var(--color-primary-dark);
+  padding: 8px 14px;
+  border-radius: 50px;
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.75rem;
+  width: fit-content;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transform: translateY(-10px);
+  transition: transform 0.4s ease;
 }
 
-.work-card-tag { color: var(--color-primary); font-weight: 600; }
-.project-year { color: rgba(255,255,255,0.4); }
+.work-card-vibrant:hover .overlay-badge {
+  transform: translateY(0);
+}
 
-@keyframes revealUp {
-  to { opacity: 1; transform: translateY(0); }
+.view-case-btn {
+  background: var(--color-primary-dark);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  transform: translateY(10px);
+  transition: transform 0.4s ease;
+}
+
+.work-card-vibrant:hover .view-case-btn {
+  transform: translateY(0);
+}
+
+/* --- Metadata Styles --- */
+.work-card-info {
+  padding: 0 5px;
+}
+
+.info-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.card-category {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-secondary-bright);
+}
+
+.card-year {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--color-muted);
+}
+
+.info-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.card-title-text {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-primary-dark);
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+
+.arrow-circle {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: var(--color-primary-dark);
+  transition: all 0.3s ease;
+}
+
+/* --- Global Hover States --- */
+.work-card-vibrant:hover .work-thumb-wrapper {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 60px rgba(8, 1, 92, 0.1);
+}
+
+.work-card-vibrant:hover .arrow-circle {
+  background: var(--color-secondary-bright);
+  border-color: var(--color-secondary-bright);
+  color: #fff;
+  transform: rotate(45deg);
+}
+
+.work-card-vibrant:hover .main-thumb {
+  transform: scale(1.05);
+}
+
+/* Loader Spin */
+.spin {
+  animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }

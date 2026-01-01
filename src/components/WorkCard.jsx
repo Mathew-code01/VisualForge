@@ -5,7 +5,7 @@
 // src/components/WorkCard.jsx
 import { Link } from "react-router-dom";
 import { FaSpinner } from "react-icons/fa";
-import { MdFullscreen, MdArrowForward } from "react-icons/md"; // Cleaner icons
+import { FiArrowUpRight, FiPlay } from "react-icons/fi"; // More modern, thinner icons
 import { useState, useRef } from "react";
 import "../styles/components/workcard.css";
 
@@ -15,7 +15,7 @@ const WorkCard = ({ work, index, enableHoverPreview }) => {
   const [isHovering, setIsHovering] = useState(false);
   const videoRef = useRef(null);
 
-  const videoSrc = work.url; 
+  const videoSrc = work.url;
   const isVimeo = videoSrc?.includes("vimeo.com");
 
   const handleMouseEnter = () => {
@@ -36,19 +36,17 @@ const WorkCard = ({ work, index, enableHoverPreview }) => {
   return (
     <Link
       to={`/work/${work.id}`}
-      className="work-card-container"
+      className="work-card-vibrant"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       style={{ "--delay": `${index * 0.1}s` }}
     >
       <div className="work-card-inner">
         <div className="work-thumb-wrapper">
-          
-          {/* Main Loader */}
+          {/* Main Loader / Shimmer */}
           {!imageLoaded && (
-            <div className="card-loader-overlay">
-              <div className="shimmer-effect"></div>
-              <FaSpinner className="spinner-icon" />
+            <div className="card-loader-vibrant">
+              <div className="shimmer-bar"></div>
             </div>
           )}
 
@@ -67,41 +65,37 @@ const WorkCard = ({ work, index, enableHoverPreview }) => {
               loop
               playsInline
               preload="metadata"
-              crossOrigin="anonymous" 
+              className={`hover-video ${
+                isHovering && videoReady ? "active" : ""
+              }`}
               onLoadedData={() => setVideoReady(true)}
-              className={`hover-video ${isHovering && videoReady ? "active" : ""}`}
             />
           )}
 
-          {/* New Overlay UI: Top-right indicator and bottom title fade */}
-          <div className={`card-ui-layer ${isHovering ? "active" : ""}`}>
-            <div className="top-actions">
-              <div className="expand-indicator">
-                {isHovering && !videoReady && !isVimeo ? (
-                  <FaSpinner className="spinner-icon mini" />
-                ) : (
-                  <MdFullscreen className="expand-icon" />
-                )}
-              </div>
+          {/* Interactive Overlay */}
+          <div className={`card-overlay-vibrant ${isHovering ? "active" : ""}`}>
+            <div className="overlay-badge">
+              {videoReady ? <FiPlay /> : <FaSpinner className="spin" />}
+              <span>{videoReady ? "Preview" : "Loading"}</span>
             </div>
-            
-            <div className="bottom-info">
-               <span className="click-hint">View Case Study</span>
+            <div className="view-case-btn">
+              <span>View Case Study</span>
+              <FiArrowUpRight />
             </div>
           </div>
         </div>
 
-        <div className="work-card-meta">
-          <div className="meta-left">
-            <h3 className="work-card-title">{work.title}</h3>
-            <div className="tag-row">
-                <span className="work-card-tag">{work.category}</span>
-                <span className="dot">•</span>
-                <span className="project-year">{work.year || "2025"}</span>
-            </div>
+        {/* Metadata: Clean & High-Contrast */}
+        <div className="work-card-info">
+          <div className="info-top">
+            <span className="card-category">{work.category}</span>
+            <span className="card-year">{work.year || "2025"}</span>
           </div>
-          <div className="meta-right">
-             <MdArrowForward className="meta-arrow" />
+          <div className="info-bottom">
+            <h3 className="card-title-text">{work.title}</h3>
+            <div className="arrow-circle">
+              <FiArrowUpRight />
+            </div>
           </div>
         </div>
       </div>

@@ -11,67 +11,53 @@ import "../styles/pages/home.css";
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
-  const [animateHero, setAnimateHero] = useState(false);
   const scrollRefs = useRef([]);
 
-  // 1. Initial Loader logic
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 1500);
     return () => clearTimeout(timer);
   }, []);
 
-  // 2. Animation Logic
   useEffect(() => {
     if (loading) return;
 
-    // Small delay to ensure DOM is painted before observing
-    const timeout = setTimeout(() => {
-      setAnimateHero(true);
-
-      const observerOptions = {
-        threshold: 0.1,
-        rootMargin: "0px 0px -50px 0px",
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("section-visible");
-          }
-        });
-      }, observerOptions);
-
-      scrollRefs.current.forEach((ref) => {
-        if (ref) observer.observe(ref);
+    const observerOptions = {
+      threshold: 0.15,
+      rootMargin: "0px 0px -100px 0px",
+    };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("section-visible");
+        }
       });
+    }, observerOptions);
 
-      return () => observer.disconnect();
-    }, 100);
-
-    return () => clearTimeout(timeout);
+    scrollRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+    return () => observer.disconnect();
   }, [loading]);
 
   if (loading) return <Loader />;
 
   return (
     <main className="home-page-unique">
-      {/* Hero Section */}
-      <section
-        id="hero"
-        className={`home-hero-wrapper ${animateHero ? "fade-in" : ""}`}
-      >
-        <Hero />
-      </section>
+      {/* SECTION 0: HERO (Always Vibrant) */}
+      <Hero />
 
-      {/* Featured Section */}
+      {/* SECTION 1: FEATURED WORK (White Band) */}
       <section
-        className="home-section-unique"
+        className="home-section-unique bg-white"
         ref={(el) => (scrollRefs.current[0] = el)}
       >
         <div className="home-container-unique">
           <header className="section-header-block">
-            <span className="section-index">01</span>
-            <h2 className="section-heading-unique">Featured Work</h2>
+            <span className="section-index">01 — Selection</span>
+            <h2 className="section-heading-unique">
+              Featured <br />
+              Creative
+            </h2>
             <div className="accent-line"></div>
           </header>
           <div className="grid-interaction-wrapper">
@@ -80,15 +66,45 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Full Collection Section */}
+      {/* SECTION 2: CAPABILITIES (Vibrant Blue Band) */}
       <section
-        className="home-section-unique"
+        className="home-section-unique bg-vibrant"
         ref={(el) => (scrollRefs.current[1] = el)}
       >
         <div className="home-container-unique">
+          <div className="capabilities-grid">
+            <div className="cap-item">
+              <h3>Post-Production</h3>
+              <p>
+                High-end editing that turns raw footage into cinematic stories.
+              </p>
+            </div>
+            <div className="cap-item">
+              <h3>Visual Media</h3>
+              <p>
+                Dynamic motion graphics and visual effects for modern brands.
+              </p>
+            </div>
+            <div className="cap-item">
+              <h3>Color Grading</h3>
+              <p>Setting the mood with industry-standard color science.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 3: FULL COLLECTION (White Band) */}
+      <section
+        className="home-section-unique bg-white"
+        ref={(el) => (scrollRefs.current[2] = el)}
+      >
+        <div className="home-container-unique">
           <header className="section-header-block">
-            <span className="section-index">02</span>
-            <h2 className="section-heading-unique">Full Collection</h2>
+            <span className="section-index">02 — Archive</span>
+            <h2 className="section-heading-unique">
+              Full <br />
+              Collection
+            </h2>
             <div className="accent-line"></div>
           </header>
           <div className="grid-interaction-wrapper">
@@ -97,10 +113,10 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Contact Section */}
+      {/* SECTION 4: CONTACT (Deep Anchor Band) */}
       <section
-        className="home-section-unique"
-        ref={(el) => (scrollRefs.current[2] = el)}
+        className="home-section-unique bg-deep"
+        ref={(el) => (scrollRefs.current[3] = el)}
       >
         <Contact />
       </section>
