@@ -1,0 +1,120 @@
+/* src/styles/components/trustedby.css */
+
+/* src/styles/components/trustedby.css */
+
+.trusted-by-section {
+  background-color: var(--color-bg);
+  padding: 100px 0;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+}
+
+/* The Label: Small, Bold, Editorial */
+.trusted-label {
+  display: block;
+  text-align: center;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  color: var(--color-secondary-bright);
+  margin-bottom: 60px;
+  opacity: 0.9;
+}
+
+/* The Marquee Container */
+.marquee-wrapper {
+  display: flex;
+  position: relative;
+  width: 100%;
+  /* This creates the 'fading out' effect on the left and right sides */
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 20%,
+    black 80%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 20%,
+    black 80%,
+    transparent 100%
+  );
+}
+
+.marquee-content {
+  display: flex;
+  gap: 120px; /* Wide spacing for a premium feel */
+  animation: scrollMarquee 40s linear infinite; /* Slower for high-end look */
+  align-items: center;
+  will-change: transform;
+}
+
+/* The Icons */
+.brand-logo-item {
+  font-size: 4rem;
+  color: var(--color-primary-dark);
+  opacity: 0.25;
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  filter: grayscale(1);
+}
+
+/* Hover Effect: Glow & Brand Color */
+.brand-logo-item:hover {
+  opacity: 1;
+  color: var(--color-secondary-bright);
+  transform: scale(1.15) translateY(-5px);
+  filter: grayscale(0) drop-shadow(0 10px 15px rgba(43, 117, 255, 0.2));
+}
+
+/* Small detail: Tooltip names */
+.brand-name-tooltip {
+  margin-top: 15px;
+  font-size: 0.65rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.4s ease;
+}
+
+.brand-logo-item:hover .brand-name-tooltip {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Animation Loop */
+@keyframes scrollMarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Smooth stop on hover: Makes it interactive */
+.marquee-wrapper:hover .marquee-content {
+  animation-play-state: paused;
+}
+
+/* Responsive Scaling */
+@media (max-width: 1024px) {
+  .brand-logo-item { font-size: 3rem; }
+  .marquee-content { gap: 80px; }
+}
+
+@media (max-width: 600px) {
+  .trusted-by-section { padding: 60px 0; }
+  .brand-logo-item { font-size: 2.5rem; }
+  .marquee-content { gap: 50px; }
+}
