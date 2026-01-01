@@ -5,15 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <title>BigDay Media Agency | Creative Production & Strategy</title>
-
-    <meta name="description" content="BigDay Media Agency - High-end cinematography, motion design, and brand storytelling." />
+    <meta name="title" content="BigDay Media Agency | Creative Production & Strategy" />
+    <meta name="description" content="A high-end creative agency specializing in cinematic production, precision motion design, and digital storytelling. Forging visual alchemy in Lagos and beyond." />
     <meta name="author" content="BigDay Media Agency" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://bigdaymedia.agency/" />
+    <meta property="og:title" content="BigDay Media Agency | Creative Production" />
+    <meta property="og:description" content="Forging unforgettable brand stories through high-end cinematography and precision motion design." />
+    <meta property="og:image" content="https://images.pexels.com/photos/3062541/pexels-photo-3062541.jpeg?auto=compress&cs=tinysrgb&w=1200" />
+
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://bigdaymedia.agency/" />
+    <meta property="twitter:title" content="BigDay Media Agency | Creative Production" />
+    <meta property="twitter:description" content="Forging unforgettable brand stories through high-end cinematography and precision motion design." />
+    <meta property="twitter:image" content="https://images.pexels.com/photos/3062541/pexels-photo-3062541.jpeg?auto=compress&cs=tinysrgb&w=1200" />
+
+    <meta name="theme-color" content="#2b75ff" />
 
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%232b75ff%22/><text y=%22.9em%22 x=%2250%25%22 font-family=%22Poppins, sans-serif%22 font-weight=%22900%22 font-size=%2270%22 text-anchor=%22middle%22 fill=%22white%22>B</text></svg>" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   </head>
+  
   <body>
     <div id="root"></div>
 
@@ -40,7 +56,7 @@
 
       const app = initializeApp(firebaseConfig);
 
-      // Expose to window (global) for the Admin Dashboard
+      // Expose to window (global) for the Admin Dashboard and App Logic
       window.db = getFirestore(app);
       window.storage = getStorage(app);
       window.firebaseAuth = getAuth(app);
