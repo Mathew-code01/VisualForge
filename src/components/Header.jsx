@@ -1,22 +1,15 @@
 // src/components/Header.jsx
 // src/components/Header.jsx
 // src/components/Header.jsx
+// src/components/Header.jsx
 import { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import "../styles/components/header.css";
 
 const navigationItems = [
-  { name: "Discovery", path: "/", color: "#2b75ff" },
-  {
-    name: "Our Work",
-    path: "/work",
-    color: "#164bb2",
-  },
-  {
-    name: "Agency",
-    path: "/about",
-    color: "#08008d",
-  },
+  { name: "Discovery", path: "/" },
+  { name: "Our Work", path: "/work" },
+  { name: "Agency", path: "/about" },
 ];
 
 function Header() {
@@ -26,10 +19,7 @@ function Header() {
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
-    // FIX: Auto-close menu if user expands the window to desktop size
-    const handleResize = () => {
-      if (window.innerWidth > 1024) setMenuOpen(false);
-    };
+    const handleResize = () => { if (window.innerWidth > 1024) setMenuOpen(false); };
 
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("resize", handleResize);
@@ -45,16 +35,10 @@ function Header() {
   }, [location]);
 
   return (
-    <header
-      className={`main-header ${scrolled ? "is-scrolled" : ""} ${
-        menuOpen ? "menu-active" : ""
-      }`}
-    >
+    <header className={`main-header ${scrolled ? "is-scrolled" : ""} ${menuOpen ? "menu-active" : ""}`}>
       <div className="header-container">
         <NavLink to="/" className="logo-box">
-          <div className="logo-symbol">
-            B<span>D</span>
-          </div>
+          <div className="logo-symbol">B<span>D</span></div>
           <div className="logo-text-wrapper">
             <span className="logo-brand">BigDay</span>
             <span className="logo-suffix">Media Agency</span>
@@ -65,19 +49,9 @@ function Header() {
           <ul className="nav-list">
             {navigationItems.map((item) => (
               <li key={item.name}>
-                <NavLink
-                  to={item.path}
-                  className="nav-link"
-                  style={({ isActive }) => ({
-                    "--hover-color": item.color,
-                    color: isActive ? item.color : "inherit",
-                  })}
-                >
+                <NavLink to={item.path} className="nav-link">
                   <span className="link-text">{item.name}</span>
-                  <span
-                    className="link-dot"
-                    style={{ backgroundColor: item.color }}
-                  ></span>
+                  <span className="link-dot"></span>
                 </NavLink>
               </li>
             ))}
@@ -85,13 +59,8 @@ function Header() {
         </nav>
 
         <div className="header-actions">
-          <NavLink to="/contact" className="cta-button">
-            Launch Project
-          </NavLink>
-          <button
-            className={`burger-btn ${menuOpen ? "active" : ""}`}
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
+          <NavLink to="/contact" className="cta-button">Launch Project</NavLink>
+          <button className={`burger-btn ${menuOpen ? "active" : ""}`} onClick={() => setMenuOpen(!menuOpen)}>
             <div className="burger-line line-top"></div>
             <div className="burger-line line-bottom"></div>
           </button>
@@ -100,24 +69,12 @@ function Header() {
 
       <div className={`mobile-drawer ${menuOpen ? "show" : ""}`}>
         <nav className="mobile-nav-content">
-          {navigationItems.map((item, idx) => (
-            <NavLink
-              key={item.name}
-              to={item.path}
-              className="m-link"
-              style={{ "--idx": idx, "--m-color": item.color }}
-            >
-              <span className="m-num">0{idx + 1}</span>
+          {navigationItems.map((item) => (
+            <NavLink key={item.name} to={item.path} className="m-link">
               <span className="m-text">{item.name}</span>
             </NavLink>
           ))}
-          <NavLink
-            to="/contact"
-            className="m-link m-cta"
-            style={{ "--idx": 3 }}
-          >
-            Contact Us
-          </NavLink>
+          <NavLink to="/contact" className="m-link m-cta">Get in Touch</NavLink>
         </nav>
       </div>
     </header>

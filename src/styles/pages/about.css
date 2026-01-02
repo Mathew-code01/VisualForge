@@ -74,7 +74,7 @@
   font-weight: 800;
   line-height: 1.1;
   color: #ffffff !important;
-  text-transform: uppercase;
+
   margin-bottom: 40px;
   letter-spacing: -0.02em;
 }
@@ -272,12 +272,12 @@
 }
 
 .cta-huge-text {
-  font-size: clamp(2.5rem, 8vw, 4rem);
+  font-size: clamp(2.2rem, 8vw, 3.2rem);
   font-weight: 800;
   color: var(--color-primary-dark);
   line-height: 1.1;
   margin-bottom: 25px;
-  text-transform: uppercase;
+  
 }
 
 .cta-sub {
@@ -331,4 +331,107 @@
   .workflow-container { grid-template-columns: 1fr; }
   .image-float-card { position: relative; bottom: 0; right: 0; margin-top: 20px; width: fit-content; }
   .cta-action-group { flex-direction: column; gap: 20px; }
+}
+
+/* --- Process Grid: Landscape & Minimalist --- */
+.process-grid-elite {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 60px;
+}
+
+.process-card-landscape {
+  position: relative;
+  height: 300px; /* Reduced height for landscape UI look */
+  overflow: hidden;
+  background: #0a0a0a; /* Fallback: Black background if image fails */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 35px;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.process-image-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.process-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Vital: prevents image collapse */
+  display: block;
+  opacity: 0.3; /* Muted aesthetic */
+  filter: grayscale(100%);
+  transition: all 1s ease;
+}
+
+.process-overlay {
+  position: absolute;
+  inset: 0;
+  /* High-end gradient: Blue-tinted dark to clear */
+  background: linear-gradient(
+    to bottom,
+    rgba(8, 1, 92, 0) 0%,
+    rgba(8, 1, 92, 0.95) 100%
+  );
+  z-index: 2;
+}
+
+.process-content {
+  position: relative;
+  z-index: 3;
+  transform: translateY(20px);
+  transition: transform 0.5s ease;
+}
+
+.p-card-title {
+  color: #ffffff !important;
+  font-size: 1.15rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 10px;
+}
+
+.p-card-desc {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+/* --- Sophisticated Interactions --- */
+.process-card-landscape:hover {
+  transform: translateY(-5px);
+  border-color: #2b75ff; /* Brand Blue Highlight */
+}
+
+.process-card-landscape:hover .process-image-wrapper img {
+  opacity: 0.6;
+  filter: grayscale(0%);
+  transform: scale(1.08);
+}
+
+.process-card-landscape:hover .process-content {
+  transform: translateY(0);
+}
+
+.process-card-landscape:hover .p-card-desc {
+  opacity: 1;
+}
+
+/* Mobile Polish */
+@media (max-width: 1024px) {
+  .process-grid-elite { grid-template-columns: 1fr; }
+  .process-card-landscape { height: 260px; }
 }

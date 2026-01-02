@@ -4,6 +4,7 @@
 /* src/styles/components/header.css */
 
 /* src/styles/components/header.css */
+/* src/styles/components/header.css */
 
 /* --- Main Header Container --- */
 .main-header {
@@ -12,14 +13,14 @@
   left: 0;
   width: 100%;
   z-index: 9999;
-  padding: 1.5rem 0;
+  padding: 1.2rem 0; /* Reduced for elite feel */
   background: #ffffff;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .main-header.is-scrolled {
-  padding: 0.8rem 0;
-  box-shadow: 0 10px 30px rgba(8, 1, 92, 0.05);
+  padding: 0.7rem 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
 }
 
 .header-container {
@@ -33,7 +34,7 @@
   z-index: 101;
 }
 
-/* --- Agency Logo Stacking Logic --- */
+/* --- Agency Logo Styling --- */
 .logo-box {
   display: flex;
   align-items: center;
@@ -43,16 +44,16 @@
 }
 
 .logo-symbol {
-  width: 45px;
-  height: 45px;
+  width: 42px;
+  height: 42px;
   background: var(--color-primary-dark);
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 900;
-  font-size: 1.2rem;
-  border-radius: 4px;
+  font-size: 1.1rem;
+  border-radius: 2px; /* Sharp agency corners */
   flex-shrink: 0;
 }
 
@@ -65,50 +66,60 @@
 }
 
 .logo-brand {
-  font-size: 1.2rem;
-  font-weight: 900;
+  font-size: 1.1rem;
+  font-weight: 800;
   color: var(--color-primary-dark);
   text-transform: uppercase;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.2px;
 }
 
 .logo-suffix {
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   font-weight: 600;
   color: var(--color-secondary-bright);
   text-transform: uppercase;
   letter-spacing: 2px;
 }
 
-/* --- Desktop Navigation --- */
+/* --- Desktop Navigation & Current Page Indicator --- */
 .desktop-nav { justify-self: center; }
-.nav-list { display: flex; gap: 35px; list-style: none; }
+.nav-list { display: flex; gap: 40px; list-style: none; }
 
 .nav-link {
-  font-weight: 700;
-  font-size: 0.85rem;
+  font-weight: 500; /* Sophisticated weight */
+  font-size: 0.75rem; /* Reduced professional size */
   color: var(--color-primary-dark);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.15em; /* Elite tracking */
   position: relative;
-  transition: 0.3s ease;
+  transition: color 0.3s ease;
+  padding: 5px 0;
 }
 
-.nav-link:hover { color: var(--hover-color) !important; transform: translateY(-2px); }
+/* Hover and Active State Color */
+.nav-link:hover,
+.nav-link.active {
+  color: var(--color-secondary-bright);
+}
 
+/* Elite Dot Indicator */
 .link-dot {
   position: absolute;
-  bottom: -8px;
+  bottom: -6px;
   left: 50%;
   transform: translateX(-50%) scale(0);
-  width: 5px;
-  height: 5px;
+  width: 4px;
+  height: 4px;
   border-radius: 50%;
-  transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  background-color: var(--color-secondary-bright);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
+/* Reveal Dot on Hover or Active */
 .nav-link:hover .link-dot, 
-.nav-link.active .link-dot { transform: translateX(-50%) scale(1); }
+.nav-link.active .link-dot { 
+  transform: translateX(-50%) scale(1); 
+}
 
 /* --- Header Actions --- */
 .header-actions { justify-self: end; display: flex; align-items: center; gap: 20px; }
@@ -116,21 +127,21 @@
 .cta-button {
   background: var(--color-primary-dark);
   color: #fff;
-  padding: 10px 22px;
-  border-radius: 2px;
-  font-size: 0.75rem;
+  padding: 10px 20px;
+  border-radius: 0px; /* Minimalist sharp edges */
+  font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  transition: 0.3s;
+  transition: all 0.3s ease;
 }
 
 .cta-button:hover {
   background: var(--color-secondary-bright);
-  box-shadow: 0 4px 15px rgba(43, 117, 255, 0.3);
+  transform: translateY(-1px);
 }
 
-/* --- Burger Button --- */
+/* --- Burger Button (Mobile) --- */
 .burger-btn {
   display: none;
   background: none;
@@ -148,52 +159,56 @@
   background: var(--color-primary-dark);
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.line-top { width: 24px; }
-.line-bottom { width: 16px; }
+.line-top { width: 22px; }
+.line-bottom { width: 14px; }
 
-.active .line-top { transform: translateY(4px) rotate(45deg); width: 24px; }
-.active .line-bottom { transform: translateY(-4px) rotate(-45deg); width: 24px; }
+.active .line-top { transform: translateY(4px) rotate(45deg); width: 22px; }
+.active .line-bottom { transform: translateY(-4px) rotate(-45deg); width: 22px; }
 
-/* --- Mobile Drawer (Optimized Dropdown) --- */
+/* --- Mobile Drawer (No Numbering) --- */
 .mobile-drawer {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  /* Height adjusted so it doesn't cover the whole screen */
-  height: auto; 
   max-height: 0;
   background: #ffffff;
   padding: 0 8%;
   overflow: hidden;
   transition: max-height 0.6s cubic-bezier(0.16, 1, 0.3, 1), padding 0.6s;
   z-index: 100;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-  border-bottom: 3px solid var(--color-secondary-bright);
-  display: block; /* Always block, controlled by max-height */
+  box-shadow: 0 20px 40px rgba(0,0,0,0.05);
 }
 
 .mobile-drawer.show {
-  max-height: 450px; /* Adjust based on content height */
+  max-height: 450px;
   padding: 100px 8% 40px;
+  border-bottom: 3px solid var(--color-secondary-bright);
 }
 
 .mobile-nav-content {
   display: flex;
   flex-direction: column;
-  gap: 10px;
 }
 
 .m-link {
-  font-size: 1.5rem;
-  font-weight: 800;
+  font-size: 1.1rem;
+  font-weight: 600;
   color: var(--color-primary-dark);
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 10px 0;
+  padding: 18px 0;
+  display: block;
   transition: 0.3s ease;
-  border-bottom: 1px solid rgba(0,0,0,0.05);
+  border-bottom: 1px solid rgba(0,0,0,0.03);
+}
+
+.m-link.active {
+  color: var(--color-secondary-bright);
+}
+
+.m-cta {
+  border-bottom: none;
+  color: var(--color-secondary-bright);
+  font-weight: 800;
 }
 
 /* --- Mobile Hover Effects --- */
@@ -209,16 +224,10 @@
   font-weight: 600;
 }
 
-.m-cta {
-  border-bottom: none;
-  color: var(--color-secondary-bright);
-}
-
 /* --- Responsive Protection --- */
 @media (max-width: 1100px) {
-  .nav-list { gap: 20px; }
-  .logo-brand { font-size: 1.1rem; }
-  .logo-suffix { font-size: 0.6rem; }
+  .nav-list { gap: 25px; }
+  .logo-brand { font-size: 1rem; }
 }
 
 @media (max-width: 1024px) {
@@ -230,6 +239,5 @@
 @media (max-width: 480px) {
   .logo-symbol { width: 38px; height: 38px; }
   .logo-brand { font-size: 0.95rem; }
-  .logo-suffix { font-size: 0.55rem; }
-  .m-link { font-size: 1.25rem; }
+  .m-link { font-size: 1rem; }
 }

@@ -46,7 +46,7 @@
   font-size: clamp(2.2rem, 5vw, 3rem); 
   line-height: 1.15;
   font-weight: 800;
-  text-transform: uppercase;
+  
   color: var(--color-primary-dark);
   letter-spacing: -0.02em;
   margin-bottom: 25px;
