@@ -12,9 +12,9 @@ import { FiArrowDown, FiArrowRight } from "react-icons/fi";
 import "../styles/pages/about.css";
 
 const PROCESS_STEPS = [
-  { title: "Discovery", desc: "Understanding your brand's DNA and project goals.", index: "01" },
-  { title: "Forging", desc: "The creative phase where we edit, animate, and grade.", index: "02" },
-  { title: "Delivery", desc: "Refining every pixel until it's ready for the world.", index: "03" },
+  { title: "Discovery", desc: "Understanding your brand's DNA and project goals."},
+  { title: "Forging", desc: "The creative phase where we edit, animate, and grade."},
+  { title: "Delivery", desc: "Refining every pixel until it's ready for the world."},
 ];
 
 const About = () => {
@@ -98,7 +98,7 @@ const About = () => {
         <div className="workflow-container">
           {PROCESS_STEPS.map((step, idx) => (
             <div key={idx} className="process-card-modern">
-              <span className="p-card-num">{step.index}</span>
+              
               <h4 className="p-card-title">{step.title}</h4>
               <p className="p-card-desc">{step.desc}</p>
             </div>

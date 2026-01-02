@@ -4,6 +4,7 @@
 // src/pages/Home.jsx
 // src/pages/Home.jsx
 // src/pages/Home.jsx
+// src/pages/Home.jsx
 import { useState, useEffect, useRef } from "react";
 import Hero from "../components/Hero";
 import WorkGrid from "../components/WorkGrid";
@@ -23,16 +24,14 @@ const Home = () => {
 
   useEffect(() => {
     if (loading) return;
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) entry.target.classList.add("section-visible");
         });
       },
-      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+      { threshold: 0.15 }
     );
-
     scrollRefs.current.forEach((ref) => { if (ref) observer.observe(ref); });
     return () => observer.disconnect();
   }, [loading]);
@@ -40,49 +39,51 @@ const Home = () => {
   if (loading) return <Loader />;
 
   return (
-    <main className="home-page-vibrant">
+    <main className="home-page-unique">
       <Hero />
       
-      {/* Credibility Layer */}
+      {/* 1. White Section */}
       <TrustedBy />
 
-      {/* 01. MAIN PORTFOLIO */}
-      <section className="home-section-unique bg-white" ref={(el) => (scrollRefs.current[0] = el)}>
+      {/* 2. Deep Dark Section - Featured Work */}
+      <section className="home-section-unique bg-deep" ref={(el) => (scrollRefs.current[0] = el)}>
         <div className="home-container-unique">
           <header className="section-header-block">
-            <span className="section-index">01 — Selection</span>
-            <h2 className="section-heading-unique">Featured <br /> Projects</h2>
-            <div className="accent-line"></div>
+            <span className="section-tag-elite">Portfolio</span>
+            <h2 className="section-heading-unique">Selected Works</h2>
           </header>
           <WorkGrid featured={true} />
         </div>
       </section>
 
-      {/* 02. AGENCY STATEMENT */}
-      <section className="home-statement-band" ref={(el) => (scrollRefs.current[1] = el)}>
-        <div className="statement-inner">
-          <span className="statement-tag">BigDay Strategy</span>
-          <h3>We don't just edit.<br />We engineer <span>impact.</span></h3>
-          <p>Global standards. Cinematic precision. Your vision, forged.</p>
+      {/* 3. White Section - Agency Statement */}
+      <section className="home-section-unique bg-white" ref={(el) => (scrollRefs.current[1] = el)}>
+        <div className="home-container-unique">
+          <div className="statement-inner">
+            <span className="section-tag-elite">BigDay Ethos</span>
+            <h3>We don't just edit.<br />We engineer <span>impact.</span></h3>
+            <p>Global standards. Cinematic precision. Your vision, forged.</p>
+          </div>
         </div>
       </section>
 
-      {/* 03. CAPABILITIES */}
-      <section className="home-section-unique bg-vibrant" ref={(el) => (scrollRefs.current[2] = el)}>
+      {/* 4. Deep Dark Section - Capabilities */}
+      <section className="home-section-unique bg-deep" ref={(el) => (scrollRefs.current[2] = el)}>
         <div className="home-container-unique">
+           <header className="section-header-block">
+            <span className="section-tag-elite">Expertise</span>
+            <h2 className="section-heading-unique">Our Capabilities</h2>
+          </header>
           <div className="capabilities-grid">
             <div className="cap-item">
-              <span className="cap-num">01</span>
               <h3>Post-Production</h3>
               <p>High-end editing that turns raw footage into cinematic stories.</p>
             </div>
             <div className="cap-item">
-              <span className="cap-num">02</span>
               <h3>Visual Media</h3>
               <p>Dynamic motion graphics and visual effects for modern brands.</p>
             </div>
             <div className="cap-item">
-              <span className="cap-num">03</span>
               <h3>Color Grading</h3>
               <p>Setting the mood with industry-standard color science.</p>
             </div>
@@ -90,8 +91,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 04. CONTACT */}
-      <section className="home-section-unique bg-deep" ref={(el) => (scrollRefs.current[4] = el)}>
+      {/* 5. White Section - Contact */}
+      <section className="home-section-unique bg-white" ref={(el) => (scrollRefs.current[3] = el)}>
         <Contact />
       </section>
     </main>

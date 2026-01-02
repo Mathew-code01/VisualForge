@@ -3,6 +3,11 @@
 /* src/styles/theme.css */
 /* src/styles/theme.css */
 /* src/styles/theme.css */
+/* src/styles/theme.css */
+
+/* src/styles/theme.css */
+/* src/styles/theme.css */
+/* src/styles/theme.css */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
 /* ============================================
@@ -16,7 +21,7 @@
   --color-secondary-mid: #164bb2;      /* Most Used - Dynamic */
   --color-primary-deep: #08008d;       /* Dark Use - Anchor */
   --color-primary-dark: #08015c;       /* Dark Use - Professional */
-
+  
   /* ===== Layout Backgrounds ===== */
   --color-bg: #ffffff;                 /* Clean White */
   --color-bg-alt: #f4f7ff;             /* Very Light Blue Tint */
@@ -102,31 +107,18 @@ a {
   transition: var(--transition-medium);
 }
 
+/* 
+Here is the summary block you can save. Whenever you need to "reset" my brain to these requirements, just paste this:
+⚠️ Project: BigDay Media - Elite Refactor
 
-/* Project Pivot: "Bright Creative" Refresh
+    Aesthetic: Ultra-minimalist, high-end agency (Style: ideasdesignpro.com).
 
-1. The "BigDay Blue" Palette:
+    Layout: alternating "Zebra" sections (White → Deep/Blur Dark → White).
 
-    Secondary (Most Active/Vibrant): #2b75ff and #164bb2. Use these for backgrounds, buttons, and high-energy accents.
+    Typography: Hero text must be Centered. All headings reduced to professional, elegant sizes. No "beginner" numbering (Remove 01, 02).
 
-    Primary (Deep/Anchor): #08008d and #08015c. Use these for text, icons, and contrast in darker sections.
+    Spacing: Strict vertical rhythm. Section padding must be identical top and bottom.
 
-2. Visual Style & Layout:
+    Cards: UI/UX focus—Clean image-based cards with sophisticated hover states.
 
-    Move away from "Cinematic Dark": No more black backgrounds or "editor" vibes.
-
-    The "Agency" Look: Clean, bright, and bold (Inspired by ideasdesignpro.com).
-
-    Banded Section Logic: Alternate high-energy colors with clean white sections to keep the eye moving.
-
-        Example Flow: [Vibrant Blue/Gradient] → [White] → [Deep Blue/Accent Color] → [White].
-
-    Typography: Switch everything to Poppins. It must be bold, clean, and professional.
-
-3. Key Style Changes:
-
-    Header: Shift to a light/white background with deep blue text.
-
-    Buttons: Use rounded/pill-shaped buttons with vibrant blue fills (agency style).
-
-    Content: High-quality imagery, but with brighter filters and more white space. */
+    Footer: Deep dark background with high-blur (Glassmorphism) and crisp white text. */

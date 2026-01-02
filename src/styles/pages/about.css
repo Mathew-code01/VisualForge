@@ -5,40 +5,43 @@
 /* src/styles/pages/about.css */
 /* src/styles/pages/about.css */
 
-:root {
-  --primary-blue: #2b75ff;
-  --dark-void: #08015c;
-  --text-main: #08015c;
-  --text-muted: #64748b;
-  --header-offset: 90px;
-}
-
+/* --- Page Foundation & Rhythm --- */
 .about-page-standard {
-  background: #ffffff;
+  background-color: #ffffff;
+  width: 100%;
 }
 
-/* --- HERO SECTION --- */
-.about-hero-editorial {
-  min-height: 90vh;
-  background: var(--dark-void);
-  padding: var(--header-offset) 5% 80px 5%;
-  position: relative;
+/* Strict Vertical Rhythm for Zebra Sections */
+.about-hero-editorial,
+.about-vision-section,
+.about-workflow-section,
+.about-final-cta {
+  padding: 120px 8% !important; /* Identical top/bottom padding */
+  width: 100%;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* --- SECTION 1: DARK HERO (Zebra: Dark) --- */
+.about-hero-editorial {
+  background-color: var(--color-primary-dark) !important;
+  min-height: 85vh;
+  position: relative;
   overflow: hidden;
+  text-align: center;
 }
 
 .hero-bg-accent {
   position: absolute;
-  top: -10%; right: -5%;
-  width: 50vw; height: 50vw;
-  background: radial-gradient(circle, rgba(43, 117, 255, 0.25) 0%, transparent 70%);
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(43, 117, 255, 0.15) 0%, transparent 65%);
   filter: blur(100px);
+  pointer-events: none;
 }
 
 .about-hero-container {
-  width: 100%;
-  max-width: 1400px;
+  max-width: 1100px;
   margin: 0 auto;
   position: relative;
   z-index: 5;
@@ -46,128 +49,144 @@
 
 .hero-top-meta {
   display: flex;
+  justify-content: center;
   align-items: center;
   gap: 20px;
   margin-bottom: 30px;
 }
 
 .meta-label {
-  color: var(--primary-blue);
-  font-weight: 800;
+  color: var(--color-secondary-bright);
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 4px;
-  font-size: 0.75rem;
+  letter-spacing: 0.4em;
+  font-size: 0.7rem;
 }
 
 .meta-line {
-  flex: 1;
+  width: 40px;
   height: 1px;
-  background: rgba(255, 255, 255, 0.1);
-  max-width: 100px;
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .about-display-title {
-  font-size: clamp(3rem, 9vw, 6.5rem);
-  font-weight: 900;
-  line-height: 0.9;
-  color: white;
+  font-size: clamp(2.2rem, 6vw, 3.2rem); /* Professional reduced scale */
+  font-weight: 800;
+  line-height: 1.1;
+  color: #ffffff !important;
   text-transform: uppercase;
-  margin-bottom: 60px;
-  letter-spacing: -3px;
+  margin-bottom: 40px;
+  letter-spacing: -0.02em;
 }
 
 .text-outline {
   color: transparent;
-  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.8);
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.4);
 }
 
 .hero-bottom-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
 }
 
 .hero-editorial-text {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: clamp(1rem, 2vw, 1.25rem);
-  line-height: 1.6;
-  max-width: 500px;
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  max-width: 580px;
+  margin: 0 auto;
+  font-weight: 300;
 }
 
 .scroll-indicator {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  color: var(--primary-blue);
-  font-size: 0.75rem;
+  align-items: center;
+  gap: 12px;
+  color: var(--color-secondary-bright);
+  font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
-  gap: 15px;
+  letter-spacing: 0.2em;
 }
 
-/* --- THE VISION (IDEAS DESIGN PRO STYLE) --- */
+/* --- SECTION 2: VISION (Zebra: White) --- */
 .about-vision-section {
-  padding: 140px 5%;
+  background-color: #ffffff !important;
 }
 
 .vision-container {
-  max-width: 1400px;
+  max-width: var(--max-content-width);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 100px;
   align-items: center;
 }
 
 .vision-image-wrapper {
   position: relative;
-  border-radius: 20px;
 }
 
 .vision-image-wrapper img {
   width: 100%;
-  height: 600px;
+  height: 550px;
   object-fit: cover;
-  border-radius: 20px;
+  border-radius: 2px; /* Ultra-minimalist sharp edge */
 }
 
 .image-float-card {
   position: absolute;
-  bottom: -30px; right: -30px;
-  background: var(--primary-blue);
-  color: white;
-  padding: 40px;
-  border-radius: 20px;
-  box-shadow: 0 30px 60px rgba(43, 117, 255, 0.3);
+  bottom: -30px;
+  right: -30px;
+  background: var(--color-primary-deep);
+  color: #ffffff;
+  padding: 35px;
+  text-align: left;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.1);
 }
 
-.image-float-card strong { font-size: 2.5rem; display: block; line-height: 1; }
-.image-float-card span { font-size: 0.7rem; text-transform: uppercase; font-weight: 700; }
+.image-float-card strong {
+  display: block;
+  font-size: 2rem;
+  line-height: 1;
+  margin-bottom: 5px;
+}
+
+.image-float-card span {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.8;
+}
 
 .section-index {
-  color: var(--primary-blue);
-  font-weight: 900;
+  color: var(--color-secondary-bright);
+  font-weight: 700;
   text-transform: uppercase;
-  font-size: 0.8rem;
-  letter-spacing: 2px;
-  display: block;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
   margin-bottom: 20px;
+  display: block;
 }
 
 .vision-heading {
-  font-size: clamp(2.2rem, 5vw, 4rem);
-  font-weight: 900;
-  line-height: 1.1;
-  color: var(--dark-void);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--color-primary-dark);
   margin-bottom: 30px;
+  text-transform: uppercase;
 }
 
-.vision-heading span { color: var(--primary-blue); }
+.vision-heading span { color: var(--color-secondary-bright); }
 
 .vision-p {
-  color: var(--text-muted);
-  font-size: 1.1rem;
-  line-height: 1.7;
+  color: var(--color-text-light);
+  font-size: 1rem;
+  line-height: 1.8;
   margin-bottom: 40px;
 }
 
@@ -176,36 +195,42 @@
   gap: 60px;
 }
 
-.v-stat strong { font-size: 2rem; display: block; color: var(--dark-void); }
-.v-stat span { color: var(--text-muted); font-size: 0.8rem; font-weight: 600; }
+.v-stat strong {
+  font-size: 2.2rem;
+  display: block;
+  color: var(--color-primary-dark);
+  letter-spacing: -0.02em;
+}
 
-/* --- WORKFLOW --- */
+.v-stat span {
+  color: var(--color-text-light);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* --- SECTION 3: WORKFLOW (Zebra: Dark/Glassmorphism) --- */
 .about-workflow-section {
-  padding: 100px 5%;
-  background: #f8fbff;
+  background-color: var(--color-primary-dark) !important;
+  color: #ffffff;
 }
 
 .workflow-header {
-  max-width: 1400px;
+  max-width: var(--max-content-width);
   margin: 0 auto 80px;
-  display: flex;
-  align-items: center;
-  gap: 40px;
+  text-align: center;
 }
 
 .workflow-title {
-  font-size: 1.2rem;
-  font-weight: 900;
+  font-size: 1.8rem;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 2px;
-}
-
-.workflow-line {
-  flex: 1; height: 1px; background: rgba(0,0,0,0.1);
+  letter-spacing: -0.01em;
+  color: #ffffff !important;
 }
 
 .workflow-container {
-  max-width: 1400px;
+  max-width: var(--max-content-width);
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -213,56 +238,55 @@
 }
 
 .process-card-modern {
-  background: white;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(15px);
   padding: 60px 40px;
-  border-radius: 20px;
-  transition: transform 0.3s;
-  border: 1px solid rgba(0,0,0,0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .process-card-modern:hover {
+  background: rgba(255, 255, 255, 0.07);
   transform: translateY(-10px);
-  box-shadow: 0 40px 80px rgba(8,1,92,0.05);
-}
-
-.p-card-num {
-  font-size: 0.8rem;
-  font-weight: 900;
-  color: var(--primary-blue);
-  margin-bottom: 20px;
-  display: block;
+  border-color: var(--color-secondary-bright);
 }
 
 .p-card-title {
-  font-size: 1.5rem;
-  font-weight: 800;
-  margin-bottom: 15px;
-  color: var(--dark-void);
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #ffffff;
+  text-transform: uppercase;
 }
 
 .p-card-desc {
-  color: var(--text-muted);
-  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.7;
+  font-size: 0.95rem;
 }
 
-/* --- FINAL CTA --- */
+/* --- SECTION 4: FINAL CTA (Zebra: White) --- */
 .about-final-cta {
-  padding: 150px 5%;
+  background: #ffffff !important;
   text-align: center;
 }
 
 .cta-huge-text {
-  font-size: clamp(3rem, 10vw, 8rem);
-  font-weight: 900;
-  color: var(--dark-void);
-  line-height: 0.9;
-  margin-bottom: 40px;
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  font-weight: 800;
+  color: var(--color-primary-dark);
+  line-height: 1.1;
+  margin-bottom: 25px;
+  text-transform: uppercase;
 }
 
 .cta-sub {
-  font-size: 1.2rem;
-  color: var(--text-muted);
-  margin-bottom: 60px;
+  font-size: 1.1rem;
+  color: var(--color-text-light);
+  margin-bottom: 50px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .cta-action-group {
@@ -273,28 +297,38 @@
 }
 
 .cta-btn-primary {
-  padding: 20px 45px;
-  background: var(--primary-blue);
-  color: white;
-  border-radius: 100px;
-  font-weight: 800;
-  text-decoration: none;
+  padding: 18px 45px;
+  background: var(--color-primary-dark);
+  color: #ffffff !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  transition: all 0.3s ease;
+}
+
+.cta-btn-primary:hover {
+  background: var(--color-secondary-bright);
+  transform: translateY(-5px);
 }
 
 .cta-btn-link {
-  font-weight: 800;
-  color: var(--dark-void);
-  text-decoration: none;
-  border-bottom: 2px solid var(--primary-blue);
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  border-bottom: 2px solid var(--color-secondary-bright);
+  padding-bottom: 4px;
 }
 
-/* --- RESPONSIVE --- */
+/* --- RESPONSIVE FIXES --- */
 @media (max-width: 1024px) {
   .vision-container { grid-template-columns: 1fr; gap: 60px; }
-  .hero-bottom-grid { grid-template-columns: 1fr; gap: 40px; }
   .workflow-container { grid-template-columns: 1fr; }
-  .image-float-card { bottom: 20px; right: 20px; }
+  .image-float-card { position: relative; bottom: 0; right: 0; margin-top: 20px; width: fit-content; }
+  .cta-action-group { flex-direction: column; gap: 20px; }
 }

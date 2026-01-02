@@ -5,132 +5,131 @@
 /* src/styles/pages/contact.css */
 /* src/styles/pages/contact.css */
 
+/* --- Page Foundation --- */
 .contact-page-vibrant {
-  background-color: #ffffff; /* Clean white background */
+  background-color: #ffffff;
   min-height: 100vh;
   color: var(--color-text);
-  padding: 160px 0 100px;
-  overflow-x: hidden;
+  /* Strict padding to match Zebra rhythm */
+  padding: 120px 8% !important;
+  display: flex;
+  align-items: center;
 }
 
 .contact-container {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 100px;
-  max-width: 1400px;
+  grid-template-columns: 1fr 1fr; /* Balanced 50/50 split */
+  gap: 80px;
+  max-width: var(--max-content-width);
   margin: 0 auto;
-  padding: 0 5%;
-  align-items: start;
+  width: 100%;
+  align-items: center;
 }
 
-/* --- Left Side: Editorial --- */
+/* --- Left Side: Editorial (Minimalist Refactor) --- */
 .editorial-header {
-  margin-bottom: 60px;
+  margin-bottom: 45px;
 }
 
 .subtitle {
   display: block;
   color: var(--color-secondary-bright);
   text-transform: uppercase;
-  letter-spacing: 4px;
-  font-size: 0.75rem;
-  font-weight: 800;
-  margin-bottom: 25px;
+  letter-spacing: 0.3em;
+  font-size: 0.7rem;
+  font-weight: 700;
+  margin-bottom: 20px;
 }
 
 .hero-title {
-  font-size: clamp(3rem, 7vw, 5.5rem);
-  line-height: 0.9;
-  font-weight: 900;
+  /* REDUCED SCALE: Professional & Sophisticated */
+  font-size: clamp(2.2rem, 5vw, 3rem); 
+  line-height: 1.15;
+  font-weight: 800;
   text-transform: uppercase;
   color: var(--color-primary-dark);
-  letter-spacing: -2px;
-  margin-bottom: 30px;
+  letter-spacing: -0.02em;
+  margin-bottom: 25px;
 }
 
 .hero-title span {
-  display: block;
+  display: inline; /* Changed from block for better flow */
   color: transparent;
-  -webkit-text-stroke: 1.5px var(--color-primary-dark);
+  -webkit-text-stroke: 1px var(--color-primary-dark);
 }
 
 .description {
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: var(--color-text-light);
-  line-height: 1.6;
-  max-width: 500px;
+  line-height: 1.7;
+  max-width: 450px;
 }
 
-/* --- Info Grid --- */
+/* --- Info Grid: Clean & Crisp --- */
 .contact-grid-info {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  margin-bottom: 80px;
-  border-top: 1px solid var(--color-border);
+  gap: 30px;
+  margin-bottom: 50px;
+  border-top: 1px solid rgba(8, 1, 92, 0.08);
   padding-top: 40px;
 }
 
 .block-label {
   display: block;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 0.15em;
   color: var(--color-secondary-bright);
   font-weight: 700;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .block-link {
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: var(--color-primary-dark);
   text-decoration: none;
-  transition: 0.3s;
+  transition: color 0.3s ease;
 }
 
 .block-link:hover {
   color: var(--color-secondary-bright);
 }
 
-/* --- Socials --- */
-.social-links {
+/* --- Socials: Sophisticated Hover --- */
+.social-links-vibrant {
   display: flex;
-  gap: 30px;
-  margin-top: 10px;
+  gap: 12px;
+  margin-top: 15px;
 }
 
-.s-link-vibrant {
-  font-weight: 700;
-  font-size: 0.9rem;
+.social-icon-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
   color: var(--color-primary-dark);
-  position: relative;
+  border: 1px solid rgba(8, 1, 92, 0.1);
+  background: transparent;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.s-link-vibrant::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: var(--color-secondary-bright);
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform 0.4s ease;
+.social-icon-btn:hover {
+  background: var(--color-primary-dark);
+  color: #ffffff;
+  transform: translateY(-3px);
+  border-color: var(--color-primary-dark);
 }
 
-.s-link-vibrant:hover::after {
-  transform: scaleX(1);
-  transform-origin: left;
-}
-
-/* --- Right Side: The Form Card --- */
+/* --- Right Side: The Form Card (Glassmorphism Tint) --- */
 .form-card-vibrant {
-  background: var(--color-bg-alt); /* Light blue tint #f4f7ff */
+  background: #f8fbff; /* Subtle blue tint */
   padding: 50px;
-  border-radius: 4px;
-  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(8, 1, 92, 0.03);
 }
 
 .form-header {
@@ -138,86 +137,36 @@
 }
 
 .form-header h3 {
-  font-size: 1.8rem;
+  font-size: 1.4rem;
+  font-weight: 800;
+  text-transform: uppercase;
   color: var(--color-primary-dark);
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
 }
 
 .form-header p {
   color: var(--color-text-light);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
-/* --- Responsive Layout --- */
-@media (max-width: 1100px) {
+/* --- Responsive Fixes --- */
+@media (max-width: 1024px) {
   .contact-container {
     grid-template-columns: 1fr;
-    gap: 80px;
+    gap: 60px;
   }
-  
-  .contact-editorial {
-    text-align: left;
+  .contact-page-vibrant {
+    padding: 100px 6% !important;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 480px) {
   .form-card-vibrant {
-    padding: 30px 20px;
+    padding: 30px;
   }
   .contact-grid-info {
     grid-template-columns: 1fr;
   }
-}
-
-/* --- Socials Redesign --- */
-.social-links-vibrant {
-  display: flex;
-  gap: 15px;
-  margin-top: 15px;
-}
-
-.social-icon-btn {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  color: var(--color-primary-dark);
-  border: 1px solid var(--color-border);
-  background: transparent;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
-}
-
-/* The "Cool" Fill Effect */
-.social-icon-btn::before {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: var(--gradient-vibrant);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: -1;
-}
-
-.social-icon-btn:hover {
-  color: #ffffff;
-  border-color: transparent;
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-md);
-}
-
-.social-icon-btn:hover::before {
-  top: 0;
-}
-
-/* Adjust the social block spacing */
-.contact-social-footer {
-  margin-top: 20px;
 }

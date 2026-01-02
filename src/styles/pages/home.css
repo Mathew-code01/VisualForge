@@ -10,23 +10,25 @@
   background-color: var(--color-bg);
 }
 
-/* --- Banded Background Logic --- */
-.bg-white { background-color: #ffffff; color: var(--color-primary-dark); }
-.bg-vibrant { 
-  background: var(--gradient-vibrant); 
-  color: #ffffff; 
+/* --- Strict Zebra Backgrounds --- */
+.bg-white { 
+  background-color: #ffffff; 
+  color: var(--color-primary-dark); 
 }
+
 .bg-deep { 
-  background: var(--color-primary-dark); 
+  background-color: var(--color-primary-dark); 
   color: #ffffff; 
 }
 
-/* --- Section Layout --- */
+/* --- Symmetric Vertical Rhythm --- */
 .home-section-unique {
-  padding: clamp(80px, 10vw, 150px) 0;
+  /* Identical top and bottom padding for elite balance */
+  padding: clamp(100px, 12vw, 180px) 0;
+  position: relative;
   opacity: 0;
-  transform: translateY(60px);
-  transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(40px);
+  transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .section-visible {
@@ -37,137 +39,92 @@
 .home-container-unique {
   max-width: var(--max-content-width);
   margin: 0 auto;
-  padding: 0 5%;
+  padding: 0 6%;
 }
 
-/* --- Section Headers --- */
+/* --- Elite Section Headers --- */
 .section-header-block {
   margin-bottom: 80px;
+  text-align: center; /* Keeping it centered like the Hero */
 }
 
-.section-index {
-  font-size: 0.85rem;
-  font-weight: 800;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--color-secondary-bright);
-  margin-bottom: 20px;
-  display: block;
-}
-
-/* White bg headers should be deep blue */
-.bg-white .section-heading-unique { color: var(--color-primary-dark); }
-/* Blue bg headers should be white */
-.bg-vibrant .section-heading-unique, 
-.bg-deep .section-heading-unique { color: #ffffff; }
-
-.section-heading-unique {
-  font-size: clamp(3rem, 8vw, 3.7rem);
-  font-weight: 900;
-  line-height: 0.9;
-  text-transform: uppercase;
-  letter-spacing: -2px;
-}
-
-.accent-line {
-  height: 4px;
-  width: 0;
-  background: var(--color-secondary-bright);
-  margin-top: 30px;
-  transition: width 1.2s ease 0.4s;
-}
-
-.section-visible .accent-line {
-  width: 120px;
-}
-
-/* --- Capabilities Band Styling --- */
-.capabilities-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 60px;
-}
-
-.cap-item h3 {
-  font-size: 2rem;
-  font-weight: 800;
-  margin-bottom: 15px;
-  text-transform: uppercase;
-}
-
-.cap-item p {
-  font-size: 1.1rem;
-  opacity: 0.9;
-  max-width: 350px;
-}
-
-/* --- Responsive Adjustments --- */
-@media (max-width: 768px) {
-  .home-section-unique { padding: 80px 0; }
-  .section-heading-unique { font-size: 2.7rem; }
-  .capabilities-grid { gap: 40px; }
-}
-
-/* home-statement-band styling */
-.home-statement-band {
-  background-color: var(--color-bg-alt);
-  padding: 160px var(--container-padding);
-  text-align: center;
-  border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.8s ease-out;
-}
-
-.home-statement-band.section-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.statement-tag {
+.section-tag-elite {
   display: block;
   font-size: 0.75rem;
-  font-weight: 800;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 4px;
+  letter-spacing: 0.4em;
   color: var(--color-secondary-bright);
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+}
+
+.section-heading-unique {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+/* --- Statement Band (Integrated into White Section) --- */
+.statement-inner {
+  text-align: center;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .statement-inner h3 {
-  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-size: clamp(2.2rem, 7vw, 4.8rem);
   line-height: 1;
-  color: var(--color-primary-dark);
   font-weight: 900;
-  max-width: 900px;
-  margin: 0 auto 30px;
+  margin-bottom: 30px;
+  text-transform: uppercase;
 }
 
 .statement-inner h3 span {
   color: transparent;
-  -webkit-text-stroke: 1.5px var(--color-primary-dark);
+  -webkit-text-stroke: 1px var(--color-primary-dark);
 }
 
 .statement-inner p {
-  font-size: 1.25rem;
-  color: var(--color-text-light);
+  font-size: 1.2rem;
+  opacity: 0.7;
   font-weight: 400;
 }
 
-/* Enhancing Capabilities Items */
-.cap-num {
-  display: block;
-  font-size: 0.8rem;
-  font-weight: 900;
-  margin-bottom: 15px;
-  color: rgba(255, 255, 255, 0.4);
+/* --- Capabilities Grid --- */
+.capabilities-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 80px;
+  margin-top: 40px;
 }
 
-.bg-vibrant {
-  background: var(--gradient-vibrant);
-  color: white;
+.cap-item h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.bg-vibrant h3 { color: white; }
-.bg-vibrant p { color: rgba(255, 255, 255, 0.8); }
+.cap-item p {
+  font-size: 1rem;
+  line-height: 1.6;
+  opacity: 0.7;
+}
+
+/* --- Responsive Polish --- */
+@media (max-width: 1024px) {
+  .capabilities-grid {
+    grid-template-columns: 1fr;
+    gap: 60px;
+    text-align: center;
+  }
+  .cap-item p { margin: 0 auto; }
+}
+
+@media (max-width: 768px) {
+  .home-section-unique { padding: 80px 0; }
+  .section-heading-unique { font-size: 2.2rem; }
+}

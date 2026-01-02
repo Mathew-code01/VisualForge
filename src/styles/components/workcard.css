@@ -5,37 +5,36 @@
 /* src/styles/components/workcard.css */
 /* src/styles/components/workcard.css */
 /* src/styles/components/workcard.css */
+/* src/styles/components/workcard.css */
 
 .work-card-vibrant {
   text-decoration: none;
   display: block;
   width: 100%;
-  cursor: pointer;
-  background: transparent;
+  transition: opacity 0.4s ease;
 }
 
 .work-card-inner {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
 }
 
-/* --- Thumbnail & Video Container --- */
+/* --- The Sharp Cinematic Frame --- */
 .work-thumb-wrapper {
   position: relative;
-  aspect-ratio: 16/10; /* Slightly taller for modern look */
-  background: #f8f9fa;
-  border-radius: 4px; /* Agency style: either very sharp or very round. Sharp is "Premium" */
+  aspect-ratio: 16/9; /* Standard cinematic ratio */
+  background: #111;
+  border-radius: 0; /* Razor sharp corners = Elite */
   overflow: hidden;
-  transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .main-thumb {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 1.2s ease, filter 0.6s ease;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease;
 }
 
 .hover-video {
@@ -45,7 +44,7 @@
   height: 100%;
   object-fit: cover;
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.6s ease;
   z-index: 2;
 }
 
@@ -53,141 +52,103 @@
   opacity: 1;
 }
 
-/* --- The "Bright" Overlay --- */
+/* --- Minimalist Overlay --- */
 .card-overlay-vibrant {
   position: absolute;
   inset: 0;
   z-index: 5;
-  background: rgba(43, 117, 255, 0.1); /* Subtle brand tint */
-  backdrop-filter: blur(0px);
+  background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 100%);
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 20px;
+  align-items: center;
+  justify-content: center;
   opacity: 0;
-  transition: all 0.4s ease;
-}
-
-.work-card-vibrant:hover .card-overlay-vibrant {
-  opacity: 1;
-  backdrop-filter: blur(4px);
+  transition: all 0.5s ease;
 }
 
 .overlay-badge {
   background: #fff;
-  color: var(--color-primary-dark);
-  padding: 8px 14px;
-  border-radius: 50px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: fit-content;
+  color: #000;
+  padding: 10px 20px;
   font-size: 0.7rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  transform: translateY(-10px);
-  transition: transform 0.4s ease;
-}
-
-.work-card-vibrant:hover .overlay-badge {
-  transform: translateY(0);
-}
-
-.view-case-btn {
-  background: var(--color-primary-dark);
-  color: #fff;
-  padding: 12px 20px;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  font-size: 0.8rem;
   font-weight: 700;
-  transform: translateY(10px);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  border-radius: 0; /* Sharp */
+  transform: scale(0.9);
   transition: transform 0.4s ease;
 }
 
-.work-card-vibrant:hover .view-case-btn {
-  transform: translateY(0);
-}
+.work-card-vibrant:hover .card-overlay-vibrant { opacity: 1; }
+.work-card-vibrant:hover .overlay-badge { transform: scale(1); }
 
-/* --- Metadata Styles --- */
+/* --- Metadata (High Contrast) --- */
 .work-card-info {
-  padding: 0 5px;
+  padding: 0 2px;
 }
 
 .info-top {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 12px;
 }
 
 .card-category {
   font-size: 0.7rem;
-  font-weight: 800;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 0.3em;
   color: var(--color-secondary-bright);
 }
 
 .card-year {
   font-size: 0.7rem;
-  font-weight: 500;
-  color: var(--color-muted);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.4); /* Faded on Dark Bg */
 }
+
+/* Switch colors for White Zebra sections */
+.bg-white .card-year { color: rgba(0, 0, 0, 0.4); }
+.bg-white .card-title-text { color: #000; }
 
 .info-bottom {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
 }
 
 .card-title-text {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: var(--color-primary-dark);
-  letter-spacing: -0.5px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
   margin: 0;
 }
 
 .arrow-circle {
-  width: 40px;
-  height: 40px;
-  border: 1px solid var(--color-border);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-size: 1.2rem;
-  color: var(--color-primary-dark);
-  transition: all 0.3s ease;
+  color: #fff;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* --- Global Hover States --- */
-.work-card-vibrant:hover .work-thumb-wrapper {
-  transform: translateY(-8px);
-  box-shadow: 0 30px 60px rgba(8, 1, 92, 0.1);
+/* --- Interaction States --- */
+.work-card-vibrant:hover .main-thumb {
+  transform: scale(1.08);
+  filter: brightness(0.7);
 }
 
 .work-card-vibrant:hover .arrow-circle {
-  background: var(--color-secondary-bright);
-  border-color: var(--color-secondary-bright);
-  color: #fff;
-  transform: rotate(45deg);
+  transform: translate(5px, -5px); /* Professional diagonal nudge */
+  color: var(--color-secondary-bright);
 }
 
-.work-card-vibrant:hover .main-thumb {
-  transform: scale(1.05);
-}
-
-/* Loader Spin */
-.spin {
-  animation: rotate 1s linear infinite;
-}
-
-@keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+/* Loading Shimmer */
+.card-loader-vibrant {
+  position: absolute;
+  inset: 0;
+  background: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

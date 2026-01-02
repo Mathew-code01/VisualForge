@@ -78,10 +78,10 @@ const WorkCard = ({ work, index, enableHoverPreview }) => {
               {videoReady ? <FiPlay /> : <FaSpinner className="spin" />}
               <span>{videoReady ? "Preview" : "Loading"}</span>
             </div>
-            <div className="view-case-btn">
+            {/* <div className="view-case-btn">
               <span>View Case Study</span>
               <FiArrowUpRight />
-            </div>
+            </div> */}
           </div>
         </div>
 

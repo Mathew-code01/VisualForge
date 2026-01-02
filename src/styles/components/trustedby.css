@@ -1,120 +1,125 @@
 /* src/styles/components/trustedby.css */
 
 /* src/styles/components/trustedby.css */
+/* src/styles/components/trustedby.css */
 
-.trusted-by-section {
-  background-color: var(--color-bg);
-  padding: 100px 0;
-  border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
+.trusted-section-standard {
+  background-color: #ffffff; /* Part of the White Zebra section */
+  padding: 120px 0;
   position: relative;
   overflow: hidden;
 }
 
-/* The Label: Small, Bold, Editorial */
-.trusted-label {
-  display: block;
+.trusted-container {
+  width: 100%;
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+/* --- Strong Header --- */
+.trusted-header-v2 {
   text-align: center;
-  font-size: 0.7rem;
+  margin-bottom: 80px;
+}
+
+.trusted-title {
+  font-size: 0.8rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 5px;
-  color: var(--color-secondary-bright);
-  margin-bottom: 60px;
-  opacity: 0.9;
-}
-
-/* The Marquee Container */
-.marquee-wrapper {
-  display: flex;
-  position: relative;
-  width: 100%;
-  /* This creates the 'fading out' effect on the left and right sides */
-  mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 20%,
-    black 80%,
-    transparent 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 20%,
-    black 80%,
-    transparent 100%
-  );
-}
-
-.marquee-content {
-  display: flex;
-  gap: 120px; /* Wide spacing for a premium feel */
-  animation: scrollMarquee 40s linear infinite; /* Slower for high-end look */
-  align-items: center;
-  will-change: transform;
-}
-
-/* The Icons */
-.brand-logo-item {
-  font-size: 4rem;
+  letter-spacing: 0.4em;
   color: var(--color-primary-dark);
-  opacity: 0.25;
-  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  margin-bottom: 15px;
+}
+
+.trusted-subtitle {
+  font-size: 1.1rem;
+  color: var(--color-text-light);
+  font-weight: 400;
+}
+
+/* --- The Elite Marquee --- */
+.marquee-wrapper-elite {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  background: #fbfbfb; /* Very subtle grey contrast */
+  padding: 60px 0;
+  border-top: 1px solid rgba(0,0,0,0.05);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.marquee-track {
   display: flex;
-  flex-direction: column;
+  width: max-content;
+  gap: 100px;
+  animation: marqueeScroll 50s linear infinite;
   align-items: center;
-  cursor: pointer;
+}
+
+.brand-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+  width: 160px; /* Uniform spacing */
+}
+
+.brand-icon-wrapper {
+  font-size: 3.5rem;
+  /* Increased from 0.25 to 0.6 for "Strength" */
+  color: #000;
+  opacity: 0.6; 
+  transition: all 0.4s ease;
   filter: grayscale(1);
 }
 
-/* Hover Effect: Glow & Brand Color */
-.brand-logo-item:hover {
+/* On hover, logos become 100% visible and solid black - Standard Corporate Style */
+.brand-icon-wrapper:hover {
   opacity: 1;
-  color: var(--color-secondary-bright);
-  transform: scale(1.15) translateY(-5px);
-  filter: grayscale(0) drop-shadow(0 10px 15px rgba(43, 117, 255, 0.2));
+  filter: grayscale(0);
+  transform: translateY(-2px);
 }
 
-/* Small detail: Tooltip names */
-.brand-name-tooltip {
-  margin-top: 15px;
-  font-size: 0.65rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.4s ease;
+/* --- Cinematic Fade Overlays --- */
+.marquee-fade-left,
+.marquee-fade-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 250px;
+  z-index: 2;
+  pointer-events: none;
 }
 
-.brand-logo-item:hover .brand-name-tooltip {
-  opacity: 1;
-  transform: translateY(0);
+.marquee-fade-left {
+  left: 0;
+  background: linear-gradient(to right, #ffffff 0%, transparent 100%);
 }
 
-/* Animation Loop */
-@keyframes scrollMarquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
+.marquee-fade-right {
+  right: 0;
+  background: linear-gradient(to left, #ffffff 0%, transparent 100%);
 }
 
-/* Smooth stop on hover: Makes it interactive */
-.marquee-wrapper:hover .marquee-content {
-  animation-play-state: paused;
+/* --- Animation --- */
+@keyframes marqueeScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-33.33%); } /* Loop perfectly for tripled array */
 }
 
-/* Responsive Scaling */
+/* Responsive */
 @media (max-width: 1024px) {
-  .brand-logo-item { font-size: 3rem; }
-  .marquee-content { gap: 80px; }
+  .brand-icon-wrapper { font-size: 2.8rem; }
+  .marquee-track { gap: 60px; }
+  .marquee-fade-left, .marquee-fade-right { width: 100px; }
 }
 
-@media (max-width: 600px) {
-  .trusted-by-section { padding: 60px 0; }
-  .brand-logo-item { font-size: 2.5rem; }
-  .marquee-content { gap: 50px; }
+@media (max-width: 768px) {
+  .trusted-section-standard { padding: 80px 0; }
+  .trusted-header-v2 { margin-bottom: 40px; }
+  .brand-icon-wrapper { font-size: 2.2rem; }
 }

@@ -6,22 +6,18 @@ import "../styles/components/hero.css";
 
 const heroSlides = [
   {
-    topLine: "National",
-    mainLine: "POST-PRODUCTION",
-    bottomLine: "Expertise",
+    label: "National Expertise",
+    title: "Post-Production",
     subtext:
       "Precision editing for high-end commercials and cinematic storytelling.",
-    // A high-end professional color grading / editing suite
     image:
       "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2000&auto=format&fit=crop",
   },
   {
-    topLine: "Global",
-    mainLine: "VISUAL MEDIA",
-    bottomLine: "Agency",
+    label: "Global Visual Media",
+    title: "Cinematic Narratives",
     subtext:
-      "Crafting digital narratives that resonate across international borders.",
-    // A clean, vibrant creative workstation
+      "Crafting digital stories that resonate across international borders.",
     image:
       "https://images.unsplash.com/photo-1550009158-9ebf69173e03?q=80&w=2000&auto=format&fit=crop",
   },
@@ -38,48 +34,35 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="hero-vibrant-white">
-      <div className="hero-media-canvas">
+    <section className="hero-elite-centered">
+      {/* Background Layer */}
+      <div className="hero-bg-layer">
         {heroSlides.map((slide, i) => (
           <div
             key={i}
-            className={`canvas-image ${index === i ? "active" : ""}`}
-            style={{
-              backgroundImage: `url(${slide.image})`,
-              zIndex: index === i ? 2 : 1,
-            }}
+            className={`hero-slide-img ${index === i ? "active" : ""}`}
+            style={{ backgroundImage: `url(${slide.image})` }}
           />
         ))}
-        <div className="canvas-light-wash"></div>
+        <div className="hero-overlay-minimal"></div>
       </div>
 
-      <div className="hero-content-wrapper">
-        <div className="hero-inner" key={index}>
-          <div className="hero-meta">
-            <span className="line"></span>
-            <p>BigDay Media Agency</p>
-          </div>
+      {/* Content Layer */}
+      <div className="container hero-container">
+        <div className="hero-inner-content" key={index}>
+          <span className="hero-tagline">{heroSlides[index].label}</span>
+          <h1 className="hero-main-title">{heroSlides[index].title}</h1>
+          <p className="hero-description">{heroSlides[index].subtext}</p>
 
-          <h1 className="hero-giant-text">
-            <span className="text-top">{heroSlides[index].topLine}</span>
-            <span className="text-solid">{heroSlides[index].mainLine}</span>
-            <span className="text-outline">{heroSlides[index].bottomLine}</span>
-          </h1>
-
-          <div className="hero-footer-info">
-            <div className="desc-glass-card">
-              <p className="hero-desc">{heroSlides[index].subtext}</p>
-            </div>
-
-            <div className="hero-btns">
-              <a href="/work" className="btn-vibrant">
-                View Portfolio
-              </a>
-              <button className="btn-play-light">
-                <span className="play-circle">▶</span>
-                <span className="play-text">Showreel</span>
-              </button>
-            </div>
+          <div className="hero-cta-group">
+            <a href="/work" className="btn-outline-box">
+              <span>View Portfolio</span>
+            </a>
+            <button className="btn-text-link">
+              <span className="link-icon">▶</span>
+              <span className="link-text">Watch Showreel</span>
+              <span className="link-underline"></span>
+            </button>
           </div>
         </div>
       </div>

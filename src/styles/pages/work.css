@@ -6,348 +6,190 @@
 /* src/styles/pages/work.css */
 /* src/styles/pages/work.css */
 /* src/styles/pages/work.css */
+/* src/styles/pages/work.css */
+/* src/styles/pages/work.css */
 
-:root {
-  --blue-vibrant: #2b75ff;
-  --dark-void: #08015c;
-  --text-primary: #08015c;
-  --text-secondary: #64748b;
-  --white-pure: #ffffff;
-  --ease-agency: cubic-bezier(0.16, 1, 0.3, 1);
-}
-
+/* --- BASE PAGE CONFIG --- */
 .work-page-main {
-  background-color: var(--white-pure);
-  overflow-x: hidden;
+  background-color: var(--color-bg);
+  width: 100%;
 }
 
-/* --- HERO SECTION --- */
-.work-hero-standard {
-  height: 90vh;
-  min-height: 700px;
-  background: var(--dark-void);
-  position: relative;
+.section-inner {
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding: 0 8%;
+}
+
+/* --- SECTION 1: DARK HERO (Centered & Elegant) --- */
+.work-hero-elite {
+  /* Using your deep blue from theme.css */
+  background-color: var(--color-primary-deep) !important; 
+  height: 85vh;
   display: flex;
   align-items: center;
-  padding: 0 5%;
+  justify-content: center;
+  text-align: center;
+  position: relative;
   overflow: hidden;
 }
 
-.hero-bg-canvas {
+/* Blur effect for depth */
+.hero-blur-bg {
   position: absolute;
   inset: 0;
-  z-index: 1;
-}
-
-.glow-sphere {
-  position: absolute;
-  top: -10%; right: -5%;
-  width: 50vw; height: 50vw;
-  background: radial-gradient(circle, rgba(43, 117, 255, 0.3) 0%, transparent 70%);
+  background: radial-gradient(circle at 50% 50%, rgba(43, 117, 255, 0.2) 0%, transparent 70%);
   filter: blur(100px);
+  pointer-events: none;
 }
 
-.work-hero-grid {
+.work-hero-content {
   position: relative;
   z-index: 2;
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 80px;
-  width: 100%;
+  max-width: 800px;
 }
 
 .hero-tag {
   display: block;
-  font-size: 0.75rem;
-  font-weight: 800;
+  font-size: 0.7rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 4px;
-  color: var(--blue-vibrant);
-  margin-bottom: 25px;
+  letter-spacing: 0.4em;
+  color: var(--color-secondary-bright);
+  margin-bottom: 24px;
 }
 
 .hero-display-title {
-  font-size: clamp(3rem, 7vw, 6rem);
-  font-weight: 900;
-  line-height: 0.95;
-  color: white;
+  /* REDUCED SCALE: Professional & Sophisticated */
+  font-size: clamp(2.2rem, 5vw, 3.2rem); 
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
   text-transform: uppercase;
-  letter-spacing: -2px;
-  margin-bottom: 30px;
-}
-
-.stroke-text {
-  color: transparent;
-  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.8);
+  margin-bottom: 25px;
+  /* VISIBILITY FIX */
+  color: #ffffff !important; 
 }
 
 .hero-summary {
-  font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.6);
-  max-width: 500px;
-  line-height: 1.6;
-  margin-bottom: 40px;
+  /* VISIBILITY FIX: Increased contrast */
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.9) !important; 
+  max-width: 520px;
+  margin: 0 auto 40px;
+  line-height: 1.7;
+  font-weight: 300;
 }
 
-.hero-action-btn {
-  padding: 20px 45px;
-  background: var(--blue-vibrant);
-  color: white;
+.scroll-hint-btn {
+  background: none;
   border: none;
-  border-radius: 100px;
-  font-weight: 700;
+  color: #ffffff;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
-  cursor: pointer;
-  transition: all 0.4s var(--ease-agency);
-}
-
-.hero-action-btn:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 40px rgba(43, 117, 255, 0.4);
-}
-
-/* Capability Cards */
-.hero-capabilities-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-
-.capability-card {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 35px 25px;
-  border-radius: 20px;
-  backdrop-filter: blur(10px);
-  display: flex;
-  flex-direction: column;
-}
-
-.card-index {
-  font-size: 0.8rem;
-  color: var(--blue-vibrant);
-  font-weight: 900;
-  margin-bottom: 15px;
-}
-
-.card-label {
-  color: white;
-  font-size: 0.9rem;
-  font-weight: 600;
-}
-
-/* --- SECTION LAYOUTS --- */
-.work-section-vibrant {
-  padding: 120px 5%;
-}
-
-.bg-offset { background-color: #f8fbff; }
-
-.section-inner {
-  max-width: 1400px;
   margin: 0 auto;
+  cursor: pointer;
+  transition: var(--transition-medium);
 }
 
-.work-header-box {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 80px;
-  border-bottom: 1px solid rgba(8, 1, 92, 0.08);
-  padding-bottom: 40px;
+.scroll-hint-btn:hover {
+  color: var(--color-secondary-bright);
+  transform: translateY(5px);
 }
 
-.index-label {
-  font-size: 0.8rem;
-  font-weight: 900;
-  color: var(--blue-vibrant);
-  display: block;
-  margin-bottom: 10px;
+/* --- ZEBRA LAYOUT: STRICT VERTICAL RHYTHM --- */
+
+/* White Sections (2 & 4) */
+.work-section-white, 
+.work-final-cta {
+  background-color: #ffffff !important;
+  padding: 120px 0; /* Identical Top/Bottom Padding */
+}
+
+/* Dark Sections (3) */
+.work-section-dark {
+  background-color: var(--color-primary-deep) !important;
+  padding: 120px 0; /* Identical Top/Bottom Padding */
+  position: relative;
+}
+
+/* Ensure headings inside dark sections are white */
+.work-section-dark .title-md,
+.work-section-dark .header-context {
+  color: #ffffff !important;
+}
+
+/* --- TYPOGRAPHY & HEADERS (NO NUMBERING) --- */
+.elite-header {
+  margin-bottom: 60px;
+  text-align: left;
 }
 
 .title-md {
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 900;
+  /* Reduced professional size */
+  font-size: clamp(1.5rem, 3vw, 1.8rem); 
+  font-weight: 800;
   text-transform: uppercase;
-  line-height: 1;
-  color: var(--dark-void);
+  letter-spacing: -0.01em;
+  margin-bottom: 12px;
+  color: var(--color-primary-deep);
 }
 
 .header-context {
-  max-width: 280px;
-  font-size: 0.95rem;
-  color: var(--text-secondary);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-light);
   font-weight: 500;
 }
 
-/* --- THE BIG CTA --- */
-.work-page-cta {
-  padding: 150px 5%;
-  background: var(--dark-void);
+/* --- THE FINAL CTA (Refined) --- */
+.work-final-cta {
   text-align: center;
+  border-top: 1px solid rgba(8, 1, 92, 0.05);
 }
 
 .cta-headline {
-  font-size: clamp(3rem, 10vw, 8rem);
+  /* VISIBILITY FIX */
+  color: var(--color-primary-deep) !important;
+  /* REDUCED SIZE for elegance */
+  font-size: clamp(2.2rem, 5vw, 3.4rem); 
   font-weight: 900;
-  color: white;
-  line-height: 0.9;
-  margin-bottom: 60px;
+  line-height: 1.1;
   text-transform: uppercase;
-}
-
-.cta-headline span { color: var(--blue-vibrant); }
-
-.cta-massive-btn {
-  width: 220px; height: 220px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  transition: all 0.5s var(--ease-agency);
-  text-decoration: none;
-}
-
-.cta-massive-btn:hover {
-  background: var(--blue-vibrant);
-  border-color: var(--blue-vibrant);
-  transform: scale(1.1);
-}
-
-.cta-massive-btn span {
-  font-size: 0.9rem;
-  font-weight: 800;
-  margin-bottom: 10px;
-}
-
-/* --- RESPONSIVE --- */
-@media (max-width: 1100px) {
-  .work-hero-grid { grid-template-columns: 1fr; gap: 60px; }
-  .hero-display-title { font-size: 4rem; }
-}
-
-@media (max-width: 768px) {
-  .work-header-box { flex-direction: column; align-items: flex-start; gap: 20px; }
-  .hero-capabilities-grid { grid-template-columns: 1fr; }
-  .cta-headline { font-size: 4rem; }
-  .cta-massive-btn { width: 160px; height: 160px; }
-}
-
-/* src/styles/pages/work.css */
-
-:root {
-  --blue-vibrant: #2b75ff;
-  --dark-void: #08015c;
-  --text-primary: #08015c;
-  --text-secondary: #64748b;
-  --white-pure: #ffffff;
-  --ease-agency: cubic-bezier(0.16, 1, 0.3, 1);
-  /* Adjust this value to match your header's actual height */
-  --header-height: 80px; 
-}
-
-.work-page-main {
-  background-color: var(--white-pure);
-  overflow-x: hidden;
-  /* Ensure the whole page starts after the fixed header if necessary */
-  padding-top: 0; 
-}
-
-/* --- HERO SECTION --- */
-.work-hero-standard {
-  /* Use min-height to ensure content fits, and calc to account for header */
-  min-height: calc(100vh - var(--header-height));
-  height: auto; 
-  padding: var(--header-height) 5% 80px 5%; /* Top padding prevents overlap */
-  background: var(--dark-void);
-  position: relative;
-  display: flex;
-  align-items: center; /* This now centers content in the REMAINING space */
-  overflow: hidden;
-}
-
-.hero-bg-canvas {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-}
-
-.glow-sphere {
-  position: absolute;
-  top: 0; right: -5%;
-  width: 50vw; height: 50vw;
-  background: radial-gradient(circle, rgba(43, 117, 255, 0.3) 0%, transparent 70%);
-  filter: blur(100px);
-}
-
-.work-hero-grid {
-  position: relative;
-  z-index: 2;
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 80px;
-  width: 100%;
-  max-width: 1400px; /* Standardize width */
-  margin: 0 auto;
-}
-
-/* --- Content Styling --- */
-.hero-tag {
-  display: block;
-  font-size: 0.7rem; /* Reduced slightly */
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 4px;
-  color: var(--blue-vibrant);
-  margin-bottom: 20px;
-}
-
-.hero-display-title {
-  font-size: clamp(2.5rem, 6vw, 5rem); /* Reduced slightly for cleaner look */
-  font-weight: 900;
-  line-height: 1.0;
-  color: white;
-  text-transform: uppercase;
-  letter-spacing: -2px;
-  margin-bottom: 25px;
-}
-
-.stroke-text {
-  color: transparent;
-  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.8);
-}
-
-.hero-summary {
-  font-size: 1.05rem; /* Reduced for agency clarity */
-  color: rgba(255, 255, 255, 0.6);
-  max-width: 450px;
-  line-height: 1.6;
+  letter-spacing: -0.04em;
   margin-bottom: 40px;
 }
 
-/* ... keep your existing .hero-action-btn and capability cards ... */
-
-/* --- RESPONSIVE UPDATES --- */
-@media (max-width: 1100px) {
-  .work-hero-standard {
-    padding-top: calc(var(--header-height) + 40px);
-    height: auto;
-  }
-  .work-hero-grid { grid-template-columns: 1fr; gap: 50px; }
-  .hero-display-title { font-size: 3.5rem; }
+.elite-contact-btn {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: var(--color-primary-deep);
+  border: 1px solid var(--color-primary-deep);
+  padding: 18px 48px;
+  display: inline-block;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.elite-contact-btn:hover {
+  background: var(--color-primary-deep);
+  color: #ffffff !important;
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(8, 0, 141, 0.15);
+}
+
+/* --- MOBILE OPTIMIZATIONS --- */
 @media (max-width: 768px) {
-  .work-hero-standard {
-    padding-top: calc(var(--header-height) + 20px);
-  }
-  .hero-capabilities-grid { 
-    grid-template-columns: 1fr; 
-    gap: 15px;
+  .section-inner { padding: 0 6%; }
+  .work-hero-elite { height: 75vh; }
+  .work-section-white, .work-section-dark, .work-final-cta {
+    padding: 80px 0;
   }
 }
