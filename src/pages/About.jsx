@@ -3,9 +3,10 @@
 // src/pages/About.jsx
 // src/pages/About.jsx
 // src/pages/About.jsx
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { FiArrowDown, FiArrowRight } from "react-icons/fi";
 import Loader from "../components/Loader.jsx";
+import useImagePreloader from "../hooks/useImagePreloader"; // Import the hook
 
 // Asset Imports
 import aitStudio from "../assets/images/aitStudio.png";
@@ -34,15 +35,26 @@ const PROCESS_STEPS = [
 ];
 
 const About = () => {
-  const [loading, setLoading] = useState(true);
+  const [timerDone, setTimerDone] = useState(false);
   const heroRef = useRef(null);
 
+  // 1. Memoize the images array to prevent unnecessary re-renders in the hook
+  const aboutImages = useMemo(
+    () => [aitStudio, preVisImg, assemblyImg, masteringImg],
+    []
+  );
+
+  // 2. Use the preloader hook
+  const imagesLoaded = useImagePreloader(aboutImages);
+
+  // 3. Keep a minimum brand-exposure timer for the loader animation
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 1200);
+    const timer = setTimeout(() => setTimerDone(true), 1200);
     return () => clearTimeout(timer);
   }, []);
 
-  if (loading) return <Loader />;
+  // 4. ONLY reveal content when BOTH the timer is finished AND images are cached
+  if (!timerDone || !imagesLoaded) return <Loader />;
 
   return (
     <main className="about-page-standard">
@@ -74,6 +86,7 @@ const About = () => {
         <div className="vision-container">
           <div className="vision-left">
             <div className="vision-image-wrapper">
+              {/* Image is now pre-cached and will show instantly */}
               <img src={aitStudio} alt="BigDay Media Studio" />
               <div className="image-float-card">
                 <strong>08+</strong>

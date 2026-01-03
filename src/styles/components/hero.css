@@ -208,3 +208,21 @@
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+/* src/styles/components/hero.css */
+
+.hero-slide-img {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  /* GPU Acceleration: Forces the browser to treat images as a separate layer */
+  will-change: opacity;
+  transform: translateZ(0); 
+}
+
+.hero-slide-img.active {
+  opacity: 1;
+}
