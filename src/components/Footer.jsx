@@ -2,8 +2,10 @@
 // src/components/Footer.jsx
 // src/components/Footer.jsx
 // src/components/Footer.jsx
+// src/components/Footer.jsx
 import { NavLink } from "react-router-dom";
-import { FiInstagram, FiTwitter, FiYoutube, FiArrowUpRight } from "react-icons/fi";
+import { FiInstagram, FiLinkedin, FiArrowUpRight } from "react-icons/fi";
+import { SiVimeo } from "react-icons/si"; // High-end video editors prioritize Vimeo
 import "../styles/components/footer.css";
 
 function Footer() {
@@ -14,20 +16,20 @@ function Footer() {
     <footer className="vf-footer">
       <div className="vf-footer-container">
         
-        {/* Top Section: Branding & High-Impact CTA */}
+        {/* Top Section: High-Impact Agency CTA */}
         <div className="vf-footer-top">
           <div className="footer-brand-lockup">
             <div className="footer-logo-initials">BD</div>
             <div className="footer-logo-text">
               <span className="brand-name">BigDay</span>
-              <span className="brand-sub">Media Agency</span>
+              <span className="brand-sub">Studio</span> {/* 'Studio' over 'Agency' */}
             </div>
           </div>
 
           <div className="vf-footer-cta">
-            <span className="cta-label">Ready to start?</span>
+            <span className="cta-label">Have a vision?</span>
             <NavLink to="/contact" className="footer-contact-link">
-              Let's Create <FiArrowUpRight className="icon-up" />
+              Start the Inquiry <FiArrowUpRight className="icon-up" />
             </NavLink>
           </div>
         </div>
@@ -35,12 +37,12 @@ function Footer() {
         <div className="footer-main-grid">
           <div className="footer-nav-wrapper">
             <div className="footer-nav-group">
-              <h4>Explore</h4>
+              <h4>Directory</h4> {/* 'Directory' over 'Explore' */}
               <ul>
-                <li><NavLink to="/">Home</NavLink></li>
-                <li><NavLink to="/work">Featured Work</NavLink></li>
-                <li><NavLink to="/about">Our Studio</NavLink></li>
-                <li><NavLink to="/services">Capabilities</NavLink></li>
+                <li><NavLink to="/">Index</NavLink></li>
+                <li><NavLink to="/work">Archive</NavLink></li>
+                <li><NavLink to="/about">Studio</NavLink></li>
+                <li><NavLink to="/contact">Inquiry</NavLink></li>
               </ul>
             </div>
             <div className="footer-nav-group">
@@ -56,19 +58,20 @@ function Footer() {
           <div className="footer-info-group">
             <div className="footer-socials">
               <a href="#" aria-label="Instagram"><FiInstagram /></a>
-              <a href="#" aria-label="YouTube"><FiYoutube /></a>
-              <a href="#" aria-label="Twitter"><FiTwitter /></a>
+              <a href="#" aria-label="Vimeo"><SiVimeo /></a>
+              <a href="#" aria-label="LinkedIn"><FiLinkedin /></a>
             </div>
             <button className="back-to-top" onClick={scrollToTop}>
-              Return to Top ↑
+               Top ↑
             </button>
           </div>
         </div>
 
         <div className="vf-footer-bottom">
-          <div className="copyright">© {currentYear} BIGDAY MEDIA STUDIO. ALL RIGHTS RESERVED.</div>
+          <div className="copyright">© {currentYear} BIGDAY MEDIA. ALL RIGHTS RESERVED.</div>
           <div className="credits">
-            Design & Direction by <span>Larry K.</span>
+            {/* Keeping it professional and minimalist */}
+            Directed by <span>Larry K.</span>
           </div>
         </div>
       </div>

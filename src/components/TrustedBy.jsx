@@ -4,6 +4,7 @@
 // src/components/TrustedBy.jsx
 // src/components/TrustedBy.jsx
 // src/components/TrustedBy.jsx
+// src/components/TrustedBy.jsx
 import { 
   SiSamsung, SiMercedes, SiNike, SiNetflix, 
   SiAdidas, SiApple, SiSony, SiHonda 
@@ -28,9 +29,12 @@ const TrustedBy = () => {
         
         {/* Left Side: Fixed Content */}
         <div className="trusted-info-aside">
-          <span className="trusted-tag">Partnerships</span>
-          <h2 className="trusted-title">Trusted by <br/>Industry Leaders</h2>
-          <p className="trusted-description">Pushing visual boundaries with the world's most ambitious brands.</p>
+          {/* Tag size reduced for elegance per saved instructions */}
+          <span className="trusted-tag">Selected Collaborations</span>
+          <h2 className="trusted-title">Global <br/>Network</h2>
+          <p className="trusted-description">
+            Editorial partners for the world's most ambitious narratives.
+          </p>
         </div>
 
         {/* Right Side: Marquee */}
@@ -44,6 +48,7 @@ const TrustedBy = () => {
               </div>
             ))}
           </div>
+          {/* High-blur masks for sophisticated transitions */}
           <div className="mask-left-overlay"></div>
           <div className="mask-right-overlay"></div>
         </div>

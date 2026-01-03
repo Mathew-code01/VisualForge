@@ -3,43 +3,53 @@
 // src/components/Loader.jsx
 // src/components/Loader.jsx
 // src/components/Loader.jsx
+// src/components/Loader.jsx
 import "../styles/components/loader.css";
 
 export default function Loader() {
-  return (
-    <div className="loader-vibrant-clean">
-      {/* Top and Bottom Decorative Lines */}
-      <div className="loader-border-top" />
-      <div className="loader-border-bottom" />
+  const currentYear = new Date().getFullYear();
 
-      <div className="loader-main-content">
-        <div className="loader-text-reveal">
-          <span className="loader-label">BigDay Media Agency</span>
-          <h1 className="loader-giant-text">
-            BIGDAY<span className="dot">.</span>
-          </h1>
-          <div className="loader-capabilities">
-            <span>Strategy</span>
-            <span className="sep">•</span>
-            <span>Production</span>
-            <span className="sep">•</span>
-            <span>Design</span>
-          </div>
+  return (
+    <div className="loader-agency-elite">
+      {/* High-End Glassmorphism Background */}
+      <div className="loader-glass-overlay" />
+      
+      <div className="loader-technical-grid">
+        <div className="grid-line" />
+        <div className="grid-line" />
+      </div>
+
+      <div className="loader-content-core">
+        <div className="metadata-top">
+          <span className="code-tag">BIGDAY_ARCHIVE_{currentYear}</span>
+          <span className="status-blink">REC</span>
         </div>
 
-        <div className="loader-progress-block">
-          <div className="loader-bar-bg">
-            <div className="loader-bar-active" />
+        <h1 className="loader-title-cinematic">
+          BIGDAY<span className="cursor">_</span>
+        </h1>
+
+        <div className="capabilities-editorial">
+          <div className="cap-item"><span>Editorial</span></div>
+          <div className="cap-item"><span>Color</span></div>
+          <div className="cap-item"><span>VFX</span></div>
+        </div>
+
+        <div className="progress-technical">
+          <div className="percentage-display">
+            <span className="label">Buffering Master</span>
+            <span className="number">099</span>
           </div>
-          <div className="loader-percentage">
-            <span>Loading Experience</span>
-            <span className="pct-num">99%</span>
+          <div className="hairline-bar">
+            <div className="fill" />
           </div>
         </div>
       </div>
 
-      <div className="loader-corner-info">
-        <span>EST 2024</span>
+      <div className="loader-footer-meta">
+        <span>FRM_DEV: 0.00ms</span>
+        <span>RES: 4K_UHD</span>
+        <span>EST_2024</span>
       </div>
     </div>
   );

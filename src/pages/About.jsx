@@ -9,19 +9,19 @@ import "../styles/pages/about.css";
 
 const PROCESS_STEPS = [
   {
-    title: "Pre-Visualization", // Better than Discovery
-    desc: "Deconstructing your brand's DNA to map out a technical and creative roadmap.",
-    img: "https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2000&auto=format&fit=crop",
+    title: "Pre-Visualization",
+    desc: "Mapping the creative roadmap and deconstructing the project's technical requirements.",
+    img: "https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2000",
   },
   {
-    title: "The Assembly", // Better than Forging
-    desc: "Where rhythm meets narrative. Precision editing, sound design, and color grading.",
-    img: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2000&auto=format&fit=crop",
+    title: "The Assembly",
+    desc: "Where rhythm meets narrative. Precision editorial, sound architecture, and chromatic grading.",
+    img: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2000",
   },
   {
-    title: "Mastering", // Better than Delivery
-    desc: "Final QC and export optimization for seamless playback across all platforms.",
-    img: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?q=80&w=2000&auto=format&fit=crop",
+    title: "Mastering",
+    desc: "Comprehensive QC and optimization for high-fidelity playback across global platforms.",
+    img: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?q=80&w=2000",
   },
 ];
 
@@ -35,7 +35,7 @@ const About = () => {
 
   return (
     <main className="about-page-standard">
-      {/* 1. HERO: Zebra Dark */}
+      {/* 1. HERO: Zebra Dark (Centered Hero Text) */}
       <section className="about-hero-editorial" ref={heroRef}>
         <div className="hero-bg-accent"></div>
         <div className="about-hero-container">
@@ -51,12 +51,12 @@ const About = () => {
 
           <div className="hero-bottom-grid">
             <p className="hero-editorial-text">
-              We specialize in narrative-driven post-production, blending
-              high-end cinematography with precision motion design to define the
-              next generation of brand storytelling.
+              We specialize in narrative-driven visual editorial, blending
+              cinematic artistry with technical rigor to define the next
+              generation of brand stories.
             </p>
             <div className="scroll-indicator">
-              <span className="scroll-text">Explore our DNA</span>
+              <span className="scroll-text">Studio Ethos</span>
               <FiArrowDown />
             </div>
           </div>
@@ -69,12 +69,13 @@ const About = () => {
           <div className="vision-left">
             <div className="vision-image-wrapper">
               <img
-                src="https://images.pexels.com/photos/2510428/pexels-photo-2510428.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="Studio Environment"
+                src="https://images.pexels.com/photos/2510428/pexels-photo-2510428.jpeg?w=800"
+                alt="Studio"
               />
               <div className="image-float-card">
                 <strong>08+</strong>
-                <span>Years in Post-Production</span>
+                <span>Years of Practice</span>{" "}
+                {/* Removed '01, 02' style numbering as requested */}
               </div>
             </div>
           </div>
@@ -84,14 +85,14 @@ const About = () => {
               Where Art Meets <span>Technical Rigor.</span>
             </h2>
             <p className="vision-p">
-              We don't just cut clips; we engineer visual flow. By combining
-              technical precision with an intuitive sense of timing, we
-              transform raw footage into immersive experiences.
+              We engineer visual flow. By combining chromatic precision with an
+              intuitive sense of timing, we transform raw assets into
+              high-fidelity immersive experiences.
             </p>
             <div className="vision-stats">
               <div className="v-stat">
                 <strong>120+</strong>
-                <span>Global Deliverables</span>
+                <span>Global Deliveries</span>
               </div>
               <div className="v-stat">
                 <strong>0ms</strong>
@@ -103,11 +104,11 @@ const About = () => {
       </section>
 
       {/* 3. WORKFLOW: Zebra Dark */}
-      <section className="about-workflow-section">
+      <section className="about-workflow-section bg-deep">
         <div className="about-container-unique">
           <header className="section-header-block">
-            <span className="section-tag-elite">Pipeline</span>
-            <h2 className="section-heading-unique">The Workflow</h2>
+            <span className="section-tag-elite">Methodology</span>
+            <h2 className="section-heading-unique">The Pipeline</h2>
           </header>
 
           <div className="process-grid-elite">
@@ -131,15 +132,15 @@ const About = () => {
       <section className="about-final-cta">
         <div className="cta-content-modern">
           <h2 className="cta-huge-text">
-            Ready to frame <br />
-            your next project?
+            Elevate your <br />
+            next narrative.
           </h2>
           <div className="cta-action-group">
             <a href="/contact" className="cta-btn-primary">
               Start Project <FiArrowRight />
             </a>
             <a href="/work" className="cta-btn-link">
-              See the Work
+              View Archive
             </a>
           </div>
         </div>

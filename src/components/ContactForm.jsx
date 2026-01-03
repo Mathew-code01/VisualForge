@@ -29,10 +29,10 @@ function ContactForm() {
     <form className="contact-form-vibrant" onSubmit={handleSubmit}>
       <div className="form-row">
         <div className="input-wrapper">
-          <label>Full Name</label>
+          <label>Identity</label> {/* "Identity" or "Contact Name" */}
           <input
             type="text"
-            placeholder="John Doe"
+            placeholder="Name or Studio"
             required
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -43,7 +43,7 @@ function ContactForm() {
           <label>Work Email</label>
           <input
             type="email"
-            placeholder="john@company.com"
+            placeholder="email@company.com"
             required
             value={formData.email}
             onChange={(e) =>
@@ -54,10 +54,11 @@ function ContactForm() {
       </div>
 
       <div className="input-wrapper">
-        <label>Project Details</label>
+        <label>Project Scope</label>{" "}
+        {/* "Scope" is the industry term for Video Editors */}
         <textarea
           rows="4"
-          placeholder="Tell us about your project goals..."
+          placeholder="Briefly describe your vision and technical requirements..."
           required
           value={formData.message}
           onChange={(e) =>
@@ -73,9 +74,9 @@ function ContactForm() {
       >
         <span className="btn-content">
           {status.loading
-            ? "Processing..."
+            ? "Authenticating..."
             : status.success
-            ? "Sent Successfully"
+            ? "Brief Transmitted"
             : "Send Inquiry"}
         </span>
         <span className="btn-icon">

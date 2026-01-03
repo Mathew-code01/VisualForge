@@ -4,155 +4,155 @@
 /* src/styles/components/loader.css */
 /* src/styles/components/loader.css */
 
-/* --- Loader Container --- */
-.loader-vibrant-clean {
+/* src/styles/components/loader.css */
+
+.loader-agency-elite {
   position: fixed;
   inset: 0;
-  background-color: #ffffff; /* Pure Minimalist White */
+  /* Using your deepest brand blue as the background anchor */
+  background-color: var(--color-primary-dark); 
   z-index: var(--z-max);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  color: #ffffff;
+  font-family: var(--font-base); /* Using your Poppins font */
 }
 
-/* Accent Borders - Made thinner for elegance */
-.loader-border-top, 
-.loader-border-bottom {
+/* Glassmorphism Blur Effect using your Bright Blue */
+.loader-glass-overlay {
   position: absolute;
-  left: 0;
-  width: 100%;
-  height: 4px; /* Reduced from 8px for a cleaner look */
-  background: var(--color-primary-dark);
+  inset: 0;
+  background: radial-gradient(
+    circle at center, 
+    rgba(43, 117, 255, 0.15) 0%, 
+    transparent 70%
+  );
+  filter: blur(80px);
 }
-.loader-border-top { top: 0; }
-.loader-border-bottom { bottom: 0; }
 
-.loader-main-content {
+/* Technical Meta-grid using Brand Deep Blue */
+.loader-technical-grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.grid-line {
+  position: absolute;
+  background: var(--color-secondary-bright);
+}
+.grid-line:nth-child(1) { top: 25%; left: 0; width: 100%; height: 1px; opacity: 0.3; }
+.grid-line:nth-child(2) { top: 0; left: 25%; width: 1px; height: 100%; opacity: 0.3; }
+
+/* Metadata Styling */
+.metadata-top {
+  display: flex;
+  justify-content: space-between;
   width: 100%;
   max-width: 600px;
-  padding: 0 var(--container-padding);
-  text-align: center;
-}
-
-/* --- Typography Styling (Reduced Sizes) --- */
-.loader-label {
-  display: block;
-  font-size: 10px; /* Smaller, sophisticated scale */
+  margin-bottom: 30px;
+  font-size: 10px;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5em; /* High tracking for agency feel */
-  color: var(--color-secondary-bright);
-  margin-bottom: 15px;
-  animation: fadeInDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  letter-spacing: 0.4em;
+  color: var(--color-primary-light); /* Lighter blue for technical text */
 }
 
-.loader-giant-text {
-  /* Reduced from 10rem to 3.5rem for high-end boutique feel */
-  font-size: clamp(2.2rem, 8vw, 3.5rem);
-  font-weight: 800;
-  color: var(--color-primary-dark);
+.status-blink {
+  color: var(--color-accent); /* Using your #ff3b3b Red */
+  animation: blink 0.8s infinite;
+}
+
+/* Title Cinematic */
+.loader-title-cinematic {
+  font-size: clamp(2.5rem, 10vw, 4.5rem);
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  margin: 0;
   line-height: 1;
-  letter-spacing: -0.03em;
-  margin-bottom: 25px;
   text-transform: uppercase;
-  animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  color: #ffffff;
+  animation: revealText 1.2s cubic-bezier(0.77, 0, 0.175, 1);
 }
 
-.loader-giant-text .dot {
+.cursor {
   color: var(--color-secondary-bright);
+  animation: blink 0.6s infinite;
 }
 
-.loader-capabilities {
+/* Capabilities - Minimalist List */
+.capabilities-editorial {
   display: flex;
-  justify-content: center;
-  gap: 20px;
-  font-size: 9px;
-  font-weight: 600;
+  gap: 30px;
+  margin-top: 25px;
+  font-size: 10px;
   text-transform: uppercase;
+  letter-spacing: 0.4em;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Technical Progress Bar using Mid-Blue */
+.progress-technical {
+  margin-top: 100px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.percentage-display {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 800;
   letter-spacing: 0.2em;
-  color: var(--color-text-light);
-  opacity: 0.6;
-}
-
-.sep { 
-  color: var(--color-secondary-bright); 
-}
-
-/* --- Progress Block --- */
-.loader-progress-block {
-  margin-top: 60px; /* Reduced spacing */
-  width: 100%;
-  max-width: 280px; /* Narrower bar is more elegant */
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.loader-bar-bg {
-  width: 100%;
-  height: 1px; /* Hairline progress bar for high-end feel */
-  background: rgba(8, 1, 92, 0.1);
   margin-bottom: 12px;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.hairline-bar {
+  width: 100%;
+  height: 2px;
+  background: var(--color-primary-deep); /* Dark blue background track */
+  position: relative;
   overflow: hidden;
 }
 
-.loader-bar-active {
-  height: 100%;
-  width: 100%;
-  background: var(--color-primary-dark);
-  transform-origin: left;
-  animation: progressMove 2.5s cubic-bezier(0.85, 0, 0.15, 1) infinite;
+.fill {
+  position: absolute;
+  top: 0; left: 0; height: 100%;
+  background: var(--color-secondary-bright); /* Vibrant blue loading bar */
+  animation: loadFill 2.5s cubic-bezier(0.85, 0, 0.15, 1) infinite;
 }
 
-.loader-percentage {
+/* Technical Footer Meta */
+.loader-footer-meta {
+  position: absolute;
+  bottom: 50px;
+  width: 100%;
+  padding: 0 6%;
   display: flex;
   justify-content: space-between;
   font-size: 9px;
+  letter-spacing: 0.3em;
+  color: var(--color-primary-light);
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--color-primary-dark);
+  opacity: 0.4;
 }
 
-.pct-num {
-  color: var(--color-secondary-bright);
+/* Keyframes */
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes loadFill { 0% { width: 0; } 100% { width: 100%; } }
+@keyframes revealText {
+  from { letter-spacing: -0.2em; opacity: 0; filter: blur(15px); }
+  to { letter-spacing: -0.05em; opacity: 1; filter: blur(0); }
 }
 
-/* --- Corner Info --- */
-.loader-corner-info {
-  position: absolute;
-  bottom: 40px;
-  right: 40px;
-  font-size: 9px;
-  font-weight: 700;
-  color: var(--color-text-light);
-  letter-spacing: 0.15em;
-  opacity: 0.5;
-}
-
-/* --- Clean Animations --- */
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeInDown {
-  from { opacity: 0; transform: translateY(-15px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes progressMove {
-  0% { transform: scaleX(0); }
-  100% { transform: scaleX(1); }
-}
-
-/* Tablet/Mobile Scale */
+/* Mobile Adjustments */
 @media (max-width: 768px) {
-  .loader-giant-text {
-    font-size: 2.5rem;
-  }
-  .loader-capabilities {
-    gap: 10px;
-    font-size: 8px;
-  }
+  .metadata-top, .progress-technical { width: 85%; }
+  .capabilities-editorial { gap: 15px; font-size: 8px; }
+  .loader-footer-meta { flex-direction: column; gap: 10px; align-items: center; }
 }

@@ -2,14 +2,16 @@
 // src/components/Header.jsx
 // src/components/Header.jsx
 // src/components/Header.jsx
+// src/components/Header.jsx
 import { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import "../styles/components/header.css";
 
+// Refined for a high-end "Work Display" aesthetic
 const navigationItems = [
-  { name: "Discovery", path: "/" },
-  { name: "Our Work", path: "/work" },
-  { name: "Agency", path: "/about" },
+  { name: "Index", path: "/" },
+  { name: "Archive", path: "/work" },
+  { name: "Studio", path: "/about" },
 ];
 
 function Header() {
@@ -41,7 +43,8 @@ function Header() {
           <div className="logo-symbol">B<span>D</span></div>
           <div className="logo-text-wrapper">
             <span className="logo-brand">BigDay</span>
-            <span className="logo-suffix">Media Agency</span>
+            {/* Reduced to 'Media' for a cleaner, ultra-minimalist look */}
+            <span className="logo-suffix">Media</span>
           </div>
         </NavLink>
 
@@ -59,7 +62,9 @@ function Header() {
         </nav>
 
         <div className="header-actions">
-          <NavLink to="/contact" className="cta-button">Launch Project</NavLink>
+          {/* Punchier CTA for the minimalist aesthetic */}
+          <NavLink to="/contact" className="cta-button">Inquiry</NavLink>
+          
           <button className={`burger-btn ${menuOpen ? "active" : ""}`} onClick={() => setMenuOpen(!menuOpen)}>
             <div className="burger-line line-top"></div>
             <div className="burger-line line-bottom"></div>
@@ -74,7 +79,7 @@ function Header() {
               <span className="m-text">{item.name}</span>
             </NavLink>
           ))}
-          <NavLink to="/contact" className="m-link m-cta">Get in Touch</NavLink>
+          <NavLink to="/contact" className="m-link m-cta">Start a Project</NavLink>
         </nav>
       </div>
     </header>

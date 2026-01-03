@@ -6,7 +6,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { getVideos } from "../firebase/uploadVideo.js";
-import { FiArrowLeft, FiMail } from "react-icons/fi";
+import { FiArrowLeft, FiMail, FiArrowRight } from "react-icons/fi";
 import {
   MdOutlineHighQuality,
   MdAccessTime,
@@ -24,6 +24,13 @@ const VideoPlayer = ({ work }) => {
 
   return (
     <div className={`video-stage-minimal ${isReady ? "ready" : "loading"}`}>
+      {/* Visual Loader for the Video Element itself */}
+      {!isReady && (
+        <div className="video-preloader">
+          <span>Buffering Master...</span>
+        </div>
+      )}
+
       {isVimeo ? (
         <iframe
           src={`https://player.vimeo.com/video/${vimeoId}?badge=0&autopause=0&player_id=0&app_id=58479`}
@@ -52,6 +59,11 @@ export default function WorkDetail() {
   const [allWorks, setAllWorks] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // 1. Auto-Scroll to Top on Navigation
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [id]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -77,48 +89,49 @@ export default function WorkDetail() {
     };
   }, [id, allWorks]);
 
-  // 1. Loading State
+  // 2. High-End Page Loader
   if (loading) {
     return (
       <div className="minimal-page-loader">
-        <span>Loading Selection</span>
+        <div className="loader-content">
+          <span className="loader-label">BigDay Studio</span>
+          <span className="loader-text">Retrieving Asset...</span>
+        </div>
       </div>
     );
   }
 
-  // 2. Safety Check: If no project is found, show an elegant "Not Found" state
   if (!work) {
     return (
       <div className="work-detail-minimal error-state">
         <div className="bar-inner">
           <button onClick={() => navigate("/work")} className="nav-btn-minimal">
-            <FiArrowLeft /> Back to Archive
+            <FiArrowLeft /> Return to Index
           </button>
         </div>
         <div className="error-message-elite">
-          <h2>Project Not Found</h2>
-          <p>The requested masterpiece has moved or does not exist.</p>
+          <h2>Asset Not Found</h2>
+          <p>The requested sequence does not exist in the current archive.</p>
         </div>
       </div>
     );
   }
 
-  // 3. Main Render (Now safe because we checked if 'work' exists above)
   return (
     <div className="work-detail-minimal">
       <nav className="detail-action-bar">
         <div className="bar-inner">
           <button onClick={() => navigate("/work")} className="nav-btn-minimal">
-            <FiArrowLeft /> Archive
+            <FiArrowLeft /> Index
           </button>
           <div className="bar-center">
-            <span className="bar-tag">{work.category}</span>
+            <span className="bar-tag">{work.category} // 2026</span>
           </div>
           <a
-            href={`mailto:studio@BigDay-Media.com?subject=Project Inquiry: ${work.title}`}
+            href={`mailto:studio@BigDay-Media.com?subject=Inquiry: ${work.title}`}
             className="nav-btn-minimal highlight"
           >
-            <FiMail /> Inquire
+            <FiMail /> Inquiry
           </a>
         </div>
       </nav>
@@ -130,13 +143,13 @@ export default function WorkDetail() {
             <div className="theater-meta">
               <div className="meta-pills">
                 <span className="pill">
-                  <MdOutlineHighQuality /> 4K Master
+                  <MdOutlineHighQuality /> 4K Masters
                 </span>
                 <span className="pill">
                   <MdAccessTime /> {work.duration || "00:00"}
                 </span>
                 <span className="pill">
-                  <MdCalendarToday /> {work.year || "2025"}
+                  <MdCalendarToday /> {work.year || "2026"}
                 </span>
               </div>
             </div>
@@ -148,7 +161,7 @@ export default function WorkDetail() {
 
             <div className="cta-minimal-group">
               <a href="mailto:studio@BigDay-Media.com" className="btn-solid">
-                Start Project
+                Start Project Inquiry <FiArrowRight />
               </a>
             </div>
           </section>
@@ -156,20 +169,20 @@ export default function WorkDetail() {
 
         <aside className="detail-sidebar-minimal">
           <div className="info-card-minimal">
-            <h4 className="sidebar-label">Project Specs</h4>
+            <h4 className="sidebar-label">Technical Specs</h4>
             <div className="spec-row">
-              <span>Focus</span>
+              <span>Category</span>
               <strong>{work.category}</strong>
             </div>
             <div className="spec-row">
-              <span>Output</span>
-              <strong>Commercial Master</strong>
+              <span>Master Delivery</span>
+              <strong>Commercial Editorial</strong>
             </div>
           </div>
 
           {recommended.length > 0 && (
             <div className="suggestion-minimal">
-              <h4 className="sidebar-label">Related Works</h4>
+              <h4 className="sidebar-label">Discovery</h4>
               {recommended.map((item) => (
                 <Link
                   key={item.id}
@@ -190,16 +203,17 @@ export default function WorkDetail() {
         </aside>
       </main>
 
+      {/* Zebra Layout Footer: Ensure this is a Dark Section if the above is White */}
       <footer className="pagination-minimal">
         {prevWork && (
           <Link to={`/work/${prevWork.id}`} className="pag-link">
-            <span className="pag-dir">Previous</span>
+            <span className="pag-dir">Previous Asset</span>
             <span className="pag-name">{prevWork.title}</span>
           </Link>
         )}
         {nextWork && (
           <Link to={`/work/${nextWork.id}`} className="pag-link next">
-            <span className="pag-dir">Next Project</span>
+            <span className="pag-dir">Next Asset</span>
             <span className="pag-name">{nextWork.title}</span>
           </Link>
         )}
