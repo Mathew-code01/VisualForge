@@ -11,6 +11,11 @@ import Contact from "./Contact";
 import Loader from "../components/Loader.jsx";
 import "../styles/pages/home.css";
 
+// Optimized Asset Imports
+import editorialImg from "../assets/images/creativeEditorial.png";
+import motionImg from "../assets/images/motion&VFX.png";
+import chromaticImg from "../assets/images/chromaticFinishing.png";
+
 const Home = () => {
   const [loading, setLoading] = useState(true);
   const scrollRefs = useRef([]);
@@ -32,7 +37,6 @@ const Home = () => {
       { threshold: 0.1 }
     );
 
-    // Cleanly observe all refs
     scrollRefs.current.forEach((ref) => {
       if (ref) observer.observe(ref);
     });
@@ -59,7 +63,6 @@ const Home = () => {
             <span className="section-tag-elite">Cinematic Archive</span>
             <h2 className="section-heading-unique">Selected Works</h2>
           </header>
-          {/* WorkGrid should focus on UI/UX with clean hover states */}
           <WorkGrid featured={true} />
         </div>
       </section>
@@ -97,12 +100,13 @@ const Home = () => {
           </header>
 
           <div className="capabilities-grid-elite">
-            {/* Discipline 1 */}
+            {/* Discipline 1: Creative Editorial */}
             <div className="cap-card">
               <div className="cap-image-wrapper">
                 <img
-                  src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?q=80&w=2000&auto=format&fit=crop"
-                  alt="Editorial"
+                  src={editorialImg}
+                  alt="Creative Editorial"
+                  loading="lazy"
                 />
                 <div className="cap-overlay" />
               </div>
@@ -115,12 +119,13 @@ const Home = () => {
               </div>
             </div>
 
-            {/* Discipline 2 */}
+            {/* Discipline 2: Motion & VFX */}
             <div className="cap-card">
               <div className="cap-image-wrapper">
                 <img
-                  src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2000&auto=format&fit=crop"
-                  alt="Motion"
+                  src={motionImg}
+                  alt="Motion & VFX"
+                  loading="lazy"
                 />
                 <div className="cap-overlay" />
               </div>
@@ -133,12 +138,13 @@ const Home = () => {
               </div>
             </div>
 
-            {/* Discipline 3 */}
+            {/* Discipline 3: Chromatic Finishing */}
             <div className="cap-card">
               <div className="cap-image-wrapper">
                 <img
-                  src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2000&auto=format&fit=crop"
-                  alt="Color"
+                  src={chromaticImg}
+                  alt="Chromatic Finishing"
+                  loading="lazy"
                 />
                 <div className="cap-overlay" />
               </div>

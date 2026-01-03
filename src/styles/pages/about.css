@@ -3,59 +3,67 @@
 /* src/styles/pages/about.css */
 /* src/styles/pages/about.css */
 /* src/styles/pages/about.css */
-/* src/styles/pages/about.css */
-
-/* ============================================
-    1. LAYOUT ENGINE (The Zebra System)
-============================================ */
+/* ============================================================
+   ABOUT PAGE - ELITE AGENCY STYLING
+   Aesthetic: Ultra-Minimalist / High-End / Zebra Layout
+   ============================================================ */
 
 :root {
-  /* Strict Vertical Rhythm Variables */
-  --about-section-pad: clamp(100px, 12vw, 160px); 
-  --about-side-pad: clamp(24px, 8vw, 120px);
+  /* Strict Vertical Rhythm & Spacing */
+  --about-section-pad: clamp(100px, 15vh, 180px); /* Identical Top/Bottom */
+  --about-side-pad: clamp(24px, 10vw, 140px);
+  --max-content: 1400px;
+  
+  /* Precision Easing */
   --easing-premium: cubic-bezier(0.16, 1, 0.3, 1);
+  
+  /* Visibility Fixes */
+  --text-muted-white: rgba(255, 255, 255, 0.6);
+  --text-muted-dark: rgba(8, 1, 92, 0.6);
 }
 
 .about-page-standard {
-  background-color: var(--color-bg);
+  background-color: #ffffff;
   width: 100%;
+  overflow-x: hidden;
 }
 
-/* Identical Top/Bottom Padding for all Sections */
+/* Identical Padding for all Zebra Sections */
 .about-hero-editorial,
 .about-vision-section,
 .about-workflow-section,
 .about-final-cta {
-  padding: var(--about-section-pad) var(--about-side-pad) !important;
+  padding: var(--about-section-pad) 0 !important;
   width: 100%;
-  display: flex;
-  flex-direction: column;
   position: relative;
 }
 
+.about-container-unique,
+.vision-container,
+.about-hero-container {
+  max-width: var(--max-content);
+  margin: 0 auto;
+  padding: 0 var(--about-side-pad);
+}
+
 /* ============================================
-    2. SECTION 1: HERO (Deep Dark Zebra)
-============================================ */
+   SECTION 1: HERO (Deep Dark Zebra)
+   ============================================ */
 .about-hero-editorial {
-  background-color: var(--color-primary-dark) !important;
+  background-color: var(--color-primary-dark, #08015c) !important;
   min-height: 85vh;
-  justify-content: center;
+  display: flex;
   align-items: center;
+  justify-content: center;
   text-align: center;
-  overflow: hidden;
 }
 
 .hero-bg-accent {
   position: absolute;
   inset: 0;
   background: radial-gradient(circle at 50% 50%, rgba(43, 117, 255, 0.15) 0%, transparent 70%);
-  filter: blur(100px);
+  filter: blur(120px);
   pointer-events: none;
-}
-
-.about-hero-container {
-  max-width: 1100px;
-  z-index: 5;
 }
 
 .hero-top-meta {
@@ -67,10 +75,10 @@
 }
 
 .meta-label {
-  color: var(--color-secondary-bright);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5em; /* Elite tracking */
+  color: var(--color-secondary-bright, #2b75ff);
+  font-weight: 800;
+  text-transform: uppercase; /* CAPITALISM NECESSARY */
+  letter-spacing: 0.6em;
   font-size: 0.65rem;
 }
 
@@ -81,12 +89,12 @@
 }
 
 .about-display-title {
-  font-size: clamp(2.2rem, 6vw, 3.8rem);
-  font-weight: 800;
-  line-height: 1.1;
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  font-weight: 900;
+  line-height: 1.05;
   color: #ffffff !important;
   margin-bottom: 40px;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.05em; /* BOLDNESS */
 }
 
 .text-outline {
@@ -95,11 +103,11 @@
 }
 
 .hero-editorial-text {
-  color: rgba(255, 255, 255, 0.7) !important;
-  font-size: 1.1rem;
+  color: var(--text-muted-white) !important;
+  font-size: clamp(1rem, 1.2vw, 1.15rem);
   line-height: 1.8;
-  max-width: 600px;
-  margin: 0 auto 50px;
+  max-width: 580px;
+  margin: 0 auto 60px;
   font-weight: 300;
 }
 
@@ -107,26 +115,24 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 15px;
   color: var(--color-secondary-bright);
   font-size: 0.65rem;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.4em;
 }
 
 /* ============================================
-    3. SECTION 2: VISION (White Zebra)
-============================================ */
+   SECTION 2: VISION (White Zebra)
+   ============================================ */
 .about-vision-section {
   background-color: #ffffff !important;
 }
 
 .vision-container {
-  max-width: var(--max-content-width);
-  margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1.1fr;
   gap: 100px;
   align-items: center;
 }
@@ -137,51 +143,60 @@
 
 .vision-image-wrapper img {
   width: 100%;
-  height: 600px;
+  aspect-ratio: 4/5;
   object-fit: cover;
+  filter: grayscale(100%);
+  transition: filter 0.8s ease;
+}
+
+.vision-image-wrapper:hover img {
+  filter: grayscale(0%);
 }
 
 .image-float-card {
   position: absolute;
-  bottom: -30px;
-  right: -30px;
-  background: var(--color-primary-dark);
+  bottom: -40px;
+  right: -40px;
+  background: var(--color-primary-dark, #08015c);
   color: #ffffff;
-  padding: 40px;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+  padding: 45px;
+  box-shadow: 30px 40px 80px rgba(0,0,0,0.15);
+  z-index: 10;
 }
 
 .image-float-card strong {
   display: block;
-  font-size: 2.2rem;
+  font-size: 3rem;
   line-height: 1;
+  font-weight: 900;
   margin-bottom: 5px;
+  letter-spacing: -0.05em;
 }
 
 .image-float-card span {
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
-  opacity: 0.6;
+  letter-spacing: 0.3em;
+  color: var(--color-secondary-bright);
 }
 
 .vision-heading {
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 800;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 900;
   line-height: 1.1;
   color: var(--color-primary-dark);
-  margin-bottom: 30px;
-  letter-spacing: -0.03em;
+  margin-bottom: 35px;
+  letter-spacing: -0.04em;
 }
 
 .vision-heading span { color: var(--color-secondary-bright); }
 
 .vision-p {
-  color: var(--color-text-light);
+  color: var(--text-muted-dark);
   font-size: 1.1rem;
   line-height: 1.9;
-  margin-bottom: 40px;
-  max-width: 500px;
+  margin-bottom: 50px;
+  max-width: 520px;
 }
 
 .vision-stats {
@@ -190,114 +205,115 @@
 }
 
 .v-stat strong {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   display: block;
   color: var(--color-primary-dark);
-  letter-spacing: -0.04em;
+  font-weight: 900;
 }
 
 .v-stat span {
-  color: var(--color-text-light);
+  color: var(--text-muted-dark);
   font-size: 0.7rem;
   text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  font-weight: 800;
+  letter-spacing: 0.15em;
 }
 
 /* ============================================
-    4. SECTION 3: WORKFLOW (Deep Dark Zebra)
-============================================ */
+   SECTION 3: WORKFLOW (Deep Dark Zebra)
+   ============================================ */
 .about-workflow-section {
-  background-color: var(--color-primary-dark) !important;
+  background-color: var(--color-primary-dark, #08015c) !important;
 }
 
-.section-header-block {
-  margin-bottom: 60px;
-  text-align: left;
+.section-tag-elite {
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5em;
+  color: var(--color-secondary-bright);
+  display: block;
+  margin-bottom: 15px;
 }
 
 .section-heading-unique {
-  font-size: 2.2rem;
+  font-size: 2.5rem;
   color: #ffffff !important;
-  font-weight: 800;
-  margin-top: 10px;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  margin-bottom: 60px;
 }
 
 .process-grid-elite {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 30px;
 }
 
 .process-card-landscape {
   position: relative;
-  height: 320px;
+  height: 380px;
   overflow: hidden;
   background: #000;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 35px;
+  padding: 40px;
   cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   transition: all 0.6s var(--easing-premium);
 }
 
-.process-image-wrapper {
+.process-image-wrapper img {
   position: absolute;
   inset: 0;
-  z-index: 1;
-}
-
-.process-image-wrapper img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.3;
+  opacity: 0.2;
   filter: grayscale(100%);
-  transition: transform 0.8s var(--easing-premium), opacity 0.5s ease;
+  transition: transform 1.2s var(--easing-premium), opacity 0.8s ease;
 }
 
 .process-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, transparent 0%, rgba(8, 1, 92, 0.95) 100%);
-  z-index: 2;
+  background: linear-gradient(to bottom, transparent 0%, rgba(8, 1, 92, 0.9) 100%);
 }
 
 .process-content {
   position: relative;
-  z-index: 3;
-  transform: translateY(15px);
-  transition: transform 0.5s var(--easing-premium);
+  z-index: 5;
+  transform: translateY(20px);
+  transition: transform 0.6s var(--easing-premium);
 }
 
 .p-card-title {
   color: #ffffff !important;
-  font-size: 1.1rem;
-  font-weight: 700;
+  font-size: 1rem;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
-  margin-bottom: 12px;
+  letter-spacing: 0.2em;
+  margin-bottom: 15px;
 }
 
 .p-card-desc {
   color: rgba(255, 255, 255, 0.5);
   font-size: 0.85rem;
-  line-height: 1.6;
-  opacity: 0; /* Hidden initially for clean UI */
+  line-height: 1.7;
+  opacity: 0;
   transition: opacity 0.4s ease;
 }
 
-/* Landscape Hover States */
+/* Hover States */
 .process-card-landscape:hover {
   border-color: var(--color-secondary-bright);
+  transform: translateY(-5px);
 }
 
 .process-card-landscape:hover img {
-  opacity: 0.5;
-  filter: grayscale(0%);
-  transform: scale(1.08);
+  opacity: 0.4;
+  transform: scale(1.1);
 }
 
 .process-card-landscape:hover .process-content {
@@ -305,69 +321,75 @@
 }
 
 .process-card-landscape:hover .p-card-desc {
-  opacity: 1; /* Visible on hover */
+  opacity: 1;
 }
 
 /* ============================================
-    5. SECTION 4: FINAL CTA (White Zebra)
-============================================ */
+   SECTION 4: FINAL CTA (White Zebra)
+   ============================================ */
 .about-final-cta {
   background: #ffffff !important;
   text-align: center;
-  align-items: center;
 }
 
 .cta-huge-text {
-  font-size: clamp(2.2rem, 7vw, 3.8rem);
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
   font-weight: 900;
   color: var(--color-primary-dark);
-  line-height: 1.1;
-  margin-bottom: 50px;
-  letter-spacing: -0.05em;
+  line-height: 1;
+  margin-bottom: 60px;
+  letter-spacing: -0.06em;
 }
 
 .cta-action-group {
   display: flex;
+  justify-content: center;
   gap: 40px;
   align-items: center;
 }
 
 .cta-btn-primary {
-  padding: 20px 45px;
+  padding: 24px 55px;
   background: var(--color-primary-dark);
   color: #ffffff !important;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
-  font-size: 0.75rem;
-  letter-spacing: 0.3em;
+  font-size: 0.7rem;
+  letter-spacing: 0.4em;
   display: flex;
   align-items: center;
   gap: 15px;
-  transition: all 0.4s var(--easing-premium);
+  transition: all 0.5s var(--easing-premium);
 }
 
 .cta-btn-primary:hover {
   background: var(--color-secondary-bright);
-  transform: translateY(-5px);
-  box-shadow: 0 20px 40px rgba(43, 117, 255, 0.2);
+  transform: translateY(-8px);
+  box-shadow: 0 30px 60px rgba(43, 117, 255, 0.25);
 }
 
 .cta-btn-link {
-  font-weight: 700;
+  font-weight: 800;
   color: var(--color-primary-dark);
   text-transform: uppercase;
-  font-size: 0.75rem;
-  letter-spacing: 0.15em;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
   border-bottom: 2px solid var(--color-secondary-bright);
-  padding-bottom: 5px;
+  padding-bottom: 8px;
+  transition: opacity 0.3s ease;
+}
+
+.cta-btn-link:hover {
+  opacity: 0.7;
 }
 
 /* ============================================
-    6. RESPONSIVE FIXES
-============================================ */
+   RESPONSIVE SCALING
+   ============================================ */
 @media (max-width: 1024px) {
+  :root { --about-section-pad: 80px; }
   .vision-container { grid-template-columns: 1fr; gap: 60px; }
   .process-grid-elite { grid-template-columns: 1fr; }
   .image-float-card { position: relative; bottom: 0; right: 0; margin-top: 20px; width: fit-content; }
-  .cta-action-group { flex-direction: column; gap: 20px; }
+  .cta-action-group { flex-direction: column; gap: 25px; }
 }

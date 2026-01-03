@@ -4,23 +4,30 @@
 // src/pages/Contact.jsx
 // src/pages/Contact.jsx
 // src/pages/Contact.jsx
-import { FiMail, FiPhone, FiArrowRight } from "react-icons/fi";
-import { FaInstagram, FaLinkedin, FaVimeoV } from "react-icons/fa"; // Swapped Twitter for Vimeo
+import { useState, useEffect } from "react";
+import { FaInstagram, FaLinkedin, FaVimeoV } from "react-icons/fa";
 import ContactForm from "../components/ContactForm";
+import Loader from "../components/Loader.jsx";
 import "../styles/pages/contact.css";
 
 function Contact() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) return <Loader />;
+
   return (
     <section className="contact-page-vibrant">
       <div className="contact-container">
-        {/* Left Side: Editorial Info */}
         <div className="contact-editorial">
           <header className="editorial-header">
             <span className="subtitle">Project Inquiries</span>
-            {/* Sizing reduced per client instructions */}
-            <h1 className="hero-title">
-              Let's build <br /> your vision.
-            </h1>
+            <h1 className="hero-title">Let's build <br /> your vision.</h1>
+          
             <p className="description">
               Collaborating with global brands to deliver high-performance 
               visual editorial and cinematic excellence.

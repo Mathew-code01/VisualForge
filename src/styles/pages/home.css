@@ -4,25 +4,26 @@
 /* src/styles/pages/home.css */
 /* src/styles/pages/home.css */
 /* src/styles/pages/home.css */
+/* src/styles/pages/home.css */
 
 /* BIGDAY MEDIA - ELITE HOME STYLING 
-   V3: Perfected Spacing & Visual Rhythm
+   V4: Ultimate Visual Rhythm & Zebra Logic
 */
 
 :root {
-  /* Dynamic vertical rhythm based on viewport height */
-  --section-padding-y: clamp(120px, 15vh, 200px);
-  --container-padding-x: clamp(24px, 8vw, 120px);
-  --header-margin-bottom: clamp(60px, 10vh, 100px);
+  /* Strict Vertical Rhythm: Identical top/bottom padding */
+  --section-padding-y: clamp(120px, 15vh, 180px);
+  --header-margin-bottom: clamp(60px, 8vh, 80px);
+  /* Use the high-end easing from our refactor */
+  --hero-easing: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .home-page-unique {
   background-color: var(--color-bg);
-  /* Prevents horizontal scroll from entrance animations */
   overflow: hidden; 
 }
 
-/* --- The Zebra System: Strict Transitions --- */
+/* --- The Zebra System: Content Transitions --- */
 .bg-white { 
   background-color: #ffffff; 
   color: var(--color-primary-dark); 
@@ -31,9 +32,11 @@
 .bg-deep { 
   background-color: var(--color-primary-dark); 
   color: #ffffff; 
+  /* Deep Blur Dark effect */
+  background-image: radial-gradient(circle at top right, rgba(43, 117, 255, 0.05), transparent);
 }
 
-/* --- Section & Container Logic --- */
+/* --- Section & Container Precision --- */
 .home-section-unique {
   padding: var(--section-padding-y) 0;
   position: relative;
@@ -42,7 +45,7 @@
   justify-content: center;
   align-items: center;
   
-  /* Entrance Animation */
+  /* Reveal Animation */
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 1.2s var(--hero-easing), transform 1.2s var(--hero-easing);
@@ -55,82 +58,81 @@
 
 .home-container-unique {
   width: 100%;
-  /* Max width is capped for readability, while padding-x handles the "safe zones" */
-  max-width: 1440px; 
-  padding: 0 var(--container-padding-x);
+  max-width: var(--max-content-width); 
+  padding: 0 var(--container-padding);
   margin: 0 auto;
 }
 
 /* --- Elite Section Headers --- */
 .section-header-block {
   margin-bottom: var(--header-margin-bottom);
-  /* Left-aligned for a more modern, architectural agency look */
   text-align: left; 
 }
 
 .section-tag-elite {
   display: block;
   font-size: 0.65rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.6em; /* High-end tracking */
+  font-weight: 800;
+  text-transform: uppercase; /* CAPITALISM: Used for identification */
+  letter-spacing: 0.6em;
   color: var(--color-secondary-bright);
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .section-heading-unique {
-  font-size: clamp(2rem, 5vw, 3.2rem);
-  font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
+  font-size: clamp(2rem, 5vw, 3rem); /* Professional, elegant size */
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em; /* BOLDNESS: Tight tracking */
   text-transform: uppercase;
   color: inherit;
 }
 
-/* --- Agency Statement (White Section) --- */
+/* --- Agency Ethos (White Section) --- */
 .statement-inner {
   text-align: center;
-  max-width: 1000px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
 .statement-inner h3 {
-  font-size: clamp(2.4rem, 8vw, 4.5rem);
-  line-height: 1.1;
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  line-height: 1.05;
   font-weight: 900;
-  margin-bottom: 48px;
-  letter-spacing: -0.04em;
+  margin-bottom: 40px;
+  letter-spacing: -0.05em;
 }
 
-.statement-inner h3 span {
+.statement-inner .statement-highlight {
   display: inline-block;
-  margin-top: 8px;
   color: transparent;
   -webkit-text-stroke: 1.5px var(--color-primary-dark);
 }
 
+.bg-deep .statement-highlight {
+  -webkit-text-stroke: 1.5px #ffffff;
+}
+
 .statement-inner p {
-  font-size: clamp(1rem, 1.2vw, 1.25rem);
-  opacity: 0.7;
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
+  color: var(--color-text-light);
   font-weight: 400;
   line-height: 1.8;
-  max-width: 680px;
+  max-width: 600px;
   margin: 0 auto;
 }
 
-/* --- Capabilities Grid - Landscape UI --- */
+/* --- Disciplines Grid: The UI/UX Landscape --- */
 .capabilities-grid-elite {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  /* High-end agencies use smaller gaps between imagery for a seamless look */
-  gap: 32px; 
+  gap: 30px; 
   margin-top: 20px;
 }
 
 .cap-card {
   position: relative;
-  /* Cinematic landscape ratio */
-  aspect-ratio: 16 / 10; 
+  aspect-ratio: 16 / 10; /* Cinematic Landscape */
   overflow: hidden;
   background: #000;
   display: flex;
@@ -138,7 +140,7 @@
   justify-content: flex-end;
   padding: 40px; 
   cursor: pointer;
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.8s var(--hero-easing);
 }
 
 .cap-image-wrapper {
@@ -151,50 +153,46 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.4;
+  opacity: 0.35;
   filter: grayscale(100%);
-  transition: all 1.5s var(--hero-easing);
+  transition: transform 1.5s var(--hero-easing), opacity 0.8s ease, filter 0.8s ease;
 }
 
 .cap-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(0, 0, 0, 0.9) 100%
-  );
+  background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
   z-index: 2;
 }
 
 .cap-content {
   position: relative;
   z-index: 3;
-  transform: translateY(15px);
+  transform: translateY(20px);
   transition: transform 0.6s var(--hero-easing);
 }
 
 .cap-content h3 {
   color: #ffffff;
-  font-size: 1rem;
-  font-weight: 700;
-  margin-bottom: 12px;
-  letter-spacing: 0.1em;
+  font-size: 0.85rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
 }
 
 .cap-content p {
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.75rem;
   line-height: 1.6;
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.4s ease;
 }
 
-/* --- Hover State Mechanics --- */
+/* --- Hover Effects --- */
 .cap-card:hover .cap-image-wrapper img {
   opacity: 0.6;
-  transform: scale(1.1);
+  transform: scale(1.08);
   filter: grayscale(0%);
 }
 
@@ -206,32 +204,21 @@
   opacity: 1;
 }
 
-/* --- Responsive Adjustments --- */
-@media (max-width: 1200px) {
-  .capabilities-grid-elite { gap: 20px; }
-  .cap-card { padding: 30px; }
-}
-
+/* --- Mobile Responsiveness --- */
 @media (max-width: 1024px) {
-  .capabilities-grid-elite {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .capabilities-grid-elite { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {
   :root {
-    --section-padding-y: 80px;
-    --header-margin-bottom: 40px;
+    --section-padding-y: 100px;
   }
   
-  .capabilities-grid-elite { 
-    grid-template-columns: 1fr; 
-    gap: 24px;
-  }
-  
-  .cap-card { aspect-ratio: 4 / 3; }
+  .capabilities-grid-elite { grid-template-columns: 1fr; }
   
   .section-header-block { text-align: center; }
   
   .statement-inner h3 { font-size: 2.5rem; }
+
+  .cap-card { aspect-ratio: 4 / 3; padding: 30px; }
 }

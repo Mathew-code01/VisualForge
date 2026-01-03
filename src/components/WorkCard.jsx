@@ -5,7 +5,7 @@
 // src/components/WorkCard.jsx
 import { Link } from "react-router-dom";
 import { FaSpinner } from "react-icons/fa";
-import { FiArrowUpRight, FiPlay } from "react-icons/fi"; // More modern, thinner icons
+import { FiArrowUpRight, FiPlay } from "react-icons/fi";
 import { useState, useRef } from "react";
 import "../styles/components/workcard.css";
 
@@ -20,6 +20,7 @@ const WorkCard = ({ work, index, enableHoverPreview }) => {
 
   const handleMouseEnter = () => {
     setIsHovering(true);
+    // Only play if video is ready and not a Vimeo link (handled differently)
     if (enableHoverPreview && videoSrc && videoReady && !isVimeo) {
       videoRef.current.play().catch((e) => console.warn("Playback blocked", e));
     }
@@ -39,14 +40,16 @@ const WorkCard = ({ work, index, enableHoverPreview }) => {
       className="work-card-vibrant"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      style={{ "--delay": `${index * 0.1}s` }}
+      // FIXED: Used 'index' here to create a staggered entrance effect
+      style={{ "--card-index": index }}
     >
       <div className="work-card-inner">
         <div className="work-thumb-wrapper">
-          {/* Main Loader / Shimmer */}
+          {/* 1. INITIAL IMAGE SHIMMER */}
           {!imageLoaded && (
-            <div className="card-loader-vibrant">
-              <div className="shimmer-bar"></div>
+            <div className="card-loader-technical">
+              <div className="shimmer-line"></div>
+              <span className="load-text">INIT_V_FILE</span>
             </div>
           )}
 
@@ -57,6 +60,7 @@ const WorkCard = ({ work, index, enableHoverPreview }) => {
             onLoad={() => setImageLoaded(true)}
           />
 
+          {/* 2. VIDEO PREVIEW (Technical Loading State) */}
           {enableHoverPreview && videoSrc && !isVimeo && (
             <video
               ref={videoRef}
@@ -72,24 +76,31 @@ const WorkCard = ({ work, index, enableHoverPreview }) => {
             />
           )}
 
-          {/* Interactive Overlay */}
+          {/* 3. INTERACTIVE OVERLAY */}
           <div className={`card-overlay-vibrant ${isHovering ? "active" : ""}`}>
-            <div className="overlay-badge">
-              {videoReady ? <FiPlay /> : <FaSpinner className="spin" />}
-              <span>{videoReady ? "Preview" : "Loading"}</span>
+            <div className="overlay-badge-technical">
+              {videoReady ? (
+                <>
+                  <FiPlay />
+                  <span>MONITOR_SOURCE</span>
+                </>
+              ) : (
+                <>
+                  <div className="mini-buffer-bar">
+                    <div className="buffer-fill"></div>
+                  </div>
+                  <span>BUFFERING_MASTER</span>
+                </>
+              )}
             </div>
-            {/* <div className="view-case-btn">
-              <span>View Case Study</span>
-              <FiArrowUpRight />
-            </div> */}
           </div>
         </div>
 
-        {/* Metadata: Clean & High-Contrast */}
+        {/* METADATA: High-end layout */}
         <div className="work-card-info">
           <div className="info-top">
             <span className="card-category">{work.category}</span>
-            <span className="card-year">{work.year || "2025"}</span>
+            <span className="card-year">{work.year || "2026"}</span>
           </div>
           <div className="info-bottom">
             <h3 className="card-title-text">{work.title}</h3>

@@ -9,7 +9,6 @@
 .loader-agency-elite {
   position: fixed;
   inset: 0;
-  /* Using your deepest brand blue as the background anchor */
   background-color: var(--color-primary-dark); 
   z-index: var(--z-max);
   display: flex;
@@ -17,10 +16,11 @@
   align-items: center;
   justify-content: center;
   color: #ffffff;
-  font-family: var(--font-base); /* Using your Poppins font */
+  font-family: var(--font-base);
+  padding: 20px; /* Essential for mobile safety */
 }
 
-/* Glassmorphism Blur Effect using your Bright Blue */
+/* Glassmorphism Blur Effect */
 .loader-glass-overlay {
   position: absolute;
   inset: 0;
@@ -30,9 +30,10 @@
     transparent 70%
   );
   filter: blur(80px);
+  pointer-events: none;
 }
 
-/* Technical Meta-grid using Brand Deep Blue */
+/* Technical Meta-grid */
 .loader-technical-grid {
   position: absolute;
   inset: 0;
@@ -47,33 +48,43 @@
 .grid-line:nth-child(1) { top: 25%; left: 0; width: 100%; height: 1px; opacity: 0.3; }
 .grid-line:nth-child(2) { top: 0; left: 25%; width: 1px; height: 100%; opacity: 0.3; }
 
+/* Content Core Wrapper */
+.loader-content-core {
+  width: 100%;
+  max-width: min(600px, 90vw); /* Fluid responsive width */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+}
+
 /* Metadata Styling */
 .metadata-top {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  max-width: 600px;
   margin-bottom: 30px;
-  font-size: 10px;
+  font-size: clamp(8px, 2vw, 10px); /* Scales slightly for readability */
   font-weight: 700;
   letter-spacing: 0.4em;
-  color: var(--color-primary-light); /* Lighter blue for technical text */
+  color: var(--color-primary-light);
 }
 
 .status-blink {
-  color: var(--color-accent); /* Using your #ff3b3b Red */
+  color: var(--color-accent);
   animation: blink 0.8s infinite;
 }
 
 /* Title Cinematic */
 .loader-title-cinematic {
-  font-size: clamp(2.5rem, 10vw, 4.5rem);
+  font-size: clamp(2.2rem, 12vw, 4.5rem); /* Bigger range for mobile */
   font-weight: 900;
   letter-spacing: -0.05em;
   margin: 0;
   line-height: 1;
   text-transform: uppercase;
   color: #ffffff;
+  text-align: center;
   animation: revealText 1.2s cubic-bezier(0.77, 0, 0.175, 1);
 }
 
@@ -85,18 +96,20 @@
 /* Capabilities - Minimalist List */
 .capabilities-editorial {
   display: flex;
-  gap: 30px;
+  flex-wrap: wrap; /* Allows wrapping on very narrow screens */
+  justify-content: center;
+  gap: clamp(15px, 4vw, 30px);
   margin-top: 25px;
-  font-size: 10px;
+  font-size: clamp(8px, 1.5vw, 10px);
   text-transform: uppercase;
   letter-spacing: 0.4em;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.6);
 }
 
-/* Technical Progress Bar using Mid-Blue */
+/* Technical Progress Bar */
 .progress-technical {
-  margin-top: 100px;
+  margin-top: clamp(60px, 10vh, 100px); /* Dynamic vertical rhythm */
   width: 100%;
   max-width: 400px;
 }
@@ -104,18 +117,17 @@
 .percentage-display {
   display: flex;
   justify-content: space-between;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.2em;
   margin-bottom: 12px;
   text-transform: uppercase;
-  color: #ffffff;
 }
 
 .hairline-bar {
   width: 100%;
   height: 2px;
-  background: var(--color-primary-deep); /* Dark blue background track */
+  background: rgba(255, 255, 255, 0.1);
   position: relative;
   overflow: hidden;
 }
@@ -123,19 +135,19 @@
 .fill {
   position: absolute;
   top: 0; left: 0; height: 100%;
-  background: var(--color-secondary-bright); /* Vibrant blue loading bar */
+  background: var(--color-secondary-bright);
   animation: loadFill 2.5s cubic-bezier(0.85, 0, 0.15, 1) infinite;
 }
 
 /* Technical Footer Meta */
 .loader-footer-meta {
   position: absolute;
-  bottom: 50px;
+  bottom: clamp(20px, 5vh, 50px);
   width: 100%;
-  padding: 0 6%;
+  padding: 0 8%;
   display: flex;
   justify-content: space-between;
-  font-size: 9px;
+  font-size: 8px;
   letter-spacing: 0.3em;
   color: var(--color-primary-light);
   font-weight: 700;
@@ -151,8 +163,16 @@
 }
 
 /* Mobile Adjustments */
-@media (max-width: 768px) {
-  .metadata-top, .progress-technical { width: 85%; }
-  .capabilities-editorial { gap: 15px; font-size: 8px; }
-  .loader-footer-meta { flex-direction: column; gap: 10px; align-items: center; }
+@media (max-width: 600px) {
+  .loader-footer-meta {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+  }
+  
+  /* Hide grid lines on mobile for a cleaner aesthetic */
+  .loader-technical-grid {
+    display: none;
+  }
 }

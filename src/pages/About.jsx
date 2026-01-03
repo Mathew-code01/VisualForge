@@ -3,39 +3,50 @@
 // src/pages/About.jsx
 // src/pages/About.jsx
 // src/pages/About.jsx
-import { useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FiArrowDown, FiArrowRight } from "react-icons/fi";
+import Loader from "../components/Loader.jsx";
+
+// Asset Imports
+import aitStudio from "../assets/images/aitStudio.png";
+import preVisImg from "../assets/images/pre-Visualization.png";
+import assemblyImg from "../assets/images/theAssembly.png";
+import masteringImg from "../assets/images/mastering.png";
+
 import "../styles/pages/about.css";
 
 const PROCESS_STEPS = [
   {
     title: "Pre-Visualization",
-    desc: "Mapping the creative roadmap and deconstructing the project's technical requirements.",
-    img: "https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2000",
+    desc: "Mapping the creative roadmap with precision storyboarding and conceptual mood-boards.",
+    img: preVisImg,
   },
   {
     title: "The Assembly",
-    desc: "Where rhythm meets narrative. Precision editorial, sound architecture, and chromatic grading.",
-    img: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2000",
+    desc: "Where rhythm meets narrative. We weave raw sequences into a cohesive, high-impact flow.",
+    img: assemblyImg,
   },
   {
     title: "Mastering",
-    desc: "Comprehensive QC and optimization for high-fidelity playback across global platforms.",
-    img: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?q=80&w=2000",
+    desc: "Comprehensive QC, chromatic balancing, and final high-fidelity polish for global delivery.",
+    img: masteringImg,
   },
 ];
 
 const About = () => {
+  const [loading, setLoading] = useState(true);
   const heroRef = useRef(null);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    if (heroRef.current) heroRef.current.classList.add("is-visible");
+    const timer = setTimeout(() => setLoading(false), 1200);
+    return () => clearTimeout(timer);
   }, []);
+
+  if (loading) return <Loader />;
 
   return (
     <main className="about-page-standard">
-      {/* 1. HERO: Zebra Dark (Centered Hero Text) */}
+      {/* 1. HERO: Zebra Dark */}
       <section className="about-hero-editorial" ref={heroRef}>
         <div className="hero-bg-accent"></div>
         <div className="about-hero-container">
@@ -43,22 +54,17 @@ const About = () => {
             <span className="meta-label">The Studio</span>
             <span className="meta-line"></span>
           </div>
-
           <h1 className="about-display-title">
-            Visual Excellence <br />
+            Visual Excellence <br />{" "}
             <span className="text-outline">Built for Impact</span>
           </h1>
-
-          <div className="hero-bottom-grid">
-            <p className="hero-editorial-text">
-              We specialize in narrative-driven visual editorial, blending
-              cinematic artistry with technical rigor to define the next
-              generation of brand stories.
-            </p>
-            <div className="scroll-indicator">
-              <span className="scroll-text">Studio Ethos</span>
-              <FiArrowDown />
-            </div>
+          <p className="hero-editorial-text">
+            We specialize in narrative-driven visual editorial, transforming
+            conceptual ideas into immersive digital realities.
+          </p>
+          <div className="scroll-indicator">
+            <span className="scroll-text">Studio Ethos</span>
+            <FiArrowDown />
           </div>
         </div>
       </section>
@@ -68,14 +74,10 @@ const About = () => {
         <div className="vision-container">
           <div className="vision-left">
             <div className="vision-image-wrapper">
-              <img
-                src="https://images.pexels.com/photos/2510428/pexels-photo-2510428.jpeg?w=800"
-                alt="Studio"
-              />
+              <img src={aitStudio} alt="BigDay Media Studio" />
               <div className="image-float-card">
                 <strong>08+</strong>
-                <span>Years of Practice</span>{" "}
-                {/* Removed '01, 02' style numbering as requested */}
+                <span>Years of Practice</span>
               </div>
             </div>
           </div>

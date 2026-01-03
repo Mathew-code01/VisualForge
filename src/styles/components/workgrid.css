@@ -8,19 +8,40 @@
 
 .work-grid-container {
   width: 100%;
+
 }
 
 .grid-header-vibrant {
-  margin-bottom: 80px;
+  margin-bottom: 100px; /* Massive spacing for focus */
   text-align: center;
 }
 
+/* --- Filter System: High Visibility & Clean Typography --- */
 .filter-system {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  gap: 30px;
-  margin-top: 30px;
+  gap: 24px;
+}
+
+.filter-label {
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.4em;
+  color: #004cff; /* Accent Color */
+}
+
+.filter-pills {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 20px;
+}
+
+.bg-white .filter-pills {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .filter-pill {
@@ -30,58 +51,73 @@
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.25em;
+  color: rgba(255, 255, 255, 0.3);
   cursor: pointer;
   position: relative;
-  transition: color 0.3s ease;
+  transition: all 0.4s var(--hero-easing);
 }
 
 .bg-white .filter-pill { color: rgba(0, 0, 0, 0.4); }
 
+/* The sophisticated underline effect */
 .filter-pill::after {
   content: '';
   position: absolute;
-  bottom: 0;
+  bottom: -1px;
   left: 0;
   width: 0;
-  height: 1px;
-  background: var(--color-secondary-bright);
-  transition: width 0.4s ease;
+  height: 2px;
+  background: #fff;
+  transition: width 0.6s var(--hero-easing);
 }
 
-.filter-pill:hover, 
-.filter-pill.active {
+.bg-white .filter-pill::after { background: #000; }
+
+.filter-pill.active, .filter-pill:hover {
   color: #fff;
 }
 
-.bg-white .filter-pill:hover, 
-.bg-white .filter-pill.active { color: #000; }
+.bg-white .filter-pill.active, .bg-white .filter-pill:hover { color: #000; }
 
-.filter-pill.active::after {
-  width: 100%;
-}
+.filter-pill.active::after { width: 100%; }
 
-.filter-pill .count {
+.filter-pill .cat-count {
   font-size: 0.6rem;
-  margin-left: 5px;
-  opacity: 0.5;
+  margin-left: 8px;
+  font-weight: 400;
+  opacity: 0.6;
 }
 
-/* --- The Grid Layout --- */
+/* --- Grid Layout --- */
 .work-grid-vibrant {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 80px 50px; /* Generous spacing */
+  gap: 100px 60px; /* Vertical rhythm focus */
 }
 
-@media (max-width: 768px) {
-  .work-grid-vibrant {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-  .filter-system {
-    gap: 15px;
-    flex-wrap: wrap;
-  }
+/* --- Skeleton Loading --- */
+.work-card-skeleton {
+  aspect-ratio: 16/9;
+  background: rgba(255, 255, 255, 0.03);
+  position: relative;
+  overflow: hidden;
+}
+
+.work-card-skeleton::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@media (max-width: 900px) {
+  .work-grid-vibrant { grid-template-columns: 1fr; gap: 60px; }
+  .filter-pills { gap: 20px; flex-wrap: wrap; }
 }
