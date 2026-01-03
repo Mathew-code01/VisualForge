@@ -3,11 +3,10 @@
 // src/pages/WorkDetail.jsx
 // src/pages/WorkDetail.jsx
 // src/pages/WorkDetail.jsx
-// src/pages/WorkDetail.jsx
 import { useEffect, useState, useMemo } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { getVideos } from "../firebase/uploadVideo.js";
-import { FiArrowLeft, FiMail, FiHeart, FiMaximize } from "react-icons/fi";
+import { FiArrowLeft, FiMail } from "react-icons/fi";
 import {
   MdOutlineHighQuality,
   MdAccessTime,
@@ -58,6 +57,8 @@ export default function WorkDetail() {
       try {
         const videos = await getVideos();
         setAllWorks(videos);
+      } catch (err) {
+        console.error("Failed to fetch works:", err);
       } finally {
         setLoading(false);
       }
@@ -76,16 +77,35 @@ export default function WorkDetail() {
     };
   }, [id, allWorks]);
 
-  if (loading)
+  // 1. Loading State
+  if (loading) {
     return (
       <div className="minimal-page-loader">
         <span>Loading Selection</span>
       </div>
     );
+  }
 
+  // 2. Safety Check: If no project is found, show an elegant "Not Found" state
+  if (!work) {
+    return (
+      <div className="work-detail-minimal error-state">
+        <div className="bar-inner">
+          <button onClick={() => navigate("/work")} className="nav-btn-minimal">
+            <FiArrowLeft /> Back to Archive
+          </button>
+        </div>
+        <div className="error-message-elite">
+          <h2>Project Not Found</h2>
+          <p>The requested masterpiece has moved or does not exist.</p>
+        </div>
+      </div>
+    );
+  }
+
+  // 3. Main Render (Now safe because we checked if 'work' exists above)
   return (
     <div className="work-detail-minimal">
-      {/* Refined Action Bar */}
       <nav className="detail-action-bar">
         <div className="bar-inner">
           <button onClick={() => navigate("/work")} className="nav-btn-minimal">
@@ -147,20 +167,26 @@ export default function WorkDetail() {
             </div>
           </div>
 
-          <div className="suggestion-minimal">
-            <h4 className="sidebar-label">Related Works</h4>
-            {recommended.map((item) => (
-              <Link key={item.id} to={`/work/${item.id}`} className="mini-card">
-                <div className="mini-thumb">
-                  <img src={item.thumbnail} alt="" />
-                </div>
-                <div className="mini-details">
-                  <h6>{item.title}</h6>
-                  <p>{item.category}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
+          {recommended.length > 0 && (
+            <div className="suggestion-minimal">
+              <h4 className="sidebar-label">Related Works</h4>
+              {recommended.map((item) => (
+                <Link
+                  key={item.id}
+                  to={`/work/${item.id}`}
+                  className="mini-card"
+                >
+                  <div className="mini-thumb">
+                    <img src={item.thumbnail} alt="" />
+                  </div>
+                  <div className="mini-details">
+                    <h6>{item.title}</h6>
+                    <p>{item.category}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
         </aside>
       </main>
 

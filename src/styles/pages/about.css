@@ -5,45 +5,56 @@
 /* src/styles/pages/about.css */
 /* src/styles/pages/about.css */
 
-/* --- Page Foundation & Rhythm --- */
+/* ============================================
+    1. LAYOUT ENGINE (The Zebra System)
+============================================ */
+
+:root {
+  /* Strict Vertical Rhythm Variables */
+  --about-section-pad: clamp(100px, 12vw, 160px); 
+  --about-side-pad: clamp(24px, 8vw, 120px);
+  --easing-premium: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 .about-page-standard {
-  background-color: #ffffff;
+  background-color: var(--color-bg);
   width: 100%;
 }
 
-/* Strict Vertical Rhythm for Zebra Sections */
+/* Identical Top/Bottom Padding for all Sections */
 .about-hero-editorial,
 .about-vision-section,
 .about-workflow-section,
 .about-final-cta {
-  padding: 120px 8% !important; /* Identical top/bottom padding */
+  padding: var(--about-section-pad) var(--about-side-pad) !important;
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  position: relative;
 }
 
-/* --- SECTION 1: DARK HERO (Zebra: Dark) --- */
+/* ============================================
+    2. SECTION 1: HERO (Deep Dark Zebra)
+============================================ */
 .about-hero-editorial {
   background-color: var(--color-primary-dark) !important;
   min-height: 85vh;
-  position: relative;
-  overflow: hidden;
+  justify-content: center;
+  align-items: center;
   text-align: center;
+  overflow: hidden;
 }
 
 .hero-bg-accent {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(43, 117, 255, 0.15) 0%, transparent 65%);
+  background: radial-gradient(circle at 50% 50%, rgba(43, 117, 255, 0.15) 0%, transparent 70%);
   filter: blur(100px);
   pointer-events: none;
 }
 
 .about-hero-container {
   max-width: 1100px;
-  margin: 0 auto;
-  position: relative;
   z-index: 5;
 }
 
@@ -59,8 +70,8 @@
   color: var(--color-secondary-bright);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.4em;
-  font-size: 0.7rem;
+  letter-spacing: 0.5em; /* Elite tracking */
+  font-size: 0.65rem;
 }
 
 .meta-line {
@@ -70,13 +81,12 @@
 }
 
 .about-display-title {
-  font-size: clamp(2.2rem, 6vw, 3.2rem); /* Professional reduced scale */
+  font-size: clamp(2.2rem, 6vw, 3.8rem);
   font-weight: 800;
   line-height: 1.1;
   color: #ffffff !important;
-
   margin-bottom: 40px;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.04em;
 }
 
 .text-outline {
@@ -84,19 +94,12 @@
   -webkit-text-stroke: 1px rgba(255, 255, 255, 0.4);
 }
 
-.hero-bottom-grid {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 40px;
-}
-
 .hero-editorial-text {
-  color: rgba(255, 255, 255, 0.8) !important;
-  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-size: 1.1rem;
   line-height: 1.8;
-  max-width: 580px;
-  margin: 0 auto;
+  max-width: 600px;
+  margin: 0 auto 50px;
   font-weight: 300;
 }
 
@@ -106,13 +109,15 @@
   align-items: center;
   gap: 12px;
   color: var(--color-secondary-bright);
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.3em;
 }
 
-/* --- SECTION 2: VISION (Zebra: White) --- */
+/* ============================================
+    3. SECTION 2: VISION (White Zebra)
+============================================ */
 .about-vision-section {
   background-color: #ffffff !important;
 }
@@ -132,62 +137,51 @@
 
 .vision-image-wrapper img {
   width: 100%;
-  height: 550px;
+  height: 600px;
   object-fit: cover;
-  border-radius: 2px; /* Ultra-minimalist sharp edge */
 }
 
 .image-float-card {
   position: absolute;
   bottom: -30px;
   right: -30px;
-  background: var(--color-primary-deep);
+  background: var(--color-primary-dark);
   color: #ffffff;
-  padding: 35px;
-  text-align: left;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+  padding: 40px;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.15);
 }
 
 .image-float-card strong {
   display: block;
-  font-size: 2rem;
+  font-size: 2.2rem;
   line-height: 1;
   margin-bottom: 5px;
 }
 
 .image-float-card span {
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  opacity: 0.8;
-}
-
-.section-index {
-  color: var(--color-secondary-bright);
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 0.75rem;
   letter-spacing: 0.2em;
-  margin-bottom: 20px;
-  display: block;
+  opacity: 0.6;
 }
 
 .vision-heading {
-  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 800;
-  line-height: 1.2;
+  line-height: 1.1;
   color: var(--color-primary-dark);
   margin-bottom: 30px;
-  text-transform: uppercase;
+  letter-spacing: -0.03em;
 }
 
 .vision-heading span { color: var(--color-secondary-bright); }
 
 .vision-p {
   color: var(--color-text-light);
-  font-size: 1rem;
-  line-height: 1.8;
+  font-size: 1.1rem;
+  line-height: 1.9;
   margin-bottom: 40px;
+  max-width: 500px;
 }
 
 .vision-stats {
@@ -196,228 +190,112 @@
 }
 
 .v-stat strong {
-  font-size: 2.2rem;
+  font-size: 2.5rem;
   display: block;
   color: var(--color-primary-dark);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.04em;
 }
 
 .v-stat span {
   color: var(--color-text-light);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.1em;
 }
 
-/* --- SECTION 3: WORKFLOW (Zebra: Dark/Glassmorphism) --- */
+/* ============================================
+    4. SECTION 3: WORKFLOW (Deep Dark Zebra)
+============================================ */
 .about-workflow-section {
   background-color: var(--color-primary-dark) !important;
-  color: #ffffff;
 }
 
-.workflow-header {
-  max-width: var(--max-content-width);
-  margin: 0 auto 80px;
-  text-align: center;
+.section-header-block {
+  margin-bottom: 60px;
+  text-align: left;
 }
 
-.workflow-title {
-  font-size: 1.8rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: -0.01em;
+.section-heading-unique {
+  font-size: 2.2rem;
   color: #ffffff !important;
-}
-
-.workflow-container {
-  max-width: var(--max-content-width);
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
-}
-
-.process-card-modern {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(15px);
-  padding: 60px 40px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.process-card-modern:hover {
-  background: rgba(255, 255, 255, 0.07);
-  transform: translateY(-10px);
-  border-color: var(--color-secondary-bright);
-}
-
-.p-card-title {
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin-bottom: 20px;
-  color: #ffffff;
-  text-transform: uppercase;
-}
-
-.p-card-desc {
-  color: rgba(255, 255, 255, 0.6);
-  line-height: 1.7;
-  font-size: 0.95rem;
-}
-
-/* --- SECTION 4: FINAL CTA (Zebra: White) --- */
-.about-final-cta {
-  background: #ffffff !important;
-  text-align: center;
-}
-
-.cta-huge-text {
-  font-size: clamp(2.2rem, 8vw, 3.2rem);
   font-weight: 800;
-  color: var(--color-primary-dark);
-  line-height: 1.1;
-  margin-bottom: 25px;
-  
+  margin-top: 10px;
 }
 
-.cta-sub {
-  font-size: 1.1rem;
-  color: var(--color-text-light);
-  margin-bottom: 50px;
-  max-width: 500px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.cta-action-group {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 40px;
-}
-
-.cta-btn-primary {
-  padding: 18px 45px;
-  background: var(--color-primary-dark);
-  color: #ffffff !important;
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  letter-spacing: 0.2em;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  transition: all 0.3s ease;
-}
-
-.cta-btn-primary:hover {
-  background: var(--color-secondary-bright);
-  transform: translateY(-5px);
-}
-
-.cta-btn-link {
-  font-weight: 700;
-  color: var(--color-primary-dark);
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  letter-spacing: 0.1em;
-  border-bottom: 2px solid var(--color-secondary-bright);
-  padding-bottom: 4px;
-}
-
-/* --- RESPONSIVE FIXES --- */
-@media (max-width: 1024px) {
-  .vision-container { grid-template-columns: 1fr; gap: 60px; }
-  .workflow-container { grid-template-columns: 1fr; }
-  .image-float-card { position: relative; bottom: 0; right: 0; margin-top: 20px; width: fit-content; }
-  .cta-action-group { flex-direction: column; gap: 20px; }
-}
-
-/* --- Process Grid: Landscape & Minimalist --- */
 .process-grid-elite {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
-  margin-top: 60px;
 }
 
 .process-card-landscape {
   position: relative;
-  height: 300px; /* Reduced height for landscape UI look */
+  height: 320px;
   overflow: hidden;
-  background: #0a0a0a; /* Fallback: Black background if image fails */
+  background: #000;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   padding: 35px;
   cursor: pointer;
   border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.6s var(--easing-premium);
 }
 
 .process-image-wrapper {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   z-index: 1;
 }
 
 .process-image-wrapper img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Vital: prevents image collapse */
-  display: block;
-  opacity: 0.3; /* Muted aesthetic */
+  object-fit: cover;
+  opacity: 0.3;
   filter: grayscale(100%);
-  transition: all 1s ease;
+  transition: transform 0.8s var(--easing-premium), opacity 0.5s ease;
 }
 
 .process-overlay {
   position: absolute;
   inset: 0;
-  /* High-end gradient: Blue-tinted dark to clear */
-  background: linear-gradient(
-    to bottom,
-    rgba(8, 1, 92, 0) 0%,
-    rgba(8, 1, 92, 0.95) 100%
-  );
+  background: linear-gradient(to bottom, transparent 0%, rgba(8, 1, 92, 0.95) 100%);
   z-index: 2;
 }
 
 .process-content {
   position: relative;
   z-index: 3;
-  transform: translateY(20px);
-  transition: transform 0.5s ease;
+  transform: translateY(15px);
+  transition: transform 0.5s var(--easing-premium);
 }
 
 .p-card-title {
   color: #ffffff !important;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  margin-bottom: 10px;
+  letter-spacing: 0.15em;
+  margin-bottom: 12px;
 }
 
 .p-card-desc {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.85rem;
   line-height: 1.6;
-  opacity: 0;
+  opacity: 0; /* Hidden initially for clean UI */
   transition: opacity 0.4s ease;
 }
 
-/* --- Sophisticated Interactions --- */
+/* Landscape Hover States */
 .process-card-landscape:hover {
-  transform: translateY(-5px);
-  border-color: #2b75ff; /* Brand Blue Highlight */
+  border-color: var(--color-secondary-bright);
 }
 
-.process-card-landscape:hover .process-image-wrapper img {
-  opacity: 0.6;
+.process-card-landscape:hover img {
+  opacity: 0.5;
   filter: grayscale(0%);
   transform: scale(1.08);
 }
@@ -427,11 +305,69 @@
 }
 
 .process-card-landscape:hover .p-card-desc {
-  opacity: 1;
+  opacity: 1; /* Visible on hover */
 }
 
-/* Mobile Polish */
+/* ============================================
+    5. SECTION 4: FINAL CTA (White Zebra)
+============================================ */
+.about-final-cta {
+  background: #ffffff !important;
+  text-align: center;
+  align-items: center;
+}
+
+.cta-huge-text {
+  font-size: clamp(2.2rem, 7vw, 3.8rem);
+  font-weight: 900;
+  color: var(--color-primary-dark);
+  line-height: 1.1;
+  margin-bottom: 50px;
+  letter-spacing: -0.05em;
+}
+
+.cta-action-group {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+
+.cta-btn-primary {
+  padding: 20px 45px;
+  background: var(--color-primary-dark);
+  color: #ffffff !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  transition: all 0.4s var(--easing-premium);
+}
+
+.cta-btn-primary:hover {
+  background: var(--color-secondary-bright);
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(43, 117, 255, 0.2);
+}
+
+.cta-btn-link {
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  border-bottom: 2px solid var(--color-secondary-bright);
+  padding-bottom: 5px;
+}
+
+/* ============================================
+    6. RESPONSIVE FIXES
+============================================ */
 @media (max-width: 1024px) {
+  .vision-container { grid-template-columns: 1fr; gap: 60px; }
   .process-grid-elite { grid-template-columns: 1fr; }
-  .process-card-landscape { height: 260px; }
+  .image-float-card { position: relative; bottom: 0; right: 0; margin-top: 20px; width: fit-content; }
+  .cta-action-group { flex-direction: column; gap: 20px; }
 }

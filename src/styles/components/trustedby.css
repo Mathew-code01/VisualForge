@@ -3,123 +3,128 @@
 /* src/styles/components/trustedby.css */
 /* src/styles/components/trustedby.css */
 
-.trusted-section-standard {
-  background-color: #ffffff; /* Part of the White Zebra section */
+/* src/styles/components/trustedby.css */
+
+.trusted-section-split {
+  background-color: var(--color-bg);
   padding: 120px 0;
-  position: relative;
   overflow: hidden;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
 }
 
-.trusted-container {
-  width: 100%;
+.trusted-container-grid {
   max-width: var(--max-content-width);
   margin: 0 auto;
   padding: 0 var(--container-padding);
+  display: flex;
+  align-items: center;
+  gap: 80px; /* Space between text and marquee */
 }
 
-/* --- Strong Header --- */
-.trusted-header-v2 {
-  text-align: center;
-  margin-bottom: 80px;
+/* --- Left Side Content --- */
+.trusted-info-aside {
+  flex: 0 0 320px; /* Keeps text width fixed */
+  text-align: left;
 }
 
-.trusted-title {
-  font-size: 0.8rem;
-  font-weight: 800;
+.trusted-tag {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.4em;
-  color: var(--color-primary-dark);
+  color: var(--color-secondary-bright);
   margin-bottom: 15px;
 }
 
-.trusted-subtitle {
-  font-size: 1.1rem;
-  color: var(--color-text-light);
-  font-weight: 400;
+.trusted-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--color-primary-dark);
+  margin-bottom: 20px;
 }
 
-/* --- The Elite Marquee --- */
-.marquee-wrapper-elite {
+.trusted-description {
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  line-height: 1.6;
+}
+
+/* --- Right Side Marquee --- */
+.marquee-viewport-right {
   position: relative;
-  width: 100vw;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-  background: #fbfbfb; /* Very subtle grey contrast */
-  padding: 60px 0;
-  border-top: 1px solid rgba(0,0,0,0.05);
-  border-bottom: 1px solid rgba(0,0,0,0.05);
+  flex: 1;
+  overflow: hidden;
+  padding: 20px 0;
 }
 
 .marquee-track {
   display: flex;
   width: max-content;
   gap: 100px;
-  animation: marqueeScroll 50s linear infinite;
+  animation: scrollContinuous 35s linear infinite;
   align-items: center;
 }
 
-.brand-box {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 80px;
-  width: 160px; /* Uniform spacing */
-}
-
-.brand-icon-wrapper {
-  font-size: 3.5rem;
-  /* Increased from 0.25 to 0.6 for "Strength" */
+.brand-icon {
+  font-size: 3rem;
   color: #000;
-  opacity: 0.6; 
-  transition: all 0.4s ease;
+  /* Increased visibility from 0.25 to 0.45 */
+  opacity: 0.45; 
   filter: grayscale(1);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* On hover, logos become 100% visible and solid black - Standard Corporate Style */
-.brand-icon-wrapper:hover {
+.brand-item:hover .brand-icon {
   opacity: 1;
   filter: grayscale(0);
-  transform: translateY(-2px);
+  transform: scale(1.1);
+  color: var(--color-secondary-bright);
 }
 
-/* --- Cinematic Fade Overlays --- */
-.marquee-fade-left,
-.marquee-fade-right {
+/* --- Modern Edge Masks --- */
+.mask-left-overlay,
+.mask-right-overlay {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 250px;
+  width: 100px;
   z-index: 2;
   pointer-events: none;
 }
 
-.marquee-fade-left {
+.mask-left-overlay {
   left: 0;
-  background: linear-gradient(to right, #ffffff 0%, transparent 100%);
+  background: linear-gradient(to right, var(--color-bg) 0%, transparent 100%);
 }
 
-.marquee-fade-right {
+.mask-right-overlay {
   right: 0;
-  background: linear-gradient(to left, #ffffff 0%, transparent 100%);
+  background: linear-gradient(to left, var(--color-bg) 0%, transparent 100%);
 }
 
 /* --- Animation --- */
-@keyframes marqueeScroll {
+@keyframes scrollContinuous {
   0% { transform: translateX(0); }
-  100% { transform: translateX(-33.33%); } /* Loop perfectly for tripled array */
+  100% { transform: translateX(-50%); }
 }
 
-/* Responsive */
-@media (max-width: 1024px) {
-  .brand-icon-wrapper { font-size: 2.8rem; }
-  .marquee-track { gap: 60px; }
-  .marquee-fade-left, .marquee-fade-right { width: 100px; }
+/* --- Responsive Protection --- */
+@media (max-width: 1100px) {
+  .trusted-container-grid {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 40px;
+  }
+  .trusted-info-aside {
+    flex: none;
+    max-width: 500px;
+  }
 }
 
 @media (max-width: 768px) {
-  .trusted-section-standard { padding: 80px 0; }
-  .trusted-header-v2 { margin-bottom: 40px; }
-  .brand-icon-wrapper { font-size: 2.2rem; }
+  .trusted-section-split { padding: 80px 0; }
+  .brand-icon { font-size: 2.2rem; }
+  .marquee-track { gap: 60px; }
 }

@@ -2,6 +2,8 @@
 
 
 // src/components/TrustedBy.jsx
+// src/components/TrustedBy.jsx
+// src/components/TrustedBy.jsx
 import { 
   SiSamsung, SiMercedes, SiNike, SiNetflix, 
   SiAdidas, SiApple, SiSony, SiHonda 
@@ -21,28 +23,31 @@ const brandIcons = [
 
 const TrustedBy = () => {
   return (
-    <section className="trusted-section-standard">
-      <div className="trusted-container">
-        <div className="trusted-header-v2">
-          <h3 className="trusted-title">Strategic Partnerships</h3>
-          <p className="trusted-subtitle">Driving innovation for the world's leading brands.</p>
+    <section className="trusted-section-split">
+      <div className="trusted-container-grid">
+        
+        {/* Left Side: Fixed Content */}
+        <div className="trusted-info-aside">
+          <span className="trusted-tag">Partnerships</span>
+          <h2 className="trusted-title">Trusted by <br/>Industry Leaders</h2>
+          <p className="trusted-description">Pushing visual boundaries with the world's most ambitious brands.</p>
         </div>
 
-        <div className="marquee-wrapper-elite">
+        {/* Right Side: Marquee */}
+        <div className="marquee-viewport-right">
           <div className="marquee-track">
-            {/* Triple the icons for high-speed screen coverage and ultra-smooth loop */}
-            {[...brandIcons, ...brandIcons, ...brandIcons].map((brand, i) => (
-              <div key={i} className="brand-box">
-                <div className="brand-icon-wrapper">
+            {[...brandIcons, ...brandIcons].map((brand, i) => (
+              <div key={i} className="brand-item" title={brand.name}>
+                <div className="brand-icon">
                   {brand.icon}
                 </div>
               </div>
             ))}
           </div>
-          {/* Edge gradients for cinematic depth */}
-          <div className="marquee-fade-left"></div>
-          <div className="marquee-fade-right"></div>
+          <div className="mask-left-overlay"></div>
+          <div className="mask-right-overlay"></div>
         </div>
+
       </div>
     </section>
   );

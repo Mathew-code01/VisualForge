@@ -3,17 +3,26 @@
 /* src/styles/pages/home.css */
 /* src/styles/pages/home.css */
 /* src/styles/pages/home.css */
-/* ============================================
-    BIGDAY MEDIA - ELITE HOME STYLING
-    Refined for: Professional Video Editorial
-    Style: ideasdesignpro.com (Landscape / Minimal)
-   ============================================ */
+/* src/styles/pages/home.css */
+
+/* BIGDAY MEDIA - ELITE HOME STYLING 
+   V3: Perfected Spacing & Visual Rhythm
+*/
+
+:root {
+  /* Dynamic vertical rhythm based on viewport height */
+  --section-padding-y: clamp(120px, 15vh, 200px);
+  --container-padding-x: clamp(24px, 8vw, 120px);
+  --header-margin-bottom: clamp(60px, 10vh, 100px);
+}
 
 .home-page-unique {
   background-color: var(--color-bg);
+  /* Prevents horizontal scroll from entrance animations */
+  overflow: hidden; 
 }
 
-/* --- Strict Zebra Backgrounds --- */
+/* --- The Zebra System: Strict Transitions --- */
 .bg-white { 
   background-color: #ffffff; 
   color: var(--color-primary-dark); 
@@ -24,14 +33,19 @@
   color: #ffffff; 
 }
 
-/* --- Symmetric Vertical Rhythm --- */
+/* --- Section & Container Logic --- */
 .home-section-unique {
-  /* Identical top/bottom padding for elite balance */
-  padding: clamp(100px, 12vw, 160px) 0;
+  padding: var(--section-padding-y) 0;
   position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  /* Entrance Animation */
   opacity: 0;
-  transform: translateY(40px);
-  transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(30px);
+  transition: opacity 1.2s var(--hero-easing), transform 1.2s var(--hero-easing);
 }
 
 .section-visible {
@@ -40,15 +54,18 @@
 }
 
 .home-container-unique {
-  max-width: var(--max-content-width);
+  width: 100%;
+  /* Max width is capped for readability, while padding-x handles the "safe zones" */
+  max-width: 1440px; 
+  padding: 0 var(--container-padding-x);
   margin: 0 auto;
-  padding: 0 6%;
 }
 
 /* --- Elite Section Headers --- */
 .section-header-block {
-  margin-bottom: 70px;
-  text-align: center;
+  margin-bottom: var(--header-margin-bottom);
+  /* Left-aligned for a more modern, architectural agency look */
+  text-align: left; 
 }
 
 .section-tag-elite {
@@ -58,14 +75,14 @@
   text-transform: uppercase;
   letter-spacing: 0.6em; /* High-end tracking */
   color: var(--color-secondary-bright);
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .section-heading-unique {
-  font-size: clamp(1.8rem, 4vw, 2.8rem); /* Professional reduced scale */
+  font-size: clamp(2rem, 5vw, 3.2rem);
   font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
   text-transform: uppercase;
   color: inherit;
 }
@@ -73,30 +90,31 @@
 /* --- Agency Statement (White Section) --- */
 .statement-inner {
   text-align: center;
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
 .statement-inner h3 {
-  font-size: clamp(2rem, 6vw, 3rem);
+  font-size: clamp(2.4rem, 8vw, 4.5rem);
   line-height: 1.1;
   font-weight: 900;
-  margin-bottom: 35px;
+  margin-bottom: 48px;
   letter-spacing: -0.04em;
 }
 
 .statement-inner h3 span {
+  display: inline-block;
+  margin-top: 8px;
   color: transparent;
-  -webkit-text-stroke: 1.2px var(--color-primary-dark);
+  -webkit-text-stroke: 1.5px var(--color-primary-dark);
 }
 
 .statement-inner p {
-  font-size: 1rem;
+  font-size: clamp(1rem, 1.2vw, 1.25rem);
   opacity: 0.7;
   font-weight: 400;
-  line-height: 1.7;
-  letter-spacing: 0.01em;
-  max-width: 600px;
+  line-height: 1.8;
+  max-width: 680px;
   margin: 0 auto;
 }
 
@@ -104,30 +122,28 @@
 .capabilities-grid-elite {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  margin-top: 40px;
+  /* High-end agencies use smaller gaps between imagery for a seamless look */
+  gap: 32px; 
+  margin-top: 20px;
 }
 
 .cap-card {
   position: relative;
-  height: 320px; /* Specific landscape ratio */
+  /* Cinematic landscape ratio */
+  aspect-ratio: 16 / 10; 
   overflow: hidden;
-  background: #050505;
+  background: #000;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 35px; 
+  padding: 40px; 
   cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .cap-image-wrapper {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   z-index: 1;
 }
 
@@ -135,19 +151,18 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.35;
+  opacity: 0.4;
   filter: grayscale(100%);
-  transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: all 1.5s var(--hero-easing);
 }
 
 .cap-overlay {
   position: absolute;
   inset: 0;
-  /* Cinematic Blue-Dark Gradient */
   background: linear-gradient(
     to bottom,
-    rgba(8, 1, 92, 0) 0%,
-    rgba(8, 1, 92, 0.8) 100%
+    transparent 0%,
+    rgba(0, 0, 0, 0.9) 100%
   );
   z-index: 2;
 }
@@ -155,35 +170,31 @@
 .cap-content {
   position: relative;
   z-index: 3;
-  transform: translateY(25px); /* Professional "reveal" movement */
-  transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+  transform: translateY(15px);
+  transition: transform 0.6s var(--hero-easing);
 }
 
 .cap-content h3 {
-  color: #ffffff !important;
-  font-size: 1.1rem;
+  color: #ffffff;
+  font-size: 1rem;
   font-weight: 700;
   margin-bottom: 12px;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
 .cap-content p {
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.5);
   font-size: 0.85rem;
   line-height: 1.6;
   opacity: 0;
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition: opacity 0.5s ease;
 }
 
 /* --- Hover State Mechanics --- */
-.cap-card:hover {
-  border-color: var(--color-secondary-bright);
-}
-
 .cap-card:hover .cap-image-wrapper img {
-  opacity: 0.5;
-  transform: scale(1.08);
+  opacity: 0.6;
+  transform: scale(1.1);
   filter: grayscale(0%);
 }
 
@@ -195,37 +206,32 @@
   opacity: 1;
 }
 
-/* --- Mobile Responsiveness --- */
-@media (max-width: 1100px) {
+/* --- Responsive Adjustments --- */
+@media (max-width: 1200px) {
+  .capabilities-grid-elite { gap: 20px; }
+  .cap-card { padding: 30px; }
+}
+
+@media (max-width: 1024px) {
   .capabilities-grid-elite {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 768px) {
-  .home-section-unique { padding: 80px 0; }
-  .capabilities-grid-elite { grid-template-columns: 1fr; }
-  .cap-card { height: 280px; }
+  :root {
+    --section-padding-y: 80px;
+    --header-margin-bottom: 40px;
+  }
   
-  .statement-inner h3 { font-size: 2.2rem; }
-}
-
-/* --- Agency Statement Refinement --- */
-.statement-inner h3 {
-  font-size: clamp(2.2rem, 7vw, 3.2rem);
-  /* Increase line-height to prevent touching */
-  line-height: 1.2; 
-  font-weight: 900;
-  margin-bottom: 40px;
-  /* Ensure the letters aren't too squashed horizontally */
-  letter-spacing: -0.02em; 
-}
-
-.statement-inner h3 span {
-  /* Adding display block or a top margin to the span 
-     helps create breathing room after the <br /> */
-  display: inline-block;
-  margin-top: 10px; 
-  color: transparent;
-  -webkit-text-stroke: 1.5px var(--color-primary-dark);
+  .capabilities-grid-elite { 
+    grid-template-columns: 1fr; 
+    gap: 24px;
+  }
+  
+  .cap-card { aspect-ratio: 4 / 3; }
+  
+  .section-header-block { text-align: center; }
+  
+  .statement-inner h3 { font-size: 2.5rem; }
 }

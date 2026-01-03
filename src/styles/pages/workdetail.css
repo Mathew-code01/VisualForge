@@ -298,3 +298,15 @@
   .pagination-minimal { grid-template-columns: 1fr; text-align: center; }
   .pag-link.next { text-align: center; align-items: center; }
 }
+
+@media (max-width: 480px) {
+  .project-title {
+    font-size: 1.3rem;
+  }
+ }
+
+ @media (max-width: 768px) {
+  .project-title {
+    font-size: 1.8rem;
+  }
+ }
