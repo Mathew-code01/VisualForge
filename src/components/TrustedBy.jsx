@@ -24,35 +24,37 @@ const brandIcons = [
 
 const TrustedBy = () => {
   return (
-    <section className="trusted-section-split">
-      <div className="trusted-container-grid">
+    <section className="trusted-signature-section">
+      <div className="trusted-inner">
         
-        {/* Left Side: Fixed Content */}
-        <div className="trusted-info-aside">
-          {/* Tag size reduced for elegance per saved instructions */}
-          <span className="trusted-tag">Selected Collaborations</span>
-          <h2 className="trusted-title">Global <br/>Network</h2>
-          <p className="trusted-description">
-            Editorial partners for the world's most ambitious narratives.
-          </p>
-        </div>
+        {/* Centered Header: Elegant & Minimal */}
+        <header className="trusted-header-centered">
+          <span className="trusted-tag-minimal">Collaborations</span>
+          <h2 className="trusted-title-elegant">Global Network</h2>
+        </header>
 
-        {/* Right Side: Marquee */}
-        <div className="marquee-viewport-right">
-          <div className="marquee-track">
-            {[...brandIcons, ...brandIcons].map((brand, i) => (
-              <div key={i} className="brand-item" title={brand.name}>
-                <div className="brand-icon">
+        {/* Full Width Ticker: Cinematic & Endless */}
+        <div className="trusted-ticker-viewport">
+          <div className="ticker-track">
+            {/* Double the array for seamless loop */}
+            {[...brandIcons, ...brandIcons, ...brandIcons].map((brand, i) => (
+              <div key={i} className="ticker-item">
+                <div className="ticker-icon-wrap">
                   {brand.icon}
                 </div>
+                <span className="ticker-brand-name">{brand.name}</span>
               </div>
             ))}
           </div>
-          {/* High-blur masks for sophisticated transitions */}
-          <div className="mask-left-overlay"></div>
-          <div className="mask-right-overlay"></div>
+          
+          {/* Edge Blurs for the Glassmorphism feel */}
+          <div className="ticker-mask-left"></div>
+          <div className="ticker-mask-right"></div>
         </div>
-
+        
+        <p className="trusted-footer-note">
+          Delivering high-fidelity editorial for the world's most ambitious narratives.
+        </p>
       </div>
     </section>
   );

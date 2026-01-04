@@ -128,10 +128,10 @@ export default function WorkDetail() {
             <span className="bar-tag">{work.category} // 2026</span>
           </div>
           <a
-            href={`mailto:studio@BigDay-Media.com?subject=Inquiry: ${work.title}`}
+            href={`mailto:studio@BigDay-Media.com?subject=Booking: ${work.title}`}
             className="nav-btn-minimal highlight"
           >
-            <FiMail /> Inquiry
+            <FiMail /> Booking
           </a>
         </div>
       </nav>
@@ -161,7 +161,7 @@ export default function WorkDetail() {
 
             <div className="cta-minimal-group">
               <a href="mailto:studio@BigDay-Media.com" className="btn-solid">
-                Start Project Inquiry <FiArrowRight />
+                Start Project Booking <FiArrowRight />
               </a>
             </div>
           </section>

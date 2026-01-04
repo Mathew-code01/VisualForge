@@ -143,12 +143,15 @@ const About = () => {
         </div>
       </section>
 
-      {/* 4. FINAL CTA: Zebra White */}
+      {/* 4. FINAL CTA: Zebra White (Optimized) */}
       <section className="about-final-cta">
+        <div className="cta-background-watermark">IMPACT</div>{" "}
+        {/* Visual Filler */}
         <div className="cta-content-modern">
+          <span className="section-tag-elite">Next Steps</span>
           <h2 className="cta-huge-text">
             Elevate your <br />
-            next narrative.
+            <span className="text-gradient">next narrative.</span>
           </h2>
           <div className="cta-action-group">
             <a href="/contact" className="cta-btn-primary">

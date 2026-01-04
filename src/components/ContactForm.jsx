@@ -77,7 +77,7 @@ function ContactForm() {
             ? "Authenticating..."
             : status.success
             ? "Brief Transmitted"
-            : "Send Inquiry"}
+            : "Send Booking"}
         </span>
         <span className="btn-icon">
           {status.success ? <FiCheck /> : <FiArrowRight />}

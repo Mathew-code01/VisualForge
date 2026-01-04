@@ -63,7 +63,7 @@ function Header() {
 
         <div className="header-actions">
           {/* Punchier CTA for the minimalist aesthetic */}
-          <NavLink to="/contact" className="cta-button">Inquiry</NavLink>
+          <NavLink to="/contact" className="cta-button">Booking</NavLink>
           
           <button className={`burger-btn ${menuOpen ? "active" : ""}`} onClick={() => setMenuOpen(!menuOpen)}>
             <div className="burger-line line-top"></div>

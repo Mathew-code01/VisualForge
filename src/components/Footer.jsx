@@ -29,7 +29,7 @@ function Footer() {
           <div className="vf-footer-cta">
             <span className="cta-label">Have a vision?</span>
             <NavLink to="/contact" className="footer-contact-link">
-              Start the Inquiry <FiArrowUpRight className="icon-up" />
+              Start the Booking <FiArrowUpRight className="icon-up" />
             </NavLink>
           </div>
         </div>
@@ -42,7 +42,7 @@ function Footer() {
                 <li><NavLink to="/">Index</NavLink></li>
                 <li><NavLink to="/work">Archive</NavLink></li>
                 <li><NavLink to="/about">Studio</NavLink></li>
-                <li><NavLink to="/contact">Inquiry</NavLink></li>
+                <li><NavLink to="/contact">Booking</NavLink></li>
               </ul>
             </div>
             <div className="footer-nav-group">

@@ -393,3 +393,55 @@
   .image-float-card { position: relative; bottom: 0; right: 0; margin-top: 20px; width: fit-content; }
   .cta-action-group { flex-direction: column; gap: 25px; }
 }
+
+/* src/styles/pages/about.css */
+
+.about-final-cta {
+  background: #ffffff !important;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 60vh; /* Give it more vertical presence */
+}
+
+/* The Background "IMPACT" Text to fill space */
+.cta-background-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 25vw;
+  font-weight: 900;
+  color: rgba(8, 1, 92, 0.03); /* Extremely subtle */
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+.cta-content-modern {
+  position: relative;
+  z-index: 2; /* Sits above the watermark */
+}
+
+.cta-huge-text {
+  font-size: clamp(3rem, 10vw, 6.5rem); /* Bigger and bolder */
+  font-weight: 900;
+  color: var(--color-primary-dark);
+  line-height: 0.9;
+  margin-bottom: 60px;
+  letter-spacing: -0.06em;
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, #08015c, #2b75ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Spacing between the CTA and the Footer */
+.about-final-cta {
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}

@@ -65,7 +65,10 @@ const Home = () => {
 
       <TrustedBy />
 
-      <section className="home-section-unique bg-deep" ref={(el) => (scrollRefs.current[0] = el)}>
+      <section
+        className="home-section-unique bg-deep"
+        ref={(el) => (scrollRefs.current[0] = el)}
+      >
         <div className="home-container-unique">
           <header className="section-header-block">
             <span className="section-tag-elite">Cinematic Archive</span>
@@ -75,22 +78,54 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="home-section-unique bg-white" ref={(el) => (scrollRefs.current[1] = el)}>
+      {/* 3. ETHOS: Zebra White (Restructured for Visual Impact) */}
+      <section
+        className="home-section-unique bg-white"
+        ref={(el) => (scrollRefs.current[1] = el)}
+      >
         <div className="home-container-unique">
-          <div className="statement-inner">
-            <span className="section-tag-elite">Our Ethos</span>
-            <h3>
-              The art of the cut, <span className="statement-highlight"> perfected.</span>
-            </h3>
-            <p>
-              We don't just assemble footage; we architect emotion. BigDay Media delivers 
-              high-performance post-production for global brands.
-            </p>
+          <div className="ethos-split-grid">
+            {/* Left Side: Large Cinematic Visual */}
+            <div className="ethos-visual">
+              <div className="visual-image-container">
+                <img src={visualExcellenceImg} alt="BigDay Media Excellence" />
+                <div className="visual-border-accent"></div>
+              </div>
+            </div>
+
+            {/* Right Side: High-End Typography */}
+            <div className="ethos-content">
+              <span className="section-tag-elite">Our Ethos</span>
+              <h3 className="ethos-display-title">
+                The art of the cut, <br />
+                <span className="statement-highlight">perfected.</span>
+              </h3>
+              <div className="ethos-body">
+                <p>
+                  We don't just assemble footage; we architect emotion. BigDay
+                  Media delivers high-performance post-production for global
+                  brands demanding narrative precision.
+                </p>
+                <div className="ethos-stats-row">
+                  <div className="ethos-stat">
+                    <strong>120+</strong>
+                    <span>Films Delivered</span>
+                  </div>
+                  <div className="ethos-stat">
+                    <strong>08+</strong>
+                    <span>Years Expertise</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="home-section-unique bg-deep" ref={(el) => (scrollRefs.current[2] = el)}>
+      <section
+        className="home-section-unique bg-deep"
+        ref={(el) => (scrollRefs.current[2] = el)}
+      >
         <div className="home-container-unique">
           <header className="section-header-block">
             <span className="section-tag-elite">Specializations</span>
@@ -105,10 +140,13 @@ const Home = () => {
               </div>
               <div className="cap-content">
                 <h3>Creative Editorial</h3>
-                <p>High-tempo, narrative-driven pacing designed for digital landscapes.</p>
+                <p>
+                  High-tempo, narrative-driven pacing designed for digital
+                  landscapes.
+                </p>
               </div>
             </div>
-            
+
             <div className="cap-card">
               <div className="cap-image-wrapper">
                 <img src={motionImg} alt="Motion & VFX" />
@@ -127,14 +165,19 @@ const Home = () => {
               </div>
               <div className="cap-content">
                 <h3>Chromatic Finishing</h3>
-                <p>Expert color grading using industry-leading Resolve pipelines.</p>
+                <p>
+                  Expert color grading using industry-leading Resolve pipelines.
+                </p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="home-section-unique bg-white" ref={(el) => (scrollRefs.current[3] = el)}>
+      <section
+        className="home-section-unique bg-white"
+        ref={(el) => (scrollRefs.current[3] = el)}
+      >
         <Contact />
       </section>
     </main>

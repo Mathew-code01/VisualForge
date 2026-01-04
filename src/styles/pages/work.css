@@ -293,3 +293,54 @@
   position: relative;
   z-index: 2; /* Lift content above blur */
 }
+
+/* src/styles/pages/work.css */
+
+.work-final-cta {
+  text-align: center;
+  background-color: #ffffff;
+  position: relative;
+  overflow: hidden;
+  min-height: 70vh; /* Increased height for better breathing room */
+  display: flex;
+  align-items: center;
+}
+
+/* Subtly fills the "missing" space behind the text */
+.cta-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20vw;
+  font-weight: 900;
+  color: rgba(8, 1, 92, 0.02); /* Ghost-like visibility */
+  pointer-events: none;
+  z-index: 1;
+  letter-spacing: -0.05em;
+}
+
+.work-final-cta .section-inner {
+  position: relative;
+  z-index: 2;
+}
+
+.cta-headline {
+  font-size: clamp(3.5rem, 10vw, 7rem); /* Hero-sized text for the finish */
+  font-weight: 900;
+  letter-spacing: -0.06em;
+  line-height: 0.9;
+  margin-bottom: 50px;
+  color: var(--color-primary-dark);
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, #08015c, #2b75ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.elite-contact-btn {
+  /* ... existing styles ... */
+  box-shadow: 0 20px 40px rgba(8, 1, 92, 0.1);
+}
