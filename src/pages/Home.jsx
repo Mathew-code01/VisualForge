@@ -12,11 +12,11 @@ import useImagePreloader from "../hooks/useImagePreloader";
 import "../styles/pages/home.css";
 
 // Asset Imports
-import editorialImg from "../assets/images/creativeEditorial.png";
-import motionImg from "../assets/images/motion&VFX.png";
-import chromaticImg from "../assets/images/chromaticFinishing.png";
-import theArchiveImg from "../assets/images/theArchive.png";
-import visualExcellenceImg from "../assets/images/visualExcellence.png";
+import editorialImg from "../assets/images/creativeEditorial.webp";
+import motionImg from "../assets/images/motion&VFX.webp";
+import chromaticImg from "../assets/images/chromaticFinishing.webp";
+import theArchiveImg from "../assets/images/theArchive.webp";
+import visualExcellenceImg from "../assets/images/visualExcellence.webp";
 
 const Home = () => {
   const scrollRefs = useRef([]);

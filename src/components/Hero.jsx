@@ -7,8 +7,8 @@ import { useEffect, useState } from "react";
 import "../styles/components/hero.css";
 
 // 1. Import your local assets
-import theArchiveImg from "../assets/images/theArchive.png";
-import visualExcellenceImg from "../assets/images/visualExcellence.png";
+import theArchiveImg from "../assets/images/theArchive.webp";
+import visualExcellenceImg from "../assets/images/visualExcellence.webp";
 
 const heroSlides = [
   {

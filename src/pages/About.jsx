@@ -9,10 +9,10 @@ import Loader from "../components/Loader.jsx";
 import useImagePreloader from "../hooks/useImagePreloader"; // Import the hook
 
 // Asset Imports
-import aitStudio from "../assets/images/aitStudio.png";
-import preVisImg from "../assets/images/pre-Visualization.png";
-import assemblyImg from "../assets/images/theAssembly.png";
-import masteringImg from "../assets/images/mastering.png";
+import aitStudio from "../assets/images/aitStudio.webp";
+import preVisImg from "../assets/images/pre-Visualization.webp";
+import assemblyImg from "../assets/images/theAssembly.webp";
+import masteringImg from "../assets/images/mastering.webp";
 
 import "../styles/pages/about.css";
 

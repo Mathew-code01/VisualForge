@@ -24,7 +24,7 @@ import {
 } from "react-icons/fi";
 import uploadVideo, { saveMetadataOnly } from "../firebase/uploadVideo.js";
 import useStorageUsage from "../firebase/useStorageUsage";
-import videoPlaceholder from "../assets/images/video-placeholder.png";
+import videoPlaceholder from "../assets/images/video-placeholder.webp";
 import AdminVideos from "./AdminVideos";
 import { extractMetadata, generateThumbnail } from "../utils/processVideo";
 import "../styles/pages/adminupload.css";
