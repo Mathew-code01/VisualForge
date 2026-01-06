@@ -4,7 +4,6 @@
 // src/components/Loader.jsx
 // src/components/Loader.jsx
 // src/components/Loader.jsx
-// src/components/Loader.jsx
 import { useRef, useEffect, useState } from "react";
 import "../styles/components/loader.css";
 
@@ -14,82 +13,89 @@ export default function Loader({ onLoadingComplete }) {
   const [isExiting, setIsExiting] = useState(false);
   const currentYear = new Date().getFullYear();
 
+  // Force Video Playback & Handle Autoplay Blocks
   useEffect(() => {
-    // 1. Progress Logic
+    if (videoRef.current) {
+      videoRef.current.play().catch((error) => {
+        console.log(
+          "Autoplay prevented. Video will load on interaction or buffer.",
+          error
+        );
+      });
+    }
+  }, []);
+
+  useEffect(() => {
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
-          // Small delay before closing to let the '100%' be seen
           setTimeout(() => {
             setIsExiting(true);
-            // Tell the parent component to show the website after animation finishes
             setTimeout(() => {
               if (onLoadingComplete) onLoadingComplete();
-            }, 800);
-          }, 500);
+            }, 1000);
+          }, 600);
           return 100;
         }
-        return prev + 1;
+        const increment = Math.floor(Math.random() * 2) + 1;
+        return Math.min(prev + increment, 100);
       });
-    }, 45); // Adjust speed to match the man's walk
+    }, 40);
 
     return () => clearInterval(interval);
   }, [onLoadingComplete]);
 
   return (
     <div className={`loader-agency-elite ${isExiting ? "exit-active" : ""}`}>
-      {/* BACKGROUND ELEMENTS */}
-      <div className="loader-vibrant-bg" />
-      <div className="loader-blue-glow" />
-
-      {/* CINEMATIC LOCAL VIDEO - SHARP VERSION */}
-      <video
-        ref={videoRef}
-        autoPlay
-        muted
-        loop
-        playsInline
-        poster="/assets/loader-poster.jpg"
-        className="loader-video-bg"
-        preload="auto"
-      >
-        <source src="/assets/loader-bg.mp4" type="video/mp4" />
-      </video>
-
-      <div className="loader-video-overlay" />
-
-      <div className="loader-content-core">
-        <div className="metadata-top">
-          <span className="code-tag">BIGDAY_SESSION_{currentYear}</span>
-          <div className="rec-container">
-            <span className="status-blink">● CONNECTING</span>
-            <span className="timer-live">LN_0.1.4</span>
-          </div>
-        </div>
-
-        <div className="loader-center-text">
-          <h1 className="loader-title-cinematic">
-            BIGDAY<span className="cursor">_</span>
-          </h1>
-          <p className="loader-subtext">Visual Excellence Built for Impact</p>
-        </div>
-
-        <div className="progress-technical">
-          <div className="percentage-display">
-            <span className="label">ESTABLISHING SECURE LINK</span>
-            <span className="number">{progress}%</span>
-          </div>
-          <div className="hairline-bar">
-            <div className="fill" style={{ width: `${progress}%` }} />
-          </div>
-        </div>
+      {/* VIDEO BACKGROUND WITH POSTER FALLBACK */}
+      <div className="loader-video-container">
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster="/assets/loader-poster.jpg" // Ensure this path is correct in your public folder
+          className="loader-video-asset"
+          preload="auto"
+        >
+          <source src="/assets/loader-bg.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        {/* Lighter overlay so video is more visible */}
+        <div className="loader-video-vignette" />
       </div>
 
-      <div className="loader-footer-meta">
-        <span>SIGNAL: 10-BIT</span>
-        <span>RES: 4K_UHD</span>
-        <span>EST_2026</span>
+      {/* REVEAL PANELS (Only active on exit) */}
+      <div className="loader-panel panel-left"></div>
+      <div className="loader-panel panel-right"></div>
+
+      <div className="loader-content-wrap">
+        <div className="loader-top-bar">
+          <span className="meta-tag">BIGDAY_STUDIO_{currentYear}</span>
+          <span className="status-tag blink">● BROADCASTING</span>
+        </div>
+
+        <div className="loader-center-frame">
+          <div className="counter-large">
+            {progress.toString().padStart(3, "0")}
+            <span className="unit">%</span>
+          </div>
+          <div className="text-reveal">
+            <h1 className="main-logo">BIGDAY</h1>
+            <p className="tagline">Visual Excellence Built for Impact</p>
+          </div>
+        </div>
+
+        <div className="loader-bottom-bar">
+          <div className="tech-details">
+            <span>RES: 4K</span>
+            <span>FPS: 24</span>
+            <span>CODEC: RAW</span>
+          </div>
+          <div className="dev-signature">DEV_BY_MATHERE</div>
+        </div>
       </div>
     </div>
   );
