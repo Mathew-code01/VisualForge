@@ -2,11 +2,19 @@
 // src/pages/AdminLogin.jsx
 // src/pages/AdminLogin.jsx
 import { useState, useEffect } from "react";
-import { Eye, EyeOff, UserCheck, ShieldAlert, Lock } from "lucide-react";
+import {
+  Eye,
+  EyeOff,
+  UserCheck,
+  ShieldAlert,
+  Lock,
+  ArrowLeft,
+  ArrowRight,
+} from "lucide-react";
 import "../styles/pages/adminlogin.css";
 
 export default function AdminLogin() {
-  const [view, setView] = useState("gate"); // "gate", "form", "locked"
+  const [view, setView] = useState("gate");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -17,7 +25,6 @@ export default function AdminLogin() {
 
   const MAX_ATTEMPTS = 5;
 
-  // Handle Redirection when locked
   useEffect(() => {
     if (view !== "locked") return;
     if (countdown === 0) {
@@ -35,19 +42,21 @@ export default function AdminLogin() {
     setError("");
     setLoading(true);
 
-    // Development Bypass Logic
-    if (password.toLowerCase().includes("admin")) {
+    // Simulated/Development Logic
+    if (password.toLowerCase() === "admin") {
       localStorage.setItem("dev-admin", "true");
       window.location.href = "/admin-upload?dev=1";
       return;
     }
 
     try {
+      // Logic for Firebase would go here
       const res = await window.firebaseSignIn(
         window.firebaseAuth,
         email,
         password
       );
+
       const token = await res.user.getIdTokenResult();
 
       if (!token.claims.admin) {
@@ -57,93 +66,90 @@ export default function AdminLogin() {
       }
       window.location.href = "/admin-upload";
     } catch (err) {
-      console.log(err);
+      console.log(err)
       const newAttempts = attempts + 1;
       setAttempts(newAttempts);
-      setError("Invalid credentials. Access logged.");
-
-      if (newAttempts >= MAX_ATTEMPTS) {
-        setView("locked");
-      }
+      setError("IDENTITY_MISMATCH: INVALID_CREDENTIALS");
+      if (newAttempts >= MAX_ATTEMPTS) setView("locked");
     } finally {
       setLoading(false);
     }
   };
 
-  // --- Sub-Views ---
-
-  // 1. VIBRANT VERIFICATION GATE
+  // 1. GATE VIEW
   if (view === "gate")
     return (
       <div className="admin-page-wrapper">
         <div className="admin-glass-card gate-anim">
-          <div className="logo-ring">
-            <UserCheck size={32} />
-          </div>
-          <h1>System Access</h1>
-          <p>BigDay Media Management Portal</p>
+          <div className="technical-id">SESSION_AUTH_01</div>
+          <h1 className="admin-title">Restricted Area</h1>
+          <p className="admin-subtitle">BigDay Media Central Management</p>
+
           <div className="gate-actions">
             <button
-              className="btn-primary-vibrant"
+              className="admin-btn-elite-primary"
               onClick={() => setView("form")}
             >
-              Authorize Administrator
+              <span>Enter Credentials</span>
+              <ArrowRight size={18} />
             </button>
             <button
-              className="btn-outline"
-              style={{ color: "#fff", borderColor: "rgba(255,255,255,0.2)" }}
+              className="btn-elite-link"
               onClick={() => (window.location.href = "/")}
             >
-              Return to Site
+              Back to Public Site
             </button>
           </div>
         </div>
       </div>
     );
 
-  // 2. LOCKOUT VIEW
+  // 2. LOCKED VIEW
   if (view === "locked")
     return (
       <div className="admin-page-wrapper">
-        <div className="admin-glass-card lock-anim">
-          <ShieldAlert size={64} className="error-icon" />
-          <h2 className="text-error">System Lockdown</h2>
-          <p>Too many failed attempts. Security protocol initiated.</p>
-          <div className="timer-badge">Redirecting in {countdown}s</div>
+        <div className="admin-glass-card lock-anim error-state">
+          <ShieldAlert size={48} className="icon-error" />
+          <h1 className="admin-title">Lockdown</h1>
+          <p className="admin-subtitle">
+            Security breach detected. Redirecting to safe zone.
+          </p>
+          <div className="timer-ring">0{countdown}</div>
         </div>
       </div>
     );
 
-  // 3. MAIN LOGIN FORM (Vibrant Refresh)
+  // 3. FORM VIEW
   return (
     <div className="admin-page-wrapper">
       <div className="admin-glass-card gate-anim">
+        <button className="back-nav" onClick={() => setView("gate")}>
+          <ArrowLeft size={16} /> <span>Back</span>
+        </button>
+
         <header className="admin-header">
-          <div className="logo-ring">
-            <Lock size={28} />
-          </div>
-          <h1>Admin Portal</h1>
-          <p>Secure Encrypted Session</p>
+          <h1 className="admin-title">Authorize</h1>
+          <p className="admin-subtitle">Secure Encrypted Environment</p>
         </header>
 
         <form onSubmit={handleLogin} className="admin-form">
-          {error && <div className="error-banner">{error}</div>}
+          {error && <div className="error-log">{error}</div>}
 
-          <div className="input-field">
-            <label>Identity (Email)</label>
+          <div className="input-group">
+            <label>IDENTITY_MAIL</label>
             <input
               type="email"
               required
               autoFocus
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="name@BigDay-Media.com"
+              placeholder="administrator@bigday.com"
             />
           </div>
 
-          <div className="input-field">
-            <label>Security Key (Password)</label>
-            <div className="password-input-container">
+          <div className="input-group">
+            <label>SECURITY_KEY</label>
+            <div className="password-wrapper">
               <input
                 type={showPassword ? "text" : "password"}
                 required
@@ -153,26 +159,27 @@ export default function AdminLogin() {
               />
               <button
                 type="button"
-                className="eye-btn"
+                className="password-toggle"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
               </button>
             </div>
           </div>
 
-          {/* VIBRANT SUBMIT BUTTON */}
-          <button type="submit" className="btn-submit" disabled={loading}>
-            {loading ? (
-              <span className="loading-dots">Verifying Identity...</span>
-            ) : (
-              "Authorize Access"
-            )}
+          <button
+            type="submit"
+            className="admin-btn-elite-primary"
+            disabled={loading}
+          >
+            {loading ? "VERIFYING..." : "GRANT ACCESS"}
           </button>
 
-          <div className="security-footer">
-            Attempts Remaining: <span>{MAX_ATTEMPTS - attempts}</span>
-          </div>
+          <footer className="form-footer">
+            <div className="attempt-counter">
+              REM_ATTEMPTS: <span>0{MAX_ATTEMPTS - attempts}</span>
+            </div>
+          </footer>
         </form>
       </div>
     </div>

@@ -3,9 +3,9 @@
 /* src/styles/components/workcard.css */
 /* src/styles/components/workcard.css */
 /* src/styles/components/workcard.css */
-/* src/styles/components/workcard.css */
-/* src/styles/components/workcard.css */
-/* src/styles/components/workcard.css */
+/* ============================================================
+   BIGDAY MEDIA - REFINED ELITE WORK CARD (FULL VERSION)
+   ============================================================ */
 
 .work-card-vibrant {
   text-decoration: none;
@@ -13,9 +13,8 @@
   width: 100%;
   opacity: 0;
   transform: translateY(30px);
-  /* Staggered entrance using the prop from JS */
   animation: cardEntrance 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  animation-delay: calc(var(--card-index) * 0.15s);
+  animation-delay: calc(var(--card-index) * 0.1s);
 }
 
 @keyframes cardEntrance {
@@ -26,140 +25,110 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 20px;
 }
 
-/* --- Cinematic Frame --- */
+/* --- THE CINEMATIC FRAME --- */
 .work-thumb-wrapper {
   position: relative;
   aspect-ratio: 16/9;
-  background: #0a0a0a;
+  background: #000;
   overflow: hidden;
-  border-radius: 0; /* Razor sharp = Premium */
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
 }
 
 .main-thumb {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: saturate(0.8);
-  transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1), filter 1s ease;
+  width: 100%; height: 100%; object-fit: cover;
+  filter: contrast(1.05) brightness(0.9);
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .hover-video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  z-index: 2;
-  transition: opacity 0.8s ease;
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  opacity: 0; z-index: 2; transition: opacity 0.5s ease;
 }
-
 .hover-video.active { opacity: 1; }
 
-/* --- Technical Hover Overlay --- */
+/* --- EDITOR UI OVERLAY --- */
 .card-overlay-vibrant {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  background: rgba(0, 0, 0, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  backdrop-filter: blur(0px);
-  transition: all 0.6s var(--hero-easing);
+  position: absolute; inset: 0; z-index: 5;
+  background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, transparent 60%);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 24px; opacity: 0; transition: opacity 0.4s ease;
 }
 
-.work-card-vibrant:hover .card-overlay-vibrant {
-  opacity: 1;
-  backdrop-filter: blur(4px);
-}
+.work-card-vibrant:hover .card-overlay-vibrant { opacity: 1; }
 
 .overlay-badge-technical {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  color: #fff;
-  font-size: 0.6rem;
-  letter-spacing: 0.3em;
-  font-weight: 800;
-  text-transform: uppercase;
-  transform: translateY(10px);
-  transition: transform 0.6s var(--hero-easing);
+  display: flex; align-items: center; gap: 12px;
+  color: #fff; font-size: 0.55rem; font-weight: 800;
+  letter-spacing: 0.25em; text-transform: uppercase;
 }
 
-.work-card-vibrant:hover .overlay-badge-technical {
-  transform: translateY(0);
+/* Blinking REC Dot */
+.rec-dot {
+  width: 8px; height: 8px;
+  background-color: #ff0000;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(255, 0, 0, 0.8);
+  animation: blinkRec 1s infinite;
 }
 
-/* --- Metadata Layout --- */
-.work-card-info {
-  padding: 0 4px;
+@keyframes blinkRec {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
-.info-top {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 12px;
+.overlay-playback-bar {
+  width: 100%; height: 2px;
+  background: rgba(255, 255, 255, 0.15);
+  margin-top: 12px; position: relative; overflow: hidden;
+}
+
+.playback-fill {
+  position: absolute; left: 0; top: 0; height: 100%; width: 100%;
+  background: var(--color-secondary-bright);
+  /* CRITICAL: No transition here. JS handles the movement to keep it in sync */
+  will-change: transform;
+}
+
+/* --- REFINED METADATA STYLING --- */
+.work-card-info { padding: 0 2px; }
+
+.info-meta-row {
+  display: flex; justify-content: space-between;
+  align-items: center; margin-bottom: 10px;
 }
 
 .card-category {
-  font-size: 0.65rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.3em;
-  color: #004cff;
+  font-size: 0.65rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.3em;
+  color: var(--color-secondary-bright);
 }
 
 .card-year {
-  font-size: 0.65rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.65rem; font-weight: 500;
+  color: var(--color-text-light); letter-spacing: 0.1em;
 }
 
-.bg-white .card-year { color: rgba(0, 0, 0, 0.3); }
-
-.info-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-}
+.info-title-row { display: flex; justify-content: space-between; align-items: flex-start; }
 
 .card-title-text {
-  font-size: 1.2rem;
-  font-weight: 800;
-  color: #fff;
-  letter-spacing: -0.01em;
-  text-transform: uppercase;
-  margin: 0;
-  max-width: 80%;
-  line-height: 1.2;
+  font-size: 1.15rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: -0.01em;
+  line-height: 1.2; color: inherit; margin: 0;
+  word-break: break-word; overflow: hidden;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
 }
 
-.bg-white .card-title-text { color: #000; }
-
-.arrow-circle {
-  font-size: 1.4rem;
-  color: #fff;
-  opacity: 0.3;
-  transition: all 0.5s var(--hero-easing);
+.arrow-wrap {
+  font-size: 1.4rem; opacity: 0.4;
+  transition: all 0.4s ease; margin-top: -2px;
 }
 
-.bg-white .arrow-circle { color: #000; }
-
-/* --- Global Hover Logic --- */
-.work-card-vibrant:hover .main-thumb {
-  transform: scale(1.05);
-  filter: saturate(1.1) brightness(0.6);
-}
-
-.work-card-vibrant:hover .arrow-circle {
-  opacity: 1;
-  transform: translate(4px, -4px);
-  color: #004cff;
+/* --- GLOBAL HOVER --- */
+.work-card-vibrant:hover .main-thumb { transform: scale(1.04); }
+.work-card-vibrant:hover .arrow-wrap {
+  opacity: 1; transform: translate(3px, -3px);
+  color: var(--color-secondary-bright);
 }

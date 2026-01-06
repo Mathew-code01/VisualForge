@@ -4,23 +4,31 @@
 // src/components/WorkCard.jsx
 // src/components/WorkCard.jsx
 import { Link } from "react-router-dom";
-import { FaSpinner } from "react-icons/fa";
 import { FiArrowUpRight, FiPlay } from "react-icons/fi";
-import { useState, useRef } from "react";
+import { useState, useRef,  } from "react";
 import "../styles/components/workcard.css";
 
 const WorkCard = ({ work, index, enableHoverPreview }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [videoReady, setVideoReady] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
+  const [progress, setProgress] = useState(0);
   const videoRef = useRef(null);
 
   const videoSrc = work.url;
   const isVimeo = videoSrc?.includes("vimeo.com");
 
+  // Synchronize the progress bar with the actual video time
+  const handleTimeUpdate = () => {
+    if (videoRef.current) {
+      const currentProgress =
+        (videoRef.current.currentTime / videoRef.current.duration) * 100;
+      setProgress(currentProgress);
+    }
+  };
+
   const handleMouseEnter = () => {
     setIsHovering(true);
-    // Only play if video is ready and not a Vimeo link (handled differently)
     if (enableHoverPreview && videoSrc && videoReady && !isVimeo) {
       videoRef.current.play().catch((e) => console.warn("Playback blocked", e));
     }
@@ -28,6 +36,7 @@ const WorkCard = ({ work, index, enableHoverPreview }) => {
 
   const handleMouseLeave = () => {
     setIsHovering(false);
+    setProgress(0); // Reset progress on leave
     if (videoRef.current && !isVimeo) {
       videoRef.current.pause();
       videoRef.current.currentTime = 0;
@@ -40,19 +49,10 @@ const WorkCard = ({ work, index, enableHoverPreview }) => {
       className="work-card-vibrant"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      // FIXED: Used 'index' here to create a staggered entrance effect
       style={{ "--card-index": index }}
     >
       <div className="work-card-inner">
         <div className="work-thumb-wrapper">
-          {/* 1. INITIAL IMAGE SHIMMER */}
-          {!imageLoaded && (
-            <div className="card-loader-technical">
-              <div className="shimmer-line"></div>
-              <span className="load-text">INIT_V_FILE</span>
-            </div>
-          )}
-
           <img
             src={work.thumbnail}
             alt={work.title}
@@ -60,7 +60,6 @@ const WorkCard = ({ work, index, enableHoverPreview }) => {
             onLoad={() => setImageLoaded(true)}
           />
 
-          {/* 2. VIDEO PREVIEW (Technical Loading State) */}
           {enableHoverPreview && videoSrc && !isVimeo && (
             <video
               ref={videoRef}
@@ -73,38 +72,38 @@ const WorkCard = ({ work, index, enableHoverPreview }) => {
                 isHovering && videoReady ? "active" : ""
               }`}
               onLoadedData={() => setVideoReady(true)}
+              onTimeUpdate={handleTimeUpdate}
             />
           )}
 
-          {/* 3. INTERACTIVE OVERLAY */}
+          {/* PROFESSIONAL TECHNICAL OVERLAY */}
           <div className={`card-overlay-vibrant ${isHovering ? "active" : ""}`}>
             <div className="overlay-badge-technical">
-              {videoReady ? (
-                <>
-                  <FiPlay />
-                  <span>MONITOR_SOURCE</span>
-                </>
-              ) : (
-                <>
-                  <div className="mini-buffer-bar">
-                    <div className="buffer-fill"></div>
-                  </div>
-                  <span>BUFFERING_MASTER</span>
-                </>
-              )}
+              {/* Blinking Recording Dot */}
+              <div className="rec-dot"></div>
+              <span>
+                {videoReady ? "PREVIEWING_SOURCE / 4K_RAW" : "BUFFERING_SOURCE"}
+              </span>
+            </div>
+
+            {/* The Dynamic Progress Line - Matches Video exactly */}
+            <div className="overlay-playback-bar">
+              <div
+                className="playback-fill"
+                style={{ transform: `translateX(${progress - 100}%)` }}
+              ></div>
             </div>
           </div>
         </div>
 
-        {/* METADATA: High-end layout */}
         <div className="work-card-info">
-          <div className="info-top">
+          <div className="info-meta-row">
             <span className="card-category">{work.category}</span>
             <span className="card-year">{work.year || "2026"}</span>
           </div>
-          <div className="info-bottom">
+          <div className="info-title-row">
             <h3 className="card-title-text">{work.title}</h3>
-            <div className="arrow-circle">
+            <div className="arrow-wrap">
               <FiArrowUpRight />
             </div>
           </div>

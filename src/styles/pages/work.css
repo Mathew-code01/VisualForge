@@ -4,186 +4,175 @@
 /* src/styles/pages/portfolio.css */
 /* src/styles/pages/work.css */
 /* src/styles/pages/work.css */
-/* src/styles/pages/work.css */
 /* ============================================================
-   BIGDAY MEDIA - ELITE WORK REFACTOR 
-   Focus: Technical Boldness, Zebra Consistency, & Filter Visibility
+   BIGDAY MEDIA - ELITE WORK REFACTOR (SYNCHRONIZED)
    ============================================================ */
 
 :root {
-  /* Fluid Spacing Scale for Section Rhythm */
   --fluid-gap-lg: clamp(100px, 15vh, 180px); 
   --fluid-gap-md: clamp(48px, 8vh, 80px);
-  --fluid-gap-sm: clamp(20px, 3vh, 32px);
   --side-padding: clamp(24px, 10vw, 160px); 
-  
-  /* Precision Easing for Sophisticated Hover States */
   --agency-easing: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* --- THE PAGE ANCHOR: OPTICAL CENTERED HERO --- */
+/* --- THE HERO ANCHOR --- */
 .work-hero-elite {
   position: relative;
   height: 85vh;
   min-height: 700px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  background-color: var(--color-primary-dark) !important;
+  background-color: #050505;
   overflow: hidden;
   padding: 0 var(--side-padding);
+}
+
+.hero-image-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  opacity: 0.4;
+  filter: grayscale(40%) brightness(0.7) contrast(1.1);
 }
 
 .hero-blur-bg {
   position: absolute;
   inset: 0;
   background: 
-    radial-gradient(circle at 20% 20%, rgba(43, 117, 255, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(8, 1, 92, 0.6) 0%, transparent 50%);
-  filter: blur(120px);
+    radial-gradient(circle at 20% 20%, rgba(43, 117, 255, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(8, 1, 92, 0.4) 0%, transparent 50%);
+  filter: blur(100px);
   z-index: 1;
 }
 
 .work-hero-content {
   position: relative;
-  z-index: 2;
+  z-index: 5;
   max-width: 900px;
 }
+
+/* ... (Hero Typography: hero-tag, hero-display-title, hero-summary stay as previously defined) ... */
 
 .hero-tag {
   display: block;
   font-size: 0.65rem;
   font-weight: 800;
-  text-transform: uppercase; /* CAPITALISM NECESSARY */
+  text-transform: uppercase;
   letter-spacing: 0.6em;
   color: var(--color-secondary-bright);
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 }
 
 .hero-display-title {
-  font-size: clamp(2.4rem, 6vw, 4rem); /* Professional Scaling */
+  font-size: clamp(2.4rem, 6vw, 3.8rem);
   font-weight: 900;
-  line-height: 1.05;
-  letter-spacing: -0.05em;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
   color: #ffffff;
-  margin-bottom: 35px;
+  margin-bottom: 30px;
 }
 
 .text-outline {
   color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5);
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.4);
 }
 
 .hero-summary {
-  font-size: clamp(1rem, 1.2vw, 1.15rem);
-  color: rgba(255, 255, 255, 0.65);
-  max-width: 580px;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 540px;
   margin: 0 auto;
   line-height: 1.8;
   font-weight: 300;
+  letter-spacing: 0.02em;
 }
 
-/* --- ZEBRA SYSTEM & SPACING --- */
-.work-section-white, 
-.work-section-dark,
-.work-final-cta {
+/* --- ZEBRA SYSTEM: SYNCHRONIZED WITH HOME --- */
+.work-section-white { 
+  background-color: #ffffff !important; 
+  color: var(--color-primary-dark); 
+}
+
+.work-section-dark { 
+  /* Using exact brand variable for consistent Zebra layout */
+  background-color: var(--color-primary-dark) !important; 
+  color: #ffffff; 
+  position: relative;
+  overflow: hidden;
+}
+
+.work-section-white, .work-section-dark, .work-final-cta {
   width: 100%;
-  padding: var(--fluid-gap-lg) 0 !important; /* Strict Vertical Rhythm */
+  padding: var(--fluid-gap-lg) 0 !important;
   position: relative;
 }
 
-.work-section-white { background-color: #ffffff !important; }
-.work-section-dark { background-color: var(--color-primary-dark) !important; }
+/* SHARPENING THE DARK SECTION TEXT */
+.work-section-dark .title-md {
+  color: #ffffff !important;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  text-transform: uppercase; /* Match Home Page headings */
+}
+
+.work-section-dark .header-context {
+  color: rgba(255, 255, 255, 0.8) !important; /* Increased visibility from 0.6 */
+  max-width: 500px;
+  font-weight: 400;
+}
+
+.work-section-dark .section-tag-elite {
+  color: var(--color-secondary-bright);
+  font-weight: 800;
+  letter-spacing: 0.6em; /* Synchronized with Hero/Home tag spacing */
+}
 
 .section-inner {
   max-width: 1600px;
   margin: 0 auto;
   padding: 0 var(--side-padding);
+  position: relative;
+  z-index: 2;
 }
 
-/* --- ELITE HEADER STYLING --- */
-.elite-header {
-  margin-bottom: 60px;
-  max-width: 800px;
-}
-
-.section-tag-elite {
-  font-size: 0.65rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.4em;
-  color: var(--color-secondary-bright);
-  display: block;
-  margin-bottom: 15px;
-}
-
-.title-md {
-  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
-  font-weight: 900;
-  letter-spacing: -0.04em;
-  margin-bottom: 15px;
-}
-
-.header-context {
-  font-size: 1rem;
-  opacity: 0.6;
-  font-weight: 400;
-}
-
-/* --- VISIBILITY FIX: FILTER PILLS --- */
-/* User Request: Make All(9) Commercial(3) etc. highly visible */
+/* --- FILTER PILL VISIBILITY --- */
 .filter-container {
   display: flex;
   gap: 40px;
   margin-bottom: 50px;
-  border-bottom: 1px solid rgba(8, 1, 92, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding-bottom: 20px;
-}
-
-.work-section-dark .filter-container {
-  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .filter-pill {
   font-size: 0.75rem;
-  font-weight: 800;
+  font-weight: 900;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  color: var(--color-primary-deep) !important; /* Forced Visibility */
   cursor: pointer;
+  opacity: 0.5;
   transition: all 0.3s var(--agency-easing);
-  position: relative;
-  opacity: 0.4;
 }
 
-.work-section-dark .filter-pill {
-  color: #ffffff !important;
-}
+.work-section-white .filter-pill { color: var(--color-primary-dark) !important; }
+.work-section-dark .filter-pill { color: #ffffff !important; }
 
-.filter-pill:hover, 
-.filter-pill.active {
+.filter-pill:hover, .filter-pill.active {
   opacity: 1;
+  color: var(--color-secondary-bright) !important;
 }
 
-.filter-pill.active::after {
-  content: '';
-  position: absolute;
-  bottom: -21px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: var(--color-secondary-bright);
-}
-
-/* --- PROJECT CARDS & HOVER --- */
+/* --- CARDS & HOVER (SOPHISTICATED UI/UX) --- */
 .work-card-elite {
   position: relative;
   overflow: hidden;
-  background: #000;
   aspect-ratio: 16 / 10;
-  cursor: pointer;
+  background: #000;
 }
 
 .work-card-image {
@@ -192,28 +181,44 @@
   object-fit: cover;
   opacity: 0.7;
   filter: grayscale(100%);
-  transition: transform 1.2s var(--agency-easing), opacity 0.8s ease, filter 0.8s ease;
+  transition: transform 1.2s var(--agency-easing), filter 0.8s, opacity 0.8s;
 }
 
 .work-card-elite:hover .work-card-image {
-  transform: scale(1.08);
+  transform: scale(1.05);
   opacity: 1;
   filter: grayscale(0%);
 }
 
-/* --- FINAL CALL TO ACTION --- */
+/* --- FINAL CTA --- */
 .work-final-cta {
   text-align: center;
   background-color: #ffffff;
+  overflow: hidden;
+}
+
+.cta-watermark {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18vw;
+  font-weight: 900;
+  color: rgba(8, 1, 92, 0.02);
+  pointer-events: none;
 }
 
 .cta-headline {
-  font-size: clamp(2.5rem, 7vw, 4.5rem);
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
   font-weight: 900;
-  letter-spacing: -0.06em;
   line-height: 1;
-  margin-bottom: 60px;
+  margin-bottom: 50px;
   color: var(--color-primary-dark);
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, var(--color-primary-dark), var(--color-secondary-bright));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .elite-contact-btn {
@@ -221,126 +226,14 @@
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.4em;
-  padding: 26px 70px;
+  padding: 24px 60px;
   background: var(--color-primary-dark);
   color: #ffffff !important;
-  transition: all 0.5s var(--agency-easing);
   display: inline-block;
+  transition: all 0.4s var(--agency-easing);
 }
 
 .elite-contact-btn:hover {
   background: var(--color-secondary-bright);
-  transform: translateY(-10px);
-  box-shadow: 0 30px 60px rgba(43, 117, 255, 0.3);
-}
-
-/* --- RESPONSIVE FIXES --- */
-@media (max-width: 1024px) {
-  :root { --side-padding: 40px; }
-  .filter-container { gap: 20px; overflow-x: auto; padding-bottom: 10px; }
-}
-
-@media (max-width: 768px) {
-  :root { --fluid-gap-lg: 80px; }
-  .hero-display-title { font-size: 2.5rem; }
-  .cta-headline { font-size: 2.8rem; }
-}
-
-/* --- PROJECT CARDS & HOVER (IMAGE + VIDEO FIX) --- */
-.work-card-elite {
-  position: relative;
-  overflow: hidden;
-  background: #000;
-  aspect-ratio: 16 / 10;
-  cursor: pointer;
-  z-index: 5; /* Ensure cards stay above any background blurs */
-}
-
-/* Target both images and videos inside the card */
-.work-card-image, 
-.work-card-elite video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.6; /* Deeper starting opacity for dark section cinematic feel */
-  filter: grayscale(100%);
-  transition: 
-    transform 1.2s var(--agency-easing), 
-    opacity 0.8s ease, 
-    filter 0.8s ease;
-}
-
-/* Unified Hover State for Dark and White Sections */
-.work-card-elite:hover .work-card-image,
-.work-card-elite:hover video {
-  transform: scale(1.08);
-  opacity: 1;
-  filter: grayscale(0%);
-}
-
-/* --- FIX FOR OVERLAPPING BLUR --- */
-.work-section-dark {
-  position: relative;
-  z-index: 1; /* Establish stacking context */
-}
-
-.work-section-dark .hero-blur-bg {
-  z-index: 0; /* Move blur behind content */
-  pointer-events: none; /* Ensure blur doesn't block mouse clicks/hovers */
-}
-
-.work-section-dark .section-inner {
-  position: relative;
-  z-index: 2; /* Lift content above blur */
-}
-
-/* src/styles/pages/work.css */
-
-.work-final-cta {
-  text-align: center;
-  background-color: #ffffff;
-  position: relative;
-  overflow: hidden;
-  min-height: 70vh; /* Increased height for better breathing room */
-  display: flex;
-  align-items: center;
-}
-
-/* Subtly fills the "missing" space behind the text */
-.cta-watermark {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 20vw;
-  font-weight: 900;
-  color: rgba(8, 1, 92, 0.02); /* Ghost-like visibility */
-  pointer-events: none;
-  z-index: 1;
-  letter-spacing: -0.05em;
-}
-
-.work-final-cta .section-inner {
-  position: relative;
-  z-index: 2;
-}
-
-.cta-headline {
-  font-size: clamp(3.5rem, 10vw, 7rem); /* Hero-sized text for the finish */
-  font-weight: 900;
-  letter-spacing: -0.06em;
-  line-height: 0.9;
-  margin-bottom: 50px;
-  color: var(--color-primary-dark);
-}
-
-.text-gradient {
-  background: linear-gradient(90deg, #08015c, #2b75ff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.elite-contact-btn {
-  /* ... existing styles ... */
-  box-shadow: 0 20px 40px rgba(8, 1, 92, 0.1);
+  transform: translateY(-5px);
 }

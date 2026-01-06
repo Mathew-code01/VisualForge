@@ -3,176 +3,174 @@
 /* src/styles/components/loader.css */
 /* src/styles/components/loader.css */
 /* src/styles/components/loader.css */
-
+/* src/styles/components/loader.css */
 /* src/styles/components/loader.css */
 
 .loader-agency-elite {
   position: fixed;
   inset: 0;
-  background-color: var(--color-primary-dark); 
-  z-index: var(--z-max);
+  background-color: #050505;
+  z-index: 10000;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #ffffff;
-  font-family: var(--font-base);
-  padding: 20px; /* Essential for mobile safety */
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+  transition: transform 0.8s cubic-bezier(0.85, 0, 0.15, 1), 
+              opacity 0.6s ease-in-out;
 }
 
-/* Glassmorphism Blur Effect */
-.loader-glass-overlay {
+/* Exit Animation: Loader scales up and fades out */
+.loader-agency-elite.exit-active {
+  transform: scale(1.1);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loader-vibrant-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #08015c 0%, #000000 100%);
+  z-index: 0;
+}
+
+.loader-blue-glow {
+  position: absolute;
+  width: 70vw;
+  height: 70vw;
+  background: radial-gradient(circle, rgba(43, 117, 255, 0.12) 0%, transparent 75%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  filter: blur(100px);
+  z-index: 1;
+}
+
+/* VIDEO: SHARP & CRISP */
+.loader-video-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2;
+  opacity: 0.38;
+  /* Blur removed for sharpness */
+  filter: grayscale(100%) contrast(1.15) brightness(0.8);
+}
+
+.loader-video-overlay {
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    circle at center, 
-    rgba(43, 117, 255, 0.15) 0%, 
-    transparent 70%
+    circle, 
+    transparent 20%, 
+    rgba(0, 0, 0, 0.4) 60%, 
+    rgba(0, 0, 0, 0.95) 100%
   );
-  filter: blur(80px);
-  pointer-events: none;
+  z-index: 3;
 }
 
-/* Technical Meta-grid */
-.loader-technical-grid {
-  position: absolute;
-  inset: 0;
-  opacity: 0.1;
-  pointer-events: none;
-}
-
-.grid-line {
-  position: absolute;
-  background: var(--color-secondary-bright);
-}
-.grid-line:nth-child(1) { top: 25%; left: 0; width: 100%; height: 1px; opacity: 0.3; }
-.grid-line:nth-child(2) { top: 0; left: 25%; width: 1px; height: 100%; opacity: 0.3; }
-
-/* Content Core Wrapper */
 .loader-content-core {
-  width: 100%;
-  max-width: min(600px, 90vw); /* Fluid responsive width */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  position: relative;
   z-index: 10;
+  width: 100%;
+  max-width: 550px;
+  padding: 0 40px;
+  text-align: center;
 }
 
-/* Metadata Styling */
 .metadata-top {
   display: flex;
   justify-content: space-between;
   width: 100%;
   margin-bottom: 30px;
-  font-size: clamp(8px, 2vw, 10px); /* Scales slightly for readability */
-  font-weight: 700;
-  letter-spacing: 0.4em;
-  color: var(--color-primary-light);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.5em;
+  color: #fff;
+  opacity: 0.4;
 }
 
-.status-blink {
-  color: var(--color-accent);
-  animation: blink 0.8s infinite;
-}
-
-/* Title Cinematic */
 .loader-title-cinematic {
-  font-size: clamp(2.2rem, 12vw, 4.5rem); /* Bigger range for mobile */
+  font-size: clamp(3rem, 15vw, 6.5rem);
   font-weight: 900;
-  letter-spacing: -0.05em;
-  margin: 0;
-  line-height: 1;
-  text-transform: uppercase;
+  letter-spacing: -0.06em;
   color: #ffffff;
-  text-align: center;
-  animation: revealText 1.2s cubic-bezier(0.77, 0, 0.175, 1);
-}
-
-.cursor {
-  color: var(--color-secondary-bright);
-  animation: blink 0.6s infinite;
-}
-
-/* Capabilities - Minimalist List */
-.capabilities-editorial {
-  display: flex;
-  flex-wrap: wrap; /* Allows wrapping on very narrow screens */
-  justify-content: center;
-  gap: clamp(15px, 4vw, 30px);
-  margin-top: 25px;
-  font-size: clamp(8px, 1.5vw, 10px);
+  line-height: 0.8;
   text-transform: uppercase;
-  letter-spacing: 0.4em;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.6);
 }
 
-/* Technical Progress Bar */
+.loader-subtext {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5em;
+  color: #2b75ff;
+  font-weight: 800;
+  margin-top: 25px;
+  text-shadow: 0 0 20px rgba(43, 117, 255, 0.4);
+}
+
 .progress-technical {
-  margin-top: clamp(60px, 10vh, 100px); /* Dynamic vertical rhythm */
   width: 100%;
-  max-width: 400px;
+  max-width: 320px;
+  margin: 70px auto 0;
 }
 
 .percentage-display {
   display: flex;
   justify-content: space-between;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.2em;
-  margin-bottom: 12px;
-  text-transform: uppercase;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.3em;
+  margin-bottom: 15px;
+  color: rgba(255,255,255,0.7);
 }
 
 .hairline-bar {
   width: 100%;
-  height: 2px;
-  background: rgba(255, 255, 255, 0.1);
-  position: relative;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
   overflow: hidden;
 }
 
 .fill {
-  position: absolute;
-  top: 0; left: 0; height: 100%;
-  background: var(--color-secondary-bright);
-  animation: loadFill 2.5s cubic-bezier(0.85, 0, 0.15, 1) infinite;
+  height: 100%;
+  background: #ffffff;
+  box-shadow: 0 0 15px #ffffff;
+  transition: width 0.3s cubic-bezier(0.2, 0, 0.1, 1);
 }
 
-/* Technical Footer Meta */
 .loader-footer-meta {
   position: absolute;
-  bottom: clamp(20px, 5vh, 50px);
+  bottom: 40px;
   width: 100%;
-  padding: 0 8%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 50px;
   font-size: 8px;
-  letter-spacing: 0.3em;
-  color: var(--color-primary-light);
-  font-weight: 700;
-  opacity: 0.4;
+  letter-spacing: 0.4em;
+  color: rgba(255,255,255,0.3);
+  font-weight: 800;
 }
 
-/* Keyframes */
+.status-blink {
+  color: #ff3b3b;
+  animation: blink 1s infinite;
+  margin-right: 15px;
+}
+
+.cursor {
+  color: #2b75ff;
+  animation: blink 0.8s infinite;
+}
+
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-@keyframes loadFill { 0% { width: 0; } 100% { width: 100%; } }
-@keyframes revealText {
-  from { letter-spacing: -0.2em; opacity: 0; filter: blur(15px); }
-  to { letter-spacing: -0.05em; opacity: 1; filter: blur(0); }
-}
 
-/* Mobile Adjustments */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .loader-footer-meta {
     flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    text-align: center;
-  }
-  
-  /* Hide grid lines on mobile for a cleaner aesthetic */
-  .loader-technical-grid {
-    display: none;
+    bottom: 25px;
+    gap: 15px;
   }
 }

@@ -9,21 +9,18 @@ import WorkGrid from "../components/WorkGrid";
 import Loader from "../components/Loader.jsx";
 import "../styles/pages/work.css";
 
+// Import the generated background image
+import builtForImpact from "../assets/images/builtForImpact.webp";
+
 const Work = () => {
   const [loading, setLoading] = useState(true);
-
-  // Automatically grab the current year for the high-end meta-tag
   const currentYear = new Date().getFullYear();
 
   useEffect(() => {
-    // Smooth scroll to top on page load
     window.scrollTo({ top: 0, behavior: "instant" });
-
-    // Premium delay to allow the Loader to perform its animation
     const timer = setTimeout(() => {
       setLoading(false);
     }, 1500);
-
     return () => clearTimeout(timer);
   }, []);
 
@@ -34,17 +31,24 @@ const Work = () => {
     }
   };
 
-  // Render Loader if state is loading
   if (loading) return <Loader />;
 
   return (
     <main className="work-page-main">
-      {/* SECTION 1: DARK HERO (Zebra Start: Deep Dark) */}
+      {/* SECTION 1: DARK HERO (Zebra Start) */}
       <section className="work-hero-elite">
+        {/* Background Image Layer */}
+        <img
+          src={builtForImpact}
+          alt="Studio Background"
+          className="hero-image-bg"
+        />
+
+        {/* Color Blur Layer */}
         <div className="hero-blur-bg"></div>
+
         <div className="section-inner">
           <div className="work-hero-content">
-            {/* Automatic Year Loading */}
             <span className="hero-tag">Catalogue / {currentYear}</span>
 
             <h1 className="hero-display-title">
@@ -76,7 +80,6 @@ const Work = () => {
             </p>
           </header>
 
-          {/* WorkGrid with Clean UI/UX focus */}
           <WorkGrid featured={true} />
         </div>
       </section>
@@ -99,16 +102,13 @@ const Work = () => {
 
       {/* SECTION 4: WHITE ZEBRA (Final CTA) */}
       <section className="work-final-cta">
-        {/* Adding a background "watermark" to fill the void */}
         <div className="cta-watermark">CREATIVE</div>
-
         <div className="section-inner">
           <span className="section-tag-elite">Collaboration</span>
           <h2 className="cta-headline">
             Let’s build <br />
             <span className="text-gradient">your vision.</span>
           </h2>
-
           <div className="cta-button-container">
             <a href="/contact" className="elite-contact-btn">
               Start Booking
@@ -116,8 +116,6 @@ const Work = () => {
           </div>
         </div>
       </section>
-
-     
     </main>
   );
 };

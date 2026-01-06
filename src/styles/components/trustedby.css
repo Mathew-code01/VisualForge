@@ -5,133 +5,106 @@
 
 /* src/styles/components/trustedby.css */
 /* src/styles/components/trustedby.css */
+/* src/styles/components/trustedby.css */
 
-.trusted-signature-section {
-  /* Zebra White Section */
+.trusted-micro-bar {
   background-color: #ffffff;
-  padding: clamp(100px, 12vh, 150px) 0; /* Strict Vertical Rhythm */
+  /* Increased padding for a more intentional, high-end feel */
+  padding: 60px 0; 
+  border-top: 1px solid rgba(43, 117, 255, 0.1);
+  border-bottom: 1px solid rgba(43, 117, 255, 0.1);
   width: 100%;
-  overflow: hidden;
-}
-
-.trusted-inner {
-  max-width: 100%; /* Spans full width for cinematic feel */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* --- Centered Typography --- */
-.trusted-header-centered {
-  text-align: center;
-  margin-bottom: 80px;
-}
-
-.trusted-tag-minimal {
-  font-size: 0.65rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.5em;
-  color: var(--color-secondary-bright);
-  display: block;
-  margin-bottom: 20px;
-}
-
-.trusted-title-elegant {
-  font-size: clamp(1.8rem, 4vw, 2.5rem);
-  font-weight: 900;
-  color: var(--color-primary-dark);
-  letter-spacing: -0.04em;
-}
-
-/* --- Full Width Cinematic Ticker --- */
-.trusted-ticker-viewport {
   position: relative;
-  width: 100%;
-  padding: 40px 0;
-  border-top: 1px solid rgba(8, 1, 92, 0.05);
-  border-bottom: 1px solid rgba(8, 1, 92, 0.05);
-  margin-bottom: 60px;
+  z-index: 10;
 }
 
-.ticker-track {
+.micro-container {
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+  display: flex;
+  align-items: center;
+  /* Increased gap between label and icons */
+  gap: 80px; 
+}
+
+.micro-label {
+  font-size: 0.7rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.4em;
+  /* Changed to Vibrant Blue for immediate attention */
+  color: var(--color-secondary-bright); 
+  opacity: 1; /* Fully visible */
+  white-space: nowrap;
+  position: relative;
+}
+
+/* Subtle dot after label to add agency "detail" */
+.micro-label::after {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  background: var(--color-secondary-bright);
+  margin-left: 10px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.micro-ticker-viewport {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  /* Smoother, tighter edge masks for more focus on the icons */
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.micro-track {
   display: flex;
   width: max-content;
-  gap: 100px; /* High-end breathing room */
-  animation: tickerLoop 60s linear infinite; /* Slower = More Expensive feel */
-}
-
-.ticker-item {
-  display: flex;
+  /* Increased gap between brands for better scannability */
+  gap: 120px; 
+  animation: microScroll 35s linear infinite; /* Slightly faster for energy */
   align-items: center;
-  gap: 15px;
+}
+
+.micro-item {
+  font-size: 1.8rem; /* Increased size for better visibility */
+  /* Using Mid-Blue/Deep Blue for the "inactive" state */
+  color: var(--color-primary-dark);
+  opacity: 0.6; /* Increased default visibility */
   filter: grayscale(1);
-  opacity: 0.25;
-  transition: all 0.6s var(--agency-easing);
-  cursor: crosshair;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
 }
 
-.ticker-icon-wrap {
-  font-size: 2.2rem;
-  color: var(--color-primary-dark);
-}
-
-.ticker-brand-name {
-  font-size: 0.7rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: var(--color-primary-dark);
-  opacity: 0; /* Hidden by default for ultra-minimalism */
-  transition: opacity 0.4s ease;
-}
-
-/* --- Sophisticated Hover --- */
-.ticker-item:hover {
+/* Vibrant Hover State */
+.micro-item:hover {
+  opacity: 1;
   filter: grayscale(0);
-  opacity: 1;
+  transform: scale(1.15); /* More pronounced pop */
+  color: var(--color-secondary-bright); /* Brand color on hover */
 }
 
-.ticker-item:hover .ticker-brand-name {
-  opacity: 1;
-}
-
-/* --- Edge Masks --- */
-.ticker-mask-left,
-.ticker-mask-right {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 20%;
-  z-index: 2;
-  pointer-events: none;
-}
-
-.ticker-mask-left {
-  left: 0;
-  background: linear-gradient(to right, #ffffff, transparent);
-}
-
-.ticker-mask-right {
-  right: 0;
-  background: linear-gradient(to left, #ffffff, transparent);
-}
-
-.trusted-footer-note {
-  font-size: 0.85rem;
-  color: rgba(8, 1, 92, 0.4);
-  max-width: 400px;
-  text-align: center;
-  line-height: 1.6;
-}
-
-@keyframes tickerLoop {
+@keyframes microScroll {
   0% { transform: translateX(0); }
-  100% { transform: translateX(-33.33%); }
+  100% { transform: translateX(-50%); }
 }
 
 /* --- Responsive --- */
+@media (max-width: 1024px) {
+  .micro-container { gap: 40px; }
+  .micro-track { gap: 80px; }
+}
+
 @media (max-width: 768px) {
-  .ticker-track { gap: 60px; }
-  .ticker-icon-wrap { font-size: 1.8rem; }
+  .trusted-micro-bar { padding: 40px 0; }
+  .micro-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 30px;
+  }
+  .micro-label::after { display: none; }
 }
