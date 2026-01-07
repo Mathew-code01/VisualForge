@@ -71,7 +71,7 @@ function Contact() {
         <div className="contact-form-section">
           <div className="form-card-vibrant glass-dark">
             <div className="form-header">
-              <span className="form-step-indicator">Step 01</span>
+              
               <h3>Project Brief</h3>
               <p>
                 Initiate the conversation. Share your project details and our
