@@ -3,7 +3,6 @@
 // src/components/Loader.jsx
 // src/components/Loader.jsx
 // src/components/Loader.jsx
-// src/components/Loader.jsx
 import { useRef, useEffect, useState } from "react";
 import "../styles/components/loader.css";
 
@@ -11,44 +10,69 @@ export default function Loader({ onLoadingComplete }) {
   const videoRef = useRef(null);
   const [progress, setProgress] = useState(0);
   const [isExiting, setIsExiting] = useState(false);
+  const [isReady, setIsReady] = useState(false);
   const currentYear = new Date().getFullYear();
 
-  // Force Video Playback & Handle Autoplay Blocks
   useEffect(() => {
+    // 1. STRICT SCROLL LOCK: Add class and force scroll to top
+    document.body.classList.add("loader-active-lock");
+    window.scrollTo(0, 0);
+
+    // 2. ENTRANCE FADE: Softly reveal the loader
+    const entranceTimer = setTimeout(() => setIsReady(true), 100);
+
+    // 3. VIDEO PLAYBACK
     if (videoRef.current) {
-      videoRef.current.play().catch((error) => {
-        console.log(
-          "Autoplay prevented. Video will load on interaction or buffer.",
-          error
-        );
-      });
+      videoRef.current.play().catch(() => {});
     }
-  }, []);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          setTimeout(() => {
-            setIsExiting(true);
-            setTimeout(() => {
-              if (onLoadingComplete) onLoadingComplete();
-            }, 1000);
-          }, 600);
-          return 100;
-        }
-        const increment = Math.floor(Math.random() * 2) + 1;
-        return Math.min(prev + increment, 100);
-      });
-    }, 40);
+    // 4. PROGRESS LOGIC
+    let interval;
+    const updateProgress = () => {
+      interval = setInterval(() => {
+        setProgress((prev) => {
+          if (document.readyState === "complete") {
+            if (prev >= 100) {
+              clearInterval(interval);
+              triggerExitSequence();
+              return 100;
+            }
+            return prev + 5;
+          }
+          if (prev >= 90) return 90;
+          return prev + 1;
+        });
+      }, 35);
+    };
 
-    return () => clearInterval(interval);
+    const triggerExitSequence = () => {
+      setTimeout(() => {
+        setIsExiting(true);
+        // Clean up after the panel animation (1.1s)
+        setTimeout(() => {
+          // 5. UNLOCK SCROLL: Only after animations complete
+          document.body.classList.remove("loader-active-lock");
+          if (onLoadingComplete) onLoadingComplete();
+        }, 1100);
+      }, 500);
+    };
+
+    updateProgress();
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(entranceTimer);
+      document.body.classList.remove("loader-active-lock");
+    };
   }, [onLoadingComplete]);
 
   return (
-    <div className={`loader-agency-elite ${isExiting ? "exit-active" : ""}`}>
-      {/* VIDEO BACKGROUND WITH POSTER FALLBACK */}
+    <div
+      className={`loader-agency-elite ${isReady ? "is-ready" : ""} ${
+        isExiting ? "exit-active" : ""
+      }`}
+    >
+      {/* BACKGROUND VIDEO LAYER */}
       <div className="loader-video-container">
         <video
           ref={videoRef}
@@ -56,25 +80,25 @@ export default function Loader({ onLoadingComplete }) {
           muted
           loop
           playsInline
-          poster="/assets/loader-poster.jpg" // Ensure this path is correct in your public folder
+          poster="/assets/loader-poster.jpg"
           className="loader-video-asset"
-          preload="auto"
         >
           <source src="/assets/loader-bg.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
         </video>
-        {/* Lighter overlay so video is more visible */}
         <div className="loader-video-vignette" />
       </div>
 
-      {/* REVEAL PANELS (Only active on exit) */}
+      {/* ZEBRA REVEAL PANELS (Slides IN on finish) */}
       <div className="loader-panel panel-left"></div>
       <div className="loader-panel panel-right"></div>
 
+      {/* CONTENT UI LAYER */}
       <div className="loader-content-wrap">
         <div className="loader-top-bar">
-          <span className="meta-tag">BIGDAY_STUDIO_{currentYear}</span>
-          <span className="status-tag blink">● BROADCASTING</span>
+          <span className="meta-tag">BIGDAY_SESSION_{currentYear}</span>
+          <span className={`status-tag ${progress < 100 ? "blink" : ""}`}>
+            ● {progress < 100 ? "BUFFERING" : "READY"}
+          </span>
         </div>
 
         <div className="loader-center-frame">
@@ -90,11 +114,11 @@ export default function Loader({ onLoadingComplete }) {
 
         <div className="loader-bottom-bar">
           <div className="tech-details">
-            <span>RES: 4K</span>
-            <span>FPS: 24</span>
-            <span>CODEC: RAW</span>
+            <span>RES: 4K_UHD</span>
+            <span className="divider">/</span>
+            <span>BITRATE: 12.4 Mbps</span>
           </div>
-          <div className="dev-signature">DEV_BY_MATHERE</div>
+          <div className="dev-signature">DEV_BY_MATHEW</div>
         </div>
       </div>
     </div>
