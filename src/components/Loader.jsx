@@ -1,124 +1,119 @@
 // src/components/Loader.jsx
 // src/components/Loader.jsx
-// src/components/Loader.jsx
-// src/components/Loader.jsx
-// src/components/Loader.jsx
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "../styles/components/loader.css";
 
 export default function Loader({ onLoadingComplete }) {
-  const videoRef = useRef(null);
   const [progress, setProgress] = useState(0);
   const [isExiting, setIsExiting] = useState(false);
-  const [isReady, setIsReady] = useState(false);
   const currentYear = new Date().getFullYear();
 
   useEffect(() => {
-    // 1. STRICT SCROLL LOCK: Add class and force scroll to top
     document.body.classList.add("loader-active-lock");
-    window.scrollTo(0, 0);
 
-    // 2. ENTRANCE FADE: Softly reveal the loader
-    const entranceTimer = setTimeout(() => setIsReady(true), 100);
+    let start = 0;
+    const interval = setInterval(() => {
+      // "Intelligent" loading: speeds up and slows down for a realistic feel
+      const jump = Math.random() * 15;
+      start += jump;
 
-    // 3. VIDEO PLAYBACK
-    if (videoRef.current) {
-      videoRef.current.play().catch(() => {});
-    }
+      if (start >= 100) {
+        start = 100;
+        clearInterval(interval);
+        setTimeout(() => triggerExit(), 800);
+      }
+      setProgress(Math.floor(start));
+    }, 120);
 
-    // 4. PROGRESS LOGIC
-    let interval;
-    const updateProgress = () => {
-      interval = setInterval(() => {
-        setProgress((prev) => {
-          if (document.readyState === "complete") {
-            if (prev >= 100) {
-              clearInterval(interval);
-              triggerExitSequence();
-              return 100;
-            }
-            return prev + 5;
-          }
-          if (prev >= 90) return 90;
-          return prev + 1;
-        });
-      }, 35);
-    };
-
-    const triggerExitSequence = () => {
+    const triggerExit = () => {
+      setIsExiting(true);
       setTimeout(() => {
-        setIsExiting(true);
-        // Clean up after the panel animation (1.1s)
-        setTimeout(() => {
-          // 5. UNLOCK SCROLL: Only after animations complete
-          document.body.classList.remove("loader-active-lock");
-          if (onLoadingComplete) onLoadingComplete();
-        }, 1100);
-      }, 500);
+        document.body.classList.remove("loader-active-lock");
+        if (onLoadingComplete) onLoadingComplete();
+      }, 1400);
     };
-
-    updateProgress();
 
     return () => {
       clearInterval(interval);
-      clearTimeout(entranceTimer);
       document.body.classList.remove("loader-active-lock");
     };
   }, [onLoadingComplete]);
 
   return (
-    <div
-      className={`loader-agency-elite ${isReady ? "is-ready" : ""} ${
-        isExiting ? "exit-active" : ""
-      }`}
-    >
-      {/* BACKGROUND VIDEO LAYER */}
-      <div className="loader-video-container">
-        <video
-          ref={videoRef}
-          autoPlay
-          muted
-          loop
-          playsInline
-          poster="/assets/loader-poster.jpg"
-          className="loader-video-asset"
-        >
+    <div className={`loader-agency-elite ${isExiting ? "exit-active" : ""}`}>
+      {/* BACKGROUND MEDIA LAYER */}
+      <div className="loader-bg-wrapper">
+        <video autoPlay muted loop playsInline className="loader-video-asset">
           <source src="/assets/loader-bg.mp4" type="video/mp4" />
         </video>
-        <div className="loader-video-vignette" />
+        <div className="loader-anamorphic-vignette" />
+        <div className="loader-film-grain" />
+        <div
+          className="loader-overlay"
+          style={{ opacity: 1 - progress / 100 }}
+        />
       </div>
 
-      {/* ZEBRA REVEAL PANELS (Slides IN on finish) */}
-      <div className="loader-panel panel-left"></div>
-      <div className="loader-panel panel-right"></div>
-
-      {/* CONTENT UI LAYER */}
+      {/* CONTENT LAYER */}
       <div className="loader-content-wrap">
-        <div className="loader-top-bar">
-          <span className="meta-tag">BIGDAY_SESSION_{currentYear}</span>
-          <span className={`status-tag ${progress < 100 ? "blink" : ""}`}>
-            ● {progress < 100 ? "BUFFERING" : "READY"}
-          </span>
+        {/* TOP META DATA */}
+        <div className="loader-ui-top">
+          <div className="ui-group">
+            <span className="meta-label">SOURCE</span>
+            <span className="meta-value">RAW_LOG_4K</span>
+          </div>
+          <div className="status-indicator">
+            <span
+              className={`status-dot ${progress < 100 ? "recording" : ""}`}
+            ></span>
+            <span className="status-text">
+              {progress < 100 ? "BUFFERING_CLIENT_WORK" : "PLAYBACK_READY"}
+            </span>
+          </div>
         </div>
 
+        {/* CENTERPIECE: THE COUNTER */}
         <div className="loader-center-frame">
-          <div className="counter-large">
-            {progress.toString().padStart(3, "0")}
+          <div className="counter-container">
+            <span className="counter-large">
+              {progress.toString().padStart(2, "0")}
+            </span>
             <span className="unit">%</span>
           </div>
-          <div className="text-reveal">
+
+          <div className="brand-reveal">
             <h1 className="main-logo">BIGDAY</h1>
-            <p className="tagline">Visual Excellence Built for Impact</p>
+            <div className="progress-bar-minimal">
+              <div className="progress-fill" style={{ width: `${progress}%` }}>
+                <div className="progress-glint" />
+              </div>
+            </div>
+            <p className="tagline">Cinematic Visuals & Precision Editing</p>
           </div>
         </div>
 
-        <div className="loader-bottom-bar">
-          <div className="tech-details">
-            <span>RES: 4K_UHD</span>
-            <span className="divider">/</span>
-            <span>BITRATE: 12.4 Mbps</span>
+        {/* BOTTOM TECHNICAL DATA */}
+        <div className="loader-ui-bottom">
+          <div className="tech-group">
+            <div className="ui-group">
+              <span className="meta-label">BITRATE</span>
+              <span className="meta-value">48.2_MBPS</span>
+            </div>
+            <div className="ui-group desktop-only">
+              <span className="meta-label">CODEC</span>
+              <span className="meta-value">H.265_PRO</span>
+            </div>
           </div>
-          <div className="dev-signature">DEV_BY_MATHEW</div>
+
+          <div className="signature-group">
+            <span className="meta-label">DEVELOPED_BY</span>
+            <span className="dev-signature">MATHEW</span>
+          </div>
+
+          <div className="ui-group text-right">
+            <span className="meta-label">EDITION</span>
+            <span className="meta-value">{currentYear}</span>
+          </div>
         </div>
       </div>
     </div>
