@@ -1,8 +1,12 @@
 /* src/styles/components/loader.css */
 /* src/styles/components/loader.css */
 /* src/styles/components/loader.css */
-/* src/styles/components/loader.css */
-/* --- Global Reset & Lock --- */
+/* ============================================
+    BIGDAY MEDIA - ELITE CINEMATIC LOADER
+    Refined: Fully Responsive & High-Fidelity
+   ============================================ */
+
+/* Lock scroll and fix viewport */
 body.loader-active-lock {
   overflow: hidden !important;
   height: 100vh !important;
@@ -13,211 +17,225 @@ body.loader-active-lock {
 .loader-agency-elite {
   position: fixed;
   inset: 0;
-  z-index: 10000;
+  z-index: 99999;
   background: #000;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
-  font-family: var(--font-base);
-  perspective: 2000px;
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
 }
 
-/* --- Cinematic Visuals --- */
+/* --- Media Reveal Logic --- */
 .loader-bg-wrapper {
   position: absolute;
   inset: 0;
   z-index: 1;
-  overflow: hidden;
-  transition: transform 1.6s cubic-bezier(0.85, 0, 0.15, 1);
 }
 
 .loader-video-asset {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(0.4) saturate(0.8);
-  transform: scale(1.1);
+  filter: brightness(0.4) contrast(1.1);
 }
 
-.loader-anamorphic-vignette {
+.loader-vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.95) 100%);
+  background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.9) 100%);
   z-index: 2;
-}
-
-.loader-film-grain {
-  position: absolute;
-  inset: 0;
-  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity: 0.1;
-  pointer-events: none;
-  z-index: 3;
 }
 
 .loader-overlay {
   position: absolute;
   inset: 0;
   background: #000;
-  z-index: 4;
-  transition: opacity 0.8s ease;
+  z-index: 3;
+  /* Aggressive reveal: Video shows significantly by 20% progress */
+  transition: opacity 1.2s cubic-bezier(0.2, 1, 0.3, 1);
 }
 
-/* --- The Exit Strategy: Zoom Through Lens --- */
-.loader-agency-elite.exit-active .loader-bg-wrapper {
-  transform: scale(4) translateZ(300px);
-  filter: blur(80px) brightness(0);
-  opacity: 0;
-  transition: all 1.4s cubic-bezier(0.85, 0, 0.15, 1);
-}
-
-.loader-agency-elite.exit-active .loader-content-wrap {
-  opacity: 0;
-  transform: scale(0.9) translateZ(100px);
-  filter: blur(20px);
-}
-
-/* --- Content Styling --- */
+/* --- Responsive Content Container --- */
 .loader-content-wrap {
   position: relative;
   z-index: 10;
-  width: 90%;
-  max-width: 1600px;
-  height: 88vh;
+  width: 100%;
+  max-width: 1800px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: all 1.2s cubic-bezier(0.85, 0, 0.15, 1);
+  /* Perfect Vertical Spacing */
+  padding: clamp(2rem, 8vh, 5rem) clamp(1.5rem, 5vw, 4rem);
+  box-sizing: border-box;
 }
 
-/* Meta Data Typography */
-.meta-label {
+/* --- Top & Bottom UI Bars --- */
+.loader-ui-top, 
+.loader-ui-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.label {
   display: block;
-  font-size: 7px;
-  letter-spacing: 0.2em;
-  opacity: 0.4;
-  margin-bottom: 4px;
+  font-size: clamp(7px, 1vw, 9px);
+  letter-spacing: 0.4em;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 6px;
+  text-transform: uppercase;
 }
 
-.meta-value {
-  font-size: 9px;
+.value {
+  font-size: clamp(9px, 1.2vw, 11px);
   font-weight: 700;
   letter-spacing: 0.1em;
 }
 
-.loader-ui-top, .loader-ui-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-/* Status Recording Dot */
-.status-indicator { display: flex; align-items: center; gap: 10px; text-align: right; }
-.status-dot {
-  width: 8px;
-  height: 8px;
-  background: #ff0000; /* Recording Red */
+/* Status REC Indicator */
+.status-wrap { display: flex; align-items: center; gap: 8px; }
+.rec-dot {
+  width: 6px;
+  height: 6px;
+  background: #ff3b3b;
   border-radius: 50%;
+  box-shadow: 0 0 12px rgba(255, 59, 59, 0.6);
 }
-.recording { animation: rec-pulse 1s infinite; }
+.rec-dot.active { animation: rec-blink 1s steps(2) infinite; }
 
-/* --- THE PERFECTED COUNTER --- */
-.loader-center-frame { text-align: center; }
+/* --- Central Hero (Counter) --- */
+.loader-hero {
+  text-align: center;
+  width: 100%;
+}
 
 .counter-container {
   display: flex;
   justify-content: center;
   align-items: baseline;
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
 }
 
-.counter-large {
-  font-size: clamp(6rem, 25vw, 20rem);
+.digit-hero {
+  font-size: clamp(6rem, 24vw, 20rem);
   font-weight: 900;
   line-height: 0.8;
   letter-spacing: -0.05em;
-  /* CRITICAL: Prevents numbers jumping */
   font-variant-numeric: tabular-nums;
-  min-width: 2.8ch; 
-  text-align: right;
 }
 
-.unit {
-  font-size: clamp(1rem, 4vw, 2.5rem);
+.percent-symbol {
+  font-size: clamp(1rem, 4vw, 3rem);
   font-weight: 300;
-  color: var(--color-secondary-bright);
   margin-left: 10px;
+  opacity: 0.3;
 }
 
-/* --- Progress & Branding --- */
+/* --- Logo & Progress --- */
 .main-logo {
-  font-size: clamp(1rem, 3vw, 1.5rem);
-  letter-spacing: 1em;
+  font-size: clamp(0.8rem, 2vw, 1.2rem);
+  letter-spacing: 1.2em;
   font-weight: 900;
-  margin-bottom: 20px;
-  text-indent: 1em;
+  margin-bottom: 2rem;
+  text-indent: 1.2em; /* Centering offset fix */
 }
 
-.progress-bar-minimal {
-  width: 140px;
-  height: 2px;
-  background: rgba(255,255,255,0.05);
-  margin: 0 auto 20px;
+.progress-track {
+  width: clamp(140px, 15vw, 220px);
+  height: 1px;
+  background: rgba(255,255,255,0.1);
+  margin: 0 auto 1.5rem;
   position: relative;
   overflow: hidden;
 }
 
-.progress-fill {
-  position: absolute;
-  top: 0; left: 0; height: 100%;
+.progress-bar {
+  height: 100%;
   background: #fff;
-  transition: width 0.4s ease-out;
+  transition: width 0.3s ease-out;
 }
 
-.progress-glint {
+.shimmer {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
-  transform: translateX(-100%);
-  animation: glint 2s infinite;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  animation: shimmer-fx 2s infinite;
 }
 
 .tagline {
-  font-size: clamp(8px, 2vw, 10px);
-  letter-spacing: 0.4em;
+  font-size: clamp(7px, 1vw, 9px);
+  letter-spacing: 0.5em;
   opacity: 0.3;
   text-transform: uppercase;
+  padding: 0 1rem;
 }
 
-/* Signature Styling */
+/* --- Signature (Responsive Fix) --- */
+.signature-box {
+  text-align: center;
+}
+
 .dev-signature {
-  font-size: 10px;
-  font-weight: 900;
-  color: #fff;
-  border-bottom: 1px solid var(--color-secondary-bright);
+  font-size: clamp(9px, 1vw, 11px);
+  font-weight: 950;
+  color: #000;
+  background: #fff;
+  padding: 4px 12px;
+  letter-spacing: 0.15em;
+  display: inline-block;
+  transition: transform 0.3s ease;
 }
 
-/* --- Responsiveness Overrides --- */
+/* --- Exit State --- */
+.loader-agency-elite.exit-active {
+  pointer-events: none;
+  opacity: 0;
+  filter: blur(50px);
+  transform: scale(1.05);
+  transition: all 1.2s cubic-bezier(0.8, 0, 0.2, 1);
+}
+
+/* --- Animations --- */
+@keyframes rec-blink { from { opacity: 1; } to { opacity: 0.2; } }
+@keyframes shimmer-fx { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+
+/* --- RESPONSIVENESS FIXES --- */
+@media (max-width: 1024px) {
+  .loader-content-wrap { padding: 4rem 2rem; }
+}
+
 @media (max-width: 768px) {
-  .loader-content-wrap { height: 80vh; }
-  .counter-large { font-size: 8rem; min-width: auto; }
-  .desktop-only { display: none; }
-  .loader-ui-bottom { 
-    display: grid; 
-    grid-template-columns: 1fr 1fr; 
-    gap: 20px; 
+  .loader-ui-top .ui-item:first-child,
+  .loader-ui-bottom .ui-item:first-child {
+    display: none; /* Hide secondary info to keep it clean */
   }
-  .signature-group { grid-column: span 2; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; }
+
+  .loader-ui-top, .loader-ui-bottom {
+    justify-content: center; /* Center REC and Edition on mobile */
+    gap: 20px;
+  }
+  
+  .loader-ui-bottom {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .digit-hero { font-size: clamp(6rem, 35vw, 10rem); }
+  
+  /* Ensure Signature "MATHEW" is visible and prominent on mobile */
+  .signature-box {
+    order: -1; 
+    margin-bottom: 0.5rem;
+  }
 }
 
-@keyframes rec-pulse {
-  0% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.3; transform: scale(1.2); }
-  100% { opacity: 1; transform: scale(1); }
-}
-
-@keyframes glint {
-  0% { transform: translateX(-100%); }
-  50%, 100% { transform: translateX(100%); }
+@media (max-height: 500px) and (orientation: landscape) {
+  .digit-hero { font-size: 5rem; }
+  .main-logo { margin-bottom: 0.5rem; }
+  .loader-content-wrap { padding: 1rem; }
 }

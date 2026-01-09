@@ -1,39 +1,67 @@
 // src/components/Loader.jsx
 // src/components/Loader.jsx
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "../styles/components/loader.css";
 
 export default function Loader({ onLoadingComplete }) {
   const [progress, setProgress] = useState(0);
   const [isExiting, setIsExiting] = useState(false);
+  const progressRef = useRef(0);
   const currentYear = new Date().getFullYear();
 
   useEffect(() => {
     document.body.classList.add("loader-active-lock");
 
-    let start = 0;
-    const interval = setInterval(() => {
-      // "Intelligent" loading: speeds up and slows down for a realistic feel
-      const jump = Math.random() * 15;
-      start += jump;
+    let isPageLoaded = false;
+    const handleLoad = () => {
+      isPageLoaded = true;
+    };
 
-      if (start >= 100) {
-        start = 100;
-        clearInterval(interval);
-        setTimeout(() => triggerExit(), 800);
+    if (document.readyState === "complete") {
+      isPageLoaded = true;
+    } else {
+      window.addEventListener("load", handleLoad);
+    }
+
+    const interval = setInterval(() => {
+      let increment = 0;
+
+      if (!isPageLoaded) {
+        // PHASE 1: Page still loading - Dynamic crawl
+        // It gets slower as it approaches 90 to "wait" for the assets
+        const remaining = 90 - progressRef.current;
+        increment = Math.max(0.05, Math.random() * (remaining / 20));
+      } else {
+        // PHASE 2: Page is LOADED - Acceleration
+        // Rapidly climb the remaining distance to 100
+        increment = 2.5;
       }
-      setProgress(Math.floor(start));
-    }, 120);
+
+      progressRef.current += increment;
+
+      // Ensure we hit the final sequence: 98 -> 99 -> 100
+      if (progressRef.current >= 100) {
+        progressRef.current = 100;
+        setProgress(100);
+        clearInterval(interval);
+
+        // Final aesthetic pause so the user actually sees "100"
+        setTimeout(() => triggerExit(), 700);
+      } else {
+        setProgress(Math.floor(progressRef.current));
+      }
+    }, 30); // High frequency for smooth counting
 
     const triggerExit = () => {
       setIsExiting(true);
       setTimeout(() => {
         document.body.classList.remove("loader-active-lock");
         if (onLoadingComplete) onLoadingComplete();
-      }, 1400);
+      }, 1100);
     };
 
     return () => {
+      window.removeEventListener("load", handleLoad);
       clearInterval(interval);
       document.body.classList.remove("loader-active-lock");
     };
@@ -41,80 +69,66 @@ export default function Loader({ onLoadingComplete }) {
 
   return (
     <div className={`loader-agency-elite ${isExiting ? "exit-active" : ""}`}>
-      {/* BACKGROUND MEDIA LAYER */}
       <div className="loader-bg-wrapper">
         <video autoPlay muted loop playsInline className="loader-video-asset">
           <source src="/assets/loader-bg.mp4" type="video/mp4" />
         </video>
-        <div className="loader-anamorphic-vignette" />
-        <div className="loader-film-grain" />
+        <div className="loader-vignette" />
         <div
           className="loader-overlay"
-          style={{ opacity: 1 - progress / 100 }}
+          style={{ opacity: Math.max(0, 1 - (progress * 1.4) / 100) }}
         />
       </div>
 
-      {/* CONTENT LAYER */}
       <div className="loader-content-wrap">
-        {/* TOP META DATA */}
-        <div className="loader-ui-top">
-          <div className="ui-group">
-            <span className="meta-label">SOURCE</span>
-            <span className="meta-value">RAW_LOG_4K</span>
+        <header className="loader-ui-top">
+          <div className="ui-item">
+            <span className="label">SIGNAL</span>
+            <span className="value">4K_RAW_LOG</span>
           </div>
-          <div className="status-indicator">
-            <span
-              className={`status-dot ${progress < 100 ? "recording" : ""}`}
-            ></span>
-            <span className="status-text">
-              {progress < 100 ? "BUFFERING_CLIENT_WORK" : "PLAYBACK_READY"}
+          <div className="status-wrap">
+            <div className={`rec-dot ${progress < 100 ? "active" : ""}`} />
+            <span className="value">
+              {progress < 100 ? "CACHING" : "SYNCED"}
             </span>
           </div>
-        </div>
+        </header>
 
-        {/* CENTERPIECE: THE COUNTER */}
-        <div className="loader-center-frame">
+        <main className="loader-hero">
           <div className="counter-container">
-            <span className="counter-large">
+            <span className="digit-hero">
               {progress.toString().padStart(2, "0")}
             </span>
-            <span className="unit">%</span>
+            <span className="percent-symbol">%</span>
           </div>
 
           <div className="brand-reveal">
             <h1 className="main-logo">BIGDAY</h1>
-            <div className="progress-bar-minimal">
-              <div className="progress-fill" style={{ width: `${progress}%` }}>
-                <div className="progress-glint" />
+            <div className="progress-track">
+              <div className="progress-bar" style={{ width: `${progress}%` }}>
+                <div className="shimmer" />
               </div>
             </div>
-            <p className="tagline">Cinematic Visuals & Precision Editing</p>
+            <p className="tagline">Visual Excellence Built for Impact</p>
           </div>
-        </div>
+        </main>
 
-        {/* BOTTOM TECHNICAL DATA */}
-        <div className="loader-ui-bottom">
-          <div className="tech-group">
-            <div className="ui-group">
-              <span className="meta-label">BITRATE</span>
-              <span className="meta-value">48.2_MBPS</span>
-            </div>
-            <div className="ui-group desktop-only">
-              <span className="meta-label">CODEC</span>
-              <span className="meta-value">H.265_PRO</span>
-            </div>
+        <footer className="loader-ui-bottom">
+          <div className="ui-item">
+            <span className="label">BITRATE</span>
+            <span className="value">48.2_MBPS</span>
           </div>
 
-          <div className="signature-group">
-            <span className="meta-label">DEVELOPED_BY</span>
+          <div className="signature-box">
+            <span className="label">DEV_BY</span>
             <span className="dev-signature">MATHEW</span>
           </div>
 
-          <div className="ui-group text-right">
-            <span className="meta-label">EDITION</span>
-            <span className="meta-value">{currentYear}</span>
+          <div className="ui-item text-right">
+            <span className="label">EDITION</span>
+            <span className="value">©_{currentYear}</span>
           </div>
-        </div>
+        </footer>
       </div>
     </div>
   );
