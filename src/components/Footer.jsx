@@ -86,3 +86,17 @@ function Footer() {
 }
 
 export default Footer;
+
+// now
+
+//  my client complain about this that is looking childish to him this 
+
+// loader and also i should take note of where to use capital letters and 
+
+// smaller letters and where to bold and fade and where to use colours and 
+
+// where to make visible just something professional related to a website 
+
+// footer bottom for video display of a video editor is works or job what 
+
+// he as done now give me the full restruture code 

@@ -21,6 +21,7 @@ import {
   FiSquare,
   FiCheckSquare,
   FiEdit3,
+  FiUploadCloud,
 } from "react-icons/fi";
 import uploadVideo, { saveMetadataOnly } from "../firebase/uploadVideo.js";
 import useStorageUsage from "../firebase/useStorageUsage";
@@ -57,7 +58,11 @@ const VideoItem = memo(
     uploading,
   }) => {
     return (
-      <div className={`preview-card ${vid.selected ? "is-selected" : ""}`}>
+      <div
+        className={`preview-card ${vid.selected ? "is-selected" : ""} ${
+          vid.status === "success" ? "is-complete" : ""
+        }`}
+      >
         {multiSelectMode && (
           <div
             className="selection-overlay"
@@ -72,14 +77,21 @@ const VideoItem = memo(
         )}
 
         <div className="card-thumb">
-          <img src={vid.thumbnail || videoPlaceholder} alt="Preview" />
-          <span className="duration-tag">{vid.duration}s</span>
-          {vid.resolution && <span className="res-tag">{vid.resolution}</span>}
+          <img
+            src={vid.thumbnail || videoPlaceholder}
+            alt="Preview"
+            loading="lazy"
+          />
+          <div className="thumb-meta-overlay">
+            <span className="duration-tag">{vid.duration}s</span>
+            {vid.resolution && (
+              <span className="res-tag">{vid.resolution}</span>
+            )}
+          </div>
 
           {!uploading && !multiSelectMode && (
             <button
               className="remove-card-btn"
-              title="Remove from queue"
               onClick={(e) => {
                 e.stopPropagation();
                 updateItemStatus(vid.preview, { isRemoved: true });
@@ -95,7 +107,7 @@ const VideoItem = memo(
             <input
               type="text"
               value={vid.title}
-              placeholder="Video Title"
+              placeholder="video title"
               onChange={(e) =>
                 updateItemStatus(vid.preview, { title: e.target.value })
               }
@@ -123,10 +135,10 @@ const VideoItem = memo(
                 updateItemStatus(vid.preview, { category: e.target.value })
               }
             >
-              <option value="">Category</option>
+              <option value="">category</option>
               {CATEGORIES.map((c) => (
                 <option key={c} value={c}>
-                  {c}
+                  {c.toLowerCase()}
                 </option>
               ))}
             </select>
@@ -155,7 +167,7 @@ const VideoItem = memo(
           <div className="status-container">
             {vid.status === "success" ? (
               <span className="status-badge success">
-                <FiCheckCircle /> Ready
+                <FiCheckCircle /> processed
               </span>
             ) : vid.status === "uploading" ||
               vid.status === "metadata_saving" ? (
@@ -163,8 +175,8 @@ const VideoItem = memo(
                 <div className="progress-info">
                   <small>
                     {vid.status === "metadata_saving"
-                      ? "Finalizing..."
-                      : "Uploading..."}
+                      ? "finalizing..."
+                      : "syncing..."}
                   </small>
                   <small>{vid.progress}%</small>
                 </div>
@@ -177,16 +189,16 @@ const VideoItem = memo(
               </div>
             ) : vid.error ? (
               <div className="error-retry-flex">
-                <small className="error-text">{vid.error}</small>
+                <small className="error-text">err: {vid.error}</small>
                 <button
                   className="btn-retry"
                   onClick={() => saveMetadataOnly(vid)}
                 >
-                  Retry
+                  retry
                 </button>
               </div>
             ) : (
-              <span className="status-badge pending">Pending</span>
+              <span className="status-badge pending">ready</span>
             )}
           </div>
         </div>
@@ -201,13 +213,13 @@ const VideoItem = memo(
 export default function AdminUpload() {
   const [videos, setVideos] = useState([]);
   const [uploading, setUploading] = useState(false);
-  const [message, setMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [dragActive, setDragActive] = useState(false);
   const [clipboard, setClipboard] = useState("");
   const [multiSelectMode, setMultiSelectMode] = useState(false);
   const [activeTab, setActiveTab] = useState("upload");
 
   const inputRef = useRef(null);
+
   const {
     publitio,
     vimeo,
@@ -215,7 +227,10 @@ export default function AdminUpload() {
     error: usageError,
     refetch,
   } = useStorageUsage();
+  
+  if (usageError) console.error("Storage Fetch Error:", usageError);
 
+  // --- Derived State ---
   const selectedVideos = useMemo(
     () => videos.filter((v) => v.selected),
     [videos]
@@ -228,6 +243,17 @@ export default function AdminUpload() {
     [videos]
   );
 
+  // --- Selection Helpers (Fixed ESLint Error) ---
+  const clearSelection = useCallback(() => {
+    setVideos((prev) => prev.map((v) => ({ ...v, selected: false })));
+  }, []);
+
+  const toggleSelectAll = useCallback(() => {
+    const targetState = !isAllSelected;
+    setVideos((prev) => prev.map((v) => ({ ...v, selected: targetState })));
+  }, [isAllSelected]);
+
+  // Clean up object URLs
   useEffect(() => {
     return () =>
       videos.forEach((v) => v.preview && URL.revokeObjectURL(v.preview));
@@ -246,6 +272,7 @@ export default function AdminUpload() {
     const list = Array.from(fileList).filter((f) =>
       ["video/mp4", "video/webm", "video/quicktime"].includes(f.type)
     );
+
     for (const file of list) {
       const preview = URL.createObjectURL(file);
       try {
@@ -256,6 +283,7 @@ export default function AdminUpload() {
             resolution: "N/A",
           })),
         ]);
+
         setVideos((prev) => [
           ...prev,
           {
@@ -273,23 +301,15 @@ export default function AdminUpload() {
           },
         ]);
       } catch (err) {
-        console.error(err);
+        console.error("Process error:", err);
       }
     }
   };
 
-  const toggleSelectAll = () => {
-    const newState = !isAllSelected;
-    setVideos((prev) => prev.map((v) => ({ ...v, selected: newState })));
-  };
-
   const handleUpload = async () => {
     const queue = isAnySelected ? selectedVideos : videos;
-    if (!queue.length) return setErrorMessage("No videos to upload.");
+    if (!queue.length) return;
     setUploading(true);
-    setErrorMessage("");
-    let successCount = 0;
-    let failCount = 0;
 
     for (const vid of queue) {
       if (vid.status === "success") continue;
@@ -317,18 +337,9 @@ export default function AdminUpload() {
             thumbnail: vid.thumbnail,
           }
         );
-        if (result.metadataSaved) {
-          successCount++;
+        if (result.metadataSaved)
           updateItemStatus(vid.preview, { ...result, status: "success" });
-        } else {
-          failCount++;
-          updateItemStatus(vid.preview, {
-            status: "metadata_fail",
-            error: "DB Save Failed",
-          });
-        }
       } catch (err) {
-        failCount++;
         updateItemStatus(vid.preview, {
           status: "file_fail",
           error: err.message,
@@ -336,7 +347,6 @@ export default function AdminUpload() {
       }
     }
     setUploading(false);
-    setMessage(`Complete: ${successCount} success, ${failCount} failed.`);
     if (refetch) refetch();
   };
 
@@ -344,12 +354,9 @@ export default function AdminUpload() {
     const video = videos[index];
     if (action === "copy") {
       setClipboard(video[field]);
-      const copyKey = field === "title" ? "copiedTitle" : "copiedCategory";
-      updateItemStatus(video.preview, { [copyKey]: true });
-      setTimeout(
-        () => updateItemStatus(video.preview, { [copyKey]: false }),
-        1200
-      );
+      const key = field === "title" ? "copiedTitle" : "copiedCategory";
+      updateItemStatus(video.preview, { [key]: true });
+      setTimeout(() => updateItemStatus(video.preview, { [key]: false }), 1200);
     } else {
       setVideos((prev) =>
         prev.map((v, i) =>
@@ -359,207 +366,200 @@ export default function AdminUpload() {
     }
   };
 
-  const clearSuccessful = () => {
-    setVideos((prev) => prev.filter((v) => v.status !== "success"));
-    setMessage("");
-  };
-
-  const bulkRename = () => {
-    const newTitle = prompt("Enter new title for all selected videos:");
-    if (newTitle !== null) {
-      setVideos((prev) =>
-        prev.map((v) => (v.selected ? { ...v, title: newTitle } : v))
-      );
-    }
-  };
-
-  const renderStorageBox = (title, data, type, badge) => (
-    <div className={`storage-box ${badge.toLowerCase()}`}>
-      <div className="storage-box-header">
-        <h3>{title}</h3>
-        <span className="badge">{badge}</span>
-      </div>
-      <div className="storage-usage">
-        <div className="usage-text">
-          <strong>
-            {data?.[`used${type}`] || 0} {type}
-          </strong>{" "}
-          used
-        </div>
-        <div className="progress-mini">
-          <div
-            className="progress-mini-fill"
-            style={{ width: `${data?.percent || 0}%` }}
-          />
-        </div>
-        <small>{data?.percent || 0}% Capacity</small>
-      </div>
-    </div>
-  );
-
-  // Add this near your other handlers (like handleFiles)
-  const handleDragOver = (e) => {
-    e.preventDefault(); // Required to allow a drop
-    e.stopPropagation();
-  };
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const files = e.dataTransfer.files;
-    if (files && files.length > 0) {
-      handleFiles(files); // Pass the dropped files to your existing logic
-    }
-  };
-
   return (
     <section className="admin-upload">
-      <div className="upload-container">
-        <div className="storage-panel">
+      {/* Zebra Section 1: Dark Glassmorphism Storage */}
+      <div className="storage-panel dark-zebra">
+        <div className="panel-inner">
           <div className="panel-header">
-            <h4>Cloud Storage</h4>
-            <button
-              className="icon-btn"
-              onClick={() => refetch?.()}
-              title="Refresh"
-            >
+            <span className="section-label">infrastructure / storage</span>
+            <button className="icon-refresh" onClick={() => refetch?.()}>
               <FiRefreshCw className={usageLoading ? "spin" : ""} />
             </button>
           </div>
-          {usageError ? (
-            <p className="error-text">Storage Error: {usageError.message}</p>
-          ) : (
-            <div className="storage-grid">
-              {renderStorageBox("Vimeo", vimeo, "GB", "VIMEO")}
-              {renderStorageBox("Publitio", publitio, "MB", "PUBLITIO")}
+          <div className="storage-grid">
+            <div className="storage-card glass">
+              <div className="card-head">
+                <h3>Vimeo</h3>
+                <span className="badge">PRO</span>
+              </div>
+              <div className="usage-meter">
+                <div className="meter-label">
+                  <strong>{vimeo?.usedGB || 0}GB</strong>
+                  <span>used</span>
+                </div>
+                <div className="progress-mini">
+                  <div
+                    className="fill"
+                    style={{ width: `${vimeo?.percent || 0}%` }}
+                  />
+                </div>
+              </div>
             </div>
-          )}
+            <div className="storage-card glass">
+              <div className="card-head">
+                <h3>Publitio</h3>
+                <span className="badge">CDN</span>
+              </div>
+              <div className="usage-meter">
+                <div className="meter-label">
+                  <strong>{publitio?.usedMB || 0}MB</strong>
+                  <span>used</span>
+                </div>
+                <div className="progress-mini">
+                  <div
+                    className="fill"
+                    style={{ width: `${publitio?.percent || 0}%` }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
 
+      {/* Zebra Section 2: White Main View */}
+      <div className="upload-main-container white-zebra">
         <div className="upload-tabs">
           <button
-            className={`tab ${activeTab === "upload" ? "active" : ""}`}
+            className={activeTab === "upload" ? "active" : ""}
             onClick={() => setActiveTab("upload")}
           >
-            Upload Queue
+            Queue
           </button>
           <button
-            className={`tab ${activeTab === "uploaded" ? "active" : ""}`}
+            className={activeTab === "uploaded" ? "active" : ""}
             onClick={() => setActiveTab("uploaded")}
           >
-            Manage Library
+            Library
           </button>
         </div>
 
         {activeTab === "upload" ? (
-          <div className="upload-main-view">
-            <div className="upload-header">
-              <h2>New Uploads ({videos.length})</h2>
-              <div className="upload-controls">
+          <div className="upload-view-content">
+            <header className="view-header">
+              <h2 className="elegant-title">
+                Media Queue <span className="count">[{videos.length}]</span>
+              </h2>
+              <div className="header-btns">
                 {hasSuccessful && (
                   <button
-                    className="btn btn-ghost text-success"
-                    onClick={clearSuccessful}
+                    className="btn-text-only"
+                    onClick={() =>
+                      setVideos((v) => v.filter((x) => x.status !== "success"))
+                    }
                   >
-                    <FiCheckCircle /> Clear Done
-                  </button>
-                )}
-                {videos.length > 0 && (
-                  <button
-                    className="btn btn-ghost text-danger"
-                    onClick={() => setVideos([])}
-                    disabled={uploading}
-                  >
-                    <FiTrash2 /> Clear All
+                    clear completed
                   </button>
                 )}
                 <button
-                  className={`btn ${
-                    multiSelectMode ? "btn-primary" : "btn-ghost"
-                  }`}
+                  className={`btn-outline ${multiSelectMode ? "active" : ""}`}
                   onClick={() => setMultiSelectMode(!multiSelectMode)}
                 >
-                  {multiSelectMode ? "Exit Select" : "Bulk Select"}
+                  bulk actions
                 </button>
                 <button
-                  className="btn btn-outline"
+                  className="btn-solid"
                   onClick={() => inputRef.current?.click()}
                 >
-                  <FiPlus /> Add Files
+                  <FiPlus /> add media
                 </button>
               </div>
+            </header>
+
+            <div
+              className={`drop-area ${dragActive ? "drag-active" : ""}`}
+              onDragOver={(e) => {
+                e.preventDefault();
+                setDragActive(true);
+              }}
+              onDragLeave={() => setDragActive(false)}
+              onDrop={(e) => {
+                e.preventDefault();
+                setDragActive(false);
+                handleFiles(e.dataTransfer.files);
+              }}
+              onClick={() => inputRef.current?.click()}
+            >
+              <input
+                type="file"
+                multiple
+                accept="video/*"
+                ref={inputRef}
+                hidden
+                onChange={(e) => handleFiles(e.target.files)}
+              />
+              <FiUploadCloud className="drop-icon" />
+              <p className="drop-text">
+                Drop cinematic files or click to browse
+              </p>
             </div>
 
-            <div className="drag-drop-area-wrapper">
-              <div
-                className="drag-drop-area"
-                onClick={() => inputRef.current?.click()}
-                onDragOver={handleDragOver} // Added
-                onDrop={handleDrop} // Added
-              >
-                <input
-                  type="file"
-                  multiple
-                  accept="video/*"
-                  ref={inputRef}
-                  hidden
-                  onChange={(e) => handleFiles(e.target.files)}
-                />
-                <p>
-                  Drag videos here or <span>browse files</span>
-                </p>
-              </div>
-              {videos.length > 0 && (
-                <div className="select-all-bar" onClick={toggleSelectAll}>
-                  {isAllSelected ? <FiCheckSquare /> : <FiSquare />}
-                  <span>Select All Videos</span>
+            {/* Bulk Toolbar - Minimalist Glassmorphism */}
+            {isAnySelected && (
+              <div className="bulk-bar-float">
+                <div className="selection-info">
+                  <span className="count-badge">{selectedVideos.length}</span>
+                  <span className="label">selected</span>
                 </div>
-              )}
-            </div>
 
-            {(errorMessage || message) && (
-              <div
-                className={`alert ${
-                  errorMessage ? "alert-error" : "alert-success"
-                }`}
-              >
-                {errorMessage ? <FiAlertCircle /> : <FiCheckCircle />}{" "}
-                {errorMessage || message}
-              </div>
-            )}
+                <div className="bar-divider" />
 
-            {(multiSelectMode || isAnySelected) && (
-              <div className="bulk-actions-bar">
-                <div className="action-buttons">
+                <div className="bar-actions">
+                  <button className="action-link" onClick={toggleSelectAll}>
+                    {isAllSelected ? "Deselect All" : "Select All"}
+                  </button>
+
+                  <select
+                    className="bulk-category-select"
+                    value=""
+                    onChange={(e) => {
+                      if (!e.target.value) return;
+                      setVideos((p) =>
+                        p.map((v) =>
+                          v.selected ? { ...v, category: e.target.value } : v
+                        )
+                      );
+                    }}
+                  >
+                    <option value="" disabled hidden>
+                      category
+                    </option>
+                    {CATEGORIES.map((c) => (
+                      <option key={c} value={c}>
+                        {c.toLowerCase()}
+                      </option>
+                    ))}
+                  </select>
+
                   <button
-                    className="text-danger"
+                    className="action-icon-btn"
+                    onClick={() => {
+                      const t = prompt("Batch Rename:");
+                      if (t)
+                        setVideos((p) =>
+                          p.map((v) => (v.selected ? { ...v, title: t } : v))
+                        );
+                    }}
+                  >
+                    <FiEdit3 />
+                  </button>
+
+                  <button
+                    className="btn-delete-bulk"
                     onClick={() =>
                       setVideos((v) => v.filter((x) => !x.selected))
                     }
                   >
-                    <FiTrash2 /> Remove Selected
+                    <FiTrash2 />
                   </button>
-                  <button className="text-primary" onClick={bulkRename}>
-                    <FiEdit3 /> Rename Selected
+
+                  <div className="bar-divider" />
+
+                  <button className="close-bulk-btn" onClick={clearSelection}>
+                    <FiX />
                   </button>
                 </div>
-                <select
-                  onChange={(e) =>
-                    setVideos((p) =>
-                      p.map((v) =>
-                        v.selected ? { ...v, category: e.target.value } : v
-                      )
-                    )
-                  }
-                >
-                  <option value="">Apply Category to Selected</option>
-                  {CATEGORIES.map((c) => (
-                    <option key={c} value={c}>
-                      {c}
-                    </option>
-                  ))}
-                </select>
               </div>
             )}
 
@@ -578,17 +578,17 @@ export default function AdminUpload() {
             </div>
 
             {videos.length > 0 && (
-              <div className="upload-footer">
+              <div className="sticky-action-bar">
                 <button
-                  className="upload-btn-main"
+                  className="btn-main"
                   disabled={uploading}
                   onClick={handleUpload}
                 >
                   {uploading
-                    ? "Processing Queue..."
-                    : `Begin Upload (${
+                    ? "Synchronizing with cloud..."
+                    : `Begin processing ${
                         isAnySelected ? selectedVideos.length : videos.length
-                      })`}
+                      } files`}
                 </button>
               </div>
             )}

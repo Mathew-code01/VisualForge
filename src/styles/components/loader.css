@@ -2,11 +2,10 @@
 /* src/styles/components/loader.css */
 /* src/styles/components/loader.css */
 /* ============================================
-    BIGDAY MEDIA - ELITE CINEMATIC LOADER
-    Refined: Fully Responsive & High-Fidelity
+   BIGDAY MEDIA - PROFESSIONAL STUDIO LOADER
+   Focus: Minimalist Technical Data
    ============================================ */
 
-/* Lock scroll and fix viewport */
 body.loader-active-lock {
   overflow: hidden !important;
   height: 100vh !important;
@@ -18,16 +17,16 @@ body.loader-active-lock {
   position: fixed;
   inset: 0;
   z-index: 99999;
-  background: #000;
+  background: #050505;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', 'SF Mono', monospace; /* Professional tech font */
   overflow: hidden;
 }
 
-/* --- Media Reveal Logic --- */
+/* Background Logic */
 .loader-bg-wrapper {
   position: absolute;
   inset: 0;
@@ -38,204 +37,139 @@ body.loader-active-lock {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(0.4) contrast(1.1);
+  filter: brightness(0.3) saturate(0); /* High-end Grayscale start */
 }
 
 .loader-vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.9) 100%);
+  background: radial-gradient(circle at center, transparent 20%, rgba(0,0,0,0.85) 100%);
   z-index: 2;
 }
 
-.loader-overlay {
-  position: absolute;
-  inset: 0;
-  background: #000;
-  z-index: 3;
-  /* Aggressive reveal: Video shows significantly by 20% progress */
-  transition: opacity 1.2s cubic-bezier(0.2, 1, 0.3, 1);
-}
-
-/* --- Responsive Content Container --- */
+/* Content Layout */
 .loader-content-wrap {
   position: relative;
   z-index: 10;
   width: 100%;
-  max-width: 1800px;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* Perfect Vertical Spacing */
-  padding: clamp(2rem, 8vh, 5rem) clamp(1.5rem, 5vw, 4rem);
-  box-sizing: border-box;
+  padding: 50px;
 }
 
-/* --- Top & Bottom UI Bars --- */
+/* Header/Footer UI */
 .loader-ui-top, 
 .loader-ui-bottom {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
-  width: 100%;
+  align-items: flex-start;
 }
 
 .label {
-  display: block;
-  font-size: clamp(7px, 1vw, 9px);
-  letter-spacing: 0.4em;
+  font-size: 9px;
+  letter-spacing: 0.2em;
   color: rgba(255,255,255,0.4);
-  margin-bottom: 6px;
   text-transform: uppercase;
+  margin-bottom: 8px;
+  display: block;
 }
 
 .value {
-  font-size: clamp(9px, 1.2vw, 11px);
-  font-weight: 700;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+}
+
+.value-bold {
+  font-size: 12px;
+  font-weight: 900;
   letter-spacing: 0.1em;
+  color: #fff;
 }
 
-/* Status REC Indicator */
-.status-wrap { display: flex; align-items: center; gap: 8px; }
+.value-status {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+/* REC Dot */
+.status-wrap { display: flex; align-items: center; gap: 10px; }
 .rec-dot {
-  width: 6px;
-  height: 6px;
-  background: #ff3b3b;
+  width: 8px;
+  height: 8px;
+  background: #ff0000;
   border-radius: 50%;
-  box-shadow: 0 0 12px rgba(255, 59, 59, 0.6);
 }
-.rec-dot.active { animation: rec-blink 1s steps(2) infinite; }
+.rec-dot.active { animation: pulse-red 1s infinite; }
 
-/* --- Central Hero (Counter) --- */
+/* Hero Section */
 .loader-hero {
-  text-align: center;
+  max-width: 600px;
   width: 100%;
+  margin: 0 auto;
 }
 
-.counter-container {
-  display: flex;
-  justify-content: center;
-  align-items: baseline;
-  margin-bottom: 1rem;
-}
-
-.digit-hero {
-  font-size: clamp(6rem, 24vw, 20rem);
-  font-weight: 900;
-  line-height: 0.8;
-  letter-spacing: -0.05em;
-  font-variant-numeric: tabular-nums;
-}
-
-.percent-symbol {
-  font-size: clamp(1rem, 4vw, 3rem);
-  font-weight: 300;
-  margin-left: 10px;
-  opacity: 0.3;
-}
-
-/* --- Logo & Progress --- */
 .main-logo {
-  font-size: clamp(0.8rem, 2vw, 1.2rem);
-  letter-spacing: 1.2em;
+  font-size: 40px;
   font-weight: 900;
-  margin-bottom: 2rem;
-  text-indent: 1.2em; /* Centering offset fix */
-}
-
-.progress-track {
-  width: clamp(140px, 15vw, 220px);
-  height: 1px;
-  background: rgba(255,255,255,0.1);
-  margin: 0 auto 1.5rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.progress-bar {
-  height: 100%;
-  background: #fff;
-  transition: width 0.3s ease-out;
-}
-
-.shimmer {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-  animation: shimmer-fx 2s infinite;
+  letter-spacing: 0.3em;
+  margin-bottom: 10px;
 }
 
 .tagline {
-  font-size: clamp(7px, 1vw, 9px);
-  letter-spacing: 0.5em;
-  opacity: 0.3;
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  color: rgba(255,255,255,0.3);
   text-transform: uppercase;
-  padding: 0 1rem;
+  margin-bottom: 60px;
 }
 
-/* --- Signature (Responsive Fix) --- */
-.signature-box {
-  text-align: center;
+/* Technical Progress Bar */
+.progress-system {
+    width: 100%;
 }
 
-.dev-signature {
-  font-size: clamp(9px, 1vw, 11px);
-  font-weight: 950;
-  color: #000;
-  background: #fff;
-  padding: 4px 12px;
-  letter-spacing: 0.15em;
-  display: inline-block;
-  transition: transform 0.3s ease;
+.progress-track {
+    width: 100%;
+    height: 2px;
+    background: rgba(255,255,255,0.05);
+    margin-bottom: 10px;
 }
 
-/* --- Exit State --- */
+.progress-bar {
+    height: 100%;
+    background: #fff;
+    transition: width 0.1s linear;
+}
+
+.progress-data {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    font-family: monospace;
+    color: rgba(255,255,255,0.5);
+}
+
+/* Exit Animation */
 .loader-agency-elite.exit-active {
-  pointer-events: none;
-  opacity: 0;
-  filter: blur(50px);
-  transform: scale(1.05);
-  transition: all 1.2s cubic-bezier(0.8, 0, 0.2, 1);
+  transform: translateY(-100%); /* High-end curtain lift */
+  transition: transform 0.8s cubic-bezier(0.85, 0, 0.15, 1);
 }
 
-/* --- Animations --- */
-@keyframes rec-blink { from { opacity: 1; } to { opacity: 0.2; } }
-@keyframes shimmer-fx { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
-
-/* --- RESPONSIVENESS FIXES --- */
-@media (max-width: 1024px) {
-  .loader-content-wrap { padding: 4rem 2rem; }
+@keyframes pulse-red {
+  0% { opacity: 1; }
+  50% { opacity: 0.3; }
+  100% { opacity: 1; }
 }
 
+/* Mobile Adjustments */
 @media (max-width: 768px) {
-  .loader-ui-top .ui-item:first-child,
-  .loader-ui-bottom .ui-item:first-child {
-    display: none; /* Hide secondary info to keep it clean */
-  }
-
-  .loader-ui-top, .loader-ui-bottom {
-    justify-content: center; /* Center REC and Edition on mobile */
-    gap: 20px;
-  }
-  
-  .loader-ui-bottom {
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-  }
-
-  .digit-hero { font-size: clamp(6rem, 35vw, 10rem); }
-  
-  /* Ensure Signature "MATHEW" is visible and prominent on mobile */
-  .signature-box {
-    order: -1; 
-    margin-bottom: 0.5rem;
-  }
-}
-
-@media (max-height: 500px) and (orientation: landscape) {
-  .digit-hero { font-size: 5rem; }
-  .main-logo { margin-bottom: 0.5rem; }
-  .loader-content-wrap { padding: 1rem; }
+  .loader-content-wrap { padding: 30px; }
+  .hide-mobile { display: none; }
+  .main-logo { font-size: 24px; }
+  .tagline { font-size: 8px; letter-spacing: 0.2em; }
 }

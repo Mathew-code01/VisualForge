@@ -16,7 +16,6 @@ export default function Loader({ onLoadingComplete }) {
     const handleLoad = () => {
       isPageLoaded = true;
     };
-
     if (document.readyState === "complete") {
       isPageLoaded = true;
     } else {
@@ -25,39 +24,31 @@ export default function Loader({ onLoadingComplete }) {
 
     const interval = setInterval(() => {
       let increment = 0;
-
       if (!isPageLoaded) {
-        // PHASE 1: Page still loading - Dynamic crawl
-        // It gets slower as it approaches 90 to "wait" for the assets
-        const remaining = 90 - progressRef.current;
-        increment = Math.max(0.05, Math.random() * (remaining / 20));
+        const remaining = 95 - progressRef.current;
+        increment = Math.max(0.02, Math.random() * (remaining / 40));
       } else {
-        // PHASE 2: Page is LOADED - Acceleration
-        // Rapidly climb the remaining distance to 100
-        increment = 2.5;
+        increment = 3.5;
       }
 
       progressRef.current += increment;
 
-      // Ensure we hit the final sequence: 98 -> 99 -> 100
       if (progressRef.current >= 100) {
         progressRef.current = 100;
         setProgress(100);
         clearInterval(interval);
-
-        // Final aesthetic pause so the user actually sees "100"
-        setTimeout(() => triggerExit(), 700);
+        setTimeout(() => triggerExit(), 800);
       } else {
         setProgress(Math.floor(progressRef.current));
       }
-    }, 30); // High frequency for smooth counting
+    }, 40);
 
     const triggerExit = () => {
       setIsExiting(true);
       setTimeout(() => {
         document.body.classList.remove("loader-active-lock");
         if (onLoadingComplete) onLoadingComplete();
-      }, 1100);
+      }, 1000);
     };
 
     return () => {
@@ -74,59 +65,51 @@ export default function Loader({ onLoadingComplete }) {
           <source src="/assets/loader-bg.mp4" type="video/mp4" />
         </video>
         <div className="loader-vignette" />
-        <div
-          className="loader-overlay"
-          style={{ opacity: Math.max(0, 1 - (progress * 1.4) / 100) }}
-        />
       </div>
 
       <div className="loader-content-wrap">
+        {/* TOP BAR: Technical Data */}
         <header className="loader-ui-top">
           <div className="ui-item">
-            <span className="label">SIGNAL</span>
-            <span className="value">4K_RAW_LOG</span>
+            <span className="label">PROJECT</span>
+            <span className="value">BDMA_ARCHIVE_{currentYear}</span>
           </div>
           <div className="status-wrap">
             <div className={`rec-dot ${progress < 100 ? "active" : ""}`} />
-            <span className="value">
-              {progress < 100 ? "CACHING" : "SYNCED"}
+            <span className="value-status">
+              {progress < 100 ? "INITIALIZING" : "READY"}
             </span>
           </div>
         </header>
 
+        {/* CENTER: Studio Identity */}
         <main className="loader-hero">
-          <div className="counter-container">
-            <span className="digit-hero">
-              {progress.toString().padStart(2, "0")}
-            </span>
-            <span className="percent-symbol">%</span>
+          <div className="brand-reveal">
+            <h1 className="main-logo">BIGDAY MEDIA AGENCY</h1>
+            <p className="tagline">Visual Excellence Built for Impact</p>
           </div>
 
-          <div className="brand-reveal">
-            <h1 className="main-logo">BIGDAY</h1>
+          <div className="progress-system">
             <div className="progress-track">
-              <div className="progress-bar" style={{ width: `${progress}%` }}>
-                <div className="shimmer" />
-              </div>
+              <div className="progress-bar" style={{ width: `${progress}%` }} />
             </div>
-            <p className="tagline">Visual Excellence Built for Impact</p>
+            <div className="progress-data">
+              <span className="data-label">COMPILE_STAGES</span>
+              <span className="data-percent">{progress}%</span>
+            </div>
           </div>
         </main>
 
+        {/* BOTTOM BAR: Signatures */}
         <footer className="loader-ui-bottom">
           <div className="ui-item">
-            <span className="label">BITRATE</span>
-            <span className="value">48.2_MBPS</span>
-          </div>
-
-          <div className="signature-box">
-            <span className="label">DEV_BY</span>
-            <span className="dev-signature">MATHEW</span>
+            <span className="label">LEAD EDITOR</span>
+            <span className="value-bold">MATHEW.EXE</span>
           </div>
 
           <div className="ui-item text-right">
-            <span className="label">EDITION</span>
-            <span className="value">©_{currentYear}</span>
+            <span className="label">SYSTEM VERSION</span>
+            <span className="value">©_{currentYear}_STABLE</span>
           </div>
         </footer>
       </div>

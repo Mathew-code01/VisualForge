@@ -277,3 +277,88 @@
 .dev-link:hover::after {
     width: 100%;
 }
+
+/* --- Footer Bottom Wrapper --- */
+.vf-footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 40px;
+  margin-top: 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  flex-wrap: wrap; /* Essential to prevent "jambpacking" */
+  gap: 20px;
+}
+
+/* --- Copyright Area --- */
+.copyright {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.25); /* Faded to look professional */
+  text-transform: lowercase; /* Minimalist aesthetic */
+  letter-spacing: 0.02em;
+  font-weight: 300;
+}
+
+/* --- Credits Area --- */
+.credits {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.2); /* Faded labels */
+  text-transform: lowercase;
+}
+
+/* Specific styling for the Names */
+.credits span, 
+.credits .dev-link {
+  color: #ffffff; /* Make Larry K. and Mathew crisp white/visible */
+  font-weight: 400;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+/* Highlight the Developer specifically */
+.credits .dev-link {
+  color: var(--color-secondary-bright) !important; /* Subtle brand blue */
+  font-weight: 500;
+}
+
+.credits .dev-link:hover {
+  opacity: 0.7;
+}
+
+/* The separator */
+.dev-separator {
+  opacity: 0.1;
+  font-weight: 100;
+  margin: 0 4px;
+}
+
+/* --- RESPONSIVE BREAKPOINTS --- */
+
+/* Tablet & Smaller Screens */
+@media (max-width: 992px) {
+  .vf-footer-bottom {
+    padding-top: 30px;
+  }
+}
+
+/* Mobile Screens - This prevents the "Rough/Jambpack" look */
+@media (max-width: 768px) {
+  .vf-footer-bottom {
+    flex-direction: column; /* Stack vertically instead of crushing horizontally */
+    align-items: flex-start; /* Align to the left for a clean edge */
+    gap: 15px;
+  }
+
+  .credits {
+    flex-wrap: wrap; /* Allows credits to wrap if names are long */
+    line-height: 1.6;
+  }
+  
+  /* On very small phones, remove the separator to clean up the look */
+  .dev-separator {
+    display: none;
+  }
+}
