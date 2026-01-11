@@ -327,7 +327,11 @@ export async function linkExistingPublitioVideo(publitioId, title, category) {
     const data = await response.json();
 
     if (!data.success) {
-      throw new Error("Could not find video details on Publitio.");
+      // 🔥 NEW: Better error message to catch ID confusion
+      const errorHint = data.error?.message?.includes("doesn't exist")
+        ? "Video not found. Try using the short ID (8 characters) instead of the long Public ID."
+        : data.error?.message;
+      throw new Error(errorHint);
     }
 
     // 2. Construct clean metadata from the API response
