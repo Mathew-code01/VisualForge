@@ -303,5 +303,61 @@ async function deleteVimeo(resourceId) {
   if (!json.success) throw new Error(json.error || "Vimeo delete failed");
 }
 
+/**
+ * RECOVERY TOOL: Automatically fetches metadata from Publitio API
+ * and links it to Firebase.
+ */
+export async function linkExistingPublitioVideo(publitioId, title, category) {
+  try {
+    // 🔥 FIX: Add .trim() to remove spaces before sending to backend
+    const cleanId = publitioId.trim();
+
+    const response = await fetch(
+      `${API_BASE}/api/getPublitioDetails/${cleanId}`
+    );
+
+    // Check if the response is actually JSON before parsing
+    const contentType = response.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      throw new Error(
+        "Server returned HTML instead of JSON. Check if the backend route is deployed."
+      );
+    }
+
+    const data = await response.json();
+
+    if (!data.success) {
+      throw new Error("Could not find video details on Publitio.");
+    }
+
+    // 2. Construct clean metadata from the API response
+    const videoUrl = data.url_preview; // Original file URL
+    const thumbUrl = data.url_thumbnail; // Auto-generated thumbnail
+    const sizeInMB = (data.size / (1024 * 1024)).toFixed(2);
+    const durationInSec = data.duration || 0;
+
+    // 3. Save to Firestore with PERFECT metadata
+    const docRef = await addDoc(collection(db, "videos"), {
+      title: title || data.title,
+      category: category || "Commercial",
+      uploaderId: "ADMIN_RECOVERY",
+      createdAt: serverTimestamp(),
+      platform: "publitio",
+      url: videoUrl,
+      thumbnail: thumbUrl,
+      resourceId: publitioId,
+      size: parseFloat(sizeInMB),
+      duration: durationInSec,
+      resolution: `${data.width}x${data.height}`,
+      tags: ["recovered"],
+    });
+
+    return { success: true, id: docRef.id };
+  } catch (err) {
+    console.error("Auto-Link Failed:", err);
+    throw err;
+  }
+}
+
 
 export default uploadVideo;

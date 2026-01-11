@@ -692,3 +692,145 @@
   .upload-tabs { gap: 20px; }
   .elegant-title { font-size: 1.5rem; }
 }
+/* ============================================================
+   RECOVERY VIEW: MANUAL SYNCHRONIZATION
+   STYLE: ULTRA-MINIMALIST DARK GLASS (ZEBRA DARK)
+   ============================================================ */
+
+.recovery-view-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--spacing-xl) var(--container-padding);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Subtitle Refinement */
+.section-subtitle {
+  text-align: center;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: var(--color-muted);
+  margin-top: 10px;
+  margin-bottom: 80px;
+  opacity: 0.8;
+}
+
+/* The Glass Container */
+.recovery-card.glass.dark-zebra {
+  background: rgba(8, 1, 92, 0.45); /* Deep Blue from Theme */
+  backdrop-filter: blur(40px) saturate(150%);
+  -webkit-backdrop-filter: blur(40px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 80px 60px;
+  border-radius: 12px;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
+}
+
+.recovery-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 48px 32px;
+  margin-bottom: 60px;
+}
+
+.recovery-form-grid .input-group:nth-child(3) {
+  grid-column: span 2;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.input-group label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  font-weight: 700;
+  color: var(--color-secondary-bright);
+}
+
+/* Input & Select Base Styling */
+.admin-input-minimal {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 18px 24px;
+  border-radius: 4px;
+  color: #ffffff;
+  font-family: var(--font-base);
+  font-size: 14px;
+  transition: all 0.4s var(--transition-medium);
+  outline: none;
+  width: 100%;
+}
+
+.admin-input-minimal:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.admin-input-minimal:focus {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--color-secondary-bright);
+}
+
+/* FIX: Specific Select Styling */
+select.admin-input-minimal {
+  cursor: pointer;
+  appearance: none;
+  /* Extra right padding to accommodate custom arrow */
+  padding-right: 45px; 
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 20px center;
+  background-size: 14px;
+}
+
+/* FIX: Dropdown Option Styling (Professional visibility) */
+select.admin-input-minimal option {
+  /* Using your --color-primary-dark for the dropdown list */
+  background-color: #08015c; 
+  color: #ffffff;
+  padding: 15px;
+  font-family: var(--font-base);
+}
+
+/* Establishment Button */
+.btn-solid-large {
+  width: 100%;
+  background: #ffffff;
+  color: var(--color-primary-dark);
+  border: none;
+  padding: 24px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5em;
+  cursor: pointer;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-solid-large:hover {
+  background: var(--color-secondary-bright);
+  color: #ffffff;
+  transform: translateY(-5px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .recovery-form-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .recovery-form-grid .input-group:nth-child(3) {
+    grid-column: span 1;
+  }
+  .recovery-card.glass.dark-zebra {
+    padding: 40px 24px;
+  }
+}

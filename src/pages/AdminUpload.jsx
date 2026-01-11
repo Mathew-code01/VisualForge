@@ -23,7 +23,8 @@ import {
   FiEdit3,
   FiUploadCloud,
 } from "react-icons/fi";
-import uploadVideo, { saveMetadataOnly } from "../firebase/uploadVideo.js";
+// Add 'linkExistingPublitioVideo' to your existing imports from uploadVideo.js
+import uploadVideo, { saveMetadataOnly, linkExistingPublitioVideo } from "../firebase/uploadVideo.js";
 import useStorageUsage from "../firebase/useStorageUsage";
 import videoPlaceholder from "../assets/images/video-placeholder.webp";
 import AdminVideos from "./AdminVideos";
@@ -217,6 +218,9 @@ export default function AdminUpload() {
   const [clipboard, setClipboard] = useState("");
   const [multiSelectMode, setMultiSelectMode] = useState(false);
   const [activeTab, setActiveTab] = useState("upload");
+  const [recoveryId, setRecoveryId] = useState("");
+  const [recoveryTitle, setRecoveryTitle] = useState("");
+  const [recoveryCat, setRecoveryCat] = useState("Commercial");
 
   const inputRef = useRef(null);
 
@@ -433,10 +437,17 @@ export default function AdminUpload() {
           >
             Library
           </button>
+          {/* NEW TAB */}
+          <button
+            className={activeTab === "recovery" ? "active" : ""}
+            onClick={() => setActiveTab("recovery")}
+          >
+            Recovery
+          </button>
         </div>
-
-        {activeTab === "upload" ? (
-          <div className="upload-view-content">
+        {/* TAB 1: QUEUE (UPLOAD) */}
+        {activeTab === "upload" && (
+          <div className="upload-view-content animate-fade-in">
             <header className="view-header">
               <h2 className="elegant-title">
                 Media Queue <span className="count">[{videos.length}]</span>
@@ -495,21 +506,18 @@ export default function AdminUpload() {
               </p>
             </div>
 
-            {/* Bulk Toolbar - Minimalist Glassmorphism */}
+            {/* Bulk Toolbar */}
             {isAnySelected && (
               <div className="bulk-bar-float">
                 <div className="selection-info">
                   <span className="count-badge">{selectedVideos.length}</span>
                   <span className="label">selected</span>
                 </div>
-
                 <div className="bar-divider" />
-
                 <div className="bar-actions">
                   <button className="action-link" onClick={toggleSelectAll}>
                     {isAllSelected ? "Deselect All" : "Select All"}
                   </button>
-
                   <select
                     className="bulk-category-select"
                     value=""
@@ -531,7 +539,6 @@ export default function AdminUpload() {
                       </option>
                     ))}
                   </select>
-
                   <button
                     className="action-icon-btn"
                     onClick={() => {
@@ -544,7 +551,6 @@ export default function AdminUpload() {
                   >
                     <FiEdit3 />
                   </button>
-
                   <button
                     className="btn-delete-bulk"
                     onClick={() =>
@@ -553,9 +559,7 @@ export default function AdminUpload() {
                   >
                     <FiTrash2 />
                   </button>
-
                   <div className="bar-divider" />
-
                   <button className="close-bulk-btn" onClick={clearSelection}>
                     <FiX />
                   </button>
@@ -593,8 +597,84 @@ export default function AdminUpload() {
               </div>
             )}
           </div>
-        ) : (
-          <AdminVideos />
+        )}
+
+        {/* TAB 2: LIBRARY (ADMIN VIDEOS) */}
+        {activeTab === "uploaded" && <AdminVideos />}
+
+        {/* TAB 3: RECOVERY (MANUAL LINKING) */}
+        {activeTab === "recovery" && (
+          <div className="recovery-view-content animate-fade-in">
+            <header className="view-header">
+              <h2 className="elegant-title">Manual Synchronization</h2>
+              <p className="section-subtitle">
+                Link external Publitio assets to the local database.
+              </p>
+            </header>
+
+            <div className="recovery-card glass dark-zebra">
+              <div className="recovery-form-grid">
+                <div className="input-group">
+                  <label>Publitio ID</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. 8k2jH1"
+                    value={recoveryId}
+                    onChange={(e) => setRecoveryId(e.target.value)}
+                    className="admin-input-minimal"
+                  />
+                </div>
+
+                <div className="input-group">
+                  <label>Internal Title</label>
+                  <input
+                    type="text"
+                    placeholder="Client Project Name"
+                    value={recoveryTitle}
+                    onChange={(e) => setRecoveryTitle(e.target.value)}
+                    className="admin-input-minimal"
+                  />
+                </div>
+
+                <div className="input-group">
+                  <label>Classification</label>
+                  <select
+                    value={recoveryCat}
+                    onChange={(e) => setRecoveryCat(e.target.value)}
+                    className="admin-input-minimal"
+                  >
+                    {CATEGORIES.map((c) => (
+                      <option key={c} value={c}>
+                        {c.toLowerCase()}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <button
+                className="btn-solid-large"
+                onClick={async () => {
+                  if (!recoveryId || !recoveryTitle)
+                    return alert("Missing ID or Title");
+                  try {
+                    await linkExistingPublitioVideo(
+                      recoveryId,
+                      recoveryTitle,
+                      recoveryCat
+                    );
+                    alert("Asset Linked Successfully");
+                    setRecoveryId("");
+                    setRecoveryTitle("");
+                  } catch (err) {
+                    alert("Sync Error: " + err.message);
+                  }
+                }}
+              >
+                Establish Connection
+              </button>
+            </div>
+          </div>
         )}
       </div>
     </section>
