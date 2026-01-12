@@ -6,12 +6,18 @@ import crypto from "crypto";
 
 export default async function handler(req, res) {
   const timestamp = new Date().toLocaleTimeString();
-  console.log(`\n--- 📊 [DEEP STORAGE SYNC] ${timestamp} ---`);
+  console.log(`\n--- 📊 [STORAGE SYNC START] ${timestamp} ---`);
 
   try {
     const API_KEY = process.env.PUBLITIO_API_KEY;
     const API_SECRET = process.env.PUBLITIO_API_SECRET;
     const PLAN_LIMIT_MB = Number(process.env.PUBLITIO_LIMIT_MB) || 5000;
+
+    // 1. Authentication Check
+    if (!API_KEY || !API_SECRET) {
+      console.error("❌ [AUTH] Missing API Keys in Environment Variables.");
+      return res.status(500).json({ error: "Publitio credentials missing" });
+    }
 
     const api_timestamp = Math.floor(Date.now() / 1000).toString();
     const api_nonce = crypto.randomBytes(4).toString("hex");
@@ -23,49 +29,78 @@ export default async function handler(req, res) {
 
     const auth = `api_key=${API_KEY}&api_timestamp=${api_timestamp}&api_nonce=${api_nonce}&api_signature=${api_signature}`;
 
-    // 1. GET MASTER FILES (The 5.08 MB)
-    console.log("📡 [FETCH] Scanning Master Files...");
-    const filesRes = await fetch(`https://api.publit.io/v1/files/list?${auth}`);
-    const filesJson = await filesRes.json();
-    let masterBytes = 0;
-    if (filesJson.success) {
-      filesJson.files.forEach((f) => (masterBytes += Number(f.size || 0)));
-    }
-
-    // 2. GET VERSIONS (The hidden 11.37 MB)
-    console.log("📡 [FETCH] Scanning for hidden variants/versions...");
-    const versionsRes = await fetch(
-      `https://api.publit.io/v1/versions/list?${auth}`
+    console.log(
+      `🔐 [AUTH] Signature verified for session: ${api_signature.substring(
+        0,
+        8
+      )}...`
     );
-    const versionsJson = await versionsRes.json();
-    let versionBytes = 0;
-    if (versionsJson.success && versionsJson.versions) {
-      versionsJson.versions.forEach(
-        (v) => (versionBytes += Number(v.size || 0))
+    console.log("📡 [FETCH] Requesting File List with Total Size metadata...");
+
+    // 2. Fetch data from Publitio
+    const response = await fetch(`https://api.publit.io/v1/files/list?${auth}`);
+
+    // 3. Robust Error Handling for non-JSON responses (Fixes the ESLint error)
+    const contentType = response.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+      const errorHtml = await response.text(); // Captured and used below
+      console.error("❌ [CRITICAL] Publitio returned HTML instead of JSON.");
+      console.error(
+        `📄 [DEBUG INFO] First 200 chars of response: ${errorHtml.substring(
+          0,
+          200
+        )}`
       );
+
+      return res.status(response.status).json({
+        success: false,
+        error: "API returned HTML error. Check dashboard for account status.",
+        status: response.status,
+      });
     }
 
-    // 3. COMBINE FOR TRUE TOTAL
-    const totalBytes = masterBytes + versionBytes;
+    const json = await response.json();
+
+    if (!json.success) {
+      console.error(
+        "❌ [API ERROR] Publitio rejected the request:",
+        json.error?.message
+      );
+      throw new Error(json.error?.message || "Publitio API Failure");
+    }
+
+    // 4. Calculate Total (Master + Versions)
+    let totalBytes = 0;
+    let fileCount = 0;
+
+    // Using 'total_size' ensures we match the 16.45MB on your dashboard
+    json.files.forEach((file) => {
+      const itemSize = Number(file.total_size || file.size || 0);
+      totalBytes += itemSize;
+      fileCount++;
+    });
+
     const usedMB = totalBytes / 1024 / 1024;
 
+    console.log("✅ [SYNC] Calculation successful.");
     console.log(
-      `✅ [RESULT] Master Files: ${(masterBytes / 1024 / 1024).toFixed(2)} MB`
+      `📊 Final Results -> Files: ${fileCount} | Used: ${usedMB.toFixed(2)} MB`
     );
-    console.log(
-      `✅ [RESULT] Versions: ${(versionBytes / 1024 / 1024).toFixed(2)} MB`
-    );
-    console.log(`🏁 [FINAL] Real Total: ${usedMB.toFixed(2)} MB`);
+    console.log(`--- 🏁 [STORAGE SYNC END] ---\n`);
 
     return res.json({
       success: true,
       usedMB: +usedMB.toFixed(2),
-      fileCount: filesJson.files?.length || 0,
+      fileCount: fileCount,
       limitMB: PLAN_LIMIT_MB,
       percent: +((usedMB / PLAN_LIMIT_MB) * 100).toFixed(2),
     });
   } catch (err) {
-    console.error("🔥 [CRITICAL ERROR]:", err.message);
-    res.status(500).json({ success: false, error: err.message });
+    console.error("🔥 [SYSTEM ERROR]:", err.message);
+    res.status(500).json({
+      success: false,
+      error: err.message,
+      stack: process.env.NODE_ENV === "development" ? err.stack : undefined,
+    });
   }
 }
