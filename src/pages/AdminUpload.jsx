@@ -219,8 +219,7 @@ export default function AdminUpload() {
   const [multiSelectMode, setMultiSelectMode] = useState(false);
   const [activeTab, setActiveTab] = useState("upload");
   const [recoveryId, setRecoveryId] = useState("");
-  const [recoveryTitle, setRecoveryTitle] = useState("");
-  const [recoveryCat, setRecoveryCat] = useState("Commercial");
+
 
   const inputRef = useRef(null);
 
@@ -608,64 +607,34 @@ export default function AdminUpload() {
             <header className="view-header">
               <h2 className="elegant-title">Manual Synchronization</h2>
               <p className="section-subtitle">
-                Link external Publitio assets to the local database.
+                Enter the Publitio ID to automatically pull metadata and link to
+                your library.
               </p>
             </header>
 
-            <div className="recovery-card glass dark-zebra">
-              <div className="recovery-form-grid">
-                <div className="input-group">
-                  <label>Publitio ID</label>
-                  <input
-                    type="text"
-                    placeholder="e.g. 8k2jH1"
-                    value={recoveryId}
-                    onChange={(e) => setRecoveryId(e.target.value)}
-                    className="admin-input-minimal"
-                  />
-                </div>
-
-                <div className="input-group">
-                  <label>Internal Title</label>
-                  <input
-                    type="text"
-                    placeholder="Client Project Name"
-                    value={recoveryTitle}
-                    onChange={(e) => setRecoveryTitle(e.target.value)}
-                    className="admin-input-minimal"
-                  />
-                </div>
-
-                <div className="input-group">
-                  <label>Classification</label>
-                  <select
-                    value={recoveryCat}
-                    onChange={(e) => setRecoveryCat(e.target.value)}
-                    className="admin-input-minimal"
-                  >
-                    {CATEGORIES.map((c) => (
-                      <option key={c} value={c}>
-                        {c.toLowerCase()}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+            <div className="recovery-card glass dark-zebra p-8 border border-white/10 rounded-lg">
+              <div className="input-group mb-6">
+                <label className="text-xs uppercase tracking-widest opacity-50 mb-2 block">
+                  Publitio Short ID
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. W4G3p24y"
+                  value={recoveryId}
+                  onChange={(e) => setRecoveryId(e.target.value)}
+                  className="admin-input-minimal w-full bg-transparent border-b border-white/20 py-3 text-xl outline-none focus:border-white transition-all"
+                />
               </div>
 
               <button
-                className="btn-solid-large"
+                className="btn-solid-large w-full py-4 bg-white text-black font-bold uppercase tracking-widest hover:bg-neutral-200 transition-all"
                 onClick={async () => {
-                  if (!recoveryId || !recoveryTitle)
-                    return alert("Missing ID or Title");
+                  if (!recoveryId) return alert("Please enter a Publitio ID");
                   try {
-                    await linkExistingPublitioVideo(
-                      recoveryId,
-                      recoveryTitle,
-                      recoveryCat
-                    );
+                    await linkExistingPublitioVideo(recoveryId);
                     alert("Asset Linked Successfully");
                     setRecoveryId("");
-                    setRecoveryTitle("");
+                    // Optional: Trigger a refresh of your video list here
                   } catch (err) {
                     alert("Sync Error: " + err.message);
                   }

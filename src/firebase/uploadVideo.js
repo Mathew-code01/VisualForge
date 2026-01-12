@@ -307,51 +307,44 @@ async function deleteVimeo(resourceId) {
  * RECOVERY TOOL: Automatically fetches metadata from Publitio API
  * and links it to Firebase.
  */
-export async function linkExistingPublitioVideo(publitioId, title, category) {
+/**
+ * RECOVERY TOOL: Automatically fetches metadata from Publitio API
+ * and links it to Firebase using only the ID.
+ */
+export async function linkExistingPublitioVideo(publitioId) {
   try {
-    // 🔥 FIX: Add .trim() to remove spaces before sending to backend
     const cleanId = publitioId.trim();
 
     const response = await fetch(
       `${API_BASE}/api/getPublitioDetails/${cleanId}`
     );
 
-    // Check if the response is actually JSON before parsing
-    const contentType = response.headers.get("content-type");
-    if (!contentType || !contentType.includes("application/json")) {
-      throw new Error(
-        "Server returned HTML instead of JSON. Check if the backend route is deployed."
-      );
-    }
-
     const data = await response.json();
 
     if (!data.success) {
-      // 🔥 NEW: Better error message to catch ID confusion
       const errorHint = data.error?.message?.includes("doesn't exist")
-        ? "Video not found. Try using the short ID (8 characters) instead of the long Public ID."
-        : data.error?.message;
+        ? "Video not found. Use the short 8-character ID."
+        : data.error;
       throw new Error(errorHint);
     }
 
-    // 2. Construct clean metadata from the API response
-    const videoUrl = data.url_preview; // Original file URL
-    const thumbUrl = data.url_thumbnail; // Auto-generated thumbnail
+    // 🔥 FIX: Pulling DIRECT paths to ensure video plays and thumbnail shows
+    const videoUrl = data.url_preview; 
+    const thumbUrl = data.url_thumbnail; 
     const sizeInMB = (data.size / (1024 * 1024)).toFixed(2);
-    const durationInSec = data.duration || 0;
 
-    // 3. Save to Firestore with PERFECT metadata
+    // 3. Save to Firestore with metadata pulled from Publitio
     const docRef = await addDoc(collection(db, "videos"), {
-      title: title || data.title,
-      category: category || "Commercial",
+      title: data.title || "Recovered Asset", // Pulls title from Publitio
+      category: "Commercial", // Default fallback
       uploaderId: "ADMIN_RECOVERY",
       createdAt: serverTimestamp(),
       platform: "publitio",
       url: videoUrl,
       thumbnail: thumbUrl,
-      resourceId: publitioId,
+      resourceId: cleanId,
       size: parseFloat(sizeInMB),
-      duration: durationInSec,
+      duration: data.duration || 0,
       resolution: `${data.width}x${data.height}`,
       tags: ["recovered"],
     });
