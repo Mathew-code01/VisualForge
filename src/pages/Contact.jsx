@@ -2,32 +2,26 @@
 // src/pages/Contact.jsx
 // src/pages/Contact.jsx
 // src/pages/Contact.jsx
-import { useState } from "react";
+// src/pages/Contact.jsx
+import { useEffect } from "react";
 import { FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
 import ContactForm from "../components/ContactForm";
-import Loader from "../components/Loader.jsx";
 import "../styles/pages/contact.css";
 
 function Contact() {
-  const [showLoader, setShowLoader] = useState(true);
-
-  // This handles the removal of the loader ONLY after the animation finishes
-  const handleLoadingComplete = () => {
-    setShowLoader(false);
-  };
+  // Optional: Force scroll to top when landing on contact
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="page-wrapper">
-      {/* 1. Loader Overlay */}
-      {showLoader && <Loader onLoadingComplete={handleLoadingComplete} />}
-
-      {/* 2. Main Page Content (Visible underneath the loader curtains) */}
       <section className="contact-page-vibrant">
         <div className="contact-container">
           {/* Left Side: Minimalist Editorial */}
           <div className="contact-editorial">
             <header className="editorial-header">
-              <span className="subtitle">Project Inquiries</span>
+              <span className="section-tag-elite">Project Inquiries</span>
               <h1 className="hero-title">
                 Let's build <br /> your vision.
               </h1>

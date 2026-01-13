@@ -2,10 +2,8 @@
 
 // src/pages/About.jsx
 // src/pages/About.jsx
-// src/pages/About.jsx
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useRef, useMemo } from "react";
 import { FiArrowDown, FiArrowRight } from "react-icons/fi";
-import Loader from "../components/Loader.jsx";
 import useImagePreloader from "../hooks/useImagePreloader";
 
 // Asset Imports
@@ -36,35 +34,26 @@ const PROCESS_STEPS = [
 ];
 
 const About = () => {
-  const [timerDone, setTimerDone] = useState(false);
   const heroRef = useRef(null);
-
   const aboutImages = useMemo(
     () => [heroImg, aitStudio, preVisImg, assemblyImg, masteringImg],
     []
   );
-
   const imagesLoaded = useImagePreloader(aboutImages);
 
-  useEffect(() => {
-    const timer = setTimeout(() => setTimerDone(true), 1200);
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (!timerDone || !imagesLoaded) return <Loader />;
-
+  // We remove the internal 'if loading return Loader' so it doesn't fight MainLayout
   return (
-    <main className="about-page-standard">
-      {/* 1. HERO: Image + Black Blur Overlay */}
+    <main
+      className={`about-page-standard ${
+        imagesLoaded ? "assets-ready" : "assets-loading"
+      }`}
+    >
+      {/* 1. HERO */}
       <section className="about-hero-editorial" ref={heroRef}>
-        {/* The Base Image */}
         <div className="hero-image-bg">
           <img src={heroImg} alt="Visual Excellence" />
         </div>
-
-        {/* The Glassmorphism Blur & Gradient Layer */}
         <div className="hero-blur-overlay"></div>
-
         <div className="about-hero-container">
           <div className="hero-top-meta">
             <span className="meta-label">The Studio</span>
@@ -85,7 +74,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* 2. VISION: Zebra White */}
+      {/* 2. VISION */}
       <section className="about-vision-section">
         <div className="vision-container">
           <div className="vision-left">
@@ -121,14 +110,13 @@ const About = () => {
         </div>
       </section>
 
-      {/* 3. WORKFLOW: Zebra Dark */}
+      {/* 3. WORKFLOW */}
       <section className="about-workflow-section">
         <div className="about-container-unique">
           <header className="section-header-block">
             <span className="section-tag-elite">Methodology</span>
             <h2 className="section-heading-unique">The Pipeline</h2>
           </header>
-
           <div className="process-grid-elite">
             {PROCESS_STEPS.map((step, idx) => (
               <div key={idx} className="process-card-landscape">
@@ -146,7 +134,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* 4. FINAL CTA: Zebra White */}
+      {/* 4. FINAL CTA */}
       <section className="about-final-cta">
         <div className="cta-background-watermark">IMPACT</div>
         <div className="cta-content-modern">

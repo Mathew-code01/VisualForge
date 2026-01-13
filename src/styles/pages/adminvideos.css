@@ -135,41 +135,119 @@
   margin: var(--spacing-lg) auto;
   padding-bottom: 50px;
 }
+/* --- PROFESSIONAL FILTER SCROLL SYSTEM --- */
+.admin-filter-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: var(--spacing-lg);
+  position: relative;
+  background: #fff;
+  padding: 8px 15px;
+  border-radius: 16px;
+  border: 1px solid var(--color-border);
+}
 
 .admin-filter-strip {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: var(--spacing-lg);
   overflow-x: auto;
-  padding: 10px 5px;
-  scrollbar-width: none; /* Hide scrollbar Firefox */
+  scroll-behavior: smooth;
+  padding: 5px 0;
+  width: 100%;
+  scrollbar-width: none; /* Firefox */
+  
+  /* The "Agency" Fade Effect: Masks the edges of the text as they scroll */
+  mask-image: linear-gradient(to right, transparent, black 40px, black calc(100% - 40px), transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 40px, black calc(100% - 40px), transparent);
 }
-.admin-filter-strip::-webkit-scrollbar { display: none; } /* Hide scrollbar Chrome */
+
+.admin-filter-strip::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.filter-icon-lock {
+  padding-left: 5px;
+  color: var(--color-secondary-bright);
+  flex-shrink: 0;
+}
 
 .admin-chip {
-  padding: 10px 24px;
-  background: #fff;
+  padding: 8px 20px;
+  background: var(--color-bg-alt);
   border: 1px solid var(--color-border);
   color: var(--color-text-light);
-  border-radius: 100px;
+  border-radius: 12px;
   white-space: nowrap;
   cursor: pointer;
   font-weight: 600;
-  font-size: 0.85rem;
-  transition: var(--transition-medium);
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+  flex-shrink: 0; /* Important: prevents pills from squishing */
 }
 
-.admin-chip:hover { 
+.admin-chip:hover {
+  background: #fff;
   border-color: var(--color-secondary-bright);
   color: var(--color-secondary-bright);
 }
 
-.admin-chip.active { 
+.admin-chip.active {
   background: var(--color-secondary-bright);
-  color: #fff; 
+  color: #fff;
   border-color: var(--color-secondary-bright);
-  box-shadow: 0 4px 12px rgba(43, 117, 255, 0.25);
+}
+
+/* Nav Buttons: Only show on desktop/mouse systems */
+.filter-nav-btn {
+  background: white;
+  border: 1px solid var(--color-border);
+  color: var(--color-primary-dark);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-nav-btn:hover {
+  background: var(--color-secondary-bright);
+  color: white;
+  border-color: var(--color-secondary-bright);
+}
+
+/* Hide Nav Buttons on small touch devices if preferred */
+/* --- UPDATED RESPONSIVE LOGIC --- */
+
+/* 1. Only hide buttons if the user is on a touch device */
+@media (pointer: coarse) {
+  .filter-nav-btn {
+    display: none !important;
+  }
+  .admin-filter-strip {
+    /* Allow native finger swiping on touch devices */
+    mask-image: none; 
+    -webkit-mask-image: none;
+  }
+}
+
+/* 2. Adjustments for small width non-touch screens */
+@media (max-width: 600px) {
+  .admin-filter-container { padding: 8px 8px; gap: 5px; }
+  .filter-nav-btn { width: 28px; height: 28px; }
+  
+  /* Standard mobile layout changes */
+  .admin-nav-container { flex-direction: column; align-items: center; gap: 20px; text-align: center; }
+  .admin-brand-group { flex-direction: column; }
+  .admin-nav-controls { width: 100%; flex-direction: column; }
+  .admin-search-wrapper { max-width: none; }
+  .admin-sync-btn { width: 100%; justify-content: center; }
 }
 
 /* --- ASSET GRID --- */

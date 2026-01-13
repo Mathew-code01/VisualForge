@@ -1,8 +1,9 @@
 // src/pages/AdminVideos.jsx
 // src/pages/AdminVideos.jsx
 // src/pages/AdminVideos.jsx
-import React, { useEffect, useState, useMemo } from "react";
-import { getVideos, deleteVideo } from "../firebase/uploadVideo.js";
+import React, { useEffect, useState, useMemo, useRef } from "react";
+import { getVideos } from "../firebase/uploadVideo.js";
+import { deleteVideo } from "../firebase/deleteVideo.js";
 import {
   RefreshCw,
   Trash2,
@@ -15,6 +16,8 @@ import {
   Filter,
   X,
   Play,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import "../styles/pages/adminvideos.css";
 
@@ -23,20 +26,42 @@ export default function AdminVideos() {
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [selectedVideo, setSelectedVideo] = useState(null); // Modal State
-
+  const [selectedVideo, setSelectedVideo] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
 
+  // Logic for smart arrow visibility
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+  const filterRef = useRef(null);
+
+  const checkScroll = () => {
+    if (filterRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = filterRef.current;
+      setCanScrollLeft(scrollLeft > 5);
+      setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 5);
+    }
+  };
+
   useEffect(() => {
     loadVideos();
-    // Close modal on Escape key
     const handleEsc = (e) => {
       if (e.key === "Escape") setSelectedVideo(null);
     };
     window.addEventListener("keydown", handleEsc);
-    return () => window.removeEventListener("keydown", handleEsc);
+
+    // Add resize listener for scroll buttons
+    window.addEventListener("resize", checkScroll);
+    return () => {
+      window.removeEventListener("keydown", handleEsc);
+      window.removeEventListener("resize", checkScroll);
+    };
   }, []);
+
+  // Re-check scroll buttons whenever videos or categories change
+  useEffect(() => {
+    checkScroll();
+  }, [videos, activeCategory]);
 
   const loadVideos = async () => {
     setLoading(true);
@@ -45,12 +70,22 @@ export default function AdminVideos() {
       const result = await getVideos();
       setVideos(result);
     } catch (err) {
-      console.log(err);
-      setErrorMessage(
-        "Cloud synchronization failed. Please check your connection."
-      );
+      console.log(err)
+      setErrorMessage("Cloud synchronization failed.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const scrollFilters = (direction) => {
+    if (filterRef.current) {
+      const scrollAmount = 200;
+      filterRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
+      // Small timeout to check visibility after scroll animation
+      setTimeout(checkScroll, 350);
     }
   };
 
@@ -75,9 +110,8 @@ export default function AdminVideos() {
     try {
       await deleteVideo(vid.id, vid.platform, vid.resourceId);
       setVideos((prev) => prev.filter((v) => v.id !== vid.id));
-      if (selectedVideo?.id === vid.id) setSelectedVideo(null);
     } catch (err) {
-      console.log(err);
+      console.log(err)
       alert("Asset protection protocol failed.");
     } finally {
       setDeleting(null);
@@ -86,7 +120,6 @@ export default function AdminVideos() {
 
   return (
     <div className="studio-manager-root">
-      {/* --- SUB-HEADER --- */}
       <div className="admin-sub-header">
         <div className="admin-nav-container">
           <div className="admin-brand-group">
@@ -96,7 +129,7 @@ export default function AdminVideos() {
             <div className="admin-brand-text">
               <h1>Studio Assets</h1>
               <p>
-                {filteredVideos.length} / {videos.length} items rendered
+                {filteredVideos.length} / {videos.length} rendered
               </p>
             </div>
           </div>
@@ -124,21 +157,52 @@ export default function AdminVideos() {
       </div>
 
       <main className="admin-workspace">
-        {/* --- FILTERS --- */}
         {!loading && videos.length > 0 && (
-          <div className="admin-filter-strip">
-            <Filter size={14} />
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                className={`admin-chip ${
-                  activeCategory === cat ? "active" : ""
-                }`}
-                onClick={() => setActiveCategory(cat)}
-              >
-                {cat}
-              </button>
-            ))}
+          <div className="admin-filter-container">
+            <button
+              className="filter-nav-btn"
+              onClick={() => scrollFilters("left")}
+              style={{
+                opacity: canScrollLeft ? 1 : 0,
+                visibility: canScrollLeft ? "visible" : "hidden",
+                pointerEvents: canScrollLeft ? "all" : "none",
+              }}
+            >
+              <ChevronLeft size={16} />
+            </button>
+
+            <div
+              className="admin-filter-strip"
+              ref={filterRef}
+              onScroll={checkScroll}
+            >
+              <div className="filter-icon-lock">
+                <Filter size={14} />
+              </div>
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  className={`admin-chip ${
+                    activeCategory === cat ? "active" : ""
+                  }`}
+                  onClick={() => setActiveCategory(cat)}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+
+            <button
+              className="filter-nav-btn"
+              onClick={() => scrollFilters("right")}
+              style={{
+                opacity: canScrollRight ? 1 : 0,
+                visibility: canScrollRight ? "visible" : "hidden",
+                pointerEvents: canScrollRight ? "all" : "none",
+              }}
+            >
+              <ChevronRight size={16} />
+            </button>
           </div>
         )}
 
@@ -148,7 +212,6 @@ export default function AdminVideos() {
           </div>
         )}
 
-        {/* --- GRID --- */}
         {loading ? (
           <div className="admin-loader-container">
             <div className="admin-loader-pulse"></div>
@@ -158,7 +221,6 @@ export default function AdminVideos() {
           <div className="admin-empty-state">
             <HardDrive size={60} strokeWidth={1} />
             <h3>No matches found</h3>
-            <p>Try refining your search or category filter.</p>
           </div>
         ) : (
           <div className="admin-asset-grid">
@@ -221,7 +283,6 @@ export default function AdminVideos() {
         )}
       </main>
 
-      {/* --- VIDEO PLAYER MODAL --- */}
       {selectedVideo && (
         <div
           className="admin-modal-overlay"
@@ -240,7 +301,6 @@ export default function AdminVideos() {
             <div className="admin-video-container">
               <video controls autoPlay className="admin-main-player">
                 <source src={selectedVideo.url} type="video/mp4" />
-                Your browser does not support the video tag.
               </video>
             </div>
             <div className="admin-modal-footer">

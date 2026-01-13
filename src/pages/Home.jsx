@@ -2,12 +2,11 @@
 // src/pages/Home.jsx
 // src/pages/Home.jsx
 // src/pages/Home.jsx
-import { useState, useEffect, useRef, useMemo } from "react";
+import {  useEffect, useRef, useMemo } from "react";
 import Hero from "../components/Hero";
 import WorkGrid from "../components/WorkGrid";
 import TrustedBy from "../components/TrustedBy";
 import Contact from "./Contact";
-import Loader from "../components/Loader.jsx";
 import useImagePreloader from "../hooks/useImagePreloader";
 import "../styles/pages/home.css";
 
@@ -20,49 +19,48 @@ import visualExcellenceImg from "../assets/images/visualExcellence.webp";
 
 const Home = () => {
   const scrollRefs = useRef([]);
-  const [timerDone, setTimerDone] = useState(false);
 
-  // Define critical images to preload before showing the UI
-  const criticalImages = useMemo(() => [
-    theArchiveImg,
-    visualExcellenceImg,
-    editorialImg,
-    motionImg,
-    chromaticImg
-  ], []);
+  // Define critical images for Home
+  const criticalImages = useMemo(
+    () => [
+      theArchiveImg,
+      visualExcellenceImg,
+      editorialImg,
+      motionImg,
+      chromaticImg,
+    ],
+    []
+  );
 
   const imagesLoaded = useImagePreloader(criticalImages);
 
-  // Minimum wait time for the brand animation (Loader)
   useEffect(() => {
-    const timer = setTimeout(() => setTimerDone(true), 1500);
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    // Only run Observer if content is revealed
-    if (!timerDone || !imagesLoaded) return;
+    // Only run Observer if images are ready
+    if (!imagesLoaded) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add("section-visible");
+          if (entry.isIntersecting)
+            entry.target.classList.add("section-visible");
         });
       },
       { threshold: 0.1 }
     );
 
-    scrollRefs.current.forEach((ref) => { if (ref) observer.observe(ref); });
+    scrollRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
     return () => observer.disconnect();
-  }, [timerDone, imagesLoaded]);
-
-  // Show loader until BOTH the timer and image preloading are finished
-  if (!timerDone || !imagesLoaded) return <Loader />;
+  }, [imagesLoaded]);
 
   return (
-    <main className="home-page-unique">
+    <main
+      className={`home-page-unique ${
+        imagesLoaded ? "page-ready" : "page-loading"
+      }`}
+    >
       <Hero />
-
       <TrustedBy />
 
       <section
@@ -78,14 +76,12 @@ const Home = () => {
         </div>
       </section>
 
-      {/* 3. ETHOS: Zebra White (Restructured for Visual Impact) */}
       <section
         className="home-section-unique bg-white"
         ref={(el) => (scrollRefs.current[1] = el)}
       >
         <div className="home-container-unique">
           <div className="ethos-split-grid">
-            {/* Left Side: Large Cinematic Visual */}
             <div className="ethos-visual">
               <div className="visual-image-container">
                 <img src={visualExcellenceImg} alt="BigDay Media Excellence" />
@@ -93,7 +89,6 @@ const Home = () => {
               </div>
             </div>
 
-            {/* Right Side: High-End Typography */}
             <div className="ethos-content">
               <span className="section-tag-elite">Our Ethos</span>
               <h3 className="ethos-display-title">

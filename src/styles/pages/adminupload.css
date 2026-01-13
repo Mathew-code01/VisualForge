@@ -692,6 +692,99 @@
   .upload-tabs { gap: 20px; }
   .elegant-title { font-size: 1.5rem; }
 }
+
+/* Minimalist Error for Category */
+select.error-border {
+  border-bottom: 1px solid #ff4b4b !important;
+  color: #ff4b4b;
+  animation: shake 0.4s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+/* Style for the 'Already in Library' card */
+.preview-card:has(.duplicate-warning-box) {
+  border: 1px solid rgba(255, 75, 75, 0.2);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+/* duplicate styling */
+
+
+.duplicate-warning-box {
+  background: rgba(255, 152, 0, 0.1);
+  border: 1px solid rgba(255, 152, 0, 0.3);
+  color: #ff9800;
+  padding: 8px 12px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Make the card highlight if it's a duplicate */
+.preview-card.has-warning {
+  border-color: rgba(255, 152, 0, 0.5);
+}
+
+/* Professional Duplicate Banner */
+.duplicate-alert-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 24px;
+  background: rgba(255, 75, 75, 0.05); /* Subtle professional red */
+  border-left: 3px solid #ff4b4b;
+  margin: 20px auto;
+  max-width: 1200px;
+  border-radius: 4px;
+  backdrop-filter: blur(10px);
+  animation: slideIn 0.3s ease-out;
+}
+
+.alert-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.alert-icon {
+  color: #ff4b4b;
+  font-size: 1.1rem;
+}
+
+.alert-text {
+  color: #1a1a1a;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  font-weight: 500;
+}
+
+.alert-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+
+.alert-close:hover {
+  opacity: 1;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 /* ============================================================
    RECOVERY VIEW: ELITE TONAL SYNCHRONIZATION
    STYLE: ULTRA-MINIMALIST AGENCY (ZEBRA ADAPTIVE)

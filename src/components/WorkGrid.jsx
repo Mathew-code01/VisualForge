@@ -2,7 +2,8 @@
 // src/components/WorkGrid.jsx
 // src/components/WorkGrid.jsx
 // src/components/WorkGrid.jsx
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import WorkCard from "./WorkCard";
 import { getVideos } from "../firebase/uploadVideo.js";
 import "../styles/components/workgrid.css";
@@ -15,14 +16,15 @@ const GridSkeleton = () => (
   </div>
 );
 
-const WorkGrid = ({
-  title, // Removed default to let parent (Work.jsx) handle it via section-labels
-  featured = false,
-  enableHoverPreview = true,
-}) => {
+const WorkGrid = ({ title, featured = false, enableHoverPreview = true }) => {
   const [allWorks, setAllWorks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("All");
+
+  // Navigation State
+  const scrollRef = useRef(null);
+  const [showLeftArrow, setShowLeftArrow] = useState(false);
+  const [showRightArrow, setShowRightArrow] = useState(false);
 
   useEffect(() => {
     const fetchVideos = async () => {
@@ -38,6 +40,35 @@ const WorkGrid = ({
     fetchVideos();
   }, []);
 
+  // Handle Scroll Visibility Logic
+  const checkScroll = () => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      setShowLeftArrow(scrollLeft > 10);
+      setShowRightArrow(scrollLeft < scrollWidth - clientWidth - 10);
+
+      // Toggle a class for centering logic
+      if (scrollWidth > clientWidth) {
+        scrollRef.current.classList.add("is-overflowing");
+      } else {
+        scrollRef.current.classList.remove("is-overflowing");
+      }
+    }
+  };
+
+  useEffect(() => {
+    checkScroll();
+    window.addEventListener("resize", checkScroll);
+    return () => window.removeEventListener("resize", checkScroll);
+  }, [allWorks]);
+
+  const scroll = (direction) => {
+    if (scrollRef.current) {
+      const offset = direction === "left" ? -200 : 200;
+      scrollRef.current.scrollBy({ left: offset, behavior: "smooth" });
+    }
+  };
+
   const categories = useMemo(
     () => ["All", ...new Set(allWorks.map((w) => w.category))].filter(Boolean),
     [allWorks]
@@ -48,10 +79,7 @@ const WorkGrid = ({
       activeCategory === "All"
         ? allWorks
         : allWorks.filter((w) => w.category === activeCategory);
-
-    // Sort by year descending (newest first)
     works = [...works].sort((a, b) => (b.year || 0) - (a.year || 0));
-
     return featured ? works.slice(0, 6) : works;
   }, [allWorks, activeCategory, featured]);
 
@@ -62,28 +90,51 @@ const WorkGrid = ({
 
         {!featured && categories.length > 1 && (
           <div className="filter-system">
-            <span className="filter-label">Filter By:</span>
-            <div className="filter-pills">
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  className={`filter-pill ${
-                    activeCategory === cat ? "active" : ""
-                  }`}
-                  onClick={() => setActiveCategory(cat)}
-                >
-                  {cat}
-                  <span className="count">
-                    (
-                    {
-                      allWorks.filter(
-                        (w) => cat === "All" || w.category === cat
-                      ).length
-                    }
-                    )
-                  </span>
-                </button>
-              ))}
+            <span className="filter-label">Filter By</span>
+
+            <div className="filter-wrapper">
+              <button
+                className={`filter-nav-btn prev-btn ${
+                  showLeftArrow ? "visible" : ""
+                }`}
+                onClick={() => scroll("left")}
+              >
+                <FiChevronLeft />
+              </button>
+
+              <div
+                className="filter-pills"
+                ref={scrollRef}
+                onScroll={checkScroll}
+              >
+                {categories.map((cat) => {
+                  const count = allWorks.filter(
+                    (w) => cat === "All" || w.category === cat
+                  ).length;
+
+                  return (
+                    <button
+                      key={cat}
+                      className={`filter-pill ${
+                        activeCategory === cat ? "active" : ""
+                      }`}
+                      onClick={() => setActiveCategory(cat)}
+                    >
+                      {cat}
+                      <span className="cat-count">[{count}]</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <button
+                className={`filter-nav-btn next-btn ${
+                  showRightArrow ? "visible" : ""
+                }`}
+                onClick={() => scroll("right")}
+              >
+                <FiChevronRight />
+              </button>
             </div>
           </div>
         )}

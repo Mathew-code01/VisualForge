@@ -24,12 +24,16 @@ import {
   FiUploadCloud,
 } from "react-icons/fi";
 // Add 'linkExistingPublitioVideo' to your existing imports from uploadVideo.js
-import uploadVideo, { saveMetadataOnly, linkExistingPublitioVideo } from "../firebase/uploadVideo.js";
+import uploadVideo, {
+  getVideos ,saveMetadataOnly,
+  linkExistingPublitioVideo,
+} from "../firebase/uploadVideo.js";
 import useStorageUsage from "../firebase/useStorageUsage";
 import videoPlaceholder from "../assets/images/video-placeholder.webp";
 import AdminVideos from "./AdminVideos";
 import { extractMetadata, generateThumbnail } from "../utils/processVideo";
 import "../styles/pages/adminupload.css";
+
 
 const CATEGORIES = [
   "Wedding",
@@ -131,12 +135,14 @@ const VideoItem = memo(
 
           <div className="field-row">
             <select
+              className={!vid.category && uploading ? "error-border" : ""} // Highlight if empty during upload attempt
               value={vid.category}
               onChange={(e) =>
                 updateItemStatus(vid.preview, { category: e.target.value })
               }
             >
-              <option value="">category</option>
+              <option value="">category required</option>
+              {/* changed text to 'required' for professional clarity */}
               {CATEGORIES.map((c) => (
                 <option key={c} value={c}>
                   {c.toLowerCase()}
@@ -164,6 +170,13 @@ const VideoItem = memo(
               )}
             </button>
           </div>
+
+          {vid.warning && (
+            <div className="duplicate-warning-box">
+              <FiAlertCircle size={12} />
+              <span>{vid.warning}. Upload anyway?</span>
+            </div>
+          )}
 
           <div className="status-container">
             {vid.status === "success" ? (
@@ -213,13 +226,14 @@ const VideoItem = memo(
 ===================================================================== */
 export default function AdminUpload() {
   const [videos, setVideos] = useState([]);
+  const [existingLibrary, setExistingLibrary] = useState([]); // <--- Add this
+  const [duplicateWarning, setDuplicateWarning] = useState(null); // <--- Add this for the UI message
   const [uploading, setUploading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
   const [clipboard, setClipboard] = useState("");
   const [multiSelectMode, setMultiSelectMode] = useState(false);
   const [activeTab, setActiveTab] = useState("upload");
   const [recoveryId, setRecoveryId] = useState("");
-
 
   const inputRef = useRef(null);
 
@@ -230,7 +244,7 @@ export default function AdminUpload() {
     error: usageError,
     refetch,
   } = useStorageUsage();
-  
+
   if (usageError) console.error("Storage Fetch Error:", usageError);
 
   // --- Derived State ---
@@ -256,6 +270,15 @@ export default function AdminUpload() {
     setVideos((prev) => prev.map((v) => ({ ...v, selected: targetState })));
   }, [isAllSelected]);
 
+  // Fetch the library on mount so we have data to compare against
+  useEffect(() => {
+    const fetchLibrary = async () => {
+      const data = await getVideos();
+      setExistingLibrary(data);
+    };
+    fetchLibrary();
+  }, []);
+
   // Clean up object URLs
   useEffect(() => {
     return () =>
@@ -276,8 +299,34 @@ export default function AdminUpload() {
       ["video/mp4", "video/webm", "video/quicktime"].includes(f.type)
     );
 
+    let duplicatesFound = 0;
+    let alreadyInQueue = 0;
+
     for (const file of list) {
+      const fileName = file.name.replace(/\.[^/.]+$/, "");
+
+      // 1. Check if already in the current UI Queue (prevent adding twice)
+      const inQueue = videos.some(
+        (v) => v.title.toLowerCase() === fileName.toLowerCase()
+      );
+      if (inQueue) {
+        alreadyInQueue++;
+        continue; // Skip this file
+      }
+
+      // 2. Check if already exists in Database Library
+      const inLibrary = existingLibrary.find(
+        (vid) => vid.title.toLowerCase() === fileName.toLowerCase()
+      );
+
+      if (inLibrary) {
+        duplicatesFound++;
+        // We don't 'continue' here so the admin can still see it
+        // with a warning, OR you can 'continue' to block it entirely.
+      }
+
       const preview = URL.createObjectURL(file);
+
       try {
         const [thumb, meta] = await Promise.all([
           generateThumbnail(file).catch(() => videoPlaceholder),
@@ -287,12 +336,20 @@ export default function AdminUpload() {
           })),
         ]);
 
+        // If duration is exactly the same, it's a hard duplicate
+        const durationMatch = existingLibrary.some(
+          (v) => v.duration === meta.duration && v.duration !== 0
+        );
+        if (durationMatch) {
+          duplicatesFound++;
+        }
+
         setVideos((prev) => [
           ...prev,
           {
             file,
             preview,
-            title: file.name.replace(/\.[^/.]+$/, ""),
+            title: fileName,
             category: "",
             duration: meta.duration || 0,
             resolution: meta.resolution || "N/A",
@@ -301,26 +358,76 @@ export default function AdminUpload() {
             selected: false,
             status: "pending",
             error: null,
+            warning:
+              inLibrary || durationMatch ? "Already exists in library" : null,
           },
         ]);
       } catch (err) {
         console.error("Process error:", err);
       }
     }
+
+    // Professional Feedback
+    if (alreadyInQueue > 0) {
+      setDuplicateWarning(
+        `${alreadyInQueue} file(s) are already in your upload queue.`
+      );
+    } else if (duplicatesFound > 0) {
+      setDuplicateWarning(
+        `${duplicatesFound} file(s) detected in library. Review warnings before sync.`
+      );
+    }
   };
 
   const handleUpload = async () => {
     const queue = isAnySelected ? selectedVideos : videos;
+
+    // 1. HARD GUARD: Check for missing categories
+    const missingCategory = queue.some((v) => !v.category || v.category === "");
+    if (missingCategory) {
+      setDuplicateWarning(
+        "Action Required: Please assign a category to all videos before syncing."
+      );
+      return;
+    }
+
+    // 2. ADVANCED DUPLICATE GUARD: Check Category + (Title OR Metadata)
+    // This catches duplicates even if the admin renames the file.
+    const duplicateInLibrary = queue.find((v) =>
+      existingLibrary.some(
+        (lib) =>
+          lib.category.toLowerCase() === v.category.toLowerCase() &&
+          // Check if Title matches
+          (lib.title.toLowerCase() === v.title.toLowerCase() ||
+            // OR check if physical properties match (Duration & Resolution)
+            (lib.duration === v.duration &&
+              lib.resolution === v.resolution &&
+              v.duration > 0))
+      )
+    );
+
+    if (duplicateInLibrary) {
+      setDuplicateWarning(
+        `Duplicate Detected: An identical asset already exists in the ${duplicateInLibrary.category} category.`
+      );
+      updateItemStatus(duplicateInLibrary.preview, {
+        error: "Duplicate Asset",
+      });
+      return;
+    }
+
     if (!queue.length) return;
     setUploading(true);
 
     for (const vid of queue) {
       if (vid.status === "success") continue;
+
       updateItemStatus(vid.preview, {
         status: "uploading",
         error: null,
         progress: 0,
       });
+
       try {
         const result = await uploadVideo(
           vid.file,
@@ -340,8 +447,14 @@ export default function AdminUpload() {
             thumbnail: vid.thumbnail,
           }
         );
-        if (result.metadataSaved)
+
+        if (result.metadataSaved) {
           updateItemStatus(vid.preview, { ...result, status: "success" });
+
+          // Update local library so the guard catches immediate re-uploads
+          const updatedData = await getVideos();
+          setExistingLibrary(updatedData);
+        }
       } catch (err) {
         updateItemStatus(vid.preview, {
           status: "file_fail",
@@ -476,6 +589,22 @@ export default function AdminUpload() {
                 </button>
               </div>
             </header>
+
+            {/* PROFESSIONAL DUPLICATE ALERT BANNER */}
+            {duplicateWarning && (
+              <div className="duplicate-alert-banner">
+                <div className="alert-content">
+                  <FiAlertCircle className="alert-icon" />
+                  <span className="alert-text">{duplicateWarning}</span>
+                </div>
+                <button
+                  className="alert-close"
+                  onClick={() => setDuplicateWarning(null)}
+                >
+                  <FiX />
+                </button>
+              </div>
+            )}
 
             <div
               className={`drop-area ${dragActive ? "drag-active" : ""}`}

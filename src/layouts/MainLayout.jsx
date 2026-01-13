@@ -1,7 +1,9 @@
 // src/layouts/MainLayout.jsx
 // src/layouts/MainLayout.jsx
 // src/layouts/MainLayout.jsx
-import { Outlet, useNavigation } from "react-router-dom";
+// src/layouts/MainLayout.jsx
+// src/layouts/MainLayout.jsx
+import { Outlet, useLocation } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Loader from "../components/Loader";
@@ -9,35 +11,32 @@ import ScrollToTop from "../components/ScrollToTop";
 import { useEffect, useState } from "react";
 
 const MainLayout = () => {
-  const routerState = useNavigation();
   const [introDone, setIntroDone] = useState(false);
+  const location = useLocation();
 
-  // Intro Loader — plays once per session
   useEffect(() => {
     const alreadySeen = sessionStorage.getItem("vf-intro");
-
     if (alreadySeen) {
       setIntroDone(true);
-      return;
     }
-
-    setTimeout(() => {
-      setIntroDone(true);
-      sessionStorage.setItem("vf-intro", "1");
-    }, 2600); // length of intro animation
   }, []);
 
-  // Route-based loading
-  const isRouteLoading = routerState.state === "loading";
+  const handleLoadingFinished = () => {
+    setIntroDone(true);
+    sessionStorage.setItem("vf-intro", "1");
+  };
 
   return (
     <>
-      {!introDone && <Loader mode="intro" />}
-      {introDone && isRouteLoading && <Loader mode="regular" />}
+      {/* This loader waits for the initial site load + video background */}
+      {!introDone && (
+        <Loader onLoadingComplete={handleLoadingFinished} />
+      )}
 
-      <ScrollToTop/>
+      <ScrollToTop />
       <Header />
-      <main>
+      {/* We add a key to main to trigger re-renders on route change if needed */}
+      <main key={location.pathname}>
         <Outlet />
       </main>
       <Footer />
@@ -46,4 +45,3 @@ const MainLayout = () => {
 };
 
 export default MainLayout;
-
