@@ -5,28 +5,31 @@
 /* src/styles/pages/work.css */
 /* src/styles/pages/work.css */
 /* ============================================================
-   BIGDAY MEDIA - ELITE WORK REFACTOR (SYNCHRONIZED)
+   BIGDAY MEDIA - ELITE WORK REFACTOR (SYNCHRONIZED & RESPONSIVE)
    ============================================================ */
 
 :root {
+  /* Fluid Rhythm: Identical vertical spacing for Zebra layout */
   --fluid-gap-lg: clamp(100px, 15vh, 180px); 
-  --fluid-gap-md: clamp(48px, 8vh, 80px);
-  --side-padding: clamp(24px, 10vw, 160px); 
+  --fluid-gap-md: clamp(60px, 8vh, 100px);
+  /* Side padding: Reduced for mobile, generous for desktop */
+  --side-padding: clamp(24px, 8vw, 140px); 
   --agency-easing: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* --- THE HERO ANCHOR --- */
+/* --- THE HERO ANCHOR (Anti-Squeeze) --- */
 .work-hero-elite {
   position: relative;
-  height: 85vh;
-  min-height: 700px;
+  /* Switched from fixed height to min-height to prevent text squeezing */
+  min-height: clamp(650px, 90vh, 1100px);
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   background-color: #050505;
   overflow: hidden;
-  padding: 0 var(--side-padding);
+  padding: var(--fluid-gap-md) var(--side-padding);
 }
 
 .hero-image-bg {
@@ -36,28 +39,27 @@
   height: 100%;
   object-fit: cover;
   z-index: 0;
-  opacity: 0.4;
-  filter: grayscale(40%) brightness(0.7) contrast(1.1);
+  opacity: 0.35;
+  filter: grayscale(30%) brightness(0.6) contrast(1.1);
 }
 
 .hero-blur-bg {
   position: absolute;
   inset: 0;
   background: 
-    radial-gradient(circle at 20% 20%, rgba(43, 117, 255, 0.12) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(8, 1, 92, 0.4) 0%, transparent 50%);
-  filter: blur(100px);
+    radial-gradient(circle at 50% 50%, rgba(43, 117, 255, 0.1) 0%, transparent 70%),
+    linear-gradient(to bottom, transparent 50%, #050505 100%);
   z-index: 1;
 }
 
 .work-hero-content {
   position: relative;
   z-index: 5;
-  max-width: 900px;
+  width: 100%;
+  max-width: 1000px;
 }
 
-/* ... (Hero Typography: hero-tag, hero-display-title, hero-summary stay as previously defined) ... */
-
+/* --- HERO TYPOGRAPHY --- */
 .hero-tag {
   display: block;
   font-size: 0.65rem;
@@ -69,9 +71,9 @@
 }
 
 .hero-display-title {
-  font-size: clamp(2.4rem, 6vw, 3.8rem);
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
   font-weight: 900;
-  line-height: 1.1;
+  line-height: 1.05;
   letter-spacing: -0.04em;
   color: #ffffff;
   margin-bottom: 30px;
@@ -83,53 +85,56 @@
 }
 
 .hero-summary {
-  font-size: 1rem;
+  font-size: clamp(1rem, 1.1vw, 1.2rem);
   color: rgba(255, 255, 255, 0.7);
-  max-width: 540px;
+  max-width: 580px;
   margin: 0 auto;
   line-height: 1.8;
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: 0.02em;
 }
 
-/* --- ZEBRA SYSTEM: SYNCHRONIZED WITH HOME --- */
+.scroll-hint-btn {
+  margin-top: 40px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 18px 36px;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.4s var(--agency-easing);
+}
+
+.scroll-hint-btn:hover {
+  background: #ffffff;
+  color: #000000;
+  transform: translateY(-5px);
+}
+
+/* --- ZEBRA SYSTEM (Strict Vertical Rhythm) --- */
+.work-section-white, 
+.work-section-dark, 
+.work-final-cta {
+  width: 100%;
+  padding: var(--fluid-gap-lg) 0 !important;
+  position: relative;
+}
+
 .work-section-white { 
   background-color: #ffffff !important; 
   color: var(--color-primary-dark); 
 }
 
 .work-section-dark { 
-  /* Using exact brand variable for consistent Zebra layout */
   background-color: var(--color-primary-dark) !important; 
   color: #ffffff; 
-  position: relative;
   overflow: hidden;
-}
-
-.work-section-white, .work-section-dark, .work-final-cta {
-  width: 100%;
-  padding: var(--fluid-gap-lg) 0 !important;
-  position: relative;
-}
-
-/* SHARPENING THE DARK SECTION TEXT */
-.work-section-dark .title-md {
-  color: #ffffff !important;
-  font-weight: 900;
-  letter-spacing: -0.04em;
-  text-transform: uppercase; /* Match Home Page headings */
-}
-
-.work-section-dark .header-context {
-  color: rgba(255, 255, 255, 0.8) !important; /* Increased visibility from 0.6 */
-  max-width: 500px;
-  font-weight: 400;
-}
-
-.work-section-dark .section-tag-elite {
-  color: var(--color-secondary-bright);
-  font-weight: 800;
-  letter-spacing: 0.6em; /* Synchronized with Hero/Home tag spacing */
 }
 
 .section-inner {
@@ -143,49 +148,61 @@
 /* --- FILTER PILL VISIBILITY --- */
 .filter-container {
   display: flex;
+  flex-wrap: wrap;
   gap: 40px;
-  margin-bottom: 50px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding-bottom: 20px;
+  margin-bottom: 60px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding-bottom: 25px;
+}
+
+.work-section-dark .filter-container {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
 }
 
 .filter-pill {
   font-size: 0.75rem;
   font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.2em;
   cursor: pointer;
   opacity: 0.5;
+  color: inherit;
   transition: all 0.3s var(--agency-easing);
 }
 
-.work-section-white .filter-pill { color: var(--color-primary-dark) !important; }
-.work-section-dark .filter-pill { color: #ffffff !important; }
-
-.filter-pill:hover, .filter-pill.active {
+.filter-pill:hover, 
+.filter-pill.active {
   opacity: 1;
   color: var(--color-secondary-bright) !important;
 }
 
 /* --- CARDS & HOVER (SOPHISTICATED UI/UX) --- */
+/* Target the images inside the grid specifically */
 .work-card-elite {
   position: relative;
   overflow: hidden;
   aspect-ratio: 16 / 10;
   background: #000;
+  cursor: pointer;
 }
 
-.work-card-image {
+/* Ensure images and potential videos react to hover */
+.work-card-image, 
+.work-card-elite video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   opacity: 0.7;
   filter: grayscale(100%);
-  transition: transform 1.2s var(--agency-easing), filter 0.8s, opacity 0.8s;
+  transition: transform 1.2s var(--agency-easing), 
+              filter 0.8s var(--agency-easing), 
+              opacity 0.8s var(--agency-easing);
 }
 
-.work-card-elite:hover .work-card-image {
-  transform: scale(1.05);
+/* The Hover Trigger */
+.work-card-elite:hover .work-card-image,
+.work-card-elite:hover video {
+  transform: scale(1.06);
   opacity: 1;
   filter: grayscale(0%);
 }
@@ -194,17 +211,6 @@
 .work-final-cta {
   text-align: center;
   background-color: #ffffff;
-  overflow: hidden;
-}
-
-.cta-watermark {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 18vw;
-  font-weight: 900;
-  color: rgba(8, 1, 92, 0.02);
-  pointer-events: none;
 }
 
 .cta-headline {
@@ -236,4 +242,28 @@
 .elite-contact-btn:hover {
   background: var(--color-secondary-bright);
   transform: translateY(-5px);
+}
+
+/* --- MOBILE REFINEMENTS --- */
+@media (max-width: 768px) {
+  .work-hero-elite {
+    min-height: 80vh;
+    padding-top: 100px;
+  }
+  .hero-display-title { font-size: 2.6rem; }
+  .filter-container { gap: 20px; justify-content: center; }
+}
+
+.cta-watermark {
+      position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 25vw;
+    font-weight: 900;
+    color: rgba(8, 1, 92, 0.03);
+    z-index: 1;
+    pointer-events: none;
+    user-select: none;
+    padding: 0px 20px;
 }

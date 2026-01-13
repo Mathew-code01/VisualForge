@@ -15,7 +15,7 @@ function Footer() {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   // Your professional WhatsApp link for Mathere
-  const developerWhatsapp = "https://wa.me/2349065692168?text=Hello%20Mathere,%20I%20saw%20your%20work%20on%20BigDay%20Studio%20and%20would%20like%20to%20discuss%20a%20project.";
+  const developerWhatsapp = "https://wa.me/2349065692168?text=Hello%20Mathew,%20I%20saw%20your%20work%20on%20BigDay%20Studio%20and%20would%20like%20to%20discuss%20a%20project.";
 
   return (
     <footer className="vf-footer">
