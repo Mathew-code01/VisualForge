@@ -63,7 +63,7 @@ const Work = () => {
         <div className="section-inner">
           <header className="elite-header">
             <span className="section-tag-elite">Repository</span>
-            <h2 className="title-md">Motion Directory</h2>
+            <h2 className="title-md-2">Motion Directory</h2>
           </header>
           <WorkGrid featured={false} />
         </div>

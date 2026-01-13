@@ -267,3 +267,8 @@
     user-select: none;
     padding: 0px 20px;
 }
+
+.title-md-2 {
+  
+  color: rgb(255, 255, 255) !important;
+}
