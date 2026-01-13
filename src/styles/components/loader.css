@@ -1,29 +1,30 @@
 /* src/styles/components/loader.css */
 /* src/styles/components/loader.css */
 /* src/styles/components/loader.css */
-/* ============================================
-   BIGDAY MEDIA - PROFESSIONAL STUDIO LOADER
-   Focus: Minimalist Technical Data
-   ============================================ */
+/* src/styles/components/loader.css */
 
+/* src/styles/components/loader.css */
+
+/* THE LOCK: Critical that we don't use position: fixed here */
 body.loader-active-lock {
   overflow: hidden !important;
   height: 100vh !important;
-  position: fixed;
-  width: 100%;
+  width: 100% !important;
+  touch-action: none;
 }
 
 .loader-agency-elite {
   position: fixed;
   inset: 0;
-  z-index: 99999;
+  z-index: 999999;
   background: #050505;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
-  font-family: 'Inter', 'SF Mono', monospace; /* Professional tech font */
+  font-family: 'Inter', sans-serif;
   overflow: hidden;
+  pointer-events: all;
 }
 
 /* Background Logic */
@@ -37,17 +38,21 @@ body.loader-active-lock {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(0.3) saturate(0); /* High-end Grayscale start */
+  filter: brightness(0.25) saturate(0);
+  transition: opacity 1s ease;
 }
+
+.loader-video-asset.hidden { opacity: 0; }
+.loader-video-asset.visible { opacity: 1; }
 
 .loader-vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, transparent 20%, rgba(0,0,0,0.85) 100%);
+  background: radial-gradient(circle at center, transparent 20%, #000 100%);
   z-index: 2;
 }
 
-/* Content Layout */
+/* UI Content */
 .loader-content-wrap {
   position: relative;
   z-index: 10;
@@ -59,9 +64,7 @@ body.loader-active-lock {
   padding: 50px;
 }
 
-/* Header/Footer UI */
-.loader-ui-top, 
-.loader-ui-bottom {
+.loader-ui-top, .loader-ui-bottom {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -69,25 +72,17 @@ body.loader-active-lock {
 
 .label {
   font-size: 9px;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.25em;
   color: rgba(255,255,255,0.4);
   text-transform: uppercase;
   margin-bottom: 8px;
   display: block;
 }
 
-.value {
-  font-size: 11px;
-  font-weight: 400;
-  letter-spacing: 0.05em;
-  opacity: 0.8;
-}
-
 .value-bold {
   font-size: 12px;
   font-weight: 900;
   letter-spacing: 0.1em;
-  color: #fff;
 }
 
 .value-status {
@@ -96,28 +91,24 @@ body.loader-active-lock {
   letter-spacing: 0.2em;
 }
 
-/* REC Dot */
+/* Status Indicator */
 .status-wrap { display: flex; align-items: center; gap: 10px; }
-.rec-dot {
-  width: 8px;
-  height: 8px;
-  background: #ff0000;
-  border-radius: 50%;
-}
+.rec-dot { width: 8px; height: 8px; background: #ff0000; border-radius: 50%; }
 .rec-dot.active { animation: pulse-red 1s infinite; }
 
-/* Hero Section */
+/* Hero Branding */
 .loader-hero {
   max-width: 600px;
   width: 100%;
   margin: 0 auto;
+  text-align: center;
 }
 
 .main-logo {
   font-size: 40px;
   font-weight: 900;
   letter-spacing: 0.3em;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .tagline {
@@ -128,66 +119,37 @@ body.loader-active-lock {
   margin-bottom: 60px;
 }
 
-/* Technical Progress Bar */
-.progress-system {
-    width: 100%;
-}
-
+/* Progress System */
 .progress-track {
-    width: 100%;
-    height: 2px;
-    background: rgba(255,255,255,0.05);
-    margin-bottom: 10px;
+  width: 100%;
+  height: 2px;
+  background: rgba(255,255,255,0.08);
+  margin-bottom: 12px;
 }
 
 .progress-bar {
-    height: 100%;
-    background: #fff;
-    transition: width 0.1s linear;
+  height: 100%;
+  background: #fff;
+  transition: width 0.2s ease-out;
 }
 
 .progress-data {
-    display: flex;
-    justify-content: space-between;
-    font-size: 10px;
-    font-family: monospace;
-    color: rgba(255,255,255,0.5);
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  font-family: monospace;
+  color: rgba(255,255,255,0.5);
 }
 
-/* Exit Animation */
+/* EXIT ANIMATION */
 .loader-agency-elite.exit-active {
-  transform: translateY(-100%); /* High-end curtain lift */
+  transform: translateY(-100%);
   transition: transform 0.8s cubic-bezier(0.85, 0, 0.15, 1);
 }
 
-@keyframes pulse-red {
-  0% { opacity: 1; }
-  50% { opacity: 0.3; }
-  100% { opacity: 1; }
-}
+@keyframes pulse-red { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-/* Mobile Adjustments */
 @media (max-width: 768px) {
   .loader-content-wrap { padding: 30px; }
-  .hide-mobile { display: none; }
   .main-logo { font-size: 24px; }
-  .tagline { font-size: 8px; letter-spacing: 0.2em; }
-}
-
-/* Add to src/styles/components/loader.css */
-
-.loader-video-asset {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: brightness(0.3) saturate(0);
-  transition: opacity 1s ease; /* Smooth fade in for video */
-}
-
-.loader-video-asset.hidden {
-  opacity: 0;
-}
-
-.loader-video-asset.visible {
-  opacity: 1;
 }

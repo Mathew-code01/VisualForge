@@ -18,6 +18,9 @@ const MainLayout = () => {
     const alreadySeen = sessionStorage.getItem("vf-intro");
     if (alreadySeen) {
       setIntroDone(true);
+      // Safety: Strip lock if returning to site
+      document.body.classList.remove("loader-active-lock");
+      document.body.style.overflow = "visible";
     }
   }, []);
 
@@ -27,20 +30,16 @@ const MainLayout = () => {
   };
 
   return (
-    <>
-      {/* This loader waits for the initial site load + video background */}
-      {!introDone && (
-        <Loader onLoadingComplete={handleLoadingFinished} />
-      )}
+    <div className="page-wrapper">
+      {!introDone && <Loader onLoadingComplete={handleLoadingFinished} />}
 
       <ScrollToTop />
       <Header />
-      {/* We add a key to main to trigger re-renders on route change if needed */}
       <main key={location.pathname}>
         <Outlet />
       </main>
       <Footer />
-    </>
+    </div>
   );
 };
 
