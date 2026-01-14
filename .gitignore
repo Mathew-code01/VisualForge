@@ -32,3 +32,14 @@ server/.env
 
 # ========== Others ==========
 *.local
+
+
+# ========== Environment & Secrets ==========
+.env
+server/.env
+*.json
+!package.json
+!package-lock.json
+# Specifically block the service account file
+server/serviceAccount.json
+serviceAccount.json

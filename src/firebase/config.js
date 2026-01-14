@@ -1,8 +1,9 @@
 // src/firebase/config.js
 // src/firebase/config.js
 // src/firebase/config.js
+// src/firebase/config.js
 import { initializeApp } from "firebase/app";
-// ✅ Import initializeFirestore instead of getFirestore
+import { getAuth } from "firebase/auth"; // <--- ADD THIS
 import { initializeFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
@@ -17,7 +18,9 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-// ✅ FORCE STABLE CONNECTION: This stops the ERR_CONNECTION_CLOSED error
+// ✅ EXPORT AUTH SO THE LOGIN PAGE CAN USE IT
+export const auth = getAuth(app); 
+
 export const db = initializeFirestore(app, {
   experimentalForceLongPolling: true,
   useFetchStreams: false,

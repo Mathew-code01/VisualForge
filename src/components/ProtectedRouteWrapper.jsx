@@ -4,19 +4,10 @@ import { useAuth } from "../context/useAuth";
 import ProtectedRoute from "./ProtectedRoute";
 
 export default function ProtectedRouteWrapper({ children }) {
-  const { isAdmin } = useAuth();
+  const { isAdmin, loading } = useAuth(); // Assuming your context has a loading state
 
-  // ================================================
-  // ⚠️ DEV BYPASS — REMOVE IN PRODUCTION
-  // If the URL contains ?dev=1 OR localStorage flag,
-  // treat user as admin even without Firebase.
-  // ================================================
-  const devBypass =
-    window.location.search.includes("dev=1") ||
-    localStorage.getItem("dev-admin") === "true";
+  if (loading) return null; // Or a high-end spinner/loader
 
-  if (devBypass) return children;
-  // ================================================
-
+  // 🔒 PRODUCTION READY: No more devBypass
   return <ProtectedRoute isAdmin={isAdmin}>{children}</ProtectedRoute>;
 }

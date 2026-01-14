@@ -2,15 +2,9 @@
 // src/pages/AdminLogin.jsx
 // src/pages/AdminLogin.jsx
 import { useState, useEffect } from "react";
-import {
-  Eye,
-  EyeOff,
-  UserCheck,
-  ShieldAlert,
-  Lock,
-  ArrowLeft,
-  ArrowRight,
-} from "lucide-react";
+import { auth } from "../firebase/config"; // ✅ Corrected Path
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { Eye, EyeOff, ShieldAlert, ArrowLeft, ArrowRight } from "lucide-react";
 import "../styles/pages/adminlogin.css";
 
 export default function AdminLogin() {
@@ -42,28 +36,17 @@ export default function AdminLogin() {
     setError("");
     setLoading(true);
 
-    // Simulated/Development Logic
-    if (password.toLowerCase() === "admin") {
-      localStorage.setItem("dev-admin", "true");
-      window.location.href = "/admin-upload?dev=1";
-      return;
-    }
-
     try {
-      // Logic for Firebase would go here
-      const res = await window.firebaseSignIn(
-        window.firebaseAuth,
-        email,
-        password
-      );
-
-      const token = await res.user.getIdTokenResult();
+      const res = await signInWithEmailAndPassword(auth, email, password);
+      const token = await res.user.getIdTokenResult(true);
 
       if (!token.claims.admin) {
-        setError("ACCESS DENIED — Unauthorized Account.");
+        setError("ACCESS_DENIED: UNAUTHORIZED_ACCOUNT");
+        await auth.signOut();
         setLoading(false);
         return;
       }
+
       window.location.href = "/admin-upload";
     } catch (err) {
       console.log(err)

@@ -1,16 +1,24 @@
 // server/setAdmin.js
+import admin from "firebase-admin";
+import { createRequire } from "module";
 
-const admin = require("firebase-admin");
-
+const require = createRequire(import.meta.url);
 const serviceAccount = require("./serviceAccount.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
 
+const uid = "0ba7bcxN0fVlQZwH2blHmbikb103";
+
 admin
   .auth()
-  .setCustomUserClaims("USER_UID_HERE", { admin: true })
+  .setCustomUserClaims(uid, { admin: true })
   .then(() => {
-    console.log("Admin role added!");
+    console.log(`SUCCESS: Admin role added to UID: ${uid}`);
+    process.exit();
+  })
+  .catch((error) => {
+    console.error("ERROR setting admin claim:", error);
+    process.exit(1);
   });
