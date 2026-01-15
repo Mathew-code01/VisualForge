@@ -297,30 +297,40 @@ export default function AdminVideos() {
             className="admin-modal-content"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Elegant Close Button */}
             <button
               className="admin-modal-close"
               onClick={() => setSelectedVideo(null)}
             >
-              <X size={24} />
+              <X size={20} strokeWidth={1.5} />
             </button>
+
             <div className="admin-video-container">
               <video controls autoPlay className="admin-main-player">
                 <source src={selectedVideo.url} type="video/mp4" />
               </video>
             </div>
+
+            {/* Footer follows the Deep Dark / Glassmorphism requirement */}
             <div className="admin-modal-footer">
               <div className="modal-footer-info">
-                <h3>{selectedVideo.title}</h3>
-                <p className="modal-meta">
-                  {selectedVideo.category} • {selectedVideo.platform} •{" "}
-                  {selectedVideo.size}MB
-                </p>
-                {/* ADD THE FULL DESCRIPTION HERE */}
+                <span className="modal-category-label">
+                  {selectedVideo.category || "General"}
+                </span>
+
+                <h3 className="modal-title-elegant">{selectedVideo.title}</h3>
+
                 <div className="modal-description-full">
                   <p>
                     {selectedVideo.description ||
-                      "Visual narrative currently in development."}
+                      "Visual narrative built for impact."}
                   </p>
+                </div>
+
+                <div className="modal-meta-pills">
+                  <div className="meta-pill-item">{selectedVideo.platform}</div>
+                  <span className="separator">•</span>
+                  <div className="meta-pill-item">{selectedVideo.size} MB</div>
                 </div>
               </div>
             </div>
