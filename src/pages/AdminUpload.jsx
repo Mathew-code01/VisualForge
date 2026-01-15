@@ -39,18 +39,18 @@ import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom"; // To redirect after logout
 
 const CATEGORIES = [
-  "Wedding",
+  "Video Editing",
   "Corporate",
   "Commercial",
-  "Cinematic",
-  "Travel",
-  "Event",
-  "Music Video",
-  "Documentary",
+  // "Cinematic",
+  // "Travel",
+  // "Event",
+  // "Music Video",
+  // "Documentary",
   "Motivational",
   "Sports",
-  "Lifestyle",
-  "Education",
+  // "Lifestyle",
+  // "Education",
 ];
 
 /* =====================================================================
