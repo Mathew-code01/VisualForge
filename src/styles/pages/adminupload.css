@@ -52,6 +52,54 @@
   margin-bottom: 40px;
 }
 
+/* Container for the right-side actions */
+.header-action-group {
+  display: flex;
+  align-items: center;
+  gap: 16px; /* Space between refresh and logout */
+}
+
+/* Vertical divider between the two buttons */
+.action-divider {
+  width: 1px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Minimalist Logout Styling */
+.logout-link-minimal {
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 4px 0;
+  
+  /* Typography matching your agency style */
+  color: rgba(255, 255, 255, 0.4); 
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.logout-link-minimal:hover {
+  color: #ffffff;
+  transform: translateX(3px); /* Subtle elite interaction */
+}
+
+/* Ensure the refresh icon doesn't look too bulky next to text */
+.icon-refresh {
+  opacity: 0.6;
+  font-size: 1rem;
+}
+
+.icon-refresh:hover {
+  opacity: 1;
+}
+
 .section-label {
   font-size: 10px;
   text-transform: uppercase;
@@ -73,6 +121,25 @@
 .icon-refresh:hover { 
   color: var(--color-secondary-bright);
   transform: rotate(180deg);
+}
+
+/* ==========================================
+   MINIMALIST DISABLED STATES
+   ========================================== */
+
+/* High-end "locked" look: reduced opacity, grayscale, and no-interact */
+.is-disabled {
+  pointer-events: none; /* Physical click prevention */
+  user-select: none;
+  filter: grayscale(1);
+  opacity: 0.35 !important;
+  cursor: not-allowed;
+  transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Subtle pulse for when a disabled button is clicked (optional logic) */
+.is-disabled:active {
+  transform: scale(0.98);
 }
 
 /* Glassmorphism Cards */

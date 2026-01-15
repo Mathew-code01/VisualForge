@@ -1,23 +1,31 @@
 // server/middleware/auth.js
-import jwt from "jsonwebtoken";
+import admin from "firebase-admin";
 
-export const checkAdmin = (req, res, next) => {
+export const checkAdmin = async (req, res, next) => {
   const authHeader = req.headers.authorization;
-  if (!authHeader)
-    return res.status(401).json({ error: "Unauthorized — no token" });
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "No token provided" });
+  }
 
   const token = authHeader.split(" ")[1];
-  if (!token) return res.status(401).json({ error: "Unauthorized" });
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    if (decoded.role !== "admin")
-      return res.status(403).json({ error: "Forbidden — admin only" });
+    // Correct Firebase Verification
+    const decodedToken = await admin.auth().verifyIdToken(token);
 
-    req.user = decoded;
-    next();
+    // Check for the admin claim we set in setAdmin.js
+    if (decodedToken.admin === true) {
+      req.user = decodedToken;
+      next();
+    } else {
+      console.error("User verified but is not an admin.");
+      res
+        .status(403)
+        .json({ error: "Access Denied: Admin privileges required" });
+    }
   } catch (err) {
-    console.log(err)
-    return res.status(401).json({ error: "Invalid token" });
+    console.error("Token verification failed:", err.message);
+    res.status(401).json({ error: "Session expired or invalid token" });
   }
 };

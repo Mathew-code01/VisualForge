@@ -22,6 +22,7 @@ import {
   FiCheckSquare,
   FiEdit3,
   FiUploadCloud,
+  FiLogOut,
 } from "react-icons/fi";
 // Add 'linkExistingPublitioVideo' to your existing imports from uploadVideo.js
 import uploadVideo, {
@@ -33,7 +34,9 @@ import videoPlaceholder from "../assets/images/video-placeholder.webp";
 import AdminVideos from "./AdminVideos";
 import { extractMetadata, generateThumbnail } from "../utils/processVideo";
 import "../styles/pages/adminupload.css";
-
+import { auth } from "../firebase/config"; // Ensure your auth is imported
+import { signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom"; // To redirect after logout
 
 const CATEGORIES = [
   "Wedding",
@@ -279,6 +282,37 @@ export default function AdminUpload() {
     fetchLibrary();
   }, []);
 
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    if (uploading) {
+      const confirmLogout = window.confirm(
+        "A synchronization is currently active. Logging out now will interrupt the process. Continue?"
+      );
+      if (!confirmLogout) return;
+    }
+
+    try {
+      await signOut(auth);
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
+  // Inside AdminUpload component, near other useEffects
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (uploading) {
+        e.preventDefault();
+        e.returnValue = "Upload in progress. Are you sure you want to leave?";
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [uploading]);
+
   // Clean up object URLs
   useEffect(() => {
     return () =>
@@ -489,9 +523,34 @@ export default function AdminUpload() {
         <div className="panel-inner">
           <div className="panel-header">
             <span className="section-label">infrastructure / storage</span>
-            <button className="icon-refresh" onClick={() => refetch?.()}>
-              <FiRefreshCw className={usageLoading ? "spin" : ""} />
-            </button>
+
+            {/* NEW: Action Group to keep buttons together */}
+            <div className="header-action-group">
+              <button
+                className="icon-refresh"
+                onClick={() => refetch?.()}
+                title="Refresh Storage"
+              >
+                <FiRefreshCw className={usageLoading ? "spin" : ""} />
+              </button>
+
+              <div className="action-divider"></div>
+
+              <button
+                className={`logout-link-minimal ${
+                  uploading ? "is-disabled" : ""
+                }`}
+                onClick={handleLogout}
+                disabled={uploading} // Optional: strictly prevents click
+                style={{
+                  opacity: uploading ? 0.4 : 1,
+                  cursor: uploading ? "not-allowed" : "pointer",
+                }}
+              >
+                <FiLogOut size={12} />
+                <span>{uploading ? "Syncing..." : "Exit Session"}</span>
+              </button>
+            </div>
           </div>
           <div className="storage-grid">
             <div className="storage-card glass">
