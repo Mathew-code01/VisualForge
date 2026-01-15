@@ -51,6 +51,8 @@ const CATEGORIES = [
   "Sports",
   // "Lifestyle",
   // "Education",
+  "Social Media Content",
+  "Promotional Video",
 ];
 
 /* =====================================================================
