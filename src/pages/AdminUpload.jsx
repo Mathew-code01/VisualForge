@@ -174,6 +174,38 @@ const VideoItem = memo(
             </button>
           </div>
 
+          {/* NEW: Description / About Field */}
+          <div className="field-row">
+            <textarea
+              className={`description-input-minimal ${
+                !vid.description && uploading ? "error-border" : ""
+              }`} // Added dynamic error border
+              value={vid.description || ""}
+              placeholder="about this project (required)"
+              onChange={(e) =>
+                updateItemStatus(vid.preview, { description: e.target.value })
+              }
+            />
+            <button
+              className={`copy-btn ${vid.copiedDesc ? "success-flash" : ""}`}
+              onClick={() =>
+                handleCopyPaste(
+                  index,
+                  "description",
+                  vid.description ? "copy" : "paste"
+                )
+              }
+            >
+              {vid.copiedDesc ? (
+                <FiCheckCircle />
+              ) : vid.description ? (
+                <FiCopy />
+              ) : (
+                <FiClipboard />
+              )}
+            </button>
+          </div>
+
           {vid.warning && (
             <div className="duplicate-warning-box">
               <FiAlertCircle size={12} />
@@ -416,24 +448,25 @@ export default function AdminUpload() {
   const handleUpload = async () => {
     const queue = isAnySelected ? selectedVideos : videos;
 
-    // 1. HARD GUARD: Check for missing categories
-    const missingCategory = queue.some((v) => !v.category || v.category === "");
-    if (missingCategory) {
+    // 1. PROFESSIONAL VALIDATION GUARD
+    const incompleteItems = queue.filter(
+      (v) => !v.category || !v.description || v.description.trim().length < 5
+    );
+
+    if (incompleteItems.length > 0) {
       setDuplicateWarning(
-        "Action Required: Please assign a category to all videos before syncing."
+        `Action Required: ${incompleteItems.length} video(s) are missing categories or project descriptions.`
       );
+      // Scroll to first error (optional but professional)
       return;
     }
 
-    // 2. ADVANCED DUPLICATE GUARD: Check Category + (Title OR Metadata)
-    // This catches duplicates even if the admin renames the file.
+    // 2. ADVANCED DUPLICATE GUARD (Keep your existing logic here...)
     const duplicateInLibrary = queue.find((v) =>
       existingLibrary.some(
         (lib) =>
           lib.category.toLowerCase() === v.category.toLowerCase() &&
-          // Check if Title matches
           (lib.title.toLowerCase() === v.title.toLowerCase() ||
-            // OR check if physical properties match (Duration & Resolution)
             (lib.duration === v.duration &&
               lib.resolution === v.resolution &&
               v.duration > 0))
@@ -479,6 +512,7 @@ export default function AdminUpload() {
             duration: vid.duration,
             resolution: vid.resolution,
             thumbnail: vid.thumbnail,
+            description: vid.description,
           }
         );
 
@@ -504,10 +538,21 @@ export default function AdminUpload() {
     const video = videos[index];
     if (action === "copy") {
       setClipboard(video[field]);
-      const key = field === "title" ? "copiedTitle" : "copiedCategory";
-      updateItemStatus(video.preview, { [key]: true });
-      setTimeout(() => updateItemStatus(video.preview, { [key]: false }), 1200);
+      // Determine which flash key to use
+      const flashKey =
+        field === "title"
+          ? "copiedTitle"
+          : field === "category"
+          ? "copiedCategory"
+          : "copiedDesc";
+
+      updateItemStatus(video.preview, { [flashKey]: true });
+      setTimeout(
+        () => updateItemStatus(video.preview, { [flashKey]: false }),
+        1200
+      );
     } else {
+      // PASTE: Apply to either the single item or all selected items
       setVideos((prev) =>
         prev.map((v, i) =>
           v.selected || i === index ? { ...v, [field]: clipboard } : v

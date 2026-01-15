@@ -148,6 +148,76 @@
   border-top: none;
 }
 
+/* ============================================================
+   WORK DETAIL: DESCRIPTION VISIBILITY
+   ============================================================ */
+
+.project-info {
+  margin-top: 40px;
+  max-width: 800px; /* High-end editorial line length */
+}
+
+.project-title {
+  font-size: var(--font-size-xxl);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+  color: var(--color-heading); /* Deep Navy on white */
+}
+
+.project-description {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  font-weight: 400;
+  /* Default: Deep Blue for White backgrounds */
+  color: var(--color-text); 
+  margin-bottom: 40px;
+  opacity: 0.9;
+}
+
+/* Fallback Styling */
+.project-description.is-empty {
+  font-style: italic;
+  opacity: 0.5;
+  font-size: 1rem;
+}
+
+/* ============================================================
+   UNIVERSAL VISIBILITY OVERRIDES (For Blue/Black Backgrounds)
+   ============================================================ */
+
+/* If the detail page is wrapped in a dark-zebra class or is on a dark bg */
+.work-detail-minimal.dark-theme .project-title,
+.dark-zebra .project-title {
+  color: #ffffff;
+}
+
+.work-detail-minimal.dark-theme .project-description,
+.dark-zebra .project-description {
+  /* Use off-white for #164bb2 and #000 backgrounds */
+  color: rgba(255, 255, 255, 0.95); 
+}
+
+/* CTA Visibility */
+.btn-solid {
+  background: var(--color-secondary-bright);
+  color: #ffffff;
+  padding: 16px 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.8rem;
+  transition: transform 0.3s ease;
+}
+
+.btn-solid:hover {
+  transform: translateY(-2px);
+  background: var(--color-primary-light); /* Lighter blue for hover visibility */
+}
 
 
 .pagination-minimal .pag-dir {

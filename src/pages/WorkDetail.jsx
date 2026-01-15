@@ -157,7 +157,15 @@ export default function WorkDetail() {
 
           <section className="project-info">
             <h1 className="project-title">{work.title}</h1>
-            <p className="project-description">{work.description}</p>
+
+            {/* Update: Added conditional class and fallback text */}
+            <p
+              className={`project-description ${
+                !work.description ? "is-empty" : ""
+              }`}
+            >
+              {work.description || "Visual narrative currently in development."}
+            </p>
 
             <div className="cta-minimal-group">
               <a href="mailto:studio@BigDay-Media.com" className="btn-solid">

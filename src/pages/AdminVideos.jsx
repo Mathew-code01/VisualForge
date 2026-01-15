@@ -253,6 +253,11 @@ export default function AdminVideos() {
                     <span className="admin-meta-dot">•</span>
                     <span className="admin-meta-size">{vid.size} MB</span>
                   </div>
+
+                  {/* ADD THIS: Admin Description Row */}
+                  <div className="admin-description-preview">
+                    <p>{vid.description || "No project overview provided."}</p>
+                  </div>
                   <div className="admin-card-actions">
                     <button
                       className="admin-delete-action"
@@ -304,10 +309,20 @@ export default function AdminVideos() {
               </video>
             </div>
             <div className="admin-modal-footer">
-              <h3>{selectedVideo.title}</h3>
-              <p>
-                {selectedVideo.category} • {selectedVideo.platform}
-              </p>
+              <div className="modal-footer-info">
+                <h3>{selectedVideo.title}</h3>
+                <p className="modal-meta">
+                  {selectedVideo.category} • {selectedVideo.platform} •{" "}
+                  {selectedVideo.size}MB
+                </p>
+                {/* ADD THE FULL DESCRIPTION HERE */}
+                <div className="modal-description-full">
+                  <p>
+                    {selectedVideo.description ||
+                      "Visual narrative currently in development."}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

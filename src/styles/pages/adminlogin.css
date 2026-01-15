@@ -122,6 +122,8 @@
   max-width: 400px; /* Precise width for high-end feel */
 }
 
+
+
 /* Reveal Animations */
 .gate-fade-in, .interface-fade-in {
   animation: ultraReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;

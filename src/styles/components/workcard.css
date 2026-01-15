@@ -132,3 +132,90 @@
   opacity: 1; transform: translate(3px, -3px);
   color: var(--color-secondary-bright);
 }
+
+/* ============================================================
+   WORK CARD: UNIVERSAL VISIBILITY (White, Mid-Blue, & Black)
+   ============================================================ */
+
+.info-description-row {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(8, 1, 92, 0.1); 
+  position: relative;
+}
+
+.card-description {
+  font-size: 0.82rem;
+  line-height: 1.6;
+  font-weight: 400;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  /* DEFAULT: Deep Navy for #ffffff background */
+  color: var(--color-text); 
+  transition: all 0.3s ease;
+}
+
+/* HIGH VISIBILITY FALLBACK */
+.card-description.is-empty {
+  font-style: italic;
+  opacity: 0.7; /* Increased opacity for visibility */
+  font-size: 0.75rem;
+}
+
+/* THE TRIGGER: Needs to be bright on Blue/Black and distinct on White */
+.read-more-trigger {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  /* Using Bright Blue (#2b75ff) for White bg, Overridden for dark below */
+  color: var(--color-secondary-bright); 
+  cursor: pointer;
+  position: relative;
+}
+
+/* ============================================================
+   DARK & MID-BLUE BACKGROUND OVERRIDES
+   Targets backgrounds: #164bb2 (Mid-Blue) and #000 (Black)
+   ============================================================ */
+
+.dark-zebra .info-description-row {
+  border-top-color: rgba(255, 255, 255, 0.2);
+}
+
+.dark-zebra .card-title-text {
+  color: #ffffff !important;
+}
+
+.dark-zebra .card-description {
+  /* Crisp White for maximum contrast on #164bb2 or #000 */
+  color: rgba(255, 255, 255, 0.9); 
+}
+
+.dark-zebra .card-year {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.dark-zebra .read-more-trigger {
+  /* On Blue or Black, we use the lightest blue (#528fff) to "glow" */
+  color: var(--color-primary-light);
+}
+
+/* --- HOVER EFFECTS --- */
+.work-card-vibrant:hover .read-more-trigger {
+  filter: brightness(1.2);
+}
+
+/* On hover, text becomes 100% solid for better reading */
+.work-card-vibrant:hover .card-description {
+  color: var(--color-heading); /* Deep Navy on white */
+}
+
+.dark-zebra .work-card-vibrant:hover .card-description {
+  color: #ffffff; /* Pure white on blue/black */
+}

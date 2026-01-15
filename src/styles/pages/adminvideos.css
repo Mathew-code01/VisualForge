@@ -462,3 +462,26 @@
   .admin-modal-content { border-radius: 0; height: 100vh; display: flex; flex-direction: column; }
   .admin-main-player { height: auto; flex: 1; }
 }
+
+/* --- ADMIN DESCRIPTION STYLING --- */
+.admin-description-preview {
+  margin: 10px 0;
+  padding: 8px 0;
+  border-top: 1px solid rgba(8, 1, 92, 0.05);
+}
+
+.admin-description-preview p {
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--color-text-light); /* Muted slate for admin readability */
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Keep admin cards consistent in height */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 0;
+}
+
+/* Visibility on Darker Hover or Blue sections if applicable */
+.admin-video-card:hover .admin-description-preview p {
+  color: var(--color-text);
+}

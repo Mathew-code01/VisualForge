@@ -36,18 +36,19 @@ export async function saveMetadataOnly(videoMetadata) {
     
     // 1. Save metadata to Firestore (Metadata Save Phase)
     const docRef = await addDoc(collection(db, "videos"), {
-        title: videoMetadata.title,
-        category: videoMetadata.category,
-        uploaderId: videoMetadata.uploaderId || "ADMIN", // Use a default if not provided
-        createdAt: serverTimestamp(),
-        size: videoMetadata.size, 
-        duration: videoMetadata.duration,
-        resolution: videoMetadata.resolution,
-        thumbnail: videoMetadata.thumbnail,
-        platform: videoMetadata.platform,
-        url: videoMetadata.uploadedUrl, // Crucial: Use the existing file URL
-        resourceId: videoMetadata.resourceId, // Crucial: Use the existing resource ID
-        tags: [],
+      title: videoMetadata.title,
+      category: videoMetadata.category,
+      uploaderId: videoMetadata.uploaderId || "ADMIN", // Use a default if not provided
+      createdAt: serverTimestamp(),
+      size: videoMetadata.size,
+      duration: videoMetadata.duration,
+      resolution: videoMetadata.resolution,
+      thumbnail: videoMetadata.thumbnail,
+      platform: videoMetadata.platform,
+      url: videoMetadata.uploadedUrl, // Crucial: Use the existing file URL
+      resourceId: videoMetadata.resourceId, // Crucial: Use the existing resource ID
+      description: videoMetadata.description || "", // <--- ADD THIS LINE
+      tags: [],
     });
 
     console.log(`[FIREBASE LOG] METADATA RETRY SUCCESS. Document ID: ${docRef.id}`);
@@ -106,6 +107,7 @@ export async function uploadVideo(
         platform: uploadResult.platform,
         url: uploadResult.url,
         resourceId: uploadResult.resourceId,
+        description: metadata.description || "", // <--- ADD THIS LINE
         tags: [],
       });
 

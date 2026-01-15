@@ -990,3 +990,106 @@ select.error-border {
   .admin-input-minimal { font-size: 24px; }
   .elegant-title { font-size: 20px; }
 }
+
+/* ============================================================
+   DESCRIPTION FIELD: ULTRA-MINIMALIST REFINEMENT
+   ============================================================ */
+
+.description-input-minimal {
+  width: 100%;
+  min-height: 80px;
+  background: var(--color-bg-alt); /* Matches Title/Category row for consistency */
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 12px 14px;
+  font-size: 12px;
+  line-height: 1.6;
+  font-family: var(--font-base);
+  color: var(--color-text);
+  resize: vertical; /* Professional control */
+  outline: none;
+  transition: all 0.3s ease;
+  margin-top: 4px;
+}
+
+.description-input-minimal:focus {
+  background: #ffffff;
+  border-color: var(--color-secondary-bright);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.description-input-minimal::placeholder {
+  color: var(--color-muted);
+  font-style: italic;
+  opacity: 0.6;
+  letter-spacing: 0.02em;
+}
+
+/* Sophisticated Stealth Scrollbar for Textarea */
+.description-input-minimal::-webkit-scrollbar {
+  width: 4px;
+}
+
+.description-input-minimal::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.description-input-minimal::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 10px;
+}
+
+.description-input-minimal::-webkit-scrollbar-thumb:hover {
+  background: var(--color-muted);
+}
+
+/* Adjustment for the field-row containing textarea */
+.field-row:has(.description-input-minimal) {
+  align-items: flex-start; /* Aligns copy button to top of textarea */
+  margin-bottom: 16px;
+}
+
+/* Ensuring Copy Button matches height logic */
+.field-row:has(.description-input-minimal) .copy-btn {
+  height: 40px; /* Keep icon centered at the top */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   TEXT VISIBILITY FIXES (As per your saved guidelines)
+   ============================================================ */
+
+/* "Visual Excellence Built for Impact" & "Let's build..." */
+.hero-subtitle, .cta-text-small {
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 500;
+  line-height: 1.8;
+  color: var(--color-text-light);
+  margin-top: 20px;
+}
+
+/* Visibility fix for: All(9) Commercial(3) Lifestyle(3) Documentary(3) */
+.category-filter-nav {
+  display: flex;
+  gap: 24px;
+  color: var(--color-primary-dark) !important; /* Force visibility */
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 1 !important;
+}
+
+.category-filter-nav span {
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.category-filter-nav span:hover {
+  color: var(--color-secondary-bright);
+}
