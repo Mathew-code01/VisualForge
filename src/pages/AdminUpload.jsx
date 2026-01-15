@@ -457,10 +457,10 @@ export default function AdminUpload() {
       setDuplicateWarning(
         `Action Required: ${incompleteItems.length} video(s) are missing categories or project descriptions.`
       );
-      // Scroll to first error (optional but professional)
+      // PROFESSIONAL SCROLL: Smoothly scroll to top so they see the banner
+      window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
-
     // 2. ADVANCED DUPLICATE GUARD (Keep your existing logic here...)
     const duplicateInLibrary = queue.find((v) =>
       existingLibrary.some(
@@ -560,6 +560,12 @@ export default function AdminUpload() {
       );
     }
   };
+
+  const hasValidationErrors = useMemo(() => {
+    return videos.some(
+      (v) => !v.category || !v.description || v.description.trim().length < 5
+    );
+  }, [videos]);
 
   return (
     <section className="admin-upload">
@@ -816,12 +822,23 @@ export default function AdminUpload() {
             {videos.length > 0 && (
               <div className="sticky-action-bar">
                 <button
-                  className="btn-main"
-                  disabled={uploading}
+                  className={`btn-main ${
+                    hasValidationErrors ? "btn-disabled-style" : ""
+                  }`}
+                  disabled={uploading || hasValidationErrors} // Physically disable if uploading OR errors exist
                   onClick={handleUpload}
+                  style={{
+                    opacity: uploading || hasValidationErrors ? 0.5 : 1,
+                    cursor:
+                      uploading || hasValidationErrors
+                        ? "not-allowed"
+                        : "pointer",
+                  }}
                 >
                   {uploading
                     ? "Synchronizing with cloud..."
+                    : hasValidationErrors
+                    ? "Complete all fields to proceed" // Helpful text change
                     : `Begin processing ${
                         isAnySelected ? selectedVideos.length : videos.length
                       } files`}
