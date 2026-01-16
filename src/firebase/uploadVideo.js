@@ -61,6 +61,39 @@ export async function saveMetadataOnly(videoMetadata) {
     };
 }
 
+
+/**
+ * MANUAL RECOVERY: Claims a ghost file from Publitio.
+ * If a file exists in the cloud but not Firestore, this adds it manually.
+ */
+export async function recoverGhostAsset(publitioId, title, category, description) {
+  try {
+    const response = await fetch(`${API_BASE}/api/getPublitioDetails/${publitioId.trim()}`);
+    const data = await response.json();
+
+    if (!data.success) throw new Error("Asset not found in cloud storage.");
+
+    const docRef = await addDoc(collection(db, "videos"), {
+      title: title || data.title,
+      category: category || "Commercial",
+      description: description || "",
+      createdAt: serverTimestamp(),
+      platform: "publitio",
+      url: data.url_preview,
+      thumbnail: data.url_thumbnail,
+      resourceId: publitioId.trim(),
+      size: parseFloat((data.size / (1024 * 1024)).toFixed(2)),
+      duration: data.duration || 0,
+      resolution: `${data.width}x${data.height}`,
+      tags: ["recovered-manual"]
+    });
+
+    return { success: true, id: docRef.id };
+  } catch (err) {
+    console.error("Recovery Protocol Failed:", err);
+    throw err;
+  }
+}
 /* =======================================================
     MAIN UPLOAD HANDLER
     Publitio (<100MB) or Vimeo (>=100MB)

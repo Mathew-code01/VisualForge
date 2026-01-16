@@ -278,6 +278,7 @@ export default function AdminUpload() {
     publitio,
     vimeo,
     loading: usageLoading,
+    isAuditing,
     error: usageError,
     refetch,
   } = useStorageUsage();
@@ -530,6 +531,7 @@ export default function AdminUpload() {
           status: "file_fail",
           error: err.message,
         });
+        refetch();
       }
     }
     setUploading(false);
@@ -572,19 +574,34 @@ export default function AdminUpload() {
   return (
     <section className="admin-upload">
       {/* Zebra Section 1: Dark Glassmorphism Storage */}
+      {/* Zebra Section 1: Dark Glassmorphism Storage */}
       <div className="storage-panel dark-zebra">
         <div className="panel-inner">
           <div className="panel-header">
             <span className="section-label">infrastructure / storage</span>
 
-            {/* NEW: Action Group to keep buttons together */}
             <div className="header-action-group">
+              {/* NEW: The System Audit / Janitor Button */}
+              <button
+                className={`btn-janitor ${isAuditing ? "is-active" : ""}`}
+                onClick={() => refetch(true)} // Passing true triggers the deep audit
+                disabled={usageLoading || isAuditing}
+                title="Purge Orphaned Files"
+              >
+                <FiRefreshCw className={isAuditing ? "spin" : ""} size={12} />
+                <span>{isAuditing ? "Auditing..." : "System Audit"}</span>
+              </button>
+
+              <div className="action-divider"></div>
+
               <button
                 className="icon-refresh"
                 onClick={() => refetch?.()}
                 title="Refresh Storage"
               >
-                <FiRefreshCw className={usageLoading ? "spin" : ""} />
+                <FiRefreshCw
+                  className={usageLoading && !isAuditing ? "spin" : ""}
+                />
               </button>
 
               <div className="action-divider"></div>
@@ -594,7 +611,7 @@ export default function AdminUpload() {
                   uploading ? "is-disabled" : ""
                 }`}
                 onClick={handleLogout}
-                disabled={uploading} // Optional: strictly prevents click
+                disabled={uploading}
                 style={{
                   opacity: uploading ? 0.4 : 1,
                   cursor: uploading ? "not-allowed" : "pointer",
@@ -605,6 +622,7 @@ export default function AdminUpload() {
               </button>
             </div>
           </div>
+          {/* ... rest of storage grid ... */}
           <div className="storage-grid">
             <div className="storage-card glass">
               <div className="card-head">

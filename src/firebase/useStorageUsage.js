@@ -4,7 +4,9 @@ import { useState, useEffect, useCallback } from "react";
 
 const API_BASE = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
+
 export default function useStorageUsage() {
+  const [isAuditing, setIsAuditing] = useState(false);
   const [data, setData] = useState({
     publitio: { usedMB: 0, limitMB: 0, percent: 0, fileCount: 0, error: null },
     vimeo: { usedGB: 0, totalGB: 0, percent: 0, connected: false, error: null },
@@ -12,30 +14,19 @@ export default function useStorageUsage() {
   const [loading, setLoading] = useState(true);
   const [globalError, setGlobalError] = useState(null);
 
-  const refetch = useCallback(async () => {
+  const refetch = useCallback(async (isDeepAudit = false) => {
     setLoading(true);
-    setGlobalError(null); // Reset error on new attempt
+    if (isDeepAudit) setIsAuditing(true);
+    setGlobalError(null);
 
     try {
-      const [publitioRes, vimeoRes] = await Promise.all([
-        // Publitio Fetch
-        fetch(`${API_BASE}/api/getPublitioUsage`)
-          .then((r) =>
-            r.ok
-              ? r.json()
-              : r
-                  .json()
-                  .then((err) => ({
-                    error: err.message || "Publitio Error",
-                    success: false,
-                  }))
-          )
-          .catch((err) => ({
-            error: `Network Error: ${err.message}`,
-            success: false,
-          })),
+      // If isDeepAudit is true, we trigger the 'clean' query param
+      const publitioUrl = isDeepAudit
+        ? `${API_BASE}/api/getPublitioUsage?clean=true`
+        : `${API_BASE}/api/getPublitioUsage`;
 
-        // Vimeo Fetch
+      const [publitioRes, vimeoRes] = await Promise.all([
+        fetch(publitioUrl).then((r) => r.json()),
         getVimeoUsageSafe(),
       ]);
 
@@ -47,15 +38,15 @@ export default function useStorageUsage() {
         vimeo: { ...vimeoRes, error: vimeoRes.success ? null : vimeoRes.error },
       });
 
-      // If both failed, set a global error
-      if (!publitioRes.success && !vimeoRes.success) {
-        setGlobalError("All storage services failed to connect.");
+      if (isDeepAudit && publitioRes.success) {
+        console.log("Deep Audit: Ghost files purged successfully.");
       }
     } catch (err) {
-      console.error("Storage Hook Crash:", err);
-      setGlobalError("An unexpected error occurred while fetching usage.");
+      console.log(err)
+      setGlobalError("Storage synchronization failed.");
     } finally {
       setLoading(false);
+      setIsAuditing(false);
     }
   }, []);
 
@@ -66,6 +57,7 @@ export default function useStorageUsage() {
   return {
     ...data,
     loading,
+    isAuditing,
     error: globalError,
     refetch,
   };
