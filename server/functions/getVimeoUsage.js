@@ -1,81 +1,45 @@
-// server/functions/getPublitioUsage.js
-// server/functions/getPublitioUsage.js
-// server/functions/getPublitioUsage.js
 
+
+// server/functions/getVimeoUsage.js
+// server/functions/getVimeoUsage.js
 import fetch from "node-fetch";
-import crypto from "crypto"; // <-- NEW IMPORT
+import { db } from "../firebaseAdmin.js";
 
 export default async function handler(req, res) {
   try {
-    const API_KEY = process.env.PUBLITIO_API_KEY;
-    const API_SECRET = process.env.PUBLITIO_API_SECRET;
-    const PLAN_LIMIT_MB = Number(process.env.PUBLITIO_LIMIT_MB) || 5000;
-    if (!API_KEY || !API_SECRET) {
-      return res.status(500).json({
-        error: "Publitio API keys missing in server/.env",
-      });
+    const TOKEN = process.env.VIMEO_ACCESS_TOKEN;
+    const response = await fetch("https://api.vimeo.com/me/videos", {
+      headers: { Authorization: `Bearer ${TOKEN}` },
+    });
+    const data = await response.json();
+
+    console.log("📡 [VIMEO SYNC]: Checking video health...");
+    
+    // Clean up stuck uploads (videos without a duration or in 'error' state)
+    for (const video of data.data) {
+        const vimeoId = video.uri.split("/").pop();
+        const snap = await db.collection("videos").where("resourceId", "==", vimeoId).get();
+        
+        if (snap.empty && video.status !== "available") {
+            console.log(`⚠️ [VIMEO GHOST]: Deleting unfinished video ${vimeoId}`);
+            await fetch(`https://api.vimeo.com${video.uri}`, {
+                method: "DELETE",
+                headers: { Authorization: `Bearer ${TOKEN}` }
+            });
+        }
     }
 
-    /* ---------------- AUTHENTICATION SETUP ---------------- */
-    // Publitio requires signature-based authentication for ALL REST API calls
-
-    const api_timestamp = Math.floor(Date.now() / 1000).toString();
-    const api_nonce = crypto.randomBytes(4).toString("hex");
-    const signature_string = api_timestamp + api_nonce + API_SECRET;
-
-    const api_signature = crypto
-      .createHash("sha1")
-      .update(signature_string)
-      .digest("hex");
-    /* -------------------------------------------------------- */
-
-    let page = 1;
-    let totalBytes = 0;
-    let totalFiles = 0;
-
-    while (true) {
-      // 🔑 CORRECTED URL: Use the signature parameters instead of API_SECRET
-      const url = `https://api.publit.io/v1/files/list?page=${page}&api_key=${API_KEY}&api_timestamp=${api_timestamp}&api_nonce=${api_nonce}&api_signature=${api_signature}`;
-
-      const response = await fetch(url);
-      const json = await response.json();
-
-      if (!json.success) {
-        // Handle API failure response
-        console.error(
-          "Publitio API Error:",
-          json.error?.message || "Authentication failed"
-        );
-        return res
-          .status(response.status)
-          .json({
-            error:
-              json.error?.message || "Publitio API failed to retrieve list",
-          });
-      }
-
-      if (!json.files || json.files.length === 0) break;
-
-      json.files.forEach((f) => (totalBytes += Number(f.size || 0)));
-      totalFiles += json.files.length;
-
-      if (!json.files_next_page) break;
-      page++;
-    }
-
-    const usedMB = totalBytes / 1024 / 1024;
-    const percentUsed = (usedMB / PLAN_LIMIT_MB) * 100;
+    const userRes = await fetch("https://api.vimeo.com/me", { headers: { Authorization: `Bearer ${TOKEN}` } });
+    const userData = await userRes.json();
+    const { used, quota } = userData.upload_quota.space;
 
     return res.json({
       success: true,
-      usedMB: +usedMB.toFixed(2),
-      fileCount: totalFiles,
-      limitMB: PLAN_LIMIT_MB,
-      percent: +percentUsed.toFixed(2),
-      bandwidth: "Publitio does NOT provide bandwidth usage via API.",
+      usedGB: +(used / 1073741824).toFixed(2),
+      totalGB: +(quota / 1073741824).toFixed(2),
+      percent: +((used / quota) * 100).toFixed(2),
     });
   } catch (err) {
-    console.error("Publitio Fetch Error:", err);
-    res.status(500).json({ error: err.message || "Unknown error" });
+    res.status(500).json({ success: false, error: err.message });
   }
 }
