@@ -10,14 +10,13 @@ const getCredentials = () => {
   const { FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY } =
     process.env;
 
-  if (!FIREBASE_PROJECT_ID || !FIREBASE_PRIVATE_KEY) {
-    return null;
-  }
+  if (!FIREBASE_PROJECT_ID || !FIREBASE_PRIVATE_KEY) return null;
 
-  // REPAIR LOGIC:
-  // 1. Removes accidental wrapping quotes
-  // 2. Converts string literal "\n" into actual line breaks
-  const cleanKey = FIREBASE_PRIVATE_KEY.replace(/^"|"$/g, "").replace(
+  // ENHANCED REPAIR LOGIC
+  // 1. Remove wrapping double/single quotes
+  // 2. Unescape double backslashes (\\n -> \n)
+  // 3. Ensure actual newlines are present where \n exists
+  const cleanKey = FIREBASE_PRIVATE_KEY.replace(/^['"]|['"]$/g, "").replace(
     /\\n/g,
     "\n"
   );
