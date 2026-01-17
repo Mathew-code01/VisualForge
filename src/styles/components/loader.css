@@ -5,7 +5,12 @@
 
 /* src/styles/components/loader.css */
 
-/* THE LOCK: Critical that we don't use position: fixed here */
+/* src/styles/components/loader.css */
+
+/* src/styles/components/loader.css */
+/* src/styles/components/loader.css */
+
+/* 1. CORE ENGINE & SMOOTHING */
 body.loader-active-lock {
   overflow: hidden !important;
   height: 100vh !important;
@@ -17,17 +22,32 @@ body.loader-active-lock {
   position: fixed;
   inset: 0;
   z-index: 999999;
-  background: #050505;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
   overflow: hidden;
   pointer-events: all;
+  transition: background 0.5s ease;
+  /* Hardware acceleration for sharper rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  backface-visibility: hidden;
 }
 
-/* Background Logic */
+/* THEME 1: GRAND INTRO (Enhanced Visibility) */
+.loader-agency-elite.mode-intro {
+  background: #000000; /* Pure black makes content pop more than #050505 */
+  color: #ffffff;
+}
+
+/* THEME 2: NAVIGATION */
+.loader-agency-elite.mode-transition {
+  background: var(--color-bg);
+  color: var(--color-primary-dark);
+}
+
+/* 2. VIDEO ASSET: BRIGHTER & SHARPER */
 .loader-bg-wrapper {
   position: absolute;
   inset: 0;
@@ -38,8 +58,9 @@ body.loader-active-lock {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(0.25) saturate(0);
-  transition: opacity 1s ease;
+  /* Boosted brightness from 0.25 to 0.45 and added contrast for sharpness */
+  filter: brightness(0.45) saturate(0) contrast(1.15);
+  transition: opacity 1.2s ease;
 }
 
 .loader-video-asset.hidden { opacity: 0; }
@@ -48,11 +69,12 @@ body.loader-active-lock {
 .loader-vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, transparent 20%, #000 100%);
+  /* Softened the center for a brighter 'focal point' */
+  background: radial-gradient(circle at center, transparent 10%, rgba(0,0,0,0.85) 100%);
   z-index: 2;
 }
 
-/* UI Content */
+/* 3. CONTENT WRAP: ALIGNMENT & RESPONSIVENESS */
 .loader-content-wrap {
   position: relative;
   z-index: 10;
@@ -61,7 +83,9 @@ body.loader-active-lock {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 50px;
+  padding: clamp(30px, 6vw, 60px); /* Responsive padding for big screens */
+  max-width: 1800px; /* Prevents text from hitting edges on ultrawide */
+  margin: 0 auto;
 }
 
 .loader-ui-top, .loader-ui-bottom {
@@ -70,86 +94,125 @@ body.loader-active-lock {
   align-items: flex-start;
 }
 
+/* 4. TYPOGRAPHY: CRISP LABELS */
 .label {
-  font-size: 9px;
-  letter-spacing: 0.25em;
-  color: rgba(255,255,255,0.4);
+  font-size: 7.5px; /* Slightly smaller for a sharper look */
+  font-weight: 700;
+  letter-spacing: 0.4em; /* Wider for high-end feel */
   text-transform: uppercase;
   margin-bottom: 8px;
   display: block;
+  opacity: 0.6; /* Increased for better visibility */
 }
 
-.value-bold {
-  font-size: 12px;
-  font-weight: 900;
-  letter-spacing: 0.1em;
+.mode-transition .label {
+  color: var(--color-text-light);
 }
 
-.value-status {
-  font-size: 10px;
+.value-bold, .value {
+  font-size: 10.5px;
   font-weight: 700;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.15em;
 }
 
-/* Status Indicator */
-.status-wrap { display: flex; align-items: center; gap: 10px; }
-.rec-dot { width: 8px; height: 8px; background: #ff0000; border-radius: 50%; }
-.rec-dot.active { animation: pulse-red 1s infinite; }
+/* 5. STATUS INDICATOR */
+.status-wrap { display: flex; align-items: center; gap: 12px; }
+.rec-dot { width: 7px; height: 7px; border-radius: 50%; }
 
-/* Hero Branding */
+.mode-intro .rec-dot { 
+  background: #ff0000;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.6); /* Glowing dot for brightness */
+}
+.mode-transition .rec-dot { background: var(--color-primary); }
+
+.rec-dot.active { animation: pulse-loader 1.2s infinite ease-in-out; }
+
+/* 6. HERO BRANDING (Impactful) */
 .loader-hero {
-  max-width: 600px;
+  max-width: 800px;
   width: 100%;
   margin: 0 auto;
   text-align: center;
 }
 
 .main-logo {
-  font-size: 40px;
+  font-size: clamp(28px, 5vw, 48px); /* Fluid typography for bigger screens */
   font-weight: 900;
-  letter-spacing: 0.3em;
-  margin-bottom: 15px;
+  letter-spacing: 0.5em;
+  margin-bottom: 12px;
+  line-height: 1;
+  text-shadow: 0 0 30px rgba(255, 255, 255, 0.2); /* Makes logo glow/pop */
 }
 
 .tagline {
-  font-size: 10px;
-  letter-spacing: 0.4em;
-  color: rgba(255,255,255,0.3);
+  font-size: clamp(8px, 1vw, 10px);
+  letter-spacing: 0.6em;
   text-transform: uppercase;
-  margin-bottom: 60px;
+  opacity: 0.6; /* Brighter visibility */
+  margin-bottom: 50px;
 }
 
-/* Progress System */
+/* 7. PROGRESS SYSTEM: PRECISION LINES */
 .progress-track {
   width: 100%;
-  height: 2px;
-  background: rgba(255,255,255,0.08);
-  margin-bottom: 12px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12);
+  margin-bottom: 15px;
+  position: relative;
+  overflow: hidden;
+}
+
+.mode-transition .progress-track {
+  background: var(--color-border);
 }
 
 .progress-bar {
   height: 100%;
-  background: #fff;
-  transition: width 0.2s ease-out;
+  background: #ffffff;
+  /* Subtle glow leading the bar */
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); 
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mode-transition .progress-bar {
+  background: var(--color-primary);
 }
 
 .progress-data {
   display: flex;
   justify-content: space-between;
-  font-size: 10px;
-  font-family: monospace;
-  color: rgba(255,255,255,0.5);
+  font-size: 8.5px;
+  font-family: var(--font-base); /* Using theme font for sharpness */
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  opacity: 0.5;
 }
 
-/* EXIT ANIMATION */
+/* 8. EXIT ANIMATION */
 .loader-agency-elite.exit-active {
   transform: translateY(-100%);
-  transition: transform 0.8s cubic-bezier(0.85, 0, 0.15, 1);
+  transition: transform 0.85s cubic-bezier(0.85, 0, 0.15, 1);
 }
 
-@keyframes pulse-red { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+@keyframes pulse-loader { 
+  0%, 100% { opacity: 1; transform: scale(1); } 
+  50% { opacity: 0.4; transform: scale(0.9); } 
+}
+
+/* 9. RESPONSIVE REFINEMENTS */
+@media (max-width: 1024px) {
+  .main-logo { font-size: 32px; letter-spacing: 0.4em; }
+}
 
 @media (max-width: 768px) {
-  .loader-content-wrap { padding: 30px; }
-  .main-logo { font-size: 24px; }
+  .loader-content-wrap { padding: 40px 24px; }
+  .main-logo { font-size: 22px; letter-spacing: 0.3em; }
+  .tagline { font-size: 7px; letter-spacing: 0.4em; }
+  .loader-ui-top { flex-direction: column; gap: 15px; }
+}
+
+/* Handling Ultra-Wide Screens */
+@media (min-width: 2000px) {
+  .main-logo { font-size: 64px; }
+  .loader-hero { max-width: 1200px; }
 }

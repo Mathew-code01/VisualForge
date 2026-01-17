@@ -11,31 +11,40 @@ import ScrollToTop from "../components/ScrollToTop";
 import { useEffect, useState } from "react";
 
 const MainLayout = () => {
-  const [introDone, setIntroDone] = useState(false);
+  const [loading, setLoading] = useState(true);
   const location = useLocation();
 
+  // Trigger loader on EVERY route change
   useEffect(() => {
-    const alreadySeen = sessionStorage.getItem("vf-intro");
-    if (alreadySeen) {
-      setIntroDone(true);
-      // Safety: Strip lock if returning to site
-      document.body.classList.remove("loader-active-lock");
-      document.body.style.overflow = "visible";
-    }
-  }, []);
+    setLoading(true);
+
+    // We scroll to top immediately when path changes
+    window.scrollTo(0, 0);
+
+    // If it's not the first load, we make the loader faster (transition mode)
+    // If you want it to wait for specific data, you can pass a prop to Loader
+  }, [location.pathname]);
 
   const handleLoadingFinished = () => {
-    setIntroDone(true);
-    sessionStorage.setItem("vf-intro", "1");
+    setLoading(false);
   };
 
   return (
     <div className="page-wrapper">
-      {!introDone && <Loader onLoadingComplete={handleLoadingFinished} />}
+      {/* Key is essential here: it forces React to re-mount the loader 
+         component on every path change, triggering the animation.
+      */}
+      {loading && (
+        <Loader
+          key={location.pathname}
+          onLoadingComplete={handleLoadingFinished}
+          isTransition={!!sessionStorage.getItem("vf-intro")}
+        />
+      )}
 
       <ScrollToTop />
       <Header />
-      <main key={location.pathname}>
+      <main className={loading ? "content-hidden" : "content-fade-in"}>
         <Outlet />
       </main>
       <Footer />

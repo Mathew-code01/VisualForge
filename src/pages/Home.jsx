@@ -70,7 +70,7 @@ const Home = () => {
         <div className="home-container-unique">
           <header className="section-header-block">
             <span className="section-tag-elite">Cinematic Archive</span>
-            <h2 className="section-heading-unique">Selected Works</h2>
+            <h2 className="section-heading-unique bg-deep">Selected Works</h2>
           </header>
           <WorkGrid featured={true} />
         </div>

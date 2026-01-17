@@ -10,10 +10,10 @@ import "../styles/components/loader.css";
 import theArchiveImg from "../assets/images/theArchive.webp";
 import visualExcellenceImg from "../assets/images/visualExcellence.webp";
 
-export default function Loader({ onLoadingComplete }) {
+export default function Loader({ onLoadingComplete, isTransition = false }) {
   const [progress, setProgress] = useState(0);
   const [isExiting, setIsExiting] = useState(false);
-  const [videoReady, setVideoReady] = useState(false);
+  const [videoReady, setVideoReady] = useState(isTransition);
   const [assetsReady, setAssetsReady] = useState(false);
 
   const progressRef = useRef(0);
@@ -21,86 +21,95 @@ export default function Loader({ onLoadingComplete }) {
 
   const unlockScreenSovereign = () => {
     document.body.classList.remove("loader-active-lock");
-    // Force browser to reset overflow and height to defaults
     document.body.style.overflow = "visible";
     document.body.style.height = "auto";
     document.documentElement.style.overflow = "visible";
     document.documentElement.style.height = "auto";
-    // Force a scroll recalculation
     window.dispatchEvent(new Event("resize"));
   };
 
   useEffect(() => {
-    // Lock on mount
     document.body.classList.add("loader-active-lock");
 
-    // Preload Logic
     const images = [theArchiveImg, visualExcellenceImg];
     let loaded = 0;
-    images.forEach((src) => {
-      const img = new Image();
-      img.src = src;
-      img.onload = () => {
-        loaded++;
-        if (loaded === images.length) setAssetsReady(true);
-      };
-      img.onerror = () => {
-        loaded++;
-        if (loaded === images.length) setAssetsReady(true);
-      };
-    });
+    if (images.length === 0) {
+      setAssetsReady(true);
+    } else {
+      images.forEach((src) => {
+        const img = new Image();
+        img.src = src;
+        img.onload = img.onerror = () => {
+          loaded++;
+          if (loaded === images.length) setAssetsReady(true);
+        };
+      });
+    }
 
     if (!videoReady) return;
 
-    const interval = setInterval(() => {
-      let increment = 0;
-      if (document.readyState !== "complete" || !assetsReady) {
-        const remaining = 95 - progressRef.current;
-        increment = Math.max(0.01, Math.random() * (remaining / 50));
-      } else {
-        increment = 4.0;
-      }
+    const interval = setInterval(
+      () => {
+        let increment = 0;
+        if (isTransition) {
+          increment = 12.0; // Snappy for navigation
+        } else if (document.readyState !== "complete" || !assetsReady) {
+          const remaining = 95 - progressRef.current;
+          increment = Math.max(0.01, Math.random() * (remaining / 40));
+        } else {
+          increment = 4.0;
+        }
 
-      progressRef.current += increment;
+        progressRef.current += increment;
 
-      if (progressRef.current >= 100) {
-        progressRef.current = 100;
-        setProgress(100);
-        clearInterval(interval);
-
-        setTimeout(() => {
-          setIsExiting(true);
+        if (progressRef.current >= 100) {
+          progressRef.current = 100;
+          setProgress(100);
+          clearInterval(interval);
           setTimeout(() => {
-            unlockScreenSovereign();
-            if (onLoadingComplete) onLoadingComplete();
-          }, 800);
-        }, 600);
-      } else {
-        setProgress(Math.floor(progressRef.current));
-      }
-    }, 30);
+            setIsExiting(true);
+            setTimeout(() => {
+              unlockScreenSovereign();
+              if (onLoadingComplete) onLoadingComplete();
+            }, 800);
+          }, 300);
+        } else {
+          setProgress(Math.floor(progressRef.current));
+        }
+      },
+      isTransition ? 16 : 30
+    );
 
     return () => {
       clearInterval(interval);
       unlockScreenSovereign();
     };
-  }, [videoReady, assetsReady, onLoadingComplete]);
+  }, [videoReady, assetsReady, isTransition, onLoadingComplete]);
 
   return (
-    <div className={`loader-agency-elite ${isExiting ? "exit-active" : ""}`}>
-      <div className="loader-bg-wrapper">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          onCanPlayThrough={() => setVideoReady(true)}
-          className={`loader-video-asset ${videoReady ? "visible" : "hidden"}`}
-        >
-          <source src="/assets/loader-bg.mp4" type="video/mp4" />
-        </video>
-        <div className="loader-vignette" />
-      </div>
+    <div
+      className={`loader-agency-elite ${isExiting ? "exit-active" : ""} ${
+        isTransition ? "mode-transition" : "mode-intro"
+      }`}
+    >
+      {/* Video Background: Only for Grand Intro (Dark) */}
+      {!isTransition && (
+        <div className="loader-bg-wrapper">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            onCanPlayThrough={() => setVideoReady(true)}
+            className={`loader-video-asset ${
+              videoReady ? "visible" : "hidden"
+            }`}
+          >
+            <source src="/assets/loader-bg.mp4" type="video/mp4" />
+          </video>
+          <div className="loader-vignette" />
+        </div>
+      )}
 
       <div className="loader-content-wrap">
         <header className="loader-ui-top">
@@ -111,11 +120,7 @@ export default function Loader({ onLoadingComplete }) {
           <div className="status-wrap">
             <div className={`rec-dot ${progress < 100 ? "active" : ""}`} />
             <span className="value-status">
-              {!videoReady
-                ? "SYNCING VIDEO"
-                : progress < 100
-                ? "INITIALIZING"
-                : "READY"}
+              {isTransition ? "ROUTING" : !videoReady ? "SYNCING" : "ACTIVE"}
             </span>
           </div>
         </header>
@@ -130,7 +135,7 @@ export default function Loader({ onLoadingComplete }) {
               <div className="progress-bar" style={{ width: `${progress}%` }} />
             </div>
             <div className="progress-data">
-              <span>COMPILE_ASSETS</span>
+              <span>{isTransition ? "INTERNAL_LINK" : "LOADING_ASSETS"}</span>
               <span>{progress}%</span>
             </div>
           </div>

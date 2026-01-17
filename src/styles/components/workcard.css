@@ -219,3 +219,48 @@
 .dark-zebra .work-card-vibrant:hover .card-description {
   color: #ffffff; /* Pure white on blue/black */
 }
+
+/* ============================================================
+   CONTEXT-AWARE THEMING (Zebra Logic)
+   Automatically detects if the card is in a Dark or Light section
+   ============================================================ */
+
+/* 1. When inside a DARK (Deep Blue/Black) section */
+.bg-deep .work-card-vibrant .card-title-text {
+  color: #ffffff !important;
+}
+
+.bg-deep .work-card-vibrant .card-description {
+  color: rgba(255, 255, 255, 0.7); /* Soft white for readability */
+}
+
+.bg-deep .work-card-vibrant .card-year {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.bg-deep .work-card-vibrant .info-description-row {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bg-deep .work-card-vibrant .read-more-trigger {
+  color: var(--color-primary-light); /* Lighter blue to pop on dark bg */
+}
+
+/* 2. HOVER STATES for Dark Sections */
+.bg-deep .work-card-vibrant:hover .card-description {
+  color: #ffffff; /* Becomes bright on hover */
+}
+
+.bg-deep .work-card-vibrant:hover .arrow-wrap {
+  color: #ffffff;
+  opacity: 1;
+}
+
+/* 3. When inside a WHITE section (Defaulting to your theme colors) */
+.bg-white .work-card-vibrant .card-title-text {
+  color: var(--color-primary-dark);
+}
+
+.bg-white .work-card-vibrant .card-description {
+  color: var(--color-text-light); /* Slate/Grey */
+}

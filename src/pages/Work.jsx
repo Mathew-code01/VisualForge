@@ -58,7 +58,7 @@ const Work = () => {
         </div>
       </section>
 
-      <section className="work-section-dark">
+      <section className="work-section-dark bg-deep">
         <div className="hero-blur-bg"></div>
         <div className="section-inner">
           <header className="elite-header">
