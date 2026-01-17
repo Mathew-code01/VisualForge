@@ -3,13 +3,20 @@
 // server/functions/getPublitioUsage.js
 // server/functions/getPublitioUsage.js
 // server/functions/getPublitioUsage.js
+// server/functions/getPublitioUsage.js
 import fetch from "node-fetch";
 import crypto from "crypto";
-import { db } from "../firebaseAdmin.js"; // Initialize your Admin SDK
+import { db } from "../firebaseAdmin.js"; 
 
 export default async function handler(req, res) {
   const timestamp = new Date().toLocaleTimeString();
-  console.log(`\n--- 📊 [DEEP STORAGE SYNC] ${timestamp} ---`);
+  console.log(`\n--- 📊 [DEEP STORAGE SYNC: PUBLITIO] ${timestamp} ---`);
+
+  // 0. Safety Check for Admin SDK
+  if (!db) {
+    console.error("🔥 [SYSTEM ERROR]: Database Connection Offline. Check Service Account.");
+    return res.status(500).json({ success: false, error: "Database offline" });
+  }
 
   try {
     const { PUBLITIO_API_KEY: API_KEY, PUBLITIO_API_SECRET: API_SECRET } = process.env;
@@ -30,6 +37,7 @@ export default async function handler(req, res) {
 
     let masterBytes = 0;
     let actualCount = 0;
+    let purgedCount = 0;
 
     console.log("📑 [SCANNING & REPAIRING]:");
 
@@ -39,8 +47,8 @@ export default async function handler(req, res) {
       const snap = await db.collection("videos").where("resourceId", "==", file.public_id).get();
 
       if (snap.empty) {
-        // 🚨 GHOST DETECTED: Delete from cloud to recover space
-        console.log(`  ❌ [GHOST]: ${file.public_id} (No Firebase Meta). DELETING...`);
+        purgedCount++;
+        console.log(`  ❌ [PURGE]: Ghost Detected (${file.public_id}). Removing from cloud...`);
         await fetch(`https://api.publit.io/v1/files/delete/${file.id}?${auth}`, { method: "DELETE" });
         continue; 
       }
@@ -48,14 +56,15 @@ export default async function handler(req, res) {
       // ✅ VALID FILE
       masterBytes += Number(file.size || 0);
       actualCount++;
-      console.log(`  ✅ [OK]: ${file.title} - ${(file.size / 1024 / 1024).toFixed(2)} MB`);
+      console.log(`  ✅ [HEALTHY]: ${file.title.slice(0, 20)}... | ${(file.size / 1024 / 1024).toFixed(2)} MB`);
     }
 
     const masterMB = masterBytes / 1024 / 1024;
     const VERSION_MULTIPLIER = 3.238; 
     const finalUsedMB = Math.floor((masterMB * VERSION_MULTIPLIER) * 100) / 100;
 
-    console.log(`📊 [CALCULATION]: Final Result: ${finalUsedMB.toFixed(2)} MB`);
+    console.log(`\n✨ [AUDIT COMPLETE]: ${purgedCount} orphaned files removed.`);
+    console.log(`📊 [CALCULATION]: Optimized Total: ${finalUsedMB.toFixed(2)} MB`);
     console.log(`--- 🏁 [STORAGE SYNC END] ---\n`);
 
     return res.json({
@@ -66,7 +75,7 @@ export default async function handler(req, res) {
       percent: +((finalUsedMB / PLAN_LIMIT_MB) * 100).toFixed(2),
     });
   } catch (err) {
-    console.error("🔥 [SYSTEM ERROR]:", err.message);
+    console.error("🔥 [CRITICAL SYSTEM ERROR]:", err.message);
     res.status(500).json({ success: false, error: err.message });
   }
 }

@@ -581,44 +581,69 @@ export default function AdminUpload() {
             <span className="section-label">infrastructure / storage</span>
 
             <div className="header-action-group">
-              {/* NEW: The System Audit / Janitor Button */}
+              {/* 1. SYSTEM AUDIT: Purge Orphaned Files & Failed Uploads */}
               <button
                 className={`btn-janitor ${isAuditing ? "is-active" : ""}`}
-                onClick={() => refetch(true)} // Passing true triggers the deep audit
+                onClick={() => {
+                  // Deep Audit for Cloud storage
+                  refetch(true);
+                  // Local Audit: Clear any locally stuck 'uploading' states that aren't actually moving
+                  if (
+                    videos.some(
+                      (v) => v.status === "uploading" && v.progress === 0
+                    )
+                  ) {
+                    setVideos((prev) =>
+                      prev.map((v) =>
+                        v.status === "uploading"
+                          ? {
+                              ...v,
+                              status: "pending",
+                              error: "Session interrupted",
+                            }
+                          : v
+                      )
+                    );
+                  }
+                }}
                 disabled={usageLoading || isAuditing}
-                title="Purge Orphaned Files"
+                title="System Audit & Ghost Purge"
               >
                 <FiRefreshCw className={isAuditing ? "spin" : ""} size={12} />
-                <span>{isAuditing ? "Auditing..." : "System Audit"}</span>
+                <span className="btn-text">
+                  {isAuditing ? "Auditing..." : "System Audit"}
+                </span>
               </button>
 
               <div className="action-divider"></div>
 
+              {/* 2. REFRESH STORAGE: Quick Usage Update */}
               <button
-                className="icon-refresh"
+                className="icon-refresh-btn"
                 onClick={() => refetch?.()}
-                title="Refresh Storage"
+                disabled={usageLoading}
+                title="Refresh Storage Status"
               >
                 <FiRefreshCw
+                  size={14}
                   className={usageLoading && !isAuditing ? "spin" : ""}
                 />
               </button>
 
               <div className="action-divider"></div>
 
+              {/* 3. EXIT SESSION: Professional Logout */}
               <button
                 className={`logout-link-minimal ${
                   uploading ? "is-disabled" : ""
                 }`}
                 onClick={handleLogout}
                 disabled={uploading}
-                style={{
-                  opacity: uploading ? 0.4 : 1,
-                  cursor: uploading ? "not-allowed" : "pointer",
-                }}
               >
                 <FiLogOut size={12} />
-                <span>{uploading ? "Syncing..." : "Exit Session"}</span>
+                <span className="btn-text">
+                  {uploading ? "Syncing..." : "Exit Session"}
+                </span>
               </button>
             </div>
           </div>

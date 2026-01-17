@@ -2,12 +2,11 @@
 import admin from "firebase-admin";
 
 /**
- * High-End Agency Metadata Sync Engine
- * Handles the connection between Render and Firebase Firestore
+ * VisualForge Metadata Sync Engine
+ * High-End Agency Infrastructure (Style: ideasdesignpro.com)
  */
 
 const getCredentials = () => {
-  // Ensure we are pulling the specific Service Account fields from Render
   const { FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY } =
     process.env;
 
@@ -15,25 +14,31 @@ const getCredentials = () => {
     return null;
   }
 
+  // REPAIR LOGIC:
+  // 1. Removes accidental wrapping quotes
+  // 2. Converts string literal "\n" into actual line breaks
+  const cleanKey = FIREBASE_PRIVATE_KEY.replace(/^"|"$/g, "").replace(
+    /\\n/g,
+    "\n"
+  );
+
   return {
     projectId: FIREBASE_PROJECT_ID,
     clientEmail: FIREBASE_CLIENT_EMAIL,
-    // Critical: Handles Render's string escaping for the RSA Private Key
-    privateKey: FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+    privateKey: cleanKey,
   };
 };
 
 const initializeSync = () => {
+  // Prevent double-initialization
   if (admin.apps.length > 0) return admin.app();
 
   const credentials = getCredentials();
 
   if (!credentials) {
-    console.error("--- ❌ [DEPLOYMENT ERROR] ---");
-    console.error("Condition: Missing FIREBASE_PRIVATE_KEY or PROJECT_ID");
-    console.error(
-      "Action: Ensure Render Environment Variables match serviceAccount.json"
-    );
+    console.error("\n--- ❌ [DEPLOYMENT ERROR] ---");
+    console.error("Status: Missing Critical Environment Variables");
+    console.error("Action: Verify FIREBASE_PRIVATE_KEY in Render Dashboard");
     return null;
   }
 
@@ -42,20 +47,26 @@ const initializeSync = () => {
       credential: admin.credential.cert(credentials),
     });
 
-    // Aesthetic Log for Sync Confirmation
-    console.log("--- 📊 [DEEP STORAGE SYNC] ---");
-    console.log(`📡 [FETCH]: Connected to ${credentials.projectId}`);
-    console.log("📑 [STATUS]: Firebase Admin SDK Active");
+    // Elegant Agency-Style Confirmation Logs
+    console.log("\n--- 📊 [INFRASTRUCTURE READY] ---");
+    console.log(`📡 [NETWORK]: Connected to ${credentials.projectId}`);
+    console.log("📑 [SERVICE]: Firebase Admin SDK Active");
+    console.log("✨ [SYNC]: Ready for System Audit\n");
 
     return app;
   } catch (error) {
-    console.error("--- 🏁 [STORAGE SYNC FAILED] ---");
+    console.error("\n--- 🏁 [STORAGE SYNC FAILED] ---");
     console.error(`Reason: ${error.message}`);
+    console.error(
+      "Tip: Check if the Private Key contains the BEGIN/END header."
+    );
     return null;
   }
 };
 
 const app = initializeSync();
 
+// Export db safely; if initialization failed, db will be null,
+// and our handlers will catch it before crashing.
 export const db = app ? admin.firestore() : null;
 export default admin;

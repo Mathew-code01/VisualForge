@@ -1149,3 +1149,70 @@ select.error-border {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+/* Container for the right-side actions */
+.header-action-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Vertical divider styling */
+.action-divider {
+  width: 1px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Button Base for Infrastructure */
+.btn-janitor, .logout-link-minimal, .icon-refresh-btn {
+  display: flex;
+  align-items: center;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: var(--font-primary);
+  white-space: nowrap;
+}
+
+.btn-text {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-left: 8px;
+  font-weight: 500;
+}
+
+/* RESPONSIVE TWEAKS */
+@media (max-width: 640px) {
+  .header-action-group {
+    gap: 8px;
+  }
+  
+  /* Hide text on very small screens to keep UI crisp */
+  .btn-janitor .btn-text,
+  .logout-link-minimal .btn-text {
+    display: none;
+  }
+  
+  .btn-janitor, .logout-link-minimal {
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+  }
+  
+  .action-divider {
+    margin: 0 4px;
+  }
+}
+
+/* Animation for Audit */
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
