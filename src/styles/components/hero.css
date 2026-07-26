@@ -1,234 +1,2149 @@
 /* src/styles/components/hero.css */
-/* src/styles/components/hero.css */
-/* src/styles/components/hero.css */
-/* src/styles/components/hero.css */
-/* src/styles/components/hero.css */
-/* src/styles/components/hero.css */
-/* src/styles/components/hero.css */
-/* src/styles/components/hero.css */
-/* src/styles/components/hero.css */
+/* =========================================================
+   BIGDAY MEDIA — HERO
+   src/styles/components/hero.css
 
-.hero-viewport {
+   Design direction:
+   Cinematic / Editorial / Creative Technology
+   Image-led / Premium / Responsive
+
+   Depends on:
+   src/styles/theme.css
+   ========================================================= */
+
+
+/* =========================================================
+   01. HERO ROOT
+   ========================================================= */
+
+.bd-hero {
+  --hero-content-max: 1440px;
+  --hero-min-height: max(720px, 100svh);
+
   position: relative;
+  isolation: isolate;
+
   width: 100%;
-  min-height: 100svh; /* Dynamic viewport height for mobile browser bars */
-  background: #000;
-  display: flex;
-  flex-direction: column;
+  min-height: var(--hero-min-height);
+
   overflow: hidden;
-  /* Header Protection: ensures content starts after your top nav */
-  padding-top: clamp(80px, 10vh, 120px); 
+
+  color: var(--color-white);
+
+  background:
+    var(--gradient-cinematic);
+
+  font-family: var(--font-body);
 }
 
-/* Background Layers */
-.hero-bg-canvas {
+
+/* =========================================================
+   02. BACKGROUND SYSTEM
+   ========================================================= */
+
+.bd-hero-background {
   position: absolute;
   inset: 0;
-  z-index: 1;
+
+  z-index: var(--z-base);
+
+  overflow: hidden;
+
+  background:
+    var(--gradient-cinematic);
 }
 
-.hero-slide-frame {
+
+/* ---------------------------------------------------------
+   Background image slides
+   --------------------------------------------------------- */
+
+.bd-hero-background-slide {
   position: absolute;
-  inset: 0;
-  background-size: cover;
+  inset: -2%;
+
+  width: 104%;
+  height: 104%;
+
   background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
   opacity: 0;
-  transform: scale(1.1);
-  transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1), transform 12s linear;
+
+  transform:
+    scale(1.045)
+    translate3d(0, 0, 0);
+
+  filter:
+    saturate(0.86)
+    contrast(1.04)
+    brightness(0.72);
+
+  transition:
+    opacity 1000ms var(--ease-smooth),
+    transform 8500ms var(--ease-smooth),
+    filter 1000ms var(--ease-smooth);
+
+  will-change:
+    opacity,
+    transform;
 }
 
-.hero-slide-frame.active {
+.bd-hero-background-slide.is-active {
   opacity: 1;
-  transform: scale(1.02);
+
+  transform:
+    scale(1)
+    translate3d(0, 0, 0);
+
+  filter:
+    saturate(0.92)
+    contrast(1.04)
+    brightness(0.76);
 }
 
-.hero-overlay-dark {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.8) 100%);
-}
 
-.hero-noise-texture {
+/* =========================================================
+   03. HERO GRADIENT OVERLAY
+   ========================================================= */
+
+.bd-hero-gradient {
   position: absolute;
   inset: 0;
-  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity: 0.15;
-  mix-blend-mode: overlay;
+
+  z-index: 2;
+
   pointer-events: none;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(6, 16, 29, 0.94) 0%,
+      rgba(6, 16, 29, 0.78) 24%,
+      rgba(6, 16, 29, 0.48) 48%,
+      rgba(6, 16, 29, 0.36) 70%,
+      rgba(6, 16, 29, 0.58) 100%
+    );
+
+  mix-blend-mode: normal;
 }
 
-/* UI Container - 100% Responsive Grid */
-.hero-ui-container {
+
+/* =========================================================
+   04. CINEMATIC VIGNETTE
+   ========================================================= */
+
+.bd-hero-vignette {
+  position: absolute;
+  inset: 0;
+
+  z-index: 3;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 50% 45%,
+      transparent 20%,
+      rgba(6, 16, 29, 0.12) 55%,
+      rgba(6, 16, 29, 0.7) 100%
+    );
+}
+
+
+/* =========================================================
+   05. COLOR ATMOSPHERE
+   ========================================================= */
+
+.bd-hero-background::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  z-index: 4;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 12% 18%,
+      rgba(56, 107, 255, 0.24),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 82% 18%,
+      rgba(139, 92, 246, 0.18),
+      transparent 26%
+    ),
+    radial-gradient(
+      circle at 82% 82%,
+      rgba(6, 182, 212, 0.16),
+      transparent 30%
+    );
+}
+
+
+/* =========================================================
+   06. GRID
+   ========================================================= */
+
+.bd-hero-grid {
+  position: absolute;
+  inset: 0;
+
+  z-index: 5;
+
+  pointer-events: none;
+
+  opacity: 0.2;
+
+  background-image:
+    linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.065) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.065) 1px,
+      transparent 1px
+    );
+
+  background-size:
+    96px 96px,
+    96px 96px;
+
+  mask-image:
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.9),
+      rgba(0, 0, 0, 0.2) 70%,
+      transparent 100%
+    );
+
+  -webkit-mask-image:
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.9),
+      rgba(0, 0, 0, 0.2) 70%,
+      transparent 100%
+    );
+}
+
+
+/* =========================================================
+   07. NOISE / FILM GRAIN
+   ========================================================= */
+
+.bd-hero-noise {
+  position: absolute;
+  inset: 0;
+
+  z-index: 6;
+
+  pointer-events: none;
+
+  opacity: 0.075;
+
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.7'/%3E%3C/svg%3E");
+
+  background-repeat: repeat;
+  background-size: 180px 180px;
+
+  mix-blend-mode: soft-light;
+}
+
+
+/* =========================================================
+   08. MAIN CONTAINER
+   ========================================================= */
+
+.bd-hero-container {
   position: relative;
+
   z-index: 10;
-  flex: 1;
+
   display: flex;
   flex-direction: column;
+
+  width: min(
+    calc(100% - (var(--container-padding) * 2)),
+    var(--hero-content-max)
+  );
+
+  min-height: var(--hero-min-height);
+
+  margin-inline: auto;
+
+  padding-top: clamp(
+    7rem,
+    11vh,
+    9.5rem
+  );
+
+  padding-bottom: clamp(
+    2rem,
+    4vh,
+    4rem
+  );
+}
+
+
+/* =========================================================
+   09. TOP META
+   ========================================================= */
+
+.bd-hero-meta {
+  display: flex;
+  align-items: center;
   justify-content: space-between;
-  padding: 20px var(--container-padding) 40px;
-  max-width: var(--max-content-width);
-  margin: 0 auto;
+
   width: 100%;
+
+  padding-bottom: var(--space-5);
+
+  border-bottom:
+    1px solid
+    rgba(255, 255, 255, 0.16);
+
+  color:
+    rgba(255, 255, 255, 0.72);
+
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
 }
 
-/* Top Markers */
-.hero-ui-top {
-  display: flex;
-  justify-content: space-between;
+
+/* ---------------------------------------------------------
+   Status
+   --------------------------------------------------------- */
+
+.bd-hero-status {
+  display: inline-flex;
   align-items: center;
+  gap: var(--space-3);
+
+  min-width: 0;
 }
 
-.ui-marker {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
 
-.dot { width: 6px; height: 6px; background: #ff3b3b; border-radius: 50%; }
-.ui-text { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.4); font-weight: 700; }
+.bd-status-dot {
+  position: relative;
 
-/* Main Typography Engine */
-.hero-main-content {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 0;
-}
-
-.content-wrap {
-  text-align: center;
-  width: 100%;
-  max-width: 900px;
-}
-
-.hero-eyebrow {
   display: block;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.4em;
-  text-transform: uppercase;
-  color: var(--color-secondary-bright);
-  margin-bottom: 24px;
+
+  width: 7px;
+  height: 7px;
+
+  flex: 0 0 7px;
+
+  border-radius: var(--radius-full);
+
+  background:
+    var(--color-mint-400);
+
+  box-shadow:
+    0 0 0 4px rgba(52, 211, 153, 0.08),
+    0 0 18px rgba(52, 211, 153, 0.55);
+
+  animation:
+    bd-status-pulse 2.5s ease-in-out infinite;
 }
 
-.hero-display-title {
-  font-size: clamp(2.5rem, 10vw, 6.5rem);
-  font-weight: 900;
-  line-height: 0.85;
-  letter-spacing: -0.05em;
-  color: #fff;
-  margin-bottom: 32px;
+
+@keyframes bd-status-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.55;
+    transform: scale(0.78);
+  }
 }
 
-.hero-body-text {
-  font-size: clamp(1rem, 1.2vw, 1.25rem);
-  color: rgba(255,255,255,0.6);
-  max-width: 520px;
-  margin: 0 auto 50px;
-  line-height: 1.6;
-  font-weight: 300;
-}
 
-/* Actions Area */
-.hero-cta-row {
+/* ---------------------------------------------------------
+   Right metadata
+   --------------------------------------------------------- */
+
+.bd-hero-meta-right {
   display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+
+.bd-meta-line {
+  position: relative;
+
+  white-space: nowrap;
+}
+
+
+.bd-meta-line + .bd-meta-line::before {
+  content: "";
+
+  position: absolute;
+
+  left: calc(var(--space-4) * -1);
+  top: 50%;
+
+  width: 3px;
+  height: 3px;
+
+  border-radius: var(--radius-full);
+
+  background:
+    rgba(255, 255, 255, 0.38);
+
+  transform: translateY(-50%);
+}
+
+
+/* =========================================================
+   10. MAIN CONTENT
+   ========================================================= */
+
+.bd-hero-content {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(240px, 0.38fr);
+
+  align-items: end;
+
+  gap: clamp(
+    var(--space-10),
+    8vw,
+    var(--space-24)
+  );
+
+  flex: 1;
+
+  padding-top: clamp(
+    5rem,
+    11vh,
+    9rem
+  );
+
+  padding-bottom: clamp(
+    4rem,
+    8vh,
+    7rem
+  );
+}
+
+
+/* =========================================================
+   11. HERO COPY
+   ========================================================= */
+
+.bd-hero-copy {
+  width: min(100%, 850px);
+
+  animation:
+    bd-hero-copy-in
+    700ms
+    var(--ease-expressive)
+    both;
+}
+
+
+@keyframes bd-hero-copy-in {
+  from {
+    opacity: 0;
+
+    transform:
+      translate3d(0, 22px, 0);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translate3d(0, 0, 0);
+  }
+}
+
+
+/* =========================================================
+   12. EYEBROW
+   ========================================================= */
+
+.bd-hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+
+  width: fit-content;
+
+  margin-bottom: clamp(
+    var(--space-5),
+    2vw,
+    var(--space-8)
+  );
+
+  color:
+    rgba(255, 255, 255, 0.76);
+
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+
+  letter-spacing: var(--tracking-widest);
+  line-height: 1;
+
+  text-transform: uppercase;
+}
+
+
+.bd-eyebrow-number {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 40px;
+
+  min-width: 34px;
+  height: 24px;
+
+  padding-inline: var(--space-2);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.2);
+
+  border-radius: var(--radius-pill);
+
+  color:
+    var(--color-cyan-300);
+
+  background:
+    rgba(6, 182, 212, 0.08);
+
+  font-size: 0.65rem;
+
+  letter-spacing: 0.08em;
 }
 
-.btn-cinematic-main {
-  padding: 22px 50px;
-  background: #fff;
-  color: #000;
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  transition: all 0.3s ease;
+
+/* =========================================================
+   13. HERO TITLE
+   ========================================================= */
+
+.bd-hero-title {
+  max-width: 900px;
+
+  color: var(--color-white);
+
+  font-family: var(--font-heading);
+
+  font-size: clamp(
+    4rem,
+    8.2vw,
+    8rem
+  );
+
+  font-weight: var(--font-weight-extrabold);
+
+  line-height:
+    0.92;
+
+  letter-spacing:
+    var(--tracking-display);
+
+  text-wrap: balance;
+
+  text-shadow:
+    0 2px 30px rgba(6, 16, 29, 0.2);
 }
 
-.btn-cinematic-main:hover {
-  background: var(--color-secondary-bright);
-  color: #fff;
-  transform: translateY(-5px);
+
+/* =========================================================
+   14. DESCRIPTION
+   ========================================================= */
+
+.bd-hero-description {
+  width: min(
+    100%,
+    610px
+  );
+
+  margin-top: clamp(
+    var(--space-6),
+    3vw,
+    var(--space-8)
+  );
+
+  color:
+    rgba(255, 255, 255, 0.72);
+
+  font-size: clamp(
+    var(--font-size-md),
+    1.35vw,
+    var(--font-size-lg)
+  );
+
+  font-weight: var(--font-weight-regular);
+
+  line-height:
+    var(--leading-relaxed);
+
+  letter-spacing:
+    -0.01em;
 }
 
-.btn-reel-link {
-  background: none;
-  border: none;
+
+/* =========================================================
+   15. HERO ACTIONS
+   ========================================================= */
+
+.bd-hero-actions {
   display: flex;
   align-items: center;
-  gap: 15px;
-  color: #fff;
-  cursor: pointer;
+  flex-wrap: wrap;
+
+  gap: var(--space-4);
+
+  margin-top: clamp(
+    var(--space-8),
+    4vw,
+    var(--space-10)
+  );
 }
 
-.reel-circle {
-  width: 50px;
-  height: 50px;
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 50%;
-  display: flex;
+
+/* =========================================================
+   16. PRIMARY CTA
+   ========================================================= */
+
+.bd-hero-primary-btn {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  transition: 0.4s ease;
-}
-
-.reel-circle svg { width: 18px; }
-
-.btn-reel-link:hover .reel-circle {
-  background: #fff;
-  color: #000;
-  transform: scale(1.1);
-}
-
-/* Bottom UI */
-.hero-ui-bottom {
-  display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+
+  min-height:
+    var(--button-height-lg);
+
+  gap: var(--space-5);
+
+  padding:
+    0.4rem
+    0.4rem
+    0.4rem
+    1.25rem;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.2);
+
+  border-radius:
+    var(--radius-pill);
+
+  color:
+    var(--color-white);
+
+  background:
+    var(--gradient-primary);
+
+  box-shadow:
+    0 12px 32px rgba(56, 107, 255, 0.22);
+
+  font-size:
+    var(--font-size-sm);
+
+  font-weight:
+    var(--font-weight-semibold);
+
+  letter-spacing:
+    -0.01em;
+
+  transition:
+    transform var(--duration-medium) var(--ease-smooth),
+    box-shadow var(--duration-medium) var(--ease-smooth),
+    filter var(--duration-medium) var(--ease-smooth);
 }
 
-.ui-pagination { display: flex; gap: 8px; }
-.ui-dot { width: 30px; height: 2px; background: rgba(255,255,255,0.1); transition: 0.4s; }
-.ui-dot.active { background: var(--color-secondary-bright); width: 50px; }
 
-.ui-scroll-box {
+.bd-hero-primary-btn:hover {
+  transform:
+    translateY(-3px);
+
+  box-shadow:
+    0 18px 42px rgba(56, 107, 255, 0.34);
+
+  filter:
+    brightness(1.06);
+}
+
+
+.bd-hero-primary-btn:active {
+  transform:
+    translateY(-1px);
+}
+
+
+.bd-btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 38px;
+  height: 38px;
+
+  flex: 0 0 38px;
+
+  border-radius:
+    var(--radius-full);
+
+  color:
+    var(--color-primary-700);
+
+  background:
+    var(--color-white);
+
+  transition:
+    transform var(--duration-medium) var(--ease-spring);
+}
+
+
+.bd-hero-primary-btn:hover .bd-btn-icon {
+  transform:
+    rotate(6deg);
+}
+
+
+/* =========================================================
+   17. SECONDARY CTA
+   ========================================================= */
+
+.bd-hero-secondary-btn {
+  display: inline-flex;
+  align-items: center;
+
+  min-height:
+    var(--button-height-lg);
+
+  gap: var(--space-3);
+
+  padding:
+    0
+    var(--space-5);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.18);
+
+  border-radius:
+    var(--radius-pill);
+
+  color:
+    rgba(255, 255, 255, 0.88);
+
+  background:
+    rgba(255, 255, 255, 0.055);
+
+  backdrop-filter:
+    blur(12px);
+
+  -webkit-backdrop-filter:
+    blur(12px);
+
+  font-size:
+    var(--font-size-sm);
+
+  font-weight:
+    var(--font-weight-medium);
+
+  transition:
+    transform var(--duration-medium) var(--ease-smooth),
+    background var(--duration-medium) var(--ease-smooth),
+    border-color var(--duration-medium) var(--ease-smooth);
+}
+
+
+.bd-hero-secondary-btn:hover {
+  transform:
+    translateY(-3px);
+
+  border-color:
+    rgba(255, 255, 255, 0.32);
+
+  background:
+    rgba(255, 255, 255, 0.11);
+}
+
+
+.bd-play-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 28px;
+  height: 28px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.2);
+
+  border-radius:
+    var(--radius-full);
+
+  color:
+    var(--color-cyan-300);
+
+  background:
+    rgba(6, 182, 212, 0.08);
+
+  transition:
+    transform var(--duration-medium) var(--ease-spring),
+    background var(--duration-medium) var(--ease-standard);
+}
+
+
+.bd-hero-secondary-btn:hover .bd-play-icon {
+  transform:
+    scale(1.08);
+
+  background:
+    rgba(6, 182, 212, 0.16);
+}
+
+
+/* =========================================================
+   18. CAPABILITIES PANEL
+   ========================================================= */
+
+.bd-hero-capabilities {
+  align-self: end;
+
+  width: 100%;
+  max-width: 330px;
+
+  padding:
+    var(--space-5);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.14);
+
+  border-radius:
+    var(--radius-xl);
+
+  background:
+    rgba(9, 24, 43, 0.24);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 24px 60px rgba(6, 16, 29, 0.16);
+
+  backdrop-filter:
+    blur(18px);
+
+  -webkit-backdrop-filter:
+    blur(18px);
+
+  animation:
+    bd-panel-in
+    850ms
+    var(--ease-expressive)
+    180ms
+    both;
+}
+
+
+@keyframes bd-panel-in {
+  from {
+    opacity: 0;
+
+    transform:
+      translate3d(20px, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translate3d(0, 0, 0);
+  }
+}
+
+
+/* ---------------------------------------------------------
+   Capability heading
+   --------------------------------------------------------- */
+
+.bd-capabilities-heading {
   display: flex;
   align-items: center;
-  gap: 15px;
+  justify-content: space-between;
+
+  padding-bottom:
+    var(--space-4);
+
+  border-bottom:
+    1px solid
+    rgba(255, 255, 255, 0.12);
+
+  color:
+    rgba(255, 255, 255, 0.56);
+
+  font-size:
+    var(--font-size-xs);
+
+  font-weight:
+    var(--font-weight-semibold);
+
+  letter-spacing:
+    var(--tracking-wider);
+
+  text-transform:
+    uppercase;
 }
 
-.scroll-line-wrap { width: 1px; height: 40px; background: rgba(255,255,255,0.1); position: relative; overflow: hidden; }
-.scroll-line-moving { 
-  position: absolute; top: 0; left: 0; width: 100%; height: 30%; 
-  background: var(--color-secondary-bright); 
-  animation: scrollDown 2s infinite ease-in-out;
+
+.bd-capabilities-heading svg {
+  color:
+    var(--color-cyan-300);
+
+  transition:
+    transform var(--duration-medium) var(--ease-smooth);
 }
 
-@keyframes scrollDown {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(350%); }
+
+.bd-hero-capabilities:hover
+.bd-capabilities-heading svg {
+  transform:
+    translateX(4px);
 }
 
-@keyframes flicker {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.3; }
-}
-.animate-flicker { animation: flicker 1.5s infinite; }
 
-/* --- RESPONSIVE FIXES --- */
+/* ---------------------------------------------------------
+   Capability list
+   --------------------------------------------------------- */
+
+.bd-capabilities-list {
+  display: flex;
+  flex-direction: column;
+
+  margin-top:
+    var(--space-2);
+}
+
+
+.bd-capability-item {
+  display: flex;
+  align-items: center;
+
+  gap: var(--space-3);
+
+  min-height: 52px;
+
+  border-bottom:
+    1px solid
+    rgba(255, 255, 255, 0.075);
+
+  color:
+    rgba(255, 255, 255, 0.84);
+
+  font-size:
+    var(--font-size-sm);
+
+  font-weight:
+    var(--font-weight-medium);
+
+  transition:
+    padding var(--duration-medium) var(--ease-smooth),
+    color var(--duration-medium) var(--ease-standard);
+}
+
+
+.bd-capability-item:last-child {
+  border-bottom: 0;
+}
+
+
+.bd-capability-item:hover {
+  padding-left:
+    var(--space-2);
+
+  color:
+    var(--color-white);
+}
+
+
+.bd-capability-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 30px;
+  height: 30px;
+
+  flex: 0 0 30px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.12);
+
+  border-radius:
+    var(--radius-sm);
+
+  color:
+    var(--color-cyan-300);
+
+  background:
+    rgba(6, 182, 212, 0.075);
+
+  transition:
+    transform var(--duration-medium) var(--ease-spring),
+    background var(--duration-medium) var(--ease-standard);
+}
+
+
+.bd-capability-item:hover
+.bd-capability-icon {
+  transform:
+    scale(1.08);
+
+  background:
+    rgba(6, 182, 212, 0.14);
+}
+
+
+/* =========================================================
+   19. BOTTOM INTERFACE
+   ========================================================= */
+
+.bd-hero-bottom {
+  display: grid;
+
+  grid-template-columns:
+    1fr
+    auto
+    1fr;
+
+  align-items: end;
+
+  gap: var(--space-8);
+
+  width: 100%;
+
+  padding-top:
+    var(--space-5);
+
+  border-top:
+    1px solid
+    rgba(255, 255, 255, 0.16);
+
+  color:
+    rgba(255, 255, 255, 0.65);
+}
+
+
+/* =========================================================
+   20. PAGINATION
+   ========================================================= */
+
+.bd-hero-pagination {
+  display: flex;
+  align-items: center;
+
+  gap: var(--space-5);
+}
+
+
+.bd-pagination-label,
+.bd-scroll-label,
+.bd-current-label {
+  color:
+    rgba(255, 255, 255, 0.46);
+
+  font-size:
+    0.65rem;
+
+  font-weight:
+    var(--font-weight-semibold);
+
+  letter-spacing:
+    var(--tracking-wider);
+
+  text-transform:
+    uppercase;
+}
+
+
+.bd-pagination-controls {
+  display: flex;
+  align-items: center;
+
+  gap: var(--space-2);
+}
+
+
+.bd-pagination-btn {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 32px;
+
+  padding: 0;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.13);
+
+  border-radius:
+    var(--radius-pill);
+
+  color:
+    rgba(255, 255, 255, 0.46);
+
+  background:
+    rgba(255, 255, 255, 0.035);
+
+  cursor: pointer;
+
+  font-size:
+    0.65rem;
+
+  font-weight:
+    var(--font-weight-semibold);
+
+  letter-spacing:
+    0.06em;
+
+  transition:
+    color var(--duration-normal) var(--ease-standard),
+    background var(--duration-normal) var(--ease-standard),
+    border-color var(--duration-normal) var(--ease-standard),
+    transform var(--duration-normal) var(--ease-smooth);
+}
+
+
+.bd-pagination-btn:hover {
+  color:
+    var(--color-white);
+
+  border-color:
+    rgba(255, 255, 255, 0.3);
+
+  background:
+    rgba(255, 255, 255, 0.08);
+
+  transform:
+    translateY(-2px);
+}
+
+
+.bd-pagination-btn.is-active {
+  color:
+    var(--color-white);
+
+  border-color:
+    rgba(56, 107, 255, 0.5);
+
+  background:
+    rgba(56, 107, 255, 0.18);
+
+  box-shadow:
+    inset 0 0 0 1px rgba(56, 107, 255, 0.08);
+}
+
+
+.bd-pagination-btn.is-active::after {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  bottom: -7px;
+
+  width: 14px;
+  height: 2px;
+
+  border-radius:
+    var(--radius-pill);
+
+  background:
+    var(--gradient-blue-cyan);
+
+  transform:
+    translateX(-50%);
+}
+
+
+/* =========================================================
+   21. SCROLL INDICATOR
+   ========================================================= */
+
+.bd-hero-scroll {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: var(--space-3);
+
+  white-space: nowrap;
+}
+
+
+.bd-scroll-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 30px;
+  height: 30px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.14);
+
+  border-radius:
+    var(--radius-full);
+
+  color:
+    var(--color-cyan-300);
+
+  background:
+    rgba(255, 255, 255, 0.04);
+
+  transition:
+    transform var(--duration-medium) var(--ease-smooth),
+    background var(--duration-medium) var(--ease-standard);
+}
+
+
+.bd-hero-scroll:hover .bd-scroll-arrow {
+  transform:
+    translateX(4px);
+
+  background:
+    rgba(6, 182, 212, 0.1);
+}
+
+
+/* =========================================================
+   22. CURRENT CATEGORY
+   ========================================================= */
+
+.bd-hero-current {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+
+  gap: var(--space-3);
+
+  text-align: right;
+}
+
+
+.bd-current-value {
+  color:
+    rgba(255, 255, 255, 0.9);
+
+  font-size:
+    var(--font-size-xs);
+
+  font-weight:
+    var(--font-weight-semibold);
+
+  letter-spacing:
+    0.01em;
+}
+
+
+/* =========================================================
+   23. FOCUS STATES
+   ========================================================= */
+
+.bd-hero a:focus-visible,
+.bd-hero button:focus-visible {
+  outline: none;
+
+  box-shadow:
+    0 0 0 3px
+      rgba(255, 255, 255, 0.14),
+    0 0 0 6px
+      rgba(56, 107, 255, 0.45);
+}
+
+
+/* =========================================================
+   24. LARGE DESKTOP
+   ========================================================= */
+
+@media (max-width: 1280px) {
+  .bd-hero {
+    --hero-min-height: max(700px, 100svh);
+  }
+
+  .bd-hero-title {
+    font-size: clamp(
+      4rem,
+      8vw,
+      6.8rem
+    );
+  }
+
+  .bd-hero-content {
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(220px, 0.34fr);
+
+    gap: var(--space-16);
+  }
+
+  .bd-hero-capabilities {
+    max-width: 300px;
+  }
+}
+
+
+/* =========================================================
+   25. TABLET / SMALL LAPTOP
+   ========================================================= */
+
 @media (max-width: 1024px) {
-  .hero-viewport { min-height: 80vh; }
+  .bd-hero {
+    --hero-min-height: max(720px, 100svh);
+  }
+
+  .bd-hero-container {
+    padding-top:
+      clamp(
+        6.5rem,
+        10vh,
+        8rem
+      );
+  }
+
+  .bd-hero-content {
+    grid-template-columns: 1fr;
+
+    align-items: end;
+
+    gap: var(--space-10);
+
+    padding-top:
+      clamp(
+        4rem,
+        8vh,
+        6rem
+      );
+
+    padding-bottom:
+      var(--space-10);
+  }
+
+  .bd-hero-copy {
+    width: min(100%, 800px);
+  }
+
+  .bd-hero-title {
+    max-width: 800px;
+
+    font-size: clamp(
+      3.8rem,
+      8.2vw,
+      6.5rem
+    );
+  }
+
+  .bd-hero-capabilities {
+    max-width: 100%;
+
+    padding:
+      var(--space-4)
+      var(--space-5);
+  }
+
+  .bd-capabilities-list {
+    display: grid;
+
+    grid-template-columns:
+      repeat(3, 1fr);
+
+    gap:
+      var(--space-2);
+  }
+
+  .bd-capability-item {
+    border-bottom: 0;
+  }
+
+  .bd-hero-bottom {
+    grid-template-columns:
+      1fr
+      1fr;
+  }
+
+  .bd-hero-scroll {
+    display: none;
+  }
+
+  .bd-hero-current {
+    justify-self: end;
+  }
 }
+
+
+/* =========================================================
+   26. TABLET
+   ========================================================= */
 
 @media (max-width: 768px) {
-  .hero-viewport { padding-top: 80px; }
-  .hero-main-content { padding: 20px 0; }
-  .hero-cta-row { flex-direction: column; gap: 20px; width: 100%; }
-  .btn-cinematic-main { width: 100%; text-align: center; }
-  .hero-ui-bottom { flex-direction: column; align-items: center; gap: 30px; }
-  .hide-mobile { display: none; }
+  .bd-hero {
+    --hero-min-height: max(700px, 100svh);
+  }
+
+  .bd-hero-background-slide {
+    background-position:
+      58% center;
+
+    filter:
+      saturate(0.82)
+      contrast(1.04)
+      brightness(0.64);
+  }
+
+  .bd-hero-background-slide.is-active {
+    filter:
+      saturate(0.88)
+      contrast(1.04)
+      brightness(0.68);
+  }
+
+  .bd-hero-gradient {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(6, 16, 29, 0.72) 0%,
+        rgba(6, 16, 29, 0.62) 28%,
+        rgba(6, 16, 29, 0.72) 58%,
+        rgba(6, 16, 29, 0.94) 100%
+      );
+  }
+
+  .bd-hero-grid {
+    background-size:
+      72px 72px,
+      72px 72px;
+
+    opacity: 0.14;
+  }
+
+  .bd-hero-container {
+    padding-top:
+      6rem;
+
+    padding-bottom:
+      var(--space-5);
+  }
+
+  .bd-hero-meta {
+    padding-bottom:
+      var(--space-4);
+  }
+
+  .bd-hero-meta-right {
+    gap:
+      var(--space-5);
+  }
+
+  .bd-hero-content {
+    padding-top:
+      clamp(
+        3.5rem,
+        8vh,
+        5rem
+      );
+
+    padding-bottom:
+      var(--space-8);
+  }
+
+  .bd-hero-title {
+    font-size:
+      clamp(
+        3.25rem,
+        10vw,
+        5rem
+      );
+
+    line-height:
+      0.94;
+  }
+
+  .bd-hero-description {
+    max-width:
+      580px;
+
+    font-size:
+      var(--font-size-md);
+
+    line-height:
+      1.65;
+  }
+
+  .bd-hero-actions {
+    gap:
+      var(--space-3);
+  }
+
+  .bd-hero-capabilities {
+    border-radius:
+      var(--radius-lg);
+  }
+
+  .bd-capabilities-list {
+    grid-template-columns:
+      repeat(3, 1fr);
+  }
+
+  .bd-capability-item {
+    min-height:
+      46px;
+
+    font-size:
+      var(--font-size-xs);
+  }
+
+  .bd-capability-icon {
+    width: 28px;
+    height: 28px;
+
+    flex-basis: 28px;
+  }
+
+  .bd-hero-bottom {
+    padding-top:
+      var(--space-4);
+  }
+}
+
+
+/* =========================================================
+   27. MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+  .bd-hero {
+    --hero-min-height: auto;
+
+    min-height:
+      100svh;
+  }
+
+  .bd-hero-container {
+    min-height:
+      100svh;
+
+    padding-top:
+      5.5rem;
+
+    padding-bottom:
+      var(--space-5);
+  }
+
+  .bd-hero-meta {
+    align-items:
+      flex-start;
+
+    gap:
+      var(--space-4);
+  }
+
+  .bd-hero-status {
+    max-width:
+      190px;
+
+    line-height:
+      1.35;
+  }
+
+  .bd-hero-meta-right {
+    flex-direction:
+      column;
+
+    align-items:
+      flex-end;
+
+    gap:
+      var(--space-1);
+
+    font-size:
+      0.62rem;
+  }
+
+  .bd-meta-line + .bd-meta-line::before {
+    display:
+      none;
+  }
+
+  .bd-hero-content {
+    gap:
+      var(--space-8);
+
+    padding-top:
+      4rem;
+
+    padding-bottom:
+      var(--space-8);
+  }
+
+  .bd-hero-eyebrow {
+    margin-bottom:
+      var(--space-5);
+
+    font-size:
+      0.62rem;
+
+    letter-spacing:
+      0.11em;
+  }
+
+  .bd-hero-title {
+    font-size:
+      clamp(
+        2.9rem,
+        13.5vw,
+        4.2rem
+      );
+
+    line-height:
+      0.95;
+
+    letter-spacing:
+      -0.055em;
+  }
+
+  .bd-hero-description {
+    width:
+      100%;
+
+    margin-top:
+      var(--space-5);
+
+    font-size:
+      0.95rem;
+
+    line-height:
+      1.62;
+  }
+
+  .bd-hero-actions {
+    align-items:
+      stretch;
+
+    flex-direction:
+      column;
+
+    width:
+      100%;
+
+    margin-top:
+      var(--space-7);
+  }
+
+  .bd-hero-primary-btn,
+  .bd-hero-secondary-btn {
+    width:
+      100%;
+
+    justify-content:
+      center;
+  }
+
+  .bd-hero-primary-btn {
+    justify-content:
+      space-between;
+  }
+
+  .bd-hero-secondary-btn {
+    padding-inline:
+      var(--space-5);
+  }
+
+  .bd-hero-capabilities {
+    padding:
+      var(--space-4);
+  }
+
+  .bd-capabilities-heading {
+    padding-bottom:
+      var(--space-3);
+  }
+
+  .bd-capabilities-list {
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    margin-top:
+      var(--space-1);
+  }
+
+  .bd-capability-item {
+    min-height:
+      44px;
+
+    border-bottom:
+      1px solid
+      rgba(255, 255, 255, 0.07);
+
+    font-size:
+      var(--font-size-xs);
+  }
+
+  .bd-capability-item:last-child {
+    border-bottom:
+      0;
+  }
+
+  .bd-hero-bottom {
+    display:
+      flex;
+
+    align-items:
+      center;
+    justify-content:
+      space-between;
+
+    gap:
+      var(--space-4);
+  }
+
+  .bd-pagination-label {
+    display:
+      none;
+  }
+
+  .bd-pagination-controls {
+    gap:
+      var(--space-2);
+  }
+
+  .bd-pagination-btn {
+    width:
+      40px;
+
+    height:
+      30px;
+  }
+
+  .bd-hero-current {
+    flex-direction:
+      column;
+
+    align-items:
+      flex-end;
+
+    gap:
+      2px;
+  }
+
+  .bd-current-value {
+    max-width:
+      130px;
+
+    overflow:
+      hidden;
+
+    text-overflow:
+      ellipsis;
+
+    white-space:
+      nowrap;
+
+    font-size:
+      0.68rem;
+  }
+
+  .bd-hero-scroll {
+    display:
+      none;
+  }
+}
+
+
+/* =========================================================
+   28. SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+  .bd-hero-background-slide {
+    background-position:
+      60% center;
+  }
+
+  .bd-hero-container {
+    padding-top:
+      5rem;
+
+    padding-bottom:
+      var(--space-4);
+  }
+
+  .bd-hero-meta {
+    padding-bottom:
+      var(--space-3);
+  }
+
+  .bd-hero-status {
+    max-width:
+      170px;
+
+    font-size:
+      0.62rem;
+  }
+
+  .bd-status-dot {
+    width:
+      6px;
+
+    height:
+      6px;
+
+    flex-basis:
+      6px;
+  }
+
+  .bd-hero-meta-right {
+    font-size:
+      0.58rem;
+  }
+
+  .bd-hero-content {
+    padding-top:
+      3.5rem;
+
+    padding-bottom:
+      var(--space-6);
+  }
+
+  .bd-hero-title {
+    font-size:
+      clamp(
+        2.65rem,
+        14vw,
+        3.8rem
+      );
+
+    letter-spacing:
+      -0.06em;
+  }
+
+  .bd-hero-description {
+    font-size:
+      0.9rem;
+  }
+
+  .bd-hero-primary-btn,
+  .bd-hero-secondary-btn {
+    min-height:
+      3.25rem;
+  }
+
+  .bd-hero-primary-btn {
+    padding-left:
+      1rem;
+  }
+
+  .bd-btn-icon {
+    width:
+      34px;
+
+    height:
+      34px;
+
+    flex-basis:
+      34px;
+  }
+
+  .bd-hero-capabilities {
+    padding:
+      var(--space-3);
+  }
+
+  .bd-capability-item {
+    min-height:
+      42px;
+  }
+
+  .bd-capability-icon {
+    width:
+      26px;
+
+    height:
+      26px;
+
+    flex-basis:
+      26px;
+  }
+
+  .bd-hero-bottom {
+    padding-top:
+      var(--space-3);
+  }
+
+  .bd-current-label {
+    font-size:
+      0.56rem;
+  }
+
+  .bd-current-value {
+    font-size:
+      0.62rem;
+  }
+}
+
+
+/* =========================================================
+   29. VERY SMALL DEVICES
+   ========================================================= */
+
+@media (max-width: 360px) {
+  .bd-hero-container {
+    padding-top:
+      4.75rem;
+  }
+
+  .bd-hero-status {
+    max-width:
+      145px;
+
+    font-size:
+      0.57rem;
+  }
+
+  .bd-hero-meta-right {
+    font-size:
+      0.54rem;
+  }
+
+  .bd-hero-content {
+    padding-top:
+      3rem;
+  }
+
+  .bd-hero-title {
+    font-size:
+      2.55rem;
+
+    line-height:
+      0.96;
+  }
+
+  .bd-hero-description {
+    font-size:
+      0.86rem;
+  }
+
+  .bd-hero-actions {
+    margin-top:
+      var(--space-6);
+  }
+
+  .bd-hero-capabilities {
+    padding:
+      var(--space-3);
+  }
+
+  .bd-capability-item {
+    font-size:
+      0.72rem;
+  }
+
+  .bd-pagination-btn {
+    width:
+      36px;
+
+    height:
+      28px;
+  }
+}
+
+
+/* =========================================================
+   30. LANDSCAPE MOBILE
+   ========================================================= */
+
+@media (max-height: 600px) and (orientation: landscape) {
+  .bd-hero {
+    min-height:
+      700px;
+  }
+
+  .bd-hero-container {
+    min-height:
+      700px;
+
+    padding-top:
+      5rem;
+  }
+
+  .bd-hero-content {
+    padding-top:
+      3rem;
+
+    padding-bottom:
+      3rem;
+  }
+
+  .bd-hero-title {
+    font-size:
+      clamp(
+        3rem,
+        8vw,
+        5rem
+      );
+  }
+
+  .bd-hero-description {
+    max-width:
+      520px;
+  }
+}
+
+
+/* =========================================================
+   31. REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .bd-hero-background-slide {
+    transition:
+      opacity 0.01ms linear;
+
+    transform:
+      none;
+  }
+
+  .bd-hero-copy,
+  .bd-hero-capabilities {
+    animation:
+      none;
+  }
+
+  .bd-status-dot {
+    animation:
+      none;
+  }
+
+  .bd-hero-primary-btn,
+  .bd-hero-secondary-btn,
+  .bd-btn-icon,
+  .bd-play-icon,
+  .bd-capability-item,
+  .bd-capability-icon,
+  .bd-pagination-btn,
+  .bd-scroll-arrow {
+    transition:
+      none;
+  }
+}
+
+
+/* =========================================================
+   32. HIGH CONTRAST / FORCED COLORS
+   ========================================================= */
+
+@media (forced-colors: active) {
+  .bd-hero {
+    background:
+      Canvas;
+    color:
+      CanvasText;
+  }
+
+  .bd-hero-background-slide,
+  .bd-hero-gradient,
+  .bd-hero-vignette,
+  .bd-hero-background::before,
+  .bd-hero-grid,
+  .bd-hero-noise {
+    display:
+      none;
+  }
+
+  .bd-hero-title,
+  .bd-hero-description,
+  .bd-hero-meta,
+  .bd-hero-bottom,
+  .bd-capability-item,
+  .bd-current-value {
+    color:
+      CanvasText;
+  }
+
+  .bd-hero-primary-btn,
+  .bd-hero-secondary-btn,
+  .bd-hero-capabilities,
+  .bd-pagination-btn {
+    border:
+      1px solid
+      ButtonText;
+
+    background:
+      Canvas;
+
+    color:
+      ButtonText;
+  }
+}
+
+
+/* =========================================================
+   33. PRINT
+   ========================================================= */
+
+@media print {
+  .bd-hero {
+    min-height:
+      auto;
+
+    color:
+      #000;
+
+    background:
+      #fff;
+  }
+
+  .bd-hero-background,
+  .bd-hero-grid,
+  .bd-hero-noise {
+    display:
+      none;
+  }
+
+  .bd-hero-title,
+  .bd-hero-description,
+  .bd-hero-meta,
+  .bd-hero-bottom,
+  .bd-capability-item {
+    color:
+      #000;
+  }
+
+  .bd-hero-actions,
+  .bd-hero-capabilities,
+  .bd-hero-bottom {
+    display:
+      none;
+  }
 }

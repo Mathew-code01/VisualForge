@@ -23,6 +23,21 @@ import {
 
 const API_BASE = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
+// ✅ NEW: Update an existing video's description
+import { updateDoc } from "firebase/firestore"; // Ensure updateDoc is in your imports
+
+export async function updateVideoDescription(docId, newDescription) {
+  try {
+    const videoRef = doc(db, "videos", docId);
+    await updateDoc(videoRef, {
+      description: newDescription
+    });
+    return { success: true };
+  } catch (err) {
+    console.error("Failed to update description:", err);
+    throw err;
+  }
+}
 /* =======================================================
     METADATA ONLY SAVE FOR RETRY
     This function is used by the client when the file is already uploaded 

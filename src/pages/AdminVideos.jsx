@@ -2,7 +2,8 @@
 // src/pages/AdminVideos.jsx
 // src/pages/AdminVideos.jsx
 import React, { useEffect, useState, useMemo, useRef } from "react";
-import { getVideos } from "../firebase/uploadVideo.js";
+// Change this line (around line 4-5)
+import { getVideos, updateVideoDescription } from "../firebase/uploadVideo.js"; 
 import { deleteVideo } from "../firebase/deleteVideo.js";
 import {
   RefreshCw,
@@ -34,6 +35,31 @@ export default function AdminVideos() {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
   const filterRef = useRef(null);
+  // Add these to your other state declarations
+  const [isEditing, setIsEditing] = useState(false);
+  const [editDesc, setEditDesc] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
+
+  // Function to handle the update
+  const handleSaveDescription = async () => {
+    setIsSaving(true);
+    try {
+      await updateVideoDescription(selectedVideo.id, editDesc);
+      // Update local state so the UI reflects the change immediately
+      setVideos((prev) =>
+        prev.map((v) =>
+          v.id === selectedVideo.id ? { ...v, description: editDesc } : v
+        )
+      );
+      setSelectedVideo((prev) => ({ ...prev, description: editDesc }));
+      setIsEditing(false);
+    } catch (err) {
+      console.log(err)
+      alert("Failed to sync description to cloud.");
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   const checkScroll = () => {
     if (filterRef.current) {
@@ -70,7 +96,7 @@ export default function AdminVideos() {
       const result = await getVideos();
       setVideos(result);
     } catch (err) {
-      console.log(err)
+      console.log(err);
       setErrorMessage("Cloud synchronization failed.");
     } finally {
       setLoading(false);
@@ -111,7 +137,7 @@ export default function AdminVideos() {
       await deleteVideo(vid.id, vid.platform, vid.resourceId);
       setVideos((prev) => prev.filter((v) => v.id !== vid.id));
     } catch (err) {
-      console.log(err)
+      console.log(err);
       alert("Asset protection protocol failed.");
     } finally {
       setDeleting(null);
@@ -321,10 +347,45 @@ export default function AdminVideos() {
                 <h3 className="modal-title-elegant">{selectedVideo.title}</h3>
 
                 <div className="modal-description-full">
-                  <p>
-                    {selectedVideo.description ||
-                      "Visual narrative built for impact."}
-                  </p>
+                  {isEditing ? (
+                    <div className="admin-edit-container">
+                      <textarea
+                        className="admin-edit-textarea"
+                        value={editDesc}
+                        onChange={(e) => setEditDesc(e.target.value)}
+                        autoFocus
+                      />
+                      <div className="admin-edit-actions">
+                        <button
+                          className="admin-save-btn"
+                          onClick={handleSaveDescription}
+                          disabled={isSaving}
+                        >
+                          {isSaving ? "Saving..." : "Save Details"}
+                        </button>
+                        <button
+                          className="admin-cancel-btn"
+                          onClick={() => setIsEditing(false)}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div
+                      className="admin-description-view"
+                      onClick={() => {
+                        setEditDesc(selectedVideo.description || "");
+                        setIsEditing(true);
+                      }}
+                    >
+                      <p>
+                        {selectedVideo.description ||
+                          "Click to add a project description..."}
+                      </p>
+                      <span className="edit-hint">Click to edit</span>
+                    </div>
+                  )}
                 </div>
 
                 <div className="modal-meta-pills">

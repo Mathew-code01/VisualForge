@@ -1,124 +1,1258 @@
-/* src/styles/theme.css */
+
 
 /* src/styles/theme.css */
-/* src/styles/theme.css */
-/* src/styles/theme.css */
-/* src/styles/theme.css */
+/* =========================================================
+   BIGDAY MEDIA — DESIGN SYSTEM
+   src/styles/theme.css
 
-/* src/styles/theme.css */
-/* src/styles/theme.css */
-/* src/styles/theme.css */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+   Design Direction:
+   Premium Creative Studio
+   Editorial / Cinematic / Contemporary / Expressive
 
-/* ============================================
-      BIGDAY MEDIA - VIBRANT CREATIVE THEME
-      Inspired by High-Energy Creative Agencies
-============================================ */
+   Palette:
+   Electric Blue
+   Cyan
+   Violet
+   Coral
+   Amber
+   Mint
+   Cloud / Ice / Midnight Blue
+
+   Philosophy:
+   "Colorful without becoming noisy."
+   ========================================================= */
+
+
+/* =========================================================
+   FONT SYSTEM
+   ========================================================= */
+
+@import url(
+  "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+);
+
+
+/* =========================================================
+   ROOT DESIGN TOKENS
+   ========================================================= */
 
 :root {
-  /* ===== The 4-Blue Palette ===== */
-  --color-secondary-bright: #2b75ff;   /* Most Used - Vibrant */
-  --color-secondary-mid: #164bb2;      /* Most Used - Dynamic */
-  --color-primary-deep: #08008d;       /* Dark Use - Anchor */
-  --color-primary-dark: #08015c;       /* Dark Use - Professional */
-  
-  /* ===== Layout Backgrounds ===== */
-  --color-bg: #ffffff;                 /* Clean White */
-  --color-bg-alt: #f4f7ff;             /* Very Light Blue Tint */
-  --color-bg-soft: #ffffff;
 
-  /* ===== Brand Accents ===== */
-  --color-primary: #2b75ff;
-  --color-primary-light: #528fff;
-  --color-primary-dark: #164bb2;
-  --color-accent: #ff3b3b;             /* Example Red Accent */
+  /* =======================================================
+     01. BRAND — ELECTRIC BLUE
+     ======================================================= */
 
-  /* ===== Text ===== */
-  --color-text: #08015c;               /* Deep Blue Text */
-  --color-text-light: #64748b;         /* Muted Slate */
-  --color-heading: #08008d;            /* Bold Deep Blue */
-  --color-muted: #94a3b8;
+  --color-primary-25: #f5f8ff;
+  --color-primary-50: #edf3ff;
+  --color-primary-100: #dce8ff;
+  --color-primary-200: #bfd3ff;
+  --color-primary-300: #91b4ff;
+  --color-primary-400: #6290ff;
+  --color-primary-500: #386bff;
+  --color-primary-600: #2453e6;
+  --color-primary-700: #1d43bd;
+  --color-primary-800: #1f3b98;
+  --color-primary-900: #1d347a;
+  --color-primary-950: #162650;
 
-  /* ===== Borders & Shadows ===== */
-  --color-border: rgba(43, 117, 255, 0.1);
-  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 10px 15px -3px rgba(43, 117, 255, 0.1);
-  --shadow-lg: 0 20px 25px -5px rgba(43, 117, 255, 0.15);
+  --color-primary: var(--color-primary-500);
+  --color-primary-hover: var(--color-primary-600);
+  --color-primary-active: var(--color-primary-700);
+  --color-primary-soft: var(--color-primary-50);
+  --color-primary-muted: var(--color-primary-100);
 
-  /* ===== Vibrant Gradients ===== */
-  --gradient-vibrant: linear-gradient(135deg, #2b75ff, #164bb2);
-  --gradient-deep: linear-gradient(135deg, #08008d, #08015c);
-  --gradient-mixed: linear-gradient(135deg, #2b75ff, #08008d);
 
-  /* =============================
-        Typography (Poppins)
-  ============================== */
-  --font-base: 'Poppins', sans-serif;
-  --font-heading: 'Poppins', sans-serif;
+/* =======================================================
+   02. CYAN / AQUA
+   ======================================================= */
+
+  --color-cyan-50: #ecfeff;
+  --color-cyan-100: #cffafe;
+  --color-cyan-200: #a5f3fc;
+  --color-cyan-300: #67e8f9;
+  --color-cyan-400: #22d3ee;
+  --color-cyan-500: #06b6d4;
+  --color-cyan-600: #0891b2;
+  --color-cyan-700: #0e7490;
+  --color-cyan-800: #155e75;
+  --color-cyan-900: #164e63;
+
+  --color-accent: var(--color-cyan-500);
+  --color-accent-hover: var(--color-cyan-600);
+  --color-accent-soft: var(--color-cyan-50);
+
+
+/* =======================================================
+   03. VIOLET — CREATIVE ACCENT
+   ======================================================= */
+
+  --color-violet-50: #f5f3ff;
+  --color-violet-100: #ede9fe;
+  --color-violet-200: #ddd6fe;
+  --color-violet-300: #c4b5fd;
+  --color-violet-400: #a78bfa;
+  --color-violet-500: #8b5cf6;
+  --color-violet-600: #7c3aed;
+  --color-violet-700: #6d28d9;
+  --color-violet-800: #5b21b6;
+  --color-violet-900: #4c1d95;
+
+  --color-creative: var(--color-violet-500);
+  --color-creative-soft: var(--color-violet-50);
+
+
+/* =======================================================
+   04. INDIGO — CINEMATIC DEPTH
+   ======================================================= */
+
+  --color-indigo-50: #eef2ff;
+  --color-indigo-100: #e0e7ff;
+  --color-indigo-200: #c7d2fe;
+  --color-indigo-300: #a5b4fc;
+  --color-indigo-400: #818cf8;
+  --color-indigo-500: #6366f1;
+  --color-indigo-600: #4f46e5;
+  --color-indigo-700: #4338ca;
+  --color-indigo-800: #3730a3;
+  --color-indigo-900: #312e81;
+
+
+/* =======================================================
+   05. CORAL / ROSE — HUMAN CREATIVE ACCENT
+   ======================================================= */
+
+  --color-coral-50: #fff4f2;
+  --color-coral-100: #ffe5df;
+  --color-coral-200: #ffcfc5;
+  --color-coral-300: #ffad9e;
+  --color-coral-400: #fb806d;
+  --color-coral-500: #f45f4a;
+  --color-coral-600: #df4735;
+  --color-coral-700: #b9382b;
+  --color-coral-800: #963228;
+  --color-coral-900: #7c3029;
+
+  --color-coral: var(--color-coral-500);
+  --color-coral-soft: var(--color-coral-50);
+
+
+/* =======================================================
+   06. AMBER / GOLD — PREMIUM ACCENT
+   ======================================================= */
+
+  --color-amber-50: #fffbeb;
+  --color-amber-100: #fef3c7;
+  --color-amber-200: #fde68a;
+  --color-amber-300: #fcd34d;
+  --color-amber-400: #fbbf24;
+  --color-amber-500: #f59e0b;
+  --color-amber-600: #d97706;
+  --color-amber-700: #b45309;
+  --color-amber-800: #92400e;
+  --color-amber-900: #78350f;
+
+  --color-gold: var(--color-amber-500);
+  --color-gold-soft: var(--color-amber-50);
+
+
+/* =======================================================
+   07. MINT / EMERALD — FRESH SECONDARY
+   ======================================================= */
+
+  --color-mint-50: #ecfdf5;
+  --color-mint-100: #d1fae5;
+  --color-mint-200: #a7f3d0;
+  --color-mint-300: #6ee7b7;
+  --color-mint-400: #34d399;
+  --color-mint-500: #10b981;
+  --color-mint-600: #059669;
+  --color-mint-700: #047857;
+  --color-mint-800: #065f46;
+  --color-mint-900: #064e3b;
+
+  --color-mint: var(--color-mint-500);
+  --color-mint-soft: var(--color-mint-50);
+
+
+/* =======================================================
+   08. CLOUD NEUTRALS
+   ======================================================= */
+
+  --color-white: #ffffff;
+  --color-black: #06101d;
+
+  --color-gray-25: #fcfdff;
+  --color-gray-50: #f8faff;
+  --color-gray-100: #f2f6fc;
+  --color-gray-150: #edf2f9;
+  --color-gray-200: #e4ebf5;
+  --color-gray-300: #d3ddea;
+  --color-gray-400: #a7b4c7;
+  --color-gray-500: #718096;
+  --color-gray-600: #526176;
+  --color-gray-700: #39485d;
+  --color-gray-800: #26364c;
+  --color-gray-900: #15253b;
+  --color-gray-950: #09182b;
+
+
+/* =======================================================
+   09. CLOUD BLUE — REPLACEMENT FOR FLAT DARK NAVY
+   ======================================================= */
+
+  --color-cloud-50: #f5faff;
+  --color-cloud-100: #eaf4ff;
+  --color-cloud-200: #d8eaff;
+  --color-cloud-300: #bcdcff;
+  --color-cloud-400: #91c3ff;
+  --color-cloud-500: #65a6f8;
+  --color-cloud-600: #4187dc;
+  --color-cloud-700: #326bb5;
+  --color-cloud-800: #28568f;
+  --color-cloud-900: #214875;
+  --color-cloud-950: #163252;
+
+
+/* =======================================================
+   10. SEMANTIC COLORS
+   ======================================================= */
+
+  --color-success-50: #ecfdf5;
+  --color-success-100: #d1fae5;
+  --color-success-500: #10b981;
+  --color-success-600: #059669;
+  --color-success-700: #047857;
+
+  --color-warning-50: #fffbeb;
+  --color-warning-100: #fef3c7;
+  --color-warning-500: #f59e0b;
+  --color-warning-600: #d97706;
+
+  --color-danger-50: #fff1f2;
+  --color-danger-100: #ffe4e6;
+  --color-danger-500: #f43f5e;
+  --color-danger-600: #e11d48;
+
+  --color-info-50: #eff6ff;
+  --color-info-100: #dbeafe;
+  --color-info-500: #3b82f6;
+  --color-info-600: #2563eb;
+
+
+/* =======================================================
+   11. BACKGROUND SYSTEM
+   ======================================================= */
+
+  --color-bg: #ffffff;
+  --color-bg-primary: #ffffff;
+
+  --color-bg-secondary: #f8faff;
+  --color-bg-tertiary: #f1f5fb;
+
+  --color-bg-soft: #f5f8ff;
+  --color-bg-blue: #edf5ff;
+
+  --color-bg-violet: #f7f5ff;
+  --color-bg-cyan: #f0fdff;
+  --color-bg-coral: #fff7f5;
+  --color-bg-amber: #fffcf3;
+  --color-bg-mint: #f1fcf7;
+
+  /*
+   * Cloud-dark surfaces.
+   * These intentionally avoid black and harsh navy.
+   */
+  --color-bg-dark: #163252;
+  --color-bg-dark-soft: #214875;
+  --color-bg-dark-light: #28568f;
+
+
+/* =======================================================
+   12. SURFACES
+   ======================================================= */
+
+  --color-surface: #ffffff;
+  --color-surface-raised: #ffffff;
+
+  --color-surface-soft: #f8faff;
+  --color-surface-hover: #f1f6ff;
+
+  --color-surface-blue: #edf5ff;
+  --color-surface-violet: #f7f5ff;
+  --color-surface-cyan: #effcff;
+  --color-surface-coral: #fff6f3;
+  --color-surface-amber: #fffaf0;
+  --color-surface-mint: #effbf6;
+
+  --color-surface-dark: #163252;
+  --color-surface-dark-raised: #214875;
+
+
+/* =======================================================
+   13. TEXT
+   ======================================================= */
+
+  --color-text: #15253b;
+
+  --color-text-primary: #15253b;
+  --color-text-secondary: #526176;
+  --color-text-muted: #718096;
+  --color-text-subtle: #9aa9bd;
+  --color-text-disabled: #c4cedb;
+
+  --color-heading: #0d1f35;
+
+  --color-text-on-primary: #ffffff;
+  --color-text-on-dark: #ffffff;
+  --color-text-on-color: #ffffff;
+
+
+/* =======================================================
+   14. BORDERS
+   ======================================================= */
+
+  --color-border: #e2e9f3;
+  --color-border-light: #edf2f8;
+  --color-border-strong: #cbd6e5;
+
+  --color-border-primary: rgba(56, 107, 255, 0.22);
+  --color-border-primary-strong: rgba(56, 107, 255, 0.38);
+
+  --color-border-cyan: rgba(6, 182, 212, 0.24);
+  --color-border-violet: rgba(139, 92, 246, 0.22);
+  --color-border-coral: rgba(244, 95, 74, 0.22);
+  --color-border-amber: rgba(245, 158, 11, 0.24);
+  --color-border-mint: rgba(16, 185, 129, 0.22);
+
+
+/* =======================================================
+   15. GRADIENTS — PRIMARY
+   ======================================================= */
+
+  --gradient-primary:
+    linear-gradient(
+      135deg,
+      #4b7cff 0%,
+      #386bff 48%,
+      #2453e6 100%
+    );
+
+  --gradient-primary-soft:
+    linear-gradient(
+      135deg,
+      #edf3ff 0%,
+      #f7f9ff 52%,
+      #f0fdff 100%
+    );
+
+
+/* =======================================================
+   16. GRADIENTS — BLUE + CYAN
+   ======================================================= */
+
+  --gradient-blue-cyan:
+    linear-gradient(
+      135deg,
+      #386bff 0%,
+      #167fd1 48%,
+      #06b6d4 100%
+    );
+
+  --gradient-cyan-blue:
+    linear-gradient(
+      135deg,
+      #06b6d4 0%,
+      #386bff 100%
+    );
+
+
+/* =======================================================
+   17. GRADIENTS — CREATIVE
+   ======================================================= */
+
+  --gradient-creative:
+    linear-gradient(
+      135deg,
+      #386bff 0%,
+      #6366f1 45%,
+      #8b5cf6 100%
+    );
+
+  --gradient-violet-coral:
+    linear-gradient(
+      135deg,
+      #6366f1 0%,
+      #8b5cf6 48%,
+      #f45f4a 100%
+    );
+
+  --gradient-coral-amber:
+    linear-gradient(
+      135deg,
+      #f45f4a 0%,
+      #f59e0b 100%
+    );
+
+  --gradient-mint-cyan:
+    linear-gradient(
+      135deg,
+      #10b981 0%,
+      #06b6d4 100%
+    );
+
+
+/* =======================================================
+   18. GRADIENTS — CLOUD DARK
+   ======================================================= */
+
+  --gradient-deep:
+    linear-gradient(
+      135deg,
+      #214875 0%,
+      #163252 52%,
+      #28568f 100%
+    );
+
+  --gradient-dark-blue:
+    linear-gradient(
+      145deg,
+      #163252 0%,
+      #214875 42%,
+      #326bb5 100%
+    );
+
+  /*
+   * A richer dark background for cinematic sections.
+   * Still blue/cloud-based rather than black.
+   */
+  --gradient-cinematic:
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(56, 107, 255, 0.38),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 80% 15%,
+      rgba(139, 92, 246, 0.28),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 70% 85%,
+      rgba(6, 182, 212, 0.2),
+      transparent 34%
+    ),
+    linear-gradient(
+      135deg,
+      #163252 0%,
+      #214875 48%,
+      #28568f 100%
+    );
+
+
+/* =======================================================
+   19. HERO GRADIENTS
+   ======================================================= */
+
+  --gradient-hero:
+    radial-gradient(
+      circle at 12% 18%,
+      rgba(56, 107, 255, 0.18),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 78% 20%,
+      rgba(139, 92, 246, 0.14),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 82% 82%,
+      rgba(6, 182, 212, 0.12),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #ffffff 0%,
+      #f5f8ff 48%,
+      #f0fdff 100%
+    );
+
+  --gradient-hero-color:
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(56, 107, 255, 0.32),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 85% 15%,
+      rgba(139, 92, 246, 0.28),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(244, 95, 74, 0.16),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #edf5ff 0%,
+      #f7f5ff 50%,
+      #f0fdff 100%
+    );
+
+
+/* =======================================================
+   20. GLOW SYSTEM
+   ======================================================= */
+
+  --gradient-glow:
+    radial-gradient(
+      circle,
+      rgba(56, 107, 255, 0.24),
+      transparent 70%
+    );
+
+  --gradient-glow-cyan:
+    radial-gradient(
+      circle,
+      rgba(6, 182, 212, 0.24),
+      transparent 70%
+    );
+
+  --gradient-glow-violet:
+    radial-gradient(
+      circle,
+      rgba(139, 92, 246, 0.22),
+      transparent 70%
+    );
+
+  --gradient-glow-coral:
+    radial-gradient(
+      circle,
+      rgba(244, 95, 74, 0.18),
+      transparent 70%
+    );
+
+
+/* =======================================================
+   21. TYPOGRAPHY
+   ======================================================= */
+
+  --font-body: "DM Sans", sans-serif;
+  --font-heading: "Manrope", sans-serif;
 
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-md: 1rem;
   --font-size-lg: 1.125rem;
-  --font-size-xl: 1.5rem;
-  --font-size-xxl: 2.5rem;
-  --font-size-xxxl: 4rem;
-  --font-size-display: 5.5rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --font-size-5xl: 3rem;
+  --font-size-6xl: 3.75rem;
+  --font-size-7xl: 4.5rem;
+  --font-size-8xl: 6rem;
+  --font-size-9xl: 7.5rem;
 
-  /* =============================
-        Spacing & Layout
-  ============================== */
-  --spacing-md: 16px;
-  --spacing-lg: 32px;
-  --spacing-xl: 64px;
-  --max-content-width: 1400px;
-  --container-padding: 24px;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  --tracking-tight: -0.04em;
+  --tracking-tighter: -0.055em;
+  --tracking-display: -0.065em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.08em;
+  --tracking-widest: 0.14em;
+
+  --leading-tight: 1.08;
+  --leading-snug: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.7;
+
+
+/* =======================================================
+   22. SPACING
+   ======================================================= */
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  --section-space-sm: 4rem;
+  --section-space-md: 6rem;
+  --section-space-lg: 8rem;
+  --section-space-xl: 10rem;
+
+
+/* =======================================================
+   23. LAYOUT
+   ======================================================= */
+
+  --container-xs: 480px;
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1200px;
+  --container-2xl: 1400px;
+
+  --container-max: 1440px;
+
+  --container-padding: clamp(
+    1rem,
+    4vw,
+    3.5rem
+  );
+
+
+/* =======================================================
+   24. BORDER RADIUS
+   ======================================================= */
+
+  --radius-xs: 0.375rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
+  --radius-4xl: 2.5rem;
+
+  --radius-pill: 999px;
+  --radius-full: 50%;
+
+
+/* =======================================================
+   25. SHADOWS
+   ======================================================= */
+
+  --shadow-xs:
+    0 1px 2px rgba(21, 37, 59, 0.04);
+
+  --shadow-sm:
+    0 2px 8px rgba(21, 37, 59, 0.055);
+
+  --shadow-md:
+    0 8px 24px rgba(21, 37, 59, 0.075);
+
+  --shadow-lg:
+    0 16px 40px rgba(21, 37, 59, 0.1);
+
+  --shadow-xl:
+    0 24px 60px rgba(21, 37, 59, 0.14);
+
+  --shadow-2xl:
+    0 32px 90px rgba(21, 37, 59, 0.18);
+
+  --shadow-primary:
+    0 12px 30px rgba(56, 107, 255, 0.2);
+
+  --shadow-primary-lg:
+    0 20px 50px rgba(56, 107, 255, 0.26);
+
+  --shadow-violet:
+    0 18px 48px rgba(139, 92, 246, 0.18);
+
+  --shadow-cyan:
+    0 18px 48px rgba(6, 182, 212, 0.16);
+
+  --shadow-coral:
+    0 18px 48px rgba(244, 95, 74, 0.16);
+
+  --shadow-inner:
+    inset 0 1px 2px rgba(21, 37, 59, 0.04);
+
+
+/* =======================================================
+   26. GLASS / TRANSLUCENT SURFACES
+   ======================================================= */
+
+  --glass-bg:
+    rgba(255, 255, 255, 0.68);
+
+  --glass-bg-strong:
+    rgba(255, 255, 255, 0.88);
+
+  --glass-bg-blue:
+    rgba(237, 245, 255, 0.72);
+
+  --glass-bg-violet:
+    rgba(247, 245, 255, 0.72);
+
+  --glass-border:
+    rgba(255, 255, 255, 0.72);
+
+  --glass-border-dark:
+    rgba(255, 255, 255, 0.18);
+
+  --glass-blur: blur(18px);
+  --glass-blur-heavy: blur(28px);
+
+
+/* =======================================================
+   27. MOTION
+   ======================================================= */
+
+  --ease-standard:
+    cubic-bezier(0.4, 0, 0.2, 1);
+
+  --ease-smooth:
+    cubic-bezier(0.22, 1, 0.36, 1);
+
+  --ease-spring:
+    cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --ease-expressive:
+    cubic-bezier(0.16, 1, 0.3, 1);
+
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-medium: 350ms;
+  --duration-slow: 500ms;
+  --duration-slower: 800ms;
+
+  --transition-fast:
+    all var(--duration-fast) var(--ease-standard);
+
+  --transition:
+    all var(--duration-normal) var(--ease-standard);
+
+  --transition-smooth:
+    all var(--duration-medium) var(--ease-smooth);
+
+  --transition-expressive:
+    all var(--duration-medium) var(--ease-expressive);
+
+
+/* =======================================================
+   28. Z-INDEX
+   ======================================================= */
+
+  --z-base: 1;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-modal-backdrop: 400;
+  --z-modal: 500;
+  --z-popover: 600;
+  --z-toast: 700;
+  --z-tooltip: 800;
   --z-max: 9999;
 
-  /* Transitions */
-  --transition-medium: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+/* =======================================================
+   29. FORM / UI
+   ======================================================= */
+
+  --input-height-sm: 2.5rem;
+  --input-height-md: 3rem;
+  --input-height-lg: 3.5rem;
+
+  --button-height-sm: 2.5rem;
+  --button-height-md: 3rem;
+  --button-height-lg: 3.5rem;
+
+
+/* =======================================================
+   30. BREAKPOINTS
+   ======================================================= */
+
+  --breakpoint-xs: 360px;
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+
+
+/* =======================================================
+   31. EFFECTS
+   ======================================================= */
+
+  --opacity-disabled: 0.5;
+  --opacity-muted: 0.7;
+
+  --blur-sm: blur(8px);
+  --blur-md: blur(16px);
+  --blur-lg: blur(24px);
+  --blur-xl: blur(40px);
+
+
+/* =======================================================
+   32. FOCUS
+   ======================================================= */
+
+  --focus-ring:
+    0 0 0 3px rgba(56, 107, 255, 0.2);
+
+  --focus-ring-cyan:
+    0 0 0 3px rgba(6, 182, 212, 0.2);
+
+  --focus-ring-violet:
+    0 0 0 3px rgba(139, 92, 246, 0.2);
+
+
+/* =======================================================
+   33. MEDIA / IMAGE TREATMENT
+   ======================================================= */
+
+  --image-overlay-light:
+    linear-gradient(
+      to top,
+      rgba(21, 37, 59, 0.5),
+      rgba(21, 37, 59, 0.04)
+    );
+
+  --image-overlay-dark:
+    linear-gradient(
+      to top,
+      rgba(9, 24, 43, 0.76),
+      rgba(9, 24, 43, 0.08)
+    );
+
+  --image-overlay-colorful:
+    linear-gradient(
+      135deg,
+      rgba(56, 107, 255, 0.22),
+      rgba(139, 92, 246, 0.16),
+      rgba(6, 182, 212, 0.12)
+    );
+
+
+/* =======================================================
+   34. DECORATIVE COLOR ORBS
+   ======================================================= */
+
+  --orb-blue:
+    radial-gradient(
+      circle,
+      rgba(56, 107, 255, 0.24) 0%,
+      rgba(56, 107, 255, 0) 70%
+    );
+
+  --orb-cyan:
+    radial-gradient(
+      circle,
+      rgba(6, 182, 212, 0.2) 0%,
+      rgba(6, 182, 212, 0) 70%
+    );
+
+  --orb-violet:
+    radial-gradient(
+      circle,
+      rgba(139, 92, 246, 0.2) 0%,
+      rgba(139, 92, 246, 0) 70%
+    );
+
+  --orb-coral:
+    radial-gradient(
+      circle,
+      rgba(244, 95, 74, 0.17) 0%,
+      rgba(244, 95, 74, 0) 70%
+    );
+
+  --orb-amber:
+    radial-gradient(
+      circle,
+      rgba(245, 158, 11, 0.15) 0%,
+      rgba(245, 158, 11, 0) 70%
+    );
 }
 
-/* Base Styles */
-* {
+
+/* =========================================================
+   GLOBAL FOUNDATION
+   ========================================================= */
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+}
+
+html {
+  min-width: 320px;
+  scroll-behavior: smooth;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  font-family: var(--font-base);
-  background-color: var(--color-bg);
+  margin: 0;
+  min-width: 320px;
+
+  background:
+    radial-gradient(
+      circle at 5% 0%,
+      rgba(56, 107, 255, 0.035),
+      transparent 25%
+    ),
+    var(--color-bg);
+
   color: var(--color-text);
-  line-height: 1.6;
+
+  font-family: var(--font-body);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--leading-normal);
+
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
-  font-weight: 700;
-  color: var(--color-heading);
+body,
+button,
+input,
+textarea,
+select {
+  font-family: var(--font-body);
 }
 
-#root { width: 100%; overflow-x: hidden; }
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  border: 0;
+}
 
 a {
+  color: inherit;
   text-decoration: none;
-  transition: var(--transition-medium);
 }
 
-/* 
-Here is the summary block you can save. Whenever you need to "reset" my brain to these requirements, just paste this:
-⚠️ Project: BigDay Media - Elite Refactor
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
 
-    Aesthetic: Ultra-minimalist, high-end agency (Style: ideasdesignpro.com).
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
 
-    Layout: alternating "Zebra" sections (White → Deep/Blur Dark → White).
+::selection {
+  background: rgba(56, 107, 255, 0.2);
+  color: var(--color-primary-900);
+}
 
-    Typography: Hero text must be Centered. All headings reduced to professional, elegant sizes. No "beginner" numbering (Remove 01, 02).
 
-    Spacing: Strict vertical rhythm. Section padding must be identical top and bottom.
+/* =========================================================
+   GLOBAL HEADINGS
+   ========================================================= */
 
-    Cards: UI/UX focus—Clean image-based cards with sophisticated hover states.
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
 
-    Footer: Deep dark background with high-blur (Glassmorphism) and crisp white text. */
+  color: var(--color-heading);
+
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+p {
+  margin: 0;
+}
+
+strong {
+  font-weight: var(--font-weight-bold);
+}
+
+
+/* =========================================================
+   UTILITY — COLORFUL TEXT
+   ========================================================= */
+
+.text-gradient {
+  color: transparent;
+
+  background:
+    linear-gradient(
+      110deg,
+      var(--color-primary-500),
+      var(--color-violet-500),
+      var(--color-cyan-500)
+    );
+
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.text-gradient-warm {
+  color: transparent;
+
+  background:
+    linear-gradient(
+      110deg,
+      var(--color-coral-500),
+      var(--color-amber-500)
+    );
+
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.text-gradient-creative {
+  color: transparent;
+
+  background:
+    linear-gradient(
+      110deg,
+      var(--color-primary-500),
+      var(--color-indigo-500),
+      var(--color-violet-500),
+      var(--color-coral-500)
+    );
+
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+
+/* =========================================================
+   UTILITY — COLORFUL SURFACES
+   ========================================================= */
+
+.surface-blue {
+  background: var(--color-surface-blue);
+}
+
+.surface-violet {
+  background: var(--color-surface-violet);
+}
+
+.surface-cyan {
+  background: var(--color-surface-cyan);
+}
+
+.surface-coral {
+  background: var(--color-surface-coral);
+}
+
+.surface-amber {
+  background: var(--color-surface-amber);
+}
+
+.surface-mint {
+  background: var(--color-surface-mint);
+}
+
+.surface-cinematic {
+  color: var(--color-white);
+  background: var(--gradient-cinematic);
+}
+
+
+/* =========================================================
+   UTILITY — GRADIENT BACKGROUNDS
+   ========================================================= */
+
+.gradient-primary {
+  background: var(--gradient-primary);
+}
+
+.gradient-creative {
+  background: var(--gradient-creative);
+}
+
+.gradient-blue-cyan {
+  background: var(--gradient-blue-cyan);
+}
+
+.gradient-violet-coral {
+  background: var(--gradient-violet-coral);
+}
+
+.gradient-coral-amber {
+  background: var(--gradient-coral-amber);
+}
+
+.gradient-mint-cyan {
+  background: var(--gradient-mint-cyan);
+}
+
+
+/* =========================================================
+   UTILITY — CONTAINER
+   ========================================================= */
+
+.container {
+  width: min(
+    calc(100% - (var(--container-padding) * 2)),
+    var(--container-max)
+  );
+
+  margin-inline: auto;
+}
+
+
+/* =========================================================
+   UTILITY — HORIZONTAL RULE
+   ========================================================= */
+
+.color-rule {
+  height: 1px;
+  border: 0;
+  margin: 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--color-primary-500),
+      var(--color-violet-500),
+      var(--color-cyan-500),
+      transparent
+    );
+}
+
+
+/* =========================================================
+   RESPONSIVE FOUNDATION
+   ========================================================= */
+
+@media (max-width: 1024px) {
+  :root {
+    --section-space-xl: 8rem;
+    --section-space-lg: 6.5rem;
+    --container-padding: clamp(1.25rem, 4vw, 2.5rem);
+  }
+}
+
+
+@media (max-width: 768px) {
+  :root {
+    --section-space-xl: 6rem;
+    --section-space-lg: 5rem;
+    --section-space-md: 4rem;
+
+    --font-size-8xl: 4.5rem;
+    --font-size-7xl: 3.75rem;
+    --font-size-6xl: 3.25rem;
+
+    --container-padding: clamp(1rem, 5vw, 2rem);
+  }
+}
+
+
+@media (max-width: 480px) {
+  :root {
+    --section-space-xl: 4.5rem;
+    --section-space-lg: 4rem;
+    --section-space-md: 3rem;
+    --section-space-sm: 2.75rem;
+
+    --font-size-8xl: 3.25rem;
+    --font-size-7xl: 3rem;
+    --font-size-6xl: 2.625rem;
+    --font-size-5xl: 2.25rem;
+    --font-size-4xl: 2rem;
+    --font-size-3xl: 1.625rem;
+
+    --container-padding: 1rem;
+
+    --radius-3xl: 1.5rem;
+    --radius-4xl: 1.75rem;
+  }
+}
+
+
+@media (max-width: 360px) {
+  :root {
+    --font-size-8xl: 2.8rem;
+    --font-size-7xl: 2.55rem;
+    --font-size-6xl: 2.3rem;
+    --font-size-5xl: 2rem;
+    --font-size-4xl: 1.8rem;
+
+    --container-padding: 0.875rem;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-normal: 0ms;
+    --duration-medium: 0ms;
+    --duration-slow: 0ms;
+    --duration-slower: 0ms;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+/* =========================================================
+   PRINT
+   ========================================================= */
+
+@media print {
+  *,
+  *::before,
+  *::after {
+    background: transparent !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+}

@@ -148,3 +148,7 @@
 @media (max-width: 900px) {
   .work-grid-vibrant { grid-template-columns: 1fr; gap: 60px; }
 }
+
+.grid-empty-state-h3-dark {
+  color: var(--color-secondary-bright);
+}

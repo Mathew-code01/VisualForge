@@ -591,3 +591,107 @@
 .admin-video-card:hover .admin-description-preview p {
   color: var(--color-text);
 }
+
+/* --- DESCRIPTION EDITING (High-End Agency Style) --- */
+
+.admin-edit-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.admin-edit-textarea {
+  width: 100%;
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  color: var(--color-text);
+  padding: 1.2rem;
+  font-family: var(--font-base);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  min-height: 160px;
+  resize: none; /* Keeps the minimalist UI fixed */
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.admin-edit-textarea:focus {
+  border-color: var(--color-secondary-bright);
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(43, 117, 255, 0.05);
+}
+
+.admin-edit-actions {
+  display: flex;
+  gap: 12px;
+}
+
+/* Minimalist Primary Action */
+.admin-save-btn {
+  background: var(--color-primary-dark);
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.admin-save-btn:hover:not(:disabled) {
+  background: var(--color-secondary-bright);
+  transform: translateY(-2px);
+}
+
+/* Ghost Button for Cancel */
+.admin-cancel-btn {
+  background: transparent;
+  color: var(--color-muted);
+  border: 1px solid var(--color-border);
+  padding: 12px 24px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.admin-cancel-btn:hover {
+  border-color: var(--color-primary-dark);
+  color: var(--color-primary-dark);
+}
+
+/* Interactive View Mode */
+.admin-description-view {
+  cursor: pointer;
+  position: relative;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.admin-description-view p {
+  margin-bottom: 8px;
+}
+
+.edit-hint {
+  display: inline-block;
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--color-secondary-bright);
+  font-weight: 800;
+  letter-spacing: 1px;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+}
+
+.admin-description-view:hover .edit-hint {
+  opacity: 1;
+  transform: translateX(0);
+}

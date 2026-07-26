@@ -155,7 +155,9 @@ const WorkGrid = ({ title, featured = false, enableHoverPreview = true }) => {
             ))
           ) : (
             <div className="grid-empty-state">
-              <h3>No projects in {activeCategory}</h3>
+              <h3 className="grid-empty-state-h3-dark">
+                No projects in {activeCategory}
+              </h3>
               <p>Check back soon for new releases.</p>
             </div>
           )}

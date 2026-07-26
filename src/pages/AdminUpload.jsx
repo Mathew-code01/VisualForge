@@ -179,11 +179,9 @@ const VideoItem = memo(
           {/* NEW: Description / About Field */}
           <div className="field-row">
             <textarea
-              className={`description-input-minimal ${
-                !vid.description && uploading ? "error-border" : ""
-              }`} // Added dynamic error border
+              className="description-input-minimal" // Remove error-border logic here
               value={vid.description || ""}
-              placeholder="about this project (required)"
+              placeholder="about this project (optional - can add later)"
               onChange={(e) =>
                 updateItemStatus(vid.preview, { description: e.target.value })
               }
@@ -451,14 +449,12 @@ export default function AdminUpload() {
   const handleUpload = async () => {
     const queue = isAnySelected ? selectedVideos : videos;
 
-    // 1. PROFESSIONAL VALIDATION GUARD
-    const incompleteItems = queue.filter(
-      (v) => !v.category || !v.description || v.description.trim().length < 5
-    );
+    // Removed description and length checks
+    const incompleteItems = queue.filter((v) => !v.category);
 
     if (incompleteItems.length > 0) {
       setDuplicateWarning(
-        `Action Required: ${incompleteItems.length} video(s) are missing categories or project descriptions.`
+        `Action Required: ${incompleteItems.length} video(s) are missing categories.`
       );
       // PROFESSIONAL SCROLL: Smoothly scroll to top so they see the banner
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -565,10 +561,10 @@ export default function AdminUpload() {
     }
   };
 
+  // CHANGE 1: Update the derived state constant
   const hasValidationErrors = useMemo(() => {
-    return videos.some(
-      (v) => !v.category || !v.description || v.description.trim().length < 5
-    );
+    // Remove the description check. Now only 'category' is required.
+    return videos.some((v) => !v.category);
   }, [videos]);
 
   return (
