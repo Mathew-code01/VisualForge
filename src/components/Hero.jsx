@@ -1,267 +1,205 @@
 
 // src/components/Hero.jsx
 
-import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+// src/components/Hero/Hero.jsx
+import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import {
-  ArrowRight,
-  ArrowUpRight,
-  Play,
-  Sparkles,
-  Bot,
-  Clapperboard,
+  Sparkles, Play, ArrowRight, Wand2, Scissors,
+  Mic2, Film, Star, Upload, Zap,
 } from "lucide-react";
-
 import "../styles/components/hero.css";
 
-// Assets
-import theArchiveImg from "../assets/images/theArchive.webp";
-import visualExcellenceImg from "../assets/images/visualExcellence.webp";
+/* ── Rotating word data ── */
+const ROTATING_WORDS = ["reels", "trailers", "podcasts", "ads", "shorts"];
 
-const heroSlides = [
-  {
-    id: "01",
-    eyebrow: "Creative intelligence",
-    title: "Build what comes next.",
-    description:
-      "BigDay brings creative direction, intelligent systems, and production together to help ambitious brands move from idea to execution.",
-    image: theArchiveImg,
-    category: "Creative Systems",
-  },
-  {
-    id: "02",
-    eyebrow: "Human × AI",
-    title: "Ideas, amplified by intelligence.",
-    description:
-      "We combine human creativity with AI-powered workflows and collaborative agents to make modern creative work faster, sharper, and more scalable.",
-    image: visualExcellenceImg,
-    category: "AI Collaboration",
-  },
-];
-
-const capabilities = [
-  {
-    icon: Sparkles,
-    label: "Creative",
-  },
-  {
-    icon: Bot,
-    label: "AI Systems",
-  },
-  {
-    icon: Clapperboard,
-    label: "Production",
-  },
-];
+/* ── Social proof avatars (replace src with real assets) ── */
+const AVATAR_COLORS = ["primary", "secondary", "tertiary", "accent"];
 
 export default function Hero() {
-  const [index, setIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+  const [wordIndex, setWordIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = useRef(null);
 
-  const currentSlide = heroSlides[index];
-
+  /* Rotate headline word every 2.2s */
   useEffect(() => {
-    if (isPaused) return;
+    const id = setInterval(() => {
+      setWordIndex((i) => (i + 1) % ROTATING_WORDS.length);
+    }, 2200);
+    return () => clearInterval(id);
+  }, []);
 
-    const timer = window.setInterval(() => {
-      setIndex((prev) => (prev + 1) % heroSlides.length);
-    }, 6500);
+  console.log(videoRef)
 
-    return () => window.clearInterval(timer);
-  }, [isPaused]);
-
-  const handleSlideChange = (nextIndex) => {
-    setIndex(nextIndex);
+  const togglePlay = () => {
+    setIsPlaying((v) => !v);
   };
 
   return (
-    <section
-      className="bd-hero"
-      aria-label="BigDay introduction"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-      onFocus={() => setIsPaused(true)}
-      onBlur={() => setIsPaused(false)}
-    >
-      {/* =====================================================
-          BACKGROUND
-      ====================================================== */}
-
-      <div className="bd-hero-background" aria-hidden="true">
-        {heroSlides.map((slide, slideIndex) => (
-          <div
-            key={slide.id}
-            className={`bd-hero-background-slide ${
-              slideIndex === index ? "is-active" : ""
-            }`}
-            style={{
-              backgroundImage: `url("${slide.image}")`,
-            }}
-          />
-        ))}
-
-        <div className="bd-hero-gradient" />
-        <div className="bd-hero-vignette" />
-        <div className="bd-hero-grid" />
-        <div className="bd-hero-noise" />
+    <section className="hero">
+      {/* ── Background layers ── */}
+      <div className="hero__bg" aria-hidden="true">
+        <div className="hero__blob hero__blob--1" />
+        <div className="hero__blob hero__blob--2" />
+        <div className="hero__blob hero__blob--3" />
+        <div className="hero__grid" />
       </div>
 
-      {/* =====================================================
-          MAIN CONTAINER
-      ====================================================== */}
+      <div className="hero__inner">
 
-      <div className="bd-hero-container">
-        {/* ===================================================
-            TOP META
-        ==================================================== */}
-
-        <div className="bd-hero-meta">
-          <div className="bd-hero-status">
-            <span className="bd-status-dot" />
-            <span>BigDay / Creative Technology</span>
-          </div>
-
-          <div className="bd-hero-meta-right">
-            <span className="bd-meta-line">Lagos · Global</span>
-            <span className="bd-meta-line">Est. 2024</span>
-          </div>
+        {/* ── Eyebrow badge ── */}
+        <div className="hero__badge">
+          <span className="hero__badge-dot" />
+          <Sparkles size={13} strokeWidth={2.5} />
+          Powered by ReelCraft AI Agent
         </div>
 
-        {/* ===================================================
-            CONTENT
-        ==================================================== */}
-
-        <div className="bd-hero-content">
-          <div
-            className="bd-hero-copy"
-            key={currentSlide.id}
-          >
-            <div className="bd-hero-eyebrow">
-              <span className="bd-eyebrow-number">
-                {currentSlide.id}
-              </span>
-
-              <span>{currentSlide.eyebrow}</span>
-            </div>
-
-            <h1 className="bd-hero-title">
-              {currentSlide.title}
-            </h1>
-
-            <p className="bd-hero-description">
-              {currentSlide.description}
-            </p>
-
-            {/* CTA */}
-            <div className="bd-hero-actions">
-              <NavLink
-                to="/work"
-                className="bd-hero-primary-btn"
-              >
-                <span>Explore BigDay</span>
-
-                <span className="bd-btn-icon">
-                  <ArrowUpRight size={17} strokeWidth={2.2} />
-                </span>
-              </NavLink>
-
-              <NavLink
-                to="/about"
-                className="bd-hero-secondary-btn"
-              >
-                <span className="bd-play-icon">
-                  <Play size={13} fill="currentColor" />
-                </span>
-
-                <span>Meet the company</span>
-              </NavLink>
-            </div>
-          </div>
-
-          {/* =================================================
-              CAPABILITY PANEL
-          ================================================== */}
-
-          <div className="bd-hero-capabilities">
-            <div className="bd-capabilities-heading">
-              <span>What we build</span>
-              <ArrowRight size={15} />
-            </div>
-
-            <div className="bd-capabilities-list">
-              {capabilities.map((item) => {
-                const Icon = item.icon;
-
-                return (
-                  <div
-                    className="bd-capability-item"
-                    key={item.label}
-                  >
-                    <span className="bd-capability-icon">
-                      <Icon size={16} strokeWidth={1.8} />
-                    </span>
-
-                    <span>{item.label}</span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-
-        {/* ===================================================
-            BOTTOM INTERFACE
-        ==================================================== */}
-
-        <div className="bd-hero-bottom">
-          {/* Slide controls */}
-          <div className="bd-hero-pagination">
-            <span className="bd-pagination-label">
-              Selected direction
+        {/* ── Headline ── */}
+        <h1 className="hero__title">
+          Edit stunning
+          <span className="hero__rotator" aria-live="polite">
+            <span
+              key={wordIndex}
+              className="hero__rotator-word"
+            >
+              {ROTATING_WORDS[wordIndex]}
             </span>
+          </span>
+          <br />
+          in minutes, not hours.
+        </h1>
 
-            <div className="bd-pagination-controls">
-              {heroSlides.map((slide, slideIndex) => (
-                <button
-                  key={slide.id}
-                  type="button"
-                  className={`bd-pagination-btn ${
-                    slideIndex === index ? "is-active" : ""
-                  }`}
-                  onClick={() => handleSlideChange(slideIndex)}
-                  aria-label={`Show slide ${slideIndex + 1}`}
-                  aria-current={
-                    slideIndex === index ? "true" : undefined
-                  }
-                >
-                  <span>0{slideIndex + 1}</span>
-                </button>
+        {/* ── Subheadline ── */}
+        <p className="hero__subtitle">
+          Drop your raw footage. Our AI agent cuts, captions, scores, and
+          styles it into a finished video — while you focus on the story,
+          not the timeline.
+        </p>
+
+        {/* ── CTA row ── */}
+        <div className="hero__cta-row">
+          <Link to="/signup" className="hero__cta-primary">
+            <Upload size={18} strokeWidth={2.4} />
+            Start editing free
+            <ArrowRight size={16} className="hero__cta-arrow" />
+          </Link>
+
+          <button className="hero__cta-secondary" onClick={togglePlay}>
+            <span className="hero__play-icon">
+              <Play size={13} fill="currentColor" strokeWidth={0} />
+            </span>
+            Watch 60-sec demo
+          </button>
+        </div>
+
+        {/* ── Social proof ── */}
+        <div className="hero__proof">
+          <div className="hero__avatars">
+            {AVATAR_COLORS.map((c, i) => (
+              <span key={i} className={`hero__avatar hero__avatar--${c}`}>
+                {["JK", "MO", "SR", "TL"][i]}
+              </span>
+            ))}
+          </div>
+          <div className="hero__proof-text">
+            <div className="hero__stars">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star key={i} size={13} fill="currentColor" strokeWidth={0} />
               ))}
             </div>
-          </div>
-
-          {/* Scroll indicator */}
-          <div className="bd-hero-scroll">
-            <span className="bd-scroll-label">
-              Scroll to explore
-            </span>
-
-            <span className="bd-scroll-arrow">
-              <ArrowRight size={15} />
-            </span>
-          </div>
-
-          {/* Current category */}
-          <div className="bd-hero-current">
-            <span className="bd-current-label">
-              Current focus
-            </span>
-
-            <span className="bd-current-value">
-              {currentSlide.category}
-            </span>
+            <span>Trusted by 40,000+ creators worldwide</span>
           </div>
         </div>
+
+        {/* ── Product visual ── */}
+        <div className="hero__visual">
+          <div className="hero__visual-glow" />
+
+          <div className="hero__frame">
+            {/* Browser-style top bar */}
+            <div className="hero__frame-bar">
+              <span className="hero__frame-dot hero__frame-dot--red" />
+              <span className="hero__frame-dot hero__frame-dot--yellow" />
+              <span className="hero__frame-dot hero__frame-dot--green" />
+              <div className="hero__frame-url">app.reelcraft.ai/editor</div>
+            </div>
+
+            {/* Mock editor canvas */}
+            <div className="hero__canvas">
+              <div className="hero__canvas-video">
+                {!isPlaying ? (
+                  <button
+                    className="hero__canvas-play"
+                    onClick={togglePlay}
+                    aria-label="Play preview"
+                  >
+                    <Play size={26} fill="currentColor" strokeWidth={0} />
+                  </button>
+                ) : (
+                  <div className="hero__canvas-playing">
+                    <div className="hero__waveform">
+                      {Array.from({ length: 24 }).map((_, i) => (
+                        <span
+                          key={i}
+                          style={{ animationDelay: `${i * 0.05}s` }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Floating AI chips */}
+                <div className="hero__chip hero__chip--1">
+                  <Scissors size={13} />
+                  Auto-cut applied
+                </div>
+                <div className="hero__chip hero__chip--2">
+                  <Mic2 size={13} />
+                  Captions generated
+                </div>
+                <div className="hero__chip hero__chip--3">
+                  <Wand2 size={13} />
+                  Style: Cinematic
+                </div>
+              </div>
+
+              {/* Mock timeline */}
+              <div className="hero__timeline">
+                <div className="hero__timeline-track hero__timeline-track--video">
+                  <span className="hero__clip hero__clip--1" />
+                  <span className="hero__clip hero__clip--2" />
+                  <span className="hero__clip hero__clip--3" />
+                </div>
+                <div className="hero__timeline-track hero__timeline-track--audio">
+                  <span className="hero__audio-wave" />
+                </div>
+                <div className="hero__playhead" />
+              </div>
+            </div>
+          </div>
+
+          {/* Floating stat cards */}
+          <div className="hero__float-card hero__float-card--left">
+            <div className="hero__float-icon hero__float-icon--accent">
+              <Zap size={16} />
+            </div>
+            <div>
+              <strong>3.2x faster</strong>
+              <span>than manual editing</span>
+            </div>
+          </div>
+
+          <div className="hero__float-card hero__float-card--right">
+            <div className="hero__float-icon hero__float-icon--tertiary">
+              <Film size={16} />
+            </div>
+            <div>
+              <strong>2.1M+ videos</strong>
+              <span>rendered this month</span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
   );

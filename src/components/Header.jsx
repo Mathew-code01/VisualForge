@@ -1,383 +1,519 @@
 
 // src/components/Header.jsx
+// src/components/Header.jsx
+// src/components/Header.jsx
+import { useState, useEffect, useRef, useCallback } from "react";
+import { Link, useLocation } from "react-router-dom";
+import {
+  Menu,
+  X,
+  ChevronDown,
+  Sparkles,
+  Play,
+  Wand2,
+  Film,
+  Mic2,
+  Layers,
+  Zap,
+  ArrowRight,
+} from "lucide-react";
 
-import { useEffect, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
 import "../styles/components/header.css";
 
-const navigationItems = [
+/* =====================================================
+   PRODUCT NAVIGATION
+===================================================== */
+
+const PRODUCT_LINKS = [
   {
-    name: "Work",
-    path: "/work",
+    icon: <Wand2 size={18} />,
+    title: "AI Auto-Edit",
+    desc: "Turn raw footage into a finished cut in minutes",
+    href: "/product/auto-edit",
+    color: "primary",
   },
   {
-    name: "Capabilities",
-    path: "/services",
+    icon: <Mic2 size={18} />,
+    title: "Voice & Captions",
+    desc: "AI voiceover, subtitles, and multi-language dubbing",
+    href: "/product/captions",
+    color: "secondary",
   },
   {
-    name: "AI Agents",
-    path: "/agents",
-    featured: true,
+    icon: <Layers size={18} />,
+    title: "Smart Timeline",
+    desc: "Drag, trim, and remix with AI-assisted editing",
+    href: "/product/timeline",
+    color: "tertiary",
   },
   {
-    name: "Studio",
-    path: "/about",
+    icon: <Zap size={18} />,
+    title: "Instant Render",
+    desc: "Export in 4K in a fraction of the usual time",
+    href: "/product/render",
+    color: "accent",
   },
 ];
 
-function Header() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+/* =====================================================
+   MAIN NAVIGATION
+===================================================== */
 
+const NAV_LINKS = [
+  { label: "Product", type: "dropdown" },
+  { label: "Templates", href: "/templates" },
+  { label: "Pricing", href: "/pricing" },
+  { label: "Showcase", href: "/showcase" },
+];
+
+export default function Header() {
+  const [scrolled, setScrolled] = useState(false);
+  const [productOpen, setProductOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileProductOpen, setMobileProductOpen] = useState(false);
+
+  const dropdownRef = useRef(null);
   const location = useLocation();
 
-  /* =========================================================
-     SCROLL + RESIZE
-     ========================================================= */
+  /* =====================================================
+     SCROLL STATE
+  ===================================================== */
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 24);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 12);
     };
 
-    const handleResize = () => {
-      if (window.innerWidth > 900) {
-        setMenuOpen(false);
-      }
-    };
+    onScroll();
 
-    handleScroll();
-
-    window.addEventListener("scroll", handleScroll, {
+    window.addEventListener("scroll", onScroll, {
       passive: true,
     });
 
-    window.addEventListener("resize", handleResize);
-
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("scroll", onScroll);
     };
   }, []);
 
-
-  /* =========================================================
-     ROUTE CHANGE
-     ========================================================= */
+  /* =====================================================
+     CLOSE MENUS ON ROUTE CHANGE
+  ===================================================== */
 
   useEffect(() => {
-    setMenuOpen(false);
+    setMobileOpen(false);
+    setProductOpen(false);
+    setMobileProductOpen(false);
   }, [location.pathname]);
 
-
-  /* =========================================================
-     BODY SCROLL LOCK
-     ========================================================= */
+  /* =====================================================
+     LOCK BODY SCROLL WHEN MOBILE MENU IS OPEN
+  ===================================================== */
 
   useEffect(() => {
-    if (menuOpen) {
-      document.body.classList.add("nav-menu-open");
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.classList.remove("nav-menu-open");
+      document.body.style.overflow = "";
     }
 
     return () => {
-      document.body.classList.remove("nav-menu-open");
+      document.body.style.overflow = "";
     };
-  }, [menuOpen]);
+  }, [mobileOpen]);
 
-
-  /* =========================================================
-     ESCAPE KEY
-     ========================================================= */
+  /* =====================================================
+     CLOSE DESKTOP DROPDOWN WHEN CLICKING OUTSIDE
+  ===================================================== */
 
   useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.key === "Escape") {
-        setMenuOpen(false);
+    const onClick = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setProductOpen(false);
       }
     };
 
-    if (menuOpen) {
-      document.addEventListener("keydown", handleKeyDown);
-    }
+    document.addEventListener("mousedown", onClick);
 
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("mousedown", onClick);
     };
-  }, [menuOpen]);
+  }, []);
 
+  /* =====================================================
+     ESCAPE KEY
+  ===================================================== */
 
-  /* =========================================================
-     MENU TOGGLE
-     ========================================================= */
+  useEffect(() => {
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setProductOpen(false);
+        setMobileOpen(false);
+        setMobileProductOpen(false);
+      }
+    };
 
-  const toggleMenu = () => {
-    setMenuOpen((current) => !current);
-  };
+    document.addEventListener("keydown", onKeyDown);
 
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, []);
 
-  /* =========================================================
-     CLOSE MENU
-     ========================================================= */
+  /* =====================================================
+     MOBILE MENU
+  ===================================================== */
 
-  const closeMenu = () => {
-    setMenuOpen(false);
-  };
+  const toggleMobile = useCallback(() => {
+    setMobileOpen((current) => !current);
+  }, []);
 
+  const closeMobile = useCallback(() => {
+    setMobileOpen(false);
+    setMobileProductOpen(false);
+  }, []);
 
   return (
-    <header
-      className={[
-        "main-header",
-        scrolled ? "is-scrolled" : "",
-        menuOpen ? "menu-active" : "",
-      ]
-        .filter(Boolean)
-        .join(" ")}
-    >
-      <div className="header-shell">
-        <div className="header-container">
+    <>
+      {/* =================================================
+          HEADER
+      ================================================= */}
 
+      <header
+        className={`hdr ${scrolled ? "hdr--scrolled" : ""}`}
+      >
+        <div className="hdr__inner">
           {/* =================================================
-              BRAND
-              ================================================= */}
+              LOGO
+          ================================================= */}
 
-          <NavLink
+          <Link
             to="/"
-            className="brand"
-            aria-label="Bigday home"
-            onClick={closeMenu}
+            className="hdr__logo"
+            aria-label="ReelCraft home"
+            onClick={closeMobile}
           >
-            <span className="brand-mark" aria-hidden="true">
-              <span className="brand-mark-letter">B</span>
-              <span className="brand-mark-dot"></span>
+            <span className="hdr__logo-mark">
+              <Film
+                size={20}
+                strokeWidth={2.4}
+              />
+
+              <Sparkles
+                size={11}
+                className="hdr__logo-spark"
+                strokeWidth={3}
+              />
             </span>
 
-            <span className="brand-wordmark">
-              BIGDAY
+            <span className="hdr__logo-text">
+              Reel
+              <span className="hdr__logo-accent">
+                Craft
+              </span>
             </span>
-          </NavLink>
-
+          </Link>
 
           {/* =================================================
-              DESKTOP NAVIGATION
-              ================================================= */}
+              DESKTOP NAV
+          ================================================= */}
 
           <nav
-            className="desktop-nav"
+            className="hdr__nav"
             aria-label="Primary navigation"
           >
-            <ul className="nav-list">
-              {navigationItems.map((item) => (
-                <li key={item.name} className="nav-item">
-                  <NavLink
-                    to={item.path}
-                    className={({ isActive }) =>
-                      [
-                        "nav-link",
-                        item.featured ? "nav-link-featured" : "",
-                        isActive ? "active" : "",
-                      ]
-                        .filter(Boolean)
-                        .join(" ")
+            {NAV_LINKS.map((item) =>
+              item.type === "dropdown" ? (
+                <div
+                  key={item.label}
+                  className="hdr__dropdown-wrap"
+                  ref={dropdownRef}
+                >
+                  <button
+                    type="button"
+                    className={`hdr__link hdr__link--trigger ${
+                      productOpen ? "is-open" : ""
+                    }`}
+                    onClick={() =>
+                      setProductOpen((current) => !current)
                     }
+                    aria-expanded={productOpen}
+                    aria-haspopup="true"
+                    aria-controls="product-menu"
                   >
-                    <span className="nav-link-label">
-                      {item.name}
-                    </span>
+                    {item.label}
 
-                    {item.featured && (
-                      <span className="nav-new-badge">
-                        New
-                      </span>
-                    )}
-
-                    <span
-                      className="nav-link-indicator"
-                      aria-hidden="true"
+                    <ChevronDown
+                      size={15}
+                      className="hdr__chevron"
+                      strokeWidth={2.5}
                     />
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
+                  </button>
+
+                  <div
+                    id="product-menu"
+                    className={`hdr__dropdown ${
+                      productOpen
+                        ? "hdr__dropdown--open"
+                        : ""
+                    }`}
+                    role="menu"
+                  >
+                    <div className="hdr__dropdown-grid">
+                      {PRODUCT_LINKS.map((product) => (
+                        <Link
+                          key={product.title}
+                          to={product.href}
+                          className={`hdr__dropdown-item hdr__dropdown-item--${product.color}`}
+                          role="menuitem"
+                          onClick={() =>
+                            setProductOpen(false)
+                          }
+                        >
+                          <span className="hdr__dropdown-icon">
+                            {product.icon}
+                          </span>
+
+                          <span className="hdr__dropdown-body">
+                            <strong>
+                              {product.title}
+                            </strong>
+
+                            <span>
+                              {product.desc}
+                            </span>
+                          </span>
+                        </Link>
+                      ))}
+                    </div>
+
+                    <div className="hdr__dropdown-footer">
+                      <Link
+                        to="/product"
+                        className="hdr__dropdown-cta"
+                        onClick={() =>
+                          setProductOpen(false)
+                        }
+                      >
+                        <span>
+                          See everything ReelCraft can do
+                        </span>
+
+                        <ArrowRight size={14} />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <Link
+                  key={item.label}
+                  to={item.href}
+                  className={`hdr__link ${
+                    location.pathname === item.href
+                      ? "is-active"
+                      : ""
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              )
+            )}
           </nav>
 
-
           {/* =================================================
-              DESKTOP ACTIONS
-              ================================================= */}
+              RIGHT ACTIONS
+          ================================================= */}
 
-          <div className="header-actions">
-
-            <NavLink
-              to="/contact"
-              className="header-contact-link"
+          <div className="hdr__actions">
+            <Link
+              to="/showcase"
+              className="hdr__watch-link"
             >
-              Let's talk
-            </NavLink>
-
-            <NavLink
-              to="/contact"
-              className="header-cta"
-            >
-              <span>Start a project</span>
-
-              <span
-                className="header-cta-arrow"
-                aria-hidden="true"
-              >
-                ↗
+              <span className="hdr__watch-icon">
+                <Play
+                  size={11}
+                  fill="currentColor"
+                  strokeWidth={0}
+                />
               </span>
-            </NavLink>
 
-            {/* Mobile menu button */}
+              <span className="hdr__watch-label">
+                Watch demo
+              </span>
+            </Link>
+
+            {/* Marketing CTA — no authentication */}
+            <Link
+              to="/product"
+              className="hdr__cta"
+            >
+              <Sparkles
+                size={15}
+                strokeWidth={2.4}
+              />
+
+              <span>Explore ReelCraft</span>
+            </Link>
+
+            {/* Mobile menu */}
             <button
               type="button"
-              className={`menu-toggle ${
-                menuOpen ? "is-open" : ""
-              }`}
-              onClick={toggleMenu}
+              className="hdr__burger"
+              onClick={toggleMobile}
               aria-label={
-                menuOpen
+                mobileOpen
                   ? "Close navigation menu"
                   : "Open navigation menu"
               }
-              aria-expanded={menuOpen}
+              aria-expanded={mobileOpen}
               aria-controls="mobile-navigation"
             >
-              <span className="menu-toggle-lines">
-                <span></span>
-                <span></span>
-              </span>
+              {mobileOpen ? (
+                <X size={22} />
+              ) : (
+                <Menu size={22} />
+              )}
             </button>
           </div>
         </div>
-      </div>
-
+      </header>
 
       {/* =====================================================
           MOBILE NAVIGATION
-          ===================================================== */}
+      ===================================================== */}
 
-      <div
+      <aside
         id="mobile-navigation"
-        className={`mobile-menu ${
-          menuOpen ? "is-open" : ""
+        className={`hdr__mobile ${
+          mobileOpen ? "hdr__mobile--open" : ""
         }`}
-        aria-hidden={!menuOpen}
+        aria-hidden={!mobileOpen}
       >
-        <div className="mobile-menu-inner">
+        <div className="hdr__mobile-scroll">
+          {/* Product */}
+          <button
+            type="button"
+            className="hdr__mobile-item hdr__mobile-item--trigger"
+            onClick={() =>
+              setMobileProductOpen((current) => !current)
+            }
+            aria-expanded={mobileProductOpen}
+          >
+            <span>Product</span>
 
-          {/* Mobile intro */}
-          <div className="mobile-menu-intro">
-            <span className="mobile-menu-kicker">
-              BIGDAY
+            <ChevronDown
+              size={18}
+              className={`hdr__chevron ${
+                mobileProductOpen ? "is-flipped" : ""
+              }`}
+            />
+          </button>
+
+          {/* Product submenu */}
+          <div
+            className={`hdr__mobile-sub ${
+              mobileProductOpen
+                ? "hdr__mobile-sub--open"
+                : ""
+            }`}
+          >
+            {PRODUCT_LINKS.map((product) => (
+              <Link
+                key={product.title}
+                to={product.href}
+                className="hdr__mobile-sub-item"
+                onClick={closeMobile}
+              >
+                <span
+                  className={`hdr__dropdown-icon hdr__dropdown-icon--${product.color}`}
+                >
+                  {product.icon}
+                </span>
+
+                <span className="hdr__mobile-sub-content">
+                  <strong>{product.title}</strong>
+
+                  <span>{product.desc}</span>
+                </span>
+              </Link>
+            ))}
+
+            <Link
+              to="/product"
+              className="hdr__mobile-product-link"
+              onClick={closeMobile}
+            >
+              <span>View all product features</span>
+              <ArrowRight size={15} />
+            </Link>
+          </div>
+
+          {/* Standard navigation */}
+          {NAV_LINKS.filter(
+            (link) => link.type !== "dropdown"
+          ).map((item) => (
+            <Link
+              key={item.label}
+              to={item.href}
+              className={`hdr__mobile-item ${
+                location.pathname === item.href
+                  ? "is-active"
+                  : ""
+              }`}
+              onClick={closeMobile}
+            >
+              {item.label}
+            </Link>
+          ))}
+
+          <div className="hdr__mobile-divider" />
+
+          {/* Marketing-only actions */}
+          <Link
+            to="/showcase"
+            className="hdr__mobile-demo"
+            onClick={closeMobile}
+          >
+            <span className="hdr__mobile-demo-icon">
+              <Play
+                size={12}
+                fill="currentColor"
+                strokeWidth={0}
+              />
             </span>
 
-            <p>
-              Creative systems, digital experiences
-              and intelligent technology.
-            </p>
-          </div>
+            Watch demo
+          </Link>
 
-
-          {/* Mobile links */}
-          <nav
-            className="mobile-nav"
-            aria-label="Mobile navigation"
+          <Link
+            to="/product"
+            className="hdr__cta hdr__cta--mobile"
+            onClick={closeMobile}
           >
-            <ul className="mobile-nav-list">
-              {navigationItems.map((item, index) => (
-                <li
-                  key={item.name}
-                  className="mobile-nav-item"
-                >
-                  <NavLink
-                    to={item.path}
-                    className={({ isActive }) =>
-                      [
-                        "mobile-nav-link",
-                        item.featured
-                          ? "mobile-nav-link-featured"
-                          : "",
-                        isActive ? "active" : "",
-                      ]
-                        .filter(Boolean)
-                        .join(" ")
-                    }
-                    onClick={closeMenu}
-                  >
-                    <span className="mobile-nav-index">
-                      0{index + 1}
-                    </span>
+            <Sparkles
+              size={16}
+              strokeWidth={2.4}
+            />
 
-                    <span className="mobile-nav-name">
-                      {item.name}
-                    </span>
-
-                    <span
-                      className="mobile-nav-arrow"
-                      aria-hidden="true"
-                    >
-                      ↗
-                    </span>
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-
-          {/* Mobile CTA */}
-          <div className="mobile-menu-footer">
-
-            <NavLink
-              to="/contact"
-              className="mobile-cta"
-              onClick={closeMenu}
-            >
-              <span>
-                Start a project
-              </span>
-
-              <span
-                className="mobile-cta-arrow"
-                aria-hidden="true"
-              >
-                ↗
-              </span>
-            </NavLink>
-
-            <div className="mobile-meta">
-              <span>
-                Creative × Technology
-              </span>
-
-              <span>
-                © {new Date().getFullYear()} Bigday
-              </span>
-            </div>
-          </div>
+            Explore ReelCraft
+          </Link>
         </div>
-      </div>
-
+      </aside>
 
       {/* =====================================================
           MOBILE BACKDROP
-          ===================================================== */}
+      ===================================================== */}
 
-      <button
-        type="button"
-        className={`mobile-backdrop ${
-          menuOpen ? "is-visible" : ""
-        }`}
-        onClick={closeMenu}
-        aria-label="Close navigation menu"
-        tabIndex={menuOpen ? 0 : -1}
-      />
-    </header>
+      {mobileOpen && (
+        <button
+          type="button"
+          className="hdr__backdrop"
+          aria-label="Close navigation menu"
+          onClick={closeMobile}
+        />
+      )}
+    </>
   );
 }
-
-export default Header;
