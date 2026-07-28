@@ -1,110 +1,897 @@
 /* src/styles/components/trustedby.css */
+/* ================================================================
+   BIG DAY MA — TRUSTED BY
+   src/styles/components/trustedby.css
 
-/* src/styles/components/trustedby.css */
-/* src/styles/components/trustedby.css */
+   Purpose:
+   ------------------------------------------------
+   Premium light-theme credibility section immediately
+   following the dark hero.
 
-/* src/styles/components/trustedby.css */
-/* src/styles/components/trustedby.css */
-/* src/styles/components/trustedby.css */
+   Theme:
+   ------------------------------------------------
+   .section-light
+   [data-theme="light"]
 
-.trusted-micro-bar {
-  background-color: #ffffff;
-  /* Increased padding for a more intentional, high-end feel */
-  padding: 60px 0; 
-  border-top: 1px solid rgba(43, 117, 255, 0.1);
-  border-bottom: 1px solid rgba(43, 117, 255, 0.1);
+   Responsive:
+   ------------------------------------------------
+   Desktop → Tablet → Mobile → Small Mobile
+================================================================ */
+
+
+/* ================================================================
+   01. SECTION
+================================================================ */
+
+.trusted-by {
+  position: relative;
+
   width: 100%;
-  position: relative;
-  z-index: 10;
-}
 
-.micro-container {
-  max-width: var(--max-content-width);
-  margin: 0 auto;
-  padding: 0 var(--container-padding);
-  display: flex;
-  align-items: center;
-  /* Increased gap between label and icons */
-  gap: 80px; 
-}
+  padding-block:
+    clamp(5.5rem, 9vw, 9rem);
 
-.micro-label {
-  font-size: 0.7rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.4em;
-  /* Changed to Vibrant Blue for immediate attention */
-  color: var(--color-secondary-bright); 
-  opacity: 1; /* Fully visible */
-  white-space: nowrap;
-  position: relative;
-}
-
-/* Subtle dot after label to add agency "detail" */
-.micro-label::after {
-  content: '';
-  display: inline-block;
-  width: 4px;
-  height: 4px;
-  background: var(--color-secondary-bright);
-  margin-left: 10px;
-  border-radius: 50%;
-  vertical-align: middle;
-}
-
-.micro-ticker-viewport {
-  flex: 1;
   overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 8% 0%,
+      rgba(77, 141, 255, 0.055),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 92% 100%,
+      rgba(77, 141, 255, 0.035),
+      transparent 26%
+    ),
+    var(--section-bg);
+
+  color: var(--section-text);
+
+  isolation: isolate;
+}
+
+
+/* ================================================================
+   02. SUBTLE TOP ATMOSPHERE
+================================================================ */
+
+.trusted-by::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(8, 8, 8, 0.12),
+      transparent
+    );
+
+  pointer-events: none;
+}
+
+
+/* ================================================================
+   03. CONTAINER
+================================================================ */
+
+.trusted-by__container {
   position: relative;
-  /* Smoother, tighter edge masks for more focus on the icons */
-  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+
+  width: min(
+    calc(100% - (var(--page-padding) * 2)),
+    var(--container-xl)
+  );
+
+  margin-inline: auto;
 }
 
-.micro-track {
-  display: flex;
-  width: max-content;
-  /* Increased gap between brands for better scannability */
-  gap: 120px; 
-  animation: microScroll 35s linear infinite; /* Slightly faster for energy */
+
+/* ================================================================
+   04. HEADER
+================================================================ */
+
+.trusted-by__header {
+  width: 100%;
+}
+
+
+/* ================================================================
+   05. EYEBROW
+================================================================ */
+
+.trusted-by__eyebrow {
+  color: var(--section-text-muted);
+}
+
+
+/* ================================================================
+   06. HEADING WRAPPER
+================================================================ */
+
+.trusted-by__heading-wrap {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.25fr)
+    minmax(260px, 0.75fr);
+
+  align-items: end;
+
+  gap: clamp(2.5rem, 7vw, 8rem);
+
+  margin-top: clamp(2rem, 4vw, 3.5rem);
+}
+
+
+/* ================================================================
+   07. TITLE
+================================================================ */
+
+.trusted-by__title {
+  max-width: 850px;
+
+  color: var(--section-text);
+
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 6vw, 6.25rem);
+  font-weight: var(--weight-bold);
+
+  line-height: 0.94;
+  letter-spacing: var(--tracking-tighter);
+}
+
+.trusted-by__title span {
+  display: block;
+
+  color: #777a7f;
+}
+
+
+/* ================================================================
+   08. DESCRIPTION COLUMN
+================================================================ */
+
+.trusted-by__description-column {
+  max-width: 430px;
+
+  padding-bottom: 0.25rem;
+}
+
+
+/* ================================================================
+   09. DESCRIPTION
+================================================================ */
+
+.trusted-by__description {
+  max-width: 420px;
+
+  color: var(--section-text-secondary);
+
+  font-size: clamp(1rem, 1.35vw, 1.125rem);
+  line-height: var(--leading-relaxed);
+}
+
+
+/* ================================================================
+   10. META
+================================================================ */
+
+.trusted-by__meta {
+  display: inline-flex;
+
   align-items: center;
+  gap: 0.65rem;
+
+  margin-top: 1.75rem;
+
+  color: var(--section-text-muted);
+
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: var(--weight-medium);
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
-.micro-item {
-  font-size: 1.8rem; /* Increased size for better visibility */
-  /* Using Mid-Blue/Deep Blue for the "inactive" state */
-  color: var(--color-primary-dark);
-  opacity: 0.6; /* Increased default visibility */
-  filter: grayscale(1);
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  cursor: pointer;
+.trusted-by__meta-dot {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: var(--section-accent);
+
+  box-shadow:
+    0 0 0 4px rgba(36, 88, 200, 0.08);
 }
 
-/* Vibrant Hover State */
-.micro-item:hover {
+
+/* ================================================================
+   11. HEADER DIVIDER
+================================================================ */
+
+.trusted-by__divider {
+  width: 100%;
+  height: 1px;
+
+  margin-top: clamp(4rem, 7vw, 7rem);
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--section-border-strong),
+      var(--section-border),
+      transparent
+    );
+}
+
+
+/* ================================================================
+   12. LOGO GRID
+================================================================ */
+
+.trusted-by__logos {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  margin-top: clamp(2rem, 4vw, 3.5rem);
+
+  border-top: 1px solid var(--section-border-soft);
+  border-left: 1px solid var(--section-border-soft);
+}
+
+
+/* ================================================================
+   13. LOGO CARD
+================================================================ */
+
+.trusted-by__logo-card {
+  position: relative;
+
+  min-width: 0;
+  min-height: clamp(190px, 17vw, 245px);
+
+  padding: clamp(1.25rem, 2vw, 1.75rem);
+
+  border-right: 1px solid var(--section-border-soft);
+  border-bottom: 1px solid var(--section-border-soft);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.68),
+      rgba(255, 255, 255, 0.32)
+    );
+
+  overflow: hidden;
+
+  transition:
+    background var(--transition-normal),
+    transform var(--transition-normal),
+    border-color var(--transition-normal);
+}
+
+
+/* ================================================================
+   14. CARD HOVER
+================================================================ */
+
+.trusted-by__logo-card::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(77, 141, 255, 0.09),
+      transparent 52%
+    );
+
+  opacity: 0;
+
+  transition:
+    opacity var(--transition-normal);
+
+  pointer-events: none;
+}
+
+.trusted-by__logo-card:hover {
+  z-index: 2;
+
+  background:
+    rgba(255, 255, 255, 0.95);
+
+  border-color:
+    rgba(8, 8, 8, 0.15);
+
+  transform:
+    translateY(-3px);
+}
+
+.trusted-by__logo-card:hover::before {
   opacity: 1;
-  filter: grayscale(0);
-  transform: scale(1.15); /* More pronounced pop */
-  color: var(--color-secondary-bright); /* Brand color on hover */
 }
 
-@keyframes microScroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+
+/* ================================================================
+   15. LOGO INDEX
+================================================================ */
+
+.trusted-by__logo-index {
+  position: absolute;
+
+  top: clamp(1rem, 1.5vw, 1.5rem);
+  left: clamp(1rem, 1.5vw, 1.5rem);
+
+  color: var(--section-text-subtle);
+
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: var(--weight-medium);
+
+  letter-spacing: 0.08em;
+
+  opacity: 0.75;
 }
 
-/* --- Responsive --- */
+
+/* ================================================================
+   16. LOGO INNER
+================================================================ */
+
+.trusted-by__logo-inner {
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+
+  min-height: 135px;
+
+  padding:
+    2.5rem 1rem 1.75rem;
+}
+
+
+/* ================================================================
+   17. LOGO
+================================================================ */
+
+.trusted-by__logo {
+  display: block;
+
+  width: auto;
+  max-width: min(76%, 210px);
+  height: auto;
+  max-height: 82px;
+
+  object-fit: contain;
+
+  filter:
+    grayscale(1)
+    contrast(0.94);
+
+  opacity: 0.82;
+
+  transform: scale(1);
+
+  transition:
+    filter var(--transition-normal),
+    opacity var(--transition-normal),
+    transform var(--transition-normal);
+}
+
+.trusted-by__logo-card:hover .trusted-by__logo {
+  filter:
+    grayscale(0)
+    contrast(1);
+
+  opacity: 1;
+
+  transform:
+    scale(1.035);
+}
+
+
+/* ================================================================
+   18. LOGO ACTION
+================================================================ */
+
+.trusted-by__logo-action {
+  position: absolute;
+
+  top: 0.75rem;
+  right: 0.75rem;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+
+  border: 1px solid var(--section-border);
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.72);
+
+  color: var(--section-text);
+
+  opacity: 0;
+
+  transform:
+    translate(-4px, 4px);
+
+  transition:
+    opacity var(--transition-fast),
+    transform var(--transition-fast),
+    background var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.trusted-by__logo-card:hover .trusted-by__logo-action {
+  opacity: 1;
+
+  transform:
+    translate(0, 0);
+}
+
+.trusted-by__logo-action:hover {
+  background: var(--section-text);
+  color: var(--section-bg);
+}
+
+
+/* ================================================================
+   19. LOGO NAME
+================================================================ */
+
+.trusted-by__logo-name {
+  position: absolute;
+
+  left: clamp(1rem, 1.5vw, 1.5rem);
+  bottom: clamp(0.9rem, 1.5vw, 1.35rem);
+
+  color: var(--section-text-muted);
+
+  font-size: 0.6875rem;
+  font-weight: var(--weight-medium);
+
+  letter-spacing: 0.025em;
+
+  transition:
+    color var(--transition-fast);
+}
+
+.trusted-by__logo-card:hover .trusted-by__logo-name {
+  color: var(--section-text);
+}
+
+
+/* ================================================================
+   20. BOTTOM STATEMENT
+================================================================ */
+
+.trusted-by__bottom {
+  display: grid;
+
+  grid-template-columns:
+    minmax(60px, 1fr)
+    auto
+    minmax(60px, 1fr);
+
+  align-items: center;
+
+  gap: clamp(1rem, 2vw, 2rem);
+
+  margin-top: clamp(3rem, 5vw, 5rem);
+}
+
+
+/* ================================================================
+   21. BOTTOM LINES
+================================================================ */
+
+.trusted-by__bottom-line {
+  display: block;
+
+  width: 100%;
+  height: 1px;
+
+  background: var(--section-border);
+}
+
+.trusted-by__bottom-line:last-child {
+  background:
+    linear-gradient(
+      90deg,
+      var(--section-border),
+      transparent
+    );
+}
+
+.trusted-by__bottom-line:first-child {
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--section-border)
+    );
+}
+
+
+/* ================================================================
+   22. BOTTOM TEXT
+================================================================ */
+
+.trusted-by__bottom-text {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-wrap: wrap;
+
+  gap: 0.6rem;
+
+  color: var(--section-text-muted);
+
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: var(--weight-medium);
+
+  line-height: 1.5;
+
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.trusted-by__bottom-text span {
+  color: var(--section-accent);
+
+  font-size: 0.8rem;
+}
+
+
+/* ================================================================
+   23. TABLET — 1024px
+================================================================ */
+
 @media (max-width: 1024px) {
-  .micro-container { gap: 40px; }
-  .micro-track { gap: 80px; }
+  .trusted-by {
+    padding-block:
+      clamp(5rem, 9vw, 7rem);
+  }
+
+  .trusted-by__heading-wrap {
+    grid-template-columns:
+      minmax(0, 1.15fr)
+      minmax(230px, 0.85fr);
+
+    gap: 3.5rem;
+  }
+
+  .trusted-by__title {
+    font-size:
+      clamp(2.8rem, 6vw, 4.75rem);
+  }
+
+  .trusted-by__logo-card {
+    min-height: 200px;
+  }
+
+  .trusted-by__logo {
+    max-width: 72%;
+    max-height: 72px;
+  }
 }
+
+
+/* ================================================================
+   24. TABLET — 768px
+================================================================ */
 
 @media (max-width: 768px) {
-  .trusted-micro-bar { padding: 40px 0; }
-  .micro-container {
-    flex-direction: column;
-    text-align: center;
-    gap: 30px;
+  .trusted-by {
+    padding-block:
+      5rem;
   }
-  .micro-label::after { display: none; }
+
+  .trusted-by__heading-wrap {
+    grid-template-columns: 1fr;
+
+    gap: 2rem;
+
+    margin-top: 1.75rem;
+  }
+
+  .trusted-by__title {
+    max-width: 680px;
+
+    font-size:
+      clamp(2.65rem, 9vw, 4.25rem);
+
+    line-height: 0.96;
+  }
+
+  .trusted-by__description-column {
+    max-width: 560px;
+  }
+
+  .trusted-by__description {
+    max-width: 540px;
+  }
+
+  .trusted-by__meta {
+    margin-top: 1.35rem;
+  }
+
+  .trusted-by__divider {
+    margin-top: 3.5rem;
+  }
+
+  .trusted-by__logos {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .trusted-by__logo-card {
+    min-height: 190px;
+  }
+
+  .trusted-by__logo-inner {
+    min-height: 125px;
+  }
+
+  .trusted-by__logo {
+    max-width: 74%;
+    max-height: 70px;
+  }
+
+  .trusted-by__bottom {
+    grid-template-columns:
+      1fr;
+
+    gap: 1.25rem;
+
+    margin-top: 3.5rem;
+  }
+
+  .trusted-by__bottom-line {
+    display: none;
+  }
+}
+
+
+/* ================================================================
+   25. MOBILE — 560px
+================================================================ */
+
+@media (max-width: 560px) {
+  .trusted-by {
+    padding-block:
+      4.5rem;
+  }
+
+  .trusted-by__title {
+    font-size:
+      clamp(2.45rem, 11vw, 3.5rem);
+
+    letter-spacing:
+      -0.045em;
+  }
+
+  .trusted-by__description {
+    font-size:
+      0.98rem;
+
+    line-height:
+      1.65;
+  }
+
+  .trusted-by__divider {
+    margin-top: 3rem;
+  }
+
+  .trusted-by__logos {
+    margin-top: 2rem;
+  }
+
+  .trusted-by__logo-card {
+    min-height: 175px;
+
+    padding: 1rem;
+  }
+
+  .trusted-by__logo-inner {
+    min-height: 115px;
+
+    padding:
+      2rem 0.5rem 1.5rem;
+  }
+
+  .trusted-by__logo {
+    max-width: 78%;
+    max-height: 62px;
+  }
+
+  .trusted-by__logo-index {
+    top: 0.85rem;
+    left: 0.85rem;
+  }
+
+  .trusted-by__logo-name {
+    left: 0.85rem;
+    bottom: 0.85rem;
+
+    font-size: 0.625rem;
+  }
+
+  .trusted-by__logo-action {
+    top: 0.65rem;
+    right: 0.65rem;
+
+    width: 28px;
+    height: 28px;
+  }
+
+  .trusted-by__bottom {
+    margin-top: 3rem;
+  }
+
+  .trusted-by__bottom-text {
+    gap: 0.45rem;
+
+    font-size: 0.58rem;
+    letter-spacing: 0.06em;
+  }
+}
+
+
+/* ================================================================
+   26. SMALL MOBILE — 460px
+================================================================ */
+
+@media (max-width: 460px) {
+  .trusted-by {
+    padding-block:
+      4rem;
+  }
+
+  .trusted-by__heading-wrap {
+    gap: 1.5rem;
+  }
+
+  .trusted-by__title {
+    font-size:
+      clamp(2.3rem, 11.5vw, 3.15rem);
+
+    line-height:
+      0.97;
+  }
+
+  .trusted-by__description {
+    font-size:
+      0.95rem;
+  }
+
+  .trusted-by__meta {
+    margin-top: 1.15rem;
+
+    font-size: 0.58rem;
+  }
+
+  .trusted-by__divider {
+    margin-top: 2.75rem;
+  }
+
+  .trusted-by__logos {
+    grid-template-columns:
+      1fr;
+  }
+
+  .trusted-by__logo-card {
+    min-height: 165px;
+  }
+
+  .trusted-by__logo-inner {
+    min-height: 105px;
+  }
+
+  .trusted-by__logo {
+    max-width: 65%;
+    max-height: 64px;
+  }
+
+  .trusted-by__logo-action {
+    opacity: 1;
+
+    transform:
+      translate(0, 0);
+  }
+}
+
+
+/* ================================================================
+   27. VERY SMALL MOBILE — 360px
+================================================================ */
+
+@media (max-width: 360px) {
+  .trusted-by {
+    padding-block:
+      3.75rem;
+  }
+
+  .trusted-by__title {
+    font-size:
+      2.2rem;
+  }
+
+  .trusted-by__description {
+    font-size:
+      0.92rem;
+  }
+
+  .trusted-by__logos {
+    margin-top:
+      1.75rem;
+  }
+
+  .trusted-by__logo-card {
+    min-height:
+      155px;
+  }
+
+  .trusted-by__logo {
+    max-width:
+      68%;
+
+    max-height:
+      58px;
+  }
+
+  .trusted-by__bottom-text {
+    font-size:
+      0.54rem;
+
+    line-height:
+      1.8;
+  }
+}
+
+
+/* ================================================================
+   28. REDUCED MOTION
+================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .trusted-by__logo-card,
+  .trusted-by__logo,
+  .trusted-by__logo-action,
+  .trusted-by__logo-name {
+    transition: none;
+  }
 }

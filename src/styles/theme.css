@@ -1,480 +1,1597 @@
-/* src/styles/variables.css */
-/* =====================================================
-   [BRAND] — Marketing Site Design System v2.0
-   Video Editing · Creative · AI Agent
-   Primary: Blue-led palette (client-directed)
-   Bright, light-first theme — no dark mode
-===================================================== */
+/* src\styles\theme.css */
+/* ================================================================
+   BIG DAY MA — GLOBAL DESIGN SYSTEM
+   src/styles/theme.css
 
-/* ── Google Fonts import — place in index.html <head> instead
-   for better performance, or keep here if using CSS-only setup ──
+   Theme architecture:
+   ------------------------------------------------
+   .section-dark   → dark section
+   .section-light  → light section
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+   You can also use:
+   [data-theme="dark"]
+   [data-theme="light"]
 
-*/
+   Each section owns its own:
+   - background
+   - text
+   - borders
+   - surfaces
+   - muted text
+   - buttons
+   - shadows
+   - accent treatment
+
+   The global :root defaults to DARK.
+================================================================ */
+
+
+/* ================================================================
+   01. ROOT / BRAND TOKENS
+================================================================ */
 
 :root {
 
-  /* =====================================================
-     BRAND COLORS — Blue-led (client directive)
-     Blue is now the dominant, primary brand color across
-     the entire site. Secondary colors support and accent
-     rather than compete.
-  ===================================================== */
+  /* ==============================================================
+     BRAND — CORE DARK
+  ============================================================== */
 
-  /* Primary — Signal Blue (main brand color, dominant everywhere) */
-  --primary-50:  #eef5ff;
-  --primary-100: #dcebff;
-  --primary-200: #b6d4ff;
-  --primary-300: #85b7ff;
-  --primary-400: #4f94ff;
-  --primary-500: #2563eb;   /* base — the brand blue */
-  --primary-600: #1d4ed8;
-  --primary-700: #1e40af;
-  --primary-800: #1e3a8a;
-  --primary-900: #172554;
+  --brand-black: #050505;
+  --brand-ink: #090909;
 
-  --color-primary:        var(--primary-500);
-  --color-primary-hover:  var(--primary-600);
-  --color-primary-active: var(--primary-700);
-  --color-primary-soft:   var(--primary-50);
+  --brand-surface: #0d0d0d;
+  --brand-surface-2: #111111;
+  --brand-surface-3: #171717;
 
-  /* Secondary — Electric Cyan (tech/AI energy, pairs naturally with blue) */
-  --secondary-50:  #ecfeff;
-  --secondary-100: #cffafe;
-  --secondary-200: #a5f3fc;
-  --secondary-300: #67e8f9;
-  --secondary-400: #22d3ee;
-  --secondary-500: #06b6d4;  /* base */
-  --secondary-600: #0891b2;
-  --secondary-700: #0e7490;
+  --brand-white: #f6f5f1;
+  --brand-white-pure: #ffffff;
 
-  --color-secondary:       var(--secondary-500);
-  --color-secondary-hover: var(--secondary-600);
-  --color-secondary-soft:  var(--secondary-50);
-
-  /* Tertiary — Violet (creative/AI-magic highlight, used sparingly) */
-  --tertiary-50:  #f5f3ff;
-  --tertiary-100: #ede9fe;
-  --tertiary-200: #ddd6fe;
-  --tertiary-300: #c4b5fd;
-  --tertiary-400: #a78bfa;
-  --tertiary-500: #7c3aed;  /* base */
-  --tertiary-600: #6d28d9;
-  --tertiary-700: #5b21b6;
-
-  --color-tertiary:      var(--tertiary-500);
-  --color-tertiary-soft:  var(--tertiary-50);
-
-  /* Accent — Sunset Orange (CTAs, action, render/export moments) */
-  --accent-50:  #fff7ed;
-  --accent-100: #ffedd5;
-  --accent-200: #fed7aa;
-  --accent-300: #fdba74;
-  --accent-400: #fb923c;
-  --accent-500: #f97316;   /* base */
-  --accent-600: #ea580c;
-  --accent-700: #c2410c;
-
-  --color-accent:       var(--accent-500);
-  --color-accent-hover: var(--accent-600);
-  --color-accent-soft:  var(--accent-50);
-
-  /* Success / Warning / Error — Semantic states */
-  --success-50:  #f0fdf4;
-  --success-500: #22c55e;
-  --success-600: #16a34a;
-  --success-700: #15803d;
-
-  --warning-50:  #fffbeb;
-  --warning-500: #f59e0b;
-  --warning-600: #d97706;
-
-  --error-50:  #fef2f2;
-  --error-500: #ef4444;
-  --error-600: #dc2626;
-  --error-700: #b91c1c;
-
-  --color-success: var(--success-500);
-  --color-warning: var(--warning-500);
-  --color-error:   var(--error-500);
+  --brand-soft-white: #deddd7;
+  --brand-muted: #9b9a94;
+  --brand-subtle: #666660;
 
 
-  /* =====================================================
-     GRADIENTS — Blue-dominant signature gradients
-  ===================================================== */
+  /* ==============================================================
+     SIGNATURE BLUE
+  ============================================================== */
 
-  --gradient-brand:      linear-gradient(135deg, var(--primary-600) 0%, var(--primary-400) 45%, var(--secondary-400) 100%);
-  --gradient-brand-soft: linear-gradient(135deg, var(--primary-50) 0%, var(--secondary-50) 100%);
-  --gradient-primary:    linear-gradient(135deg, var(--primary-400) 0%, var(--primary-600) 100%);
-  --gradient-primary-deep: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-900) 100%);
-  --gradient-accent:     linear-gradient(135deg, var(--accent-400) 0%, var(--accent-600) 100%);
-  --gradient-electric:   linear-gradient(135deg, var(--primary-500) 0%, var(--secondary-500) 100%);
-  --gradient-creative:   linear-gradient(135deg, var(--primary-500) 0%, var(--tertiary-500) 100%);
-  --gradient-mesh:       radial-gradient(at 15% 20%, var(--primary-100) 0px, transparent 50%),
-                          radial-gradient(at 85% 15%, var(--secondary-100) 0px, transparent 50%),
-                          radial-gradient(at 50% 90%, var(--tertiary-100) 0px, transparent 50%);
+  --brand-blue: #4d8dff;
+  --brand-blue-light: #8db5ff;
+  --brand-blue-dark: #2458c8;
+  --brand-blue-deep: #173b86;
+
+  --brand-cool: #aeb9c8;
 
 
-  /* =====================================================
-     SURFACES — Light, bright, no dark mode
-  ===================================================== */
+  /* ==============================================================
+     GLOBAL DARK DEFAULT
+  ============================================================== */
 
-  --color-bg:            #ffffff;
-  --color-bg-subtle:     #f8fafc;
-  --color-bg-muted:      #eef2f7;
-  --color-bg-elevated:   #ffffff;
-  --color-bg-inverse:    #0b1220;   /* footer / dark CTA bands only */
-  --color-bg-overlay:    rgba(11, 18, 32, 0.55);
+  --color-bg: var(--brand-black);
+  --color-bg-subtle: #080808;
 
-  --color-border:        #e6ebf2;
-  --color-border-hover:  #d3dbe8;
-  --color-border-strong: #b9c4d6;
+  --color-bg-elevated: var(--brand-surface);
+  --color-bg-elevated-2: var(--brand-surface-2);
+  --color-bg-elevated-3: var(--brand-surface-3);
 
+  --color-text-primary: var(--brand-white);
+  --color-text-secondary: var(--brand-soft-white);
+  --color-text-muted: var(--brand-muted);
+  --color-text-subtle: var(--brand-subtle);
 
-  /* =====================================================
-     TEXT
-  ===================================================== */
+  --color-border: rgba(255, 255, 255, 0.09);
+  --color-border-soft: rgba(255, 255, 255, 0.055);
+  --color-border-hover: rgba(255, 255, 255, 0.18);
+  --color-border-strong: rgba(255, 255, 255, 0.28);
 
-  --color-text-primary:   #0b1220;
-  --color-text-secondary: #33415c;
-  --color-text-muted:     #647089;
-  --color-text-subtle:    #94a1b8;
-  --color-text-inverse:   #ffffff;
-  --color-text-on-accent: #2a1206;
+  --color-blue: var(--brand-blue);
+  --color-blue-light: var(--brand-blue-light);
+  --color-blue-dark: var(--brand-blue-dark);
 
 
-  /* =====================================================
+  /* ==============================================================
+     SECTION-SPECIFIC VARIABLES
+     These are overridden by .section-light / .section-dark
+  ============================================================== */
+
+  --section-bg: var(--brand-black);
+  --section-bg-subtle: #080808;
+
+  --section-text: var(--brand-white);
+  --section-text-secondary: var(--brand-soft-white);
+  --section-text-muted: var(--brand-muted);
+  --section-text-subtle: var(--brand-subtle);
+
+  --section-border: rgba(255, 255, 255, 0.09);
+  --section-border-soft: rgba(255, 255, 255, 0.055);
+  --section-border-hover: rgba(255, 255, 255, 0.18);
+  --section-border-strong: rgba(255, 255, 255, 0.28);
+
+  --section-surface: var(--brand-surface);
+  --section-surface-2: var(--brand-surface-2);
+  --section-surface-3: var(--brand-surface-3);
+
+  --section-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.32);
+
+  --section-accent: var(--brand-blue);
+  --section-accent-light: var(--brand-blue-light);
+  --section-accent-dark: var(--brand-blue-dark);
+
+
+  /* ==============================================================
+     DARK GRADIENTS
+  ============================================================== */
+
+  --gradient-black:
+    linear-gradient(
+      135deg,
+      #050505 0%,
+      #0b0b0b 45%,
+      #111111 100%
+    );
+
+  --gradient-surface:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.055) 0%,
+      rgba(255, 255, 255, 0.018) 42%,
+      rgba(255, 255, 255, 0.005) 100%
+    );
+
+
+  /* ==============================================================
+     BLUE GRADIENT
+  ============================================================== */
+
+  --gradient-blue:
+    linear-gradient(
+      115deg,
+      #2458c8 0%,
+      #4d8dff 28%,
+      #8db5ff 48%,
+      #4d8dff 72%,
+      #2458c8 100%
+    );
+
+
+  /* ==============================================================
+     SILVER / TEXT GRADIENT
+  ============================================================== */
+
+  --gradient-silver:
+    linear-gradient(
+      110deg,
+      #777771 0%,
+      #f6f5f1 40%,
+      #b9b8b1 68%,
+      #f7f6f2 100%
+    );
+
+  --gradient-text:
+    linear-gradient(
+      100deg,
+      #f7f6f1 0%,
+      #ffffff 42%,
+      #b9b8b1 72%,
+      #f4f2ea 100%
+    );
+
+
+  /* ==============================================================
+     LIGHT THEME GRADIENTS
+  ============================================================== */
+
+  --gradient-light:
+    linear-gradient(
+      135deg,
+      #f8f8f6 0%,
+      #f1f2f4 48%,
+      #e9ebee 100%
+    );
+
+  --gradient-light-surface:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.96) 0%,
+      rgba(248, 249, 250, 0.92) 100%
+    );
+
+  --gradient-light-blue:
+    linear-gradient(
+      115deg,
+      #173b86 0%,
+      #2458c8 35%,
+      #4d8dff 65%,
+      #2458c8 100%
+    );
+
+  --gradient-dark-text:
+    linear-gradient(
+      105deg,
+      #050505 0%,
+      #1a1a1a 55%,
+      #55565a 100%
+    );
+
+
+  /* ==============================================================
+     SHINE
+  ============================================================== */
+
+  --shine-line:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.16),
+      transparent
+    );
+
+  --shine-blue:
+    linear-gradient(
+      100deg,
+      transparent 0%,
+      transparent 42%,
+      rgba(255, 255, 255, 0.42) 50%,
+      transparent 58%,
+      transparent 100%
+    );
+
+  --shine-dark:
+    linear-gradient(
+      100deg,
+      transparent 0%,
+      transparent 42%,
+      rgba(0, 0, 0, 0.16) 50%,
+      transparent 58%,
+      transparent 100%
+    );
+
+
+  /* ==============================================================
+     SHADOWS
+  ============================================================== */
+
+  --shadow-xs:
+    0 4px 14px rgba(0, 0, 0, 0.12);
+
+  --shadow-sm:
+    0 8px 24px rgba(0, 0, 0, 0.28);
+
+  --shadow-md:
+    0 16px 42px rgba(0, 0, 0, 0.42);
+
+  --shadow-lg:
+    0 30px 80px rgba(0, 0, 0, 0.56);
+
+  --shadow-xl:
+    0 45px 120px rgba(0, 0, 0, 0.72);
+
+  --shadow-blue:
+    0 10px 34px rgba(77, 141, 255, 0.18);
+
+  --shadow-blue-strong:
+    0 18px 50px rgba(77, 141, 255, 0.22);
+
+  --shadow-header:
+    0 18px 50px rgba(0, 0, 0, 0.42);
+
+
+  /* ==============================================================
      TYPOGRAPHY
-     Sora (headings) — geometric, techy, confident.
-     Inter (body) — maximum legibility at all sizes.
-     Swap --font-heading to 'Clash Display' if you have
-     the license; Sora is the free, safe default below.
-  ===================================================== */
+  ============================================================== */
 
-  --font-heading: 'Sora', 'Clash Display', -apple-system, sans-serif;
-  --font-body:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-mono:    'JetBrains Mono', 'Fira Code', monospace;
+  --font-display:
+    "Sora",
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
 
-  --font-2xs: 0.6875rem;  /* 11px */
-  --font-xs:  0.75rem;    /* 12px */
-  --font-sm:  0.875rem;   /* 14px */
-  --font-base:1rem;       /* 16px */
-  --font-lg:  1.125rem;   /* 18px */
-  --font-xl:  1.375rem;   /* 22px */
-  --font-2xl: 1.75rem;    /* 28px */
-  --font-3xl: 2.25rem;    /* 36px */
-  --font-4xl: 3rem;       /* 48px */
-  --font-5xl: 3.75rem;    /* 60px */
-  --font-6xl: 4.5rem;     /* 72px */
+  --font-body:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
 
-  --weight-regular:   400;
-  --weight-medium:    500;
-  --weight-semibold:  600;
-  --weight-bold:      700;
-  --weight-extrabold: 800;
-
-  --leading-tight:   1.1;
-  --leading-snug:    1.3;
-  --leading-normal:  1.5;
-  --leading-relaxed: 1.65;
-  --leading-loose:   1.85;
-
-  --tracking-tighter: -0.04em;
-  --tracking-tight:   -0.02em;
-  --tracking-normal:  0;
-  --tracking-wide:    0.02em;
-  --tracking-wider:   0.06em;
-  --tracking-widest:  0.12em;
+  --font-mono:
+    "JetBrains Mono",
+    "SFMono-Regular",
+    Consolas,
+    monospace;
 
 
-  /* =====================================================
-     SPACING — 4px base scale
-  ===================================================== */
+  /* ==============================================================
+     TYPE SCALE
+  ============================================================== */
 
-  --space-2xs: 0.25rem;
-  --space-xs:  0.5rem;
-  --space-sm:  0.75rem;
-  --space-md:  1rem;
-  --space-lg:  1.5rem;
-  --space-xl:  2rem;
-  --space-2xl: 3rem;
-  --space-3xl: 4rem;
-  --space-4xl: 6rem;
-  --space-5xl: 8rem;
+  --font-xs: 0.6875rem;
+  --font-sm: 0.8125rem;
+  --font-base: 1rem;
+  --font-lg: 1.125rem;
+  --font-xl: 1.375rem;
+  --font-2xl: 1.75rem;
+  --font-3xl: 2.25rem;
+  --font-4xl: 3rem;
+  --font-5xl: 4rem;
+  --font-6xl: 5rem;
+  --font-7xl: 6.5rem;
 
 
-  /* =====================================================
-     RADII
-  ===================================================== */
+  /* ==============================================================
+     FONT WEIGHTS
+  ============================================================== */
 
-  --radius-xs:   6px;
-  --radius-sm:   10px;
-  --radius-md:   14px;
-  --radius-lg:   20px;
-  --radius-xl:   28px;
-  --radius-2xl:  36px;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+
+  /* ==============================================================
+     LETTER SPACING
+  ============================================================== */
+
+  --tracking-tight: -0.035em;
+  --tracking-tighter: -0.055em;
+
+  --tracking-wide: 0.04em;
+  --tracking-wider: 0.1em;
+
+
+  /* ==============================================================
+     LINE HEIGHT
+  ============================================================== */
+
+  --leading-tight: 1.04;
+  --leading-snug: 1.2;
+  --leading-normal: 1.55;
+  --leading-relaxed: 1.7;
+
+
+  /* ==============================================================
+     SPACING
+  ============================================================== */
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+  --space-40: 10rem;
+  --space-48: 12rem;
+
+
+  /* ==============================================================
+     RADIUS
+  ============================================================== */
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
   --radius-full: 999px;
 
 
-  /* =====================================================
-     SHADOWS — Soft depth + blue-tinted glow shadows
-  ===================================================== */
-
-  --shadow-xs: 0 1px 2px rgba(11, 18, 32, 0.04);
-  --shadow-sm: 0 2px 8px rgba(11, 18, 32, 0.06);
-  --shadow-md: 0 8px 24px rgba(11, 18, 32, 0.08);
-  --shadow-lg: 0 16px 40px rgba(11, 18, 32, 0.10);
-  --shadow-xl: 0 24px 64px rgba(11, 18, 32, 0.14);
-
-  --shadow-glow-primary:   0 8px 30px rgba(37, 99, 235, 0.35);
-  --shadow-glow-secondary: 0 8px 30px rgba(6, 182, 212, 0.30);
-  --shadow-glow-accent:    0 8px 30px rgba(249, 115, 22, 0.32);
-  --shadow-glow-soft:      0 4px 20px rgba(37, 99, 235, 0.16);
-
-  --shadow-card:       0 1px 3px rgba(11,18,32,0.04), 0 8px 24px rgba(11,18,32,0.06);
-  --shadow-card-hover: 0 4px 12px rgba(11,18,32,0.06), 0 20px 48px rgba(37,99,235,0.14);
-  --shadow-modal:      0 32px 80px rgba(11, 18, 32, 0.22);
-
-  --focus-ring:           0 0 0 3px rgba(37, 99, 235, 0.30);
-  --focus-ring-secondary: 0 0 0 3px rgba(6, 182, 212, 0.30);
-  --focus-ring-error:     0 0 0 3px rgba(239, 68, 68, 0.25);
-
-
-  /* =====================================================
-     TRANSITIONS
-  ===================================================== */
-
-  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --ease-smooth: cubic-bezier(0.22, 0.61, 0.36, 1);
-
-  --transition-fast:   150ms var(--ease-out);
-  --transition-normal: 250ms var(--ease-out);
-  --transition-slow:   420ms var(--ease-out);
-  --transition-spring: 500ms var(--ease-spring);
-
-
-  /* =====================================================
+  /* ==============================================================
      LAYOUT
-  ===================================================== */
+  ============================================================== */
 
-  --container-max-width: 1240px;
-  --container-narrow:    860px;
-  --container-wide:      1440px;
+  --container-sm: 720px;
+  --container-md: 960px;
+  --container-lg: 1180px;
+  --container-xl: 1380px;
 
-  --z-dropdown: 100;
-  --z-sticky:   200;
-  --z-overlay:  900;
-  --z-modal:    1000;
-  --z-toast:    1100;
-  --z-tooltip:  1200;
+  --page-padding: clamp(1.25rem, 4vw, 4rem);
 
+
+  /* ==============================================================
+     SECTION SPACING
+  ============================================================== */
+
+  --section-padding-y:
+    clamp(5rem, 9vw, 9rem);
+
+  --section-padding-y-large:
+    clamp(7rem, 12vw, 12rem);
+
+
+  /* ==============================================================
+     TRANSITIONS
+  ============================================================== */
+
+  --ease-out:
+    cubic-bezier(0.16, 1, 0.3, 1);
+
+  --ease-smooth:
+    cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  --transition-fast:
+    180ms var(--ease-out);
+
+  --transition-normal:
+    280ms var(--ease-out);
+
+  --transition-slow:
+    500ms var(--ease-out);
+
+
+  /* ==============================================================
+     Z INDEX
+  ============================================================== */
+
+  --z-header: 1000;
+  --z-dropdown: 1100;
+  --z-overlay: 1200;
+  --z-mobile: 1300;
 }
 
 
-/* =====================================================
-   GLOBAL RESET & BASE
-===================================================== */
+/* ================================================================
+   02. DARK SECTION THEME
+================================================================ */
 
-*, *::before, *::after {
+.section-dark,
+[data-theme="dark"] {
+
+  --section-bg: #050505;
+  --section-bg-subtle: #080808;
+
+  --section-text: #f6f5f1;
+  --section-text-secondary: #deddd7;
+  --section-text-muted: #9b9a94;
+  --section-text-subtle: #666660;
+
+  --section-border:
+    rgba(255, 255, 255, 0.09);
+
+  --section-border-soft:
+    rgba(255, 255, 255, 0.055);
+
+  --section-border-hover:
+    rgba(255, 255, 255, 0.18);
+
+  --section-border-strong:
+    rgba(255, 255, 255, 0.28);
+
+  --section-surface: #0d0d0d;
+  --section-surface-2: #111111;
+  --section-surface-3: #171717;
+
+  --section-accent: #4d8dff;
+  --section-accent-light: #8db5ff;
+  --section-accent-dark: #2458c8;
+
+  --section-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.32);
+}
+
+
+/* ================================================================
+   03. LIGHT SECTION THEME
+================================================================ */
+
+.section-light,
+[data-theme="light"] {
+
+  --section-bg: #f5f5f2;
+  --section-bg-subtle: #eeeeeb;
+
+  --section-text: #080808;
+  --section-text-secondary: #303136;
+  --section-text-muted: #65676b;
+  --section-text-subtle: #8b8d91;
+
+  --section-border:
+    rgba(8, 8, 8, 0.10);
+
+  --section-border-soft:
+    rgba(8, 8, 8, 0.065);
+
+  --section-border-hover:
+    rgba(8, 8, 8, 0.18);
+
+  --section-border-strong:
+    rgba(8, 8, 8, 0.26);
+
+  --section-surface: #ffffff;
+  --section-surface-2: #f0f1f2;
+  --section-surface-3: #e7e8ea;
+
+  --section-accent: #2458c8;
+  --section-accent-light: #4d8dff;
+  --section-accent-dark: #173b86;
+
+  --section-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.08);
+}
+
+
+/* ================================================================
+   04. THEME SURFACE BASE
+================================================================ */
+
+.section-dark,
+.section-light,
+[data-theme="dark"],
+[data-theme="light"] {
+
+  position: relative;
+
+  color: var(--section-text);
+
+  background-color: var(--section-bg);
+
+  isolation: isolate;
+}
+
+
+/* ================================================================
+   05. RESET
+================================================================ */
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 html {
+  margin: 0;
+  padding: 0;
+
+  background: var(--color-bg);
+
+  color-scheme: dark;
+
   scroll-behavior: smooth;
+
   -webkit-text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
-  background: var(--color-bg);
+  padding: 0;
+
+  min-width: 320px;
+
+  background:
+    radial-gradient(
+      circle at 50% -20%,
+      rgba(255, 255, 255, 0.025),
+      transparent 38%
+    ),
+    var(--color-bg);
+
   color: var(--color-text-primary);
+
   font-family: var(--font-body);
   font-size: var(--font-base);
   line-height: var(--leading-normal);
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
   overflow-x: hidden;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
-  font-weight: var(--weight-extrabold);
-  letter-spacing: var(--tracking-tight);
-  line-height: var(--leading-tight);
-  color: var(--color-text-primary);
-  margin: 0;
+body,
+button,
+input,
+textarea,
+select {
+  font-family: var(--font-body);
 }
 
-p { margin: 0; }
+button,
+input,
+textarea,
+select {
+  font-size: inherit;
+}
+
+button {
+  border: 0;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
 
 a {
   color: inherit;
   text-decoration: none;
 }
 
-button {
-  font-family: inherit;
-  cursor: pointer;
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
 }
 
-img, video {
-  max-width: 100%;
-  display: block;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--color-text-primary);
+
+  font-family: var(--font-display);
+  font-weight: var(--weight-bold);
+
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
+}
+
+p {
+  color: var(--color-text-secondary);
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 ::selection {
-  background: var(--primary-200);
-  color: var(--primary-900);
+  background: var(--brand-white);
+  color: var(--brand-black);
 }
 
-::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: transparent; }
+
+/* ================================================================
+   06. SECTION TYPOGRAPHY
+================================================================ */
+
+.section-dark h1,
+.section-dark h2,
+.section-dark h3,
+.section-dark h4,
+.section-dark h5,
+.section-dark h6,
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] h6 {
+
+  color: var(--section-text);
+}
+
+.section-light h1,
+.section-light h2,
+.section-light h3,
+.section-light h4,
+.section-light h5,
+.section-light h6,
+[data-theme="light"] h1,
+[data-theme="light"] h2,
+[data-theme="light"] h3,
+[data-theme="light"] h4,
+[data-theme="light"] h5,
+[data-theme="light"] h6 {
+
+  color: var(--section-text);
+}
+
+.section-dark p,
+[data-theme="dark"] p {
+  color: var(--section-text-secondary);
+}
+
+.section-light p,
+[data-theme="light"] p {
+  color: var(--section-text-secondary);
+}
+
+
+/* ================================================================
+   07. SCROLLBAR
+================================================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+
 ::-webkit-scrollbar-thumb {
-  background: var(--primary-200);
+  background: #292929;
   border-radius: var(--radius-full);
 }
-::-webkit-scrollbar-thumb:hover { background: var(--primary-300); }
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3c3c3c;
+}
+
+
+/* ================================================================
+   08. ACCESSIBILITY
+================================================================ */
 
 :focus-visible {
-  outline: none;
-  box-shadow: var(--focus-ring);
-  border-radius: var(--radius-xs);
+  outline: 2px solid var(--brand-blue);
+  outline-offset: 4px;
 }
 
 
-/* =====================================================
-   UTILITY CLASSES — Common brand patterns
-===================================================== */
+/* ================================================================
+   09. GLOBAL CONTAINERS
+================================================================ */
 
-.gradient-text {
-  background: var(--gradient-brand);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+.container {
+  width: min(
+    calc(100% - (var(--page-padding) * 2)),
+    var(--container-lg)
+  );
+
+  margin-inline: auto;
 }
 
-.glow-card {
-  background: var(--color-bg-elevated);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card);
-  transition: box-shadow var(--transition-normal), transform var(--transition-normal);
+.container-wide {
+  width: min(
+    calc(100% - (var(--page-padding) * 2)),
+    var(--container-xl)
+  );
+
+  margin-inline: auto;
 }
 
-.glow-card:hover {
-  box-shadow: var(--shadow-card-hover);
-  transform: translateY(-4px);
+.container-sm {
+  width: min(
+    calc(100% - (var(--page-padding) * 2)),
+    var(--container-sm)
+  );
+
+  margin-inline: auto;
 }
 
-.btn-primary {
+
+/* ================================================================
+   10. SECTION CONTAINER
+================================================================ */
+
+.section-container {
+  width: min(
+    calc(100% - (var(--page-padding) * 2)),
+    var(--container-xl)
+  );
+
+  margin-inline: auto;
+}
+
+
+/* ================================================================
+   11. STANDARD SECTION SPACING
+================================================================ */
+
+.section {
+  position: relative;
+
+  padding-block:
+    var(--section-padding-y);
+}
+
+.section--large {
+  padding-block:
+    var(--section-padding-y-large);
+}
+
+
+/* ================================================================
+   12. EYEBROW
+================================================================ */
+
+.eyebrow {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  height: 52px;
-  padding: 0 28px;
-  border: none;
-  border-radius: var(--radius-full);
-  background: var(--gradient-primary);
-  color: var(--color-text-inverse);
+  gap: 0.625rem;
+
+  color: var(--section-text-muted);
+
   font-family: var(--font-body);
-  font-size: var(--font-sm);
-  font-weight: var(--weight-bold);
-  box-shadow: var(--shadow-glow-primary);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 36px rgba(37, 99, 235, 0.45);
-}
-
-.btn-accent {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  height: 52px;
-  padding: 0 28px;
-  border: none;
-  border-radius: var(--radius-full);
-  background: var(--gradient-accent);
-  color: var(--color-text-inverse);
-  font-family: var(--font-body);
-  font-size: var(--font-sm);
-  font-weight: var(--weight-bold);
-  box-shadow: var(--shadow-glow-accent);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-}
-
-.btn-accent:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 36px rgba(249, 115, 22, 0.42);
-}
-
-.btn-ghost {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  height: 52px;
-  padding: 0 26px;
-  background: var(--color-bg-elevated);
-  color: var(--color-text-primary);
-  border: 1.5px solid var(--color-border);
-  border-radius: var(--radius-full);
-  font-family: var(--font-body);
-  font-size: var(--font-sm);
-  font-weight: var(--weight-semibold);
-  transition: background var(--transition-fast), border-color var(--transition-fast);
-}
-
-.btn-ghost:hover {
-  background: var(--primary-50);
-  border-color: var(--primary-200);
-}
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 14px;
-  border-radius: var(--radius-full);
-  background: var(--primary-50);
-  border: 1px solid var(--primary-100);
-  color: var(--color-primary);
   font-size: var(--font-xs);
-  font-weight: var(--weight-bold);
-  letter-spacing: var(--tracking-wide);
+  font-weight: var(--weight-semibold);
+
+  letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
 }
 
-.badge-accent {
-  background: var(--accent-50);
-  border-color: var(--accent-100);
-  color: var(--accent-600);
+.eyebrow::before {
+  content: "";
+
+  width: 28px;
+  height: 1px;
+
+  flex: 0 0 auto;
+
+  background: var(--section-accent);
 }
 
-.mesh-bg {
+
+/* ================================================================
+   13. THEME-AWARE EYEBROW
+================================================================ */
+
+.section-light .eyebrow,
+[data-theme="light"] .eyebrow {
+  color: var(--section-text-muted);
+}
+
+.section-dark .eyebrow,
+[data-theme="dark"] .eyebrow {
+  color: var(--section-text-muted);
+}
+
+
+/* ================================================================
+   14. PREMIUM TEXT
+================================================================ */
+
+.gradient-text {
+  background: var(--gradient-text);
+
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.blue-text {
+  background: var(--gradient-blue);
+
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.shine-text {
   position: relative;
-  background: var(--gradient-mesh), var(--color-bg);
+
+  background: var(--gradient-silver);
+
+  background-size: 200% 100%;
+  background-position: 100% 0;
+
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation:
+    textShine 7s ease-in-out infinite;
+}
+
+.dark-gradient-text {
+  background: var(--gradient-dark-text);
+
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 
-/* =====================================================
-   REDUCED MOTION
-===================================================== */
+/* ================================================================
+   15. LIGHT THEME TEXT HELPERS
+================================================================ */
+
+.section-light .gradient-text,
+[data-theme="light"] .gradient-text {
+
+  background: var(--gradient-dark-text);
+
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-light .shine-text,
+[data-theme="light"] .shine-text {
+
+  background: var(--gradient-dark-text);
+
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+/* ================================================================
+   16. PREMIUM SURFACE
+================================================================ */
+
+.surface {
+  background:
+    var(--gradient-surface),
+    var(--section-surface);
+
+  border: 1px solid var(--section-border);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.045),
+    var(--section-shadow);
+}
+
+
+/* ================================================================
+   17. LIGHT SURFACE
+================================================================ */
+
+.section-light .surface,
+[data-theme="light"] .surface {
+
+  background:
+    var(--gradient-light-surface),
+    var(--section-surface);
+
+  border-color: var(--section-border);
+
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    var(--section-shadow);
+}
+
+
+/* ================================================================
+   18. BUTTON SYSTEM — PRIMARY
+================================================================ */
+
+.btn-primary {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 0.75rem;
+
+  min-height: 52px;
+
+  padding:
+    0 1.5rem;
+
+  border:
+    1px solid rgba(255, 255, 255, 0.15);
+
+  border-radius:
+    var(--radius-full);
+
+  background:
+    var(--brand-white);
+
+  color:
+    var(--brand-black);
+
+  font-size:
+    var(--font-sm);
+
+  font-weight:
+    var(--weight-semibold);
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  isolation: isolate;
+
+  transition:
+    transform var(--transition-fast),
+    background var(--transition-fast),
+    color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.btn-primary > * {
+  position: relative;
+  z-index: 2;
+}
+
+.btn-primary::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  z-index: 1;
+
+  background:
+    var(--shine-blue);
+
+  background-size:
+    220% 100%;
+
+  background-position:
+    200% 0;
+
+  transition:
+    background-position 800ms var(--ease-smooth);
+
+  pointer-events: none;
+}
+
+.btn-primary:hover {
+  transform:
+    translateY(-2px);
+
+  background:
+    var(--brand-white-pure);
+
+  box-shadow:
+    0 14px 36px rgba(0, 0, 0, 0.32);
+}
+
+.btn-primary:hover::after {
+  background-position:
+    -20% 0;
+}
+
+.btn-primary:active {
+  transform:
+    translateY(0);
+}
+
+
+/* ================================================================
+   19. BUTTON SYSTEM — SECONDARY
+================================================================ */
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 0.75rem;
+
+  min-height: 52px;
+
+  padding:
+    0 1.5rem;
+
+  border:
+    1px solid var(--section-border-hover);
+
+  border-radius:
+    var(--radius-full);
+
+  background:
+    rgba(255, 255, 255, 0.025);
+
+  color:
+    var(--section-text);
+
+  font-size:
+    var(--font-sm);
+
+  font-weight:
+    var(--weight-semibold);
+
+  white-space: nowrap;
+
+  transition:
+    transform var(--transition-fast),
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.btn-secondary:hover {
+  transform:
+    translateY(-2px);
+
+  background:
+    rgba(255, 255, 255, 0.06);
+
+  border-color:
+    var(--section-border-strong);
+}
+
+
+/* ================================================================
+   20. LIGHT SECTION BUTTONS
+================================================================ */
+
+.section-light .btn-secondary,
+[data-theme="light"] .btn-secondary {
+
+  background:
+    rgba(8, 8, 8, 0.025);
+
+  color:
+    var(--section-text);
+
+  border-color:
+    var(--section-border-hover);
+}
+
+.section-light .btn-secondary:hover,
+[data-theme="light"] .btn-secondary:hover {
+
+  background:
+    rgba(8, 8, 8, 0.055);
+
+  border-color:
+    var(--section-border-strong);
+}
+
+
+/* ================================================================
+   21. BLUE BUTTON
+================================================================ */
+
+.btn-blue {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 0.75rem;
+
+  min-height: 52px;
+
+  padding:
+    0 1.5rem;
+
+  border:
+    1px solid rgba(77, 141, 255, 0.35);
+
+  border-radius:
+    var(--radius-full);
+
+  background:
+    var(--gradient-blue);
+
+  color:
+    #ffffff;
+
+  font-size:
+    var(--font-sm);
+
+  font-weight:
+    var(--weight-semibold);
+
+  box-shadow:
+    var(--shadow-blue);
+
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast),
+    filter var(--transition-fast);
+}
+
+.btn-blue:hover {
+  transform:
+    translateY(-2px);
+
+  filter:
+    brightness(1.05);
+
+  box-shadow:
+    var(--shadow-blue-strong);
+}
+
+
+/* ================================================================
+   22. DIVIDERS
+================================================================ */
+
+.divider {
+  width: 100%;
+  height: 1px;
+
+  background:
+    var(--section-border);
+}
+
+.divider-soft {
+  width: 100%;
+  height: 1px;
+
+  background:
+    var(--section-border-soft);
+}
+
+
+/* ================================================================
+   23. RESPONSIVE DISPLAY TYPE
+================================================================ */
+
+.display-xl {
+  font-size:
+    clamp(3.5rem, 8vw, 7rem);
+
+  line-height:
+    0.94;
+
+  letter-spacing:
+    var(--tracking-tighter);
+}
+
+.display-lg {
+  font-size:
+    clamp(2.75rem, 6vw, 5rem);
+
+  line-height:
+    0.98;
+
+  letter-spacing:
+    var(--tracking-tighter);
+}
+
+.display-md {
+  font-size:
+    clamp(2.25rem, 4vw, 3.75rem);
+
+  line-height:
+    1;
+
+  letter-spacing:
+    var(--tracking-tight);
+}
+
+
+/* ================================================================
+   24. SECTION TITLE HELPERS
+================================================================ */
+
+.section-title {
+  max-width:
+    900px;
+
+  color:
+    var(--section-text);
+
+  font-family:
+    var(--font-display);
+
+  font-size:
+    clamp(2.75rem, 6vw, 5.5rem);
+
+  font-weight:
+    var(--weight-bold);
+
+  line-height:
+    0.98;
+
+  letter-spacing:
+    var(--tracking-tighter);
+}
+
+.section-description {
+  max-width:
+    650px;
+
+  margin-top:
+    var(--space-6);
+
+  color:
+    var(--section-text-secondary);
+
+  font-size:
+    clamp(1rem, 1.4vw, 1.125rem);
+
+  line-height:
+    var(--leading-relaxed);
+}
+
+
+/* ================================================================
+   25. GRAIN / FILM TEXTURE
+================================================================ */
+
+.grain {
+  position: relative;
+}
+
+.grain::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  z-index: 20;
+
+  pointer-events: none;
+
+  opacity:
+    0.035;
+
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.55'/%3E%3C/svg%3E");
+
+  mix-blend-mode:
+    soft-light;
+}
+
+
+/* ================================================================
+   26. DARK SECTION GRAIN
+================================================================ */
+
+.section-dark.grain::after,
+[data-theme="dark"].grain::after {
+  opacity:
+    0.035;
+}
+
+
+/* ================================================================
+   27. LIGHT SECTION GRAIN
+================================================================ */
+
+.section-light.grain::after,
+[data-theme="light"].grain::after {
+
+  opacity:
+    0.018;
+
+  mix-blend-mode:
+    multiply;
+}
+
+
+/* ================================================================
+   28. BLUE ACCENT LINE
+================================================================ */
+
+.accent-line {
+  width:
+    44px;
+
+  height:
+    2px;
+
+  background:
+    var(--section-accent);
+}
+
+
+/* ================================================================
+   29. THEME-AWARE LINKS
+================================================================ */
+
+.section-dark a,
+[data-theme="dark"] a {
+  transition:
+    color var(--transition-fast),
+    opacity var(--transition-fast);
+}
+
+.section-light a,
+[data-theme="light"] a {
+  transition:
+    color var(--transition-fast),
+    opacity var(--transition-fast);
+}
+
+
+/* ================================================================
+   30. THEME-AWARE CODE / MONO
+================================================================ */
+
+.mono {
+  font-family:
+    var(--font-mono);
+
+  font-size:
+    var(--font-xs);
+
+  letter-spacing:
+    var(--tracking-wide);
+
+  text-transform:
+    uppercase;
+}
+
+
+/* ================================================================
+   31. MOBILE SECTION PADDING
+================================================================ */
+
+@media (max-width: 1024px) {
+
+  :root {
+    --page-padding:
+      clamp(1.25rem, 3.5vw, 2.5rem);
+  }
+
+  .section {
+    padding-block:
+      clamp(4.5rem, 8vw, 7rem);
+  }
+
+  .section--large {
+    padding-block:
+      clamp(5.5rem, 10vw, 9rem);
+  }
+}
+
+
+/* ================================================================
+   32. TABLET
+================================================================ */
+
+@media (max-width: 768px) {
+
+  :root {
+    --page-padding:
+      1.25rem;
+  }
+
+  .display-xl {
+    font-size:
+      clamp(3rem, 14vw, 5rem);
+  }
+
+  .display-lg {
+    font-size:
+      clamp(2.5rem, 11vw, 4rem);
+  }
+
+  .display-md {
+    font-size:
+      clamp(2.1rem, 8vw, 3.25rem);
+  }
+
+  .section {
+    padding-block:
+      5rem;
+  }
+
+  .section--large {
+    padding-block:
+      6rem;
+  }
+
+  .section-title {
+    font-size:
+      clamp(2.5rem, 10vw, 4.5rem);
+  }
+}
+
+
+/* ================================================================
+   33. SMALL MOBILE
+================================================================ */
+
+@media (max-width: 460px) {
+
+  :root {
+    --page-padding:
+      1rem;
+  }
+
+  .display-xl {
+    font-size:
+      clamp(2.65rem, 13vw, 4rem);
+  }
+
+  .display-lg {
+    font-size:
+      clamp(2.25rem, 11vw, 3.25rem);
+  }
+
+  .display-md {
+    font-size:
+      clamp(2rem, 9vw, 2.75rem);
+  }
+
+  .section {
+    padding-block:
+      4.25rem;
+  }
+
+  .section--large {
+    padding-block:
+      5rem;
+  }
+
+  .section-title {
+    font-size:
+      clamp(2.25rem, 11vw, 3.25rem);
+  }
+
+  .section-description {
+    font-size:
+      0.98rem;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-blue {
+
+    min-height:
+      50px;
+
+    padding-inline:
+      1.25rem;
+  }
+}
+
+
+/* ================================================================
+   34. VERY SMALL DEVICES
+================================================================ */
+
+@media (max-width: 360px) {
+
+  :root {
+    --page-padding:
+      0.9rem;
+  }
+
+  .section {
+    padding-block:
+      3.75rem;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-blue {
+
+    width:
+      100%;
+
+    min-height:
+      50px;
+  }
+}
+
+
+/* ================================================================
+   35. REDUCED MOTION
+================================================================ */
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+
+  html {
+    scroll-behavior:
+      auto !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+
+    animation-duration:
+      0.01ms !important;
+
+    animation-iteration-count:
+      1 !important;
+
+    transition-duration:
+      0.01ms !important;
+
+    scroll-behavior:
+      auto !important;
   }
 }

@@ -1,8 +1,8 @@
-
+// src\pages\Home.jsx
 import { useEffect, useMemo, useRef } from "react";
-import Hero from "../components/Hero";
+import Hero from "../components/home/HomeHero";
 import WorkGrid from "../components/WorkGrid";
-import TrustedBy from "../components/TrustedBy";
+import TrustedBy from "../components/home/TrustedBy";
 import Contact from "./Contact";
 import useImagePreloader from "../hooks/useImagePreloader";
 import "../styles/pages/home.css";

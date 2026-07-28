@@ -4,7 +4,7 @@
 // src/layouts/MainLayout.jsx
 // src/layouts/MainLayout.jsx
 import { Outlet, useLocation } from "react-router-dom";
-import Header from "../components/Header";
+import Header from "../components/layout/SiteHeader";
 import Footer from "../components/Footer";
 import Loader from "../components/Loader";
 import ScrollToTop from "../components/ScrollToTop";
