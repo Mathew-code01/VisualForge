@@ -13,6 +13,7 @@ import { AuthProvider } from "./context/AuthContext";
 
 import MainLayout from "./layouts/MainLayout";
 import Home from "./pages/Home";
+import Service from "./pages/Services";
 import Work from "./pages/Work";
 import WorkDetail from "./pages/WorkDetail";
 import About from "./pages/About";
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
 
     children: [
       { index: true, element: <Home /> },
+      { path: "service", element: <Service />},
       { path: "work", element: <Work /> },
       { path: "work/:id", element: <WorkDetail /> },
       { path: "about", element: <About /> },
