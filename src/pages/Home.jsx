@@ -9,6 +9,7 @@ import FeaturedWork from "../components/home/FeaturedWork"
 import ServicesOverview from "../components/home/ServicesOverview";
 import InsightSection from "../components/home/InsightSection";
 import HomeCTA from "../components/home/HomeCTA";
+import SiteFooter from "../components/layout/SiteFooter";
 import Contact from "./Contact";
 import useImagePreloader from "../hooks/useImagePreloader";
 import "../styles/pages/home.css";
@@ -118,6 +119,8 @@ const Home = () => {
       <InsightSection/>
 
       <HomeCTA/>
+
+      <SiteFooter/>
 
       {/* =====================================================
           SELECTED WORK
