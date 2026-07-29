@@ -1,0 +1,941 @@
+/* src\styles\components\problemSection.css */
+
+
+/* ================================================================
+   BIGDAY MA — PROBLEM SECTION
+   src/styles/problemSection.css
+================================================================ */
+
+
+/* ================================================================
+   01. SECTION
+================================================================ */
+
+.problem-section {
+  position: relative;
+
+  min-height: 100vh;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 78% 18%,
+      rgba(77, 141, 255, 0.075),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 12% 82%,
+      rgba(255, 255, 255, 0.025),
+      transparent 26%
+    ),
+    var(--section-bg);
+
+  isolation: isolate;
+}
+
+
+/* ================================================================
+   02. ATMOSPHERIC GLOW
+================================================================ */
+
+.problem-section__glow {
+  position: absolute;
+
+  top: 8%;
+  right: -12%;
+
+  width: min(42vw, 620px);
+  aspect-ratio: 1;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(77, 141, 255, 0.08) 0%,
+      rgba(77, 141, 255, 0.035) 32%,
+      transparent 70%
+    );
+
+  filter: blur(20px);
+
+  pointer-events: none;
+
+  z-index: -1;
+}
+
+
+/* ================================================================
+   03. INNER LAYOUT
+================================================================ */
+
+.problem-section__inner {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  min-height: 100vh;
+
+  padding-top:
+    clamp(5rem, 9vw, 8rem);
+
+  padding-bottom:
+    clamp(4rem, 7vw, 6rem);
+}
+
+
+/* ================================================================
+   04. TOP META
+================================================================ */
+
+.problem-section__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: var(--space-6);
+}
+
+
+/* Section number */
+
+.problem-section__number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+
+  border:
+    1px solid var(--section-border);
+
+  border-radius:
+    var(--radius-full);
+
+  color:
+    var(--section-text);
+
+  background:
+    rgba(255, 255, 255, 0.025);
+
+  font-size:
+    var(--font-xs);
+
+  font-weight:
+    var(--weight-semibold);
+
+  letter-spacing:
+    var(--tracking-wide);
+}
+
+
+/* Section label */
+
+.problem-section__label {
+  margin-left: auto;
+
+  color:
+    var(--section-text-muted);
+}
+
+
+/* ================================================================
+   05. DIVIDER
+================================================================ */
+
+.problem-section__divider {
+  margin-top:
+    var(--space-6);
+}
+
+
+/* ================================================================
+   06. MAIN CONTENT
+================================================================ */
+
+.problem-section__content {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.35fr)
+    minmax(280px, 0.65fr);
+
+  gap:
+    clamp(3rem, 8vw, 9rem);
+
+  align-items:
+    end;
+
+  padding-top:
+    clamp(4.5rem, 9vw, 8rem);
+}
+
+
+/* ================================================================
+   07. INTRO
+================================================================ */
+
+.problem-section__intro {
+  max-width:
+    900px;
+}
+
+
+/* Small contextual line */
+
+.problem-section__kicker {
+  margin-bottom:
+    var(--space-6);
+
+  color:
+    var(--section-accent);
+
+  font-family:
+    var(--font-mono);
+
+  font-size:
+    var(--font-xs);
+
+  font-weight:
+    var(--weight-medium);
+
+  letter-spacing:
+    var(--tracking-wide);
+
+  line-height:
+    var(--leading-normal);
+
+  text-transform:
+    uppercase;
+}
+
+
+/* ================================================================
+   08. MAIN TITLE
+================================================================ */
+
+.problem-section__title {
+  max-width:
+    880px;
+
+  color:
+    var(--section-text);
+
+  font-family:
+    var(--font-display);
+
+  font-size:
+    clamp(3.2rem, 6.3vw, 7rem);
+
+  font-weight:
+    var(--weight-bold);
+
+  line-height:
+    0.94;
+
+  letter-spacing:
+    var(--tracking-tighter);
+}
+
+
+/* Muted continuation */
+
+.problem-section__title-muted {
+  color:
+    var(--section-text-subtle);
+
+  transition:
+    color var(--transition-normal);
+}
+
+
+/* Subtle hover interaction */
+
+.problem-section__intro:hover
+.problem-section__title-muted {
+  color:
+    var(--section-text-secondary);
+}
+
+
+/* ================================================================
+   09. RIGHT MESSAGE
+================================================================ */
+
+.problem-section__message {
+  max-width:
+    420px;
+
+  padding-bottom:
+    var(--space-2);
+}
+
+
+/* Main statement */
+
+.problem-section__statement {
+  color:
+    var(--section-text-secondary);
+
+  font-family:
+    var(--font-display);
+
+  font-size:
+    clamp(1.5rem, 2.3vw, 2.25rem);
+
+  font-weight:
+    var(--weight-medium);
+
+  line-height:
+    var(--leading-snug);
+
+  letter-spacing:
+    var(--tracking-tight);
+}
+
+
+/* Supporting statement */
+
+.problem-section__supporting {
+  margin-top:
+    var(--space-6);
+
+  color:
+    var(--section-text-muted);
+
+  font-size:
+    var(--font-base);
+
+  line-height:
+    var(--leading-relaxed);
+}
+
+
+/* ================================================================
+   10. CLARITY AREA
+================================================================ */
+
+.problem-section__clarity {
+  margin-top:
+    clamp(6rem, 11vw, 11rem);
+
+  padding-top:
+    var(--space-6);
+
+  border-top:
+    1px solid var(--section-border-soft);
+}
+
+
+/* ================================================================
+   11. CLARITY HEADER
+================================================================ */
+
+.problem-section__clarity-head {
+  display: flex;
+  align-items: center;
+
+  gap:
+    var(--space-5);
+
+  margin-bottom:
+    var(--space-8);
+}
+
+
+.problem-section__clarity-label {
+  flex:
+    0 0 auto;
+
+  color:
+    var(--section-text-subtle);
+}
+
+
+.problem-section__clarity-line {
+  width:
+    min(100%, 180px);
+
+  height:
+    1px;
+
+  background:
+    var(--section-border);
+}
+
+
+/* ================================================================
+   12. SEQUENCE
+================================================================ */
+
+.problem-section__sequence {
+  display: grid;
+
+  grid-template-columns:
+    1fr auto 1fr auto 1fr;
+
+  align-items: center;
+
+  gap:
+    clamp(1rem, 3vw, 3rem);
+}
+
+
+/* ================================================================
+   13. STEP
+================================================================ */
+
+.problem-section__step {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  gap:
+    var(--space-3);
+
+  min-width:
+    0;
+
+  padding:
+    clamp(1.25rem, 2.5vw, 2rem);
+
+  border:
+    1px solid var(--section-border-soft);
+
+  background:
+    rgba(255, 255, 255, 0.018);
+
+  transition:
+    transform var(--transition-normal),
+    border-color var(--transition-normal),
+    background var(--transition-normal);
+}
+
+
+.problem-section__step:hover {
+  transform:
+    translateY(-4px);
+
+  border-color:
+    var(--section-border-hover);
+
+  background:
+    rgba(255, 255, 255, 0.035);
+}
+
+
+/* Active final step */
+
+.problem-section__step--active {
+  border-color:
+    rgba(77, 141, 255, 0.28);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(77, 141, 255, 0.09),
+      rgba(77, 141, 255, 0.025)
+    );
+}
+
+
+.problem-section__step--active::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 36px;
+  height: 1px;
+
+  background:
+    var(--section-accent);
+}
+
+
+/* ================================================================
+   14. STEP INDEX
+================================================================ */
+
+.problem-section__step-index {
+  color:
+    var(--section-text-subtle);
+
+  font-family:
+    var(--font-mono);
+
+  font-size:
+    var(--font-xs);
+
+  letter-spacing:
+    var(--tracking-wide);
+}
+
+
+/* Active index */
+
+.problem-section__step--active
+.problem-section__step-index {
+  color:
+    var(--section-accent-light);
+}
+
+
+/* ================================================================
+   15. STEP TEXT
+================================================================ */
+
+.problem-section__step-text {
+  color:
+    var(--section-text-secondary);
+
+  font-family:
+    var(--font-display);
+
+  font-size:
+    clamp(1.25rem, 2vw, 2rem);
+
+  font-weight:
+    var(--weight-semibold);
+
+  line-height:
+    var(--leading-snug);
+
+  letter-spacing:
+    var(--tracking-tight);
+}
+
+
+.problem-section__step--active
+.problem-section__step-text {
+  color:
+    var(--section-text);
+}
+
+
+/* ================================================================
+   16. ARROWS
+================================================================ */
+
+.problem-section__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color:
+    var(--section-text-subtle);
+
+  font-size:
+    1.25rem;
+
+  user-select:
+    none;
+}
+
+
+/* ================================================================
+   17. BOTTOM STATEMENT
+================================================================ */
+
+.problem-section__bottom {
+  display: grid;
+
+  grid-template-columns:
+    auto minmax(0, 1fr);
+
+  align-items: center;
+
+  gap:
+    var(--space-6);
+
+  max-width:
+    700px;
+
+  margin-top:
+    auto;
+
+  padding-top:
+    clamp(5rem, 9vw, 8rem);
+}
+
+
+.problem-section__bottom-line {
+  width:
+    42px;
+
+  height:
+    2px;
+
+  background:
+    var(--section-accent);
+}
+
+
+.problem-section__bottom-copy {
+  max-width:
+    620px;
+
+  color:
+    var(--section-text-muted);
+
+  font-size:
+    var(--font-sm);
+
+  line-height:
+    var(--leading-relaxed);
+}
+
+
+/* ================================================================
+   18. TABLET
+================================================================ */
+
+@media (max-width: 1024px) {
+
+  .problem-section__content {
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(240px, 0.55fr);
+
+    gap:
+      clamp(2.5rem, 6vw, 5rem);
+
+    padding-top:
+      clamp(4rem, 8vw, 6rem);
+  }
+
+
+  .problem-section__title {
+    font-size:
+      clamp(3rem, 7vw, 5.5rem);
+  }
+
+
+  .problem-section__clarity {
+    margin-top:
+      clamp(5rem, 9vw, 8rem);
+  }
+
+
+  .problem-section__sequence {
+    gap:
+      clamp(0.75rem, 2vw, 1.5rem);
+  }
+}
+
+
+/* ================================================================
+   19. TABLET / SMALL LAPTOP
+================================================================ */
+
+@media (max-width: 768px) {
+
+  .problem-section__inner {
+    min-height:
+      auto;
+
+    padding-top:
+      5rem;
+
+    padding-bottom:
+      5rem;
+  }
+
+
+  .problem-section__content {
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    align-items:
+      stretch;
+
+    gap:
+      3rem;
+
+    padding-top:
+      4.5rem;
+  }
+
+
+  .problem-section__title {
+    max-width:
+      680px;
+
+    font-size:
+      clamp(2.75rem, 10vw, 4.5rem);
+
+    line-height:
+      0.96;
+  }
+
+
+  .problem-section__message {
+    max-width:
+      560px;
+
+    padding-left:
+      clamp(0rem, 8vw, 4rem);
+  }
+
+
+  .problem-section__clarity {
+    margin-top:
+      5rem;
+  }
+
+
+  .problem-section__sequence {
+    grid-template-columns:
+      1fr;
+
+    gap:
+      0.75rem;
+  }
+
+
+  .problem-section__step {
+    min-height:
+      110px;
+
+    justify-content:
+      center;
+  }
+
+
+  .problem-section__arrow {
+    justify-self:
+      start;
+
+    margin-left:
+      1.5rem;
+
+    transform:
+      rotate(90deg);
+  }
+
+
+  .problem-section__bottom {
+    margin-top:
+      5rem;
+
+    padding-top:
+      0;
+  }
+}
+
+
+/* ================================================================
+   20. MOBILE
+================================================================ */
+
+@media (max-width: 460px) {
+
+  .problem-section {
+    background:
+      radial-gradient(
+        circle at 85% 10%,
+        rgba(77, 141, 255, 0.065),
+        transparent 34%
+      ),
+      var(--section-bg);
+  }
+
+
+  .problem-section__inner {
+    padding-top:
+      4.25rem;
+
+    padding-bottom:
+      4.25rem;
+  }
+
+
+  .problem-section__top {
+    align-items:
+      center;
+  }
+
+
+  .problem-section__number {
+    width:
+      38px;
+
+    height:
+      38px;
+  }
+
+
+  .problem-section__label {
+    font-size:
+      0.625rem;
+  }
+
+
+  .problem-section__label::before {
+    width:
+      20px;
+  }
+
+
+  .problem-section__content {
+    gap:
+      2.5rem;
+
+    padding-top:
+      3.75rem;
+  }
+
+
+  .problem-section__kicker {
+    margin-bottom:
+      1.25rem;
+
+    font-size:
+      0.625rem;
+  }
+
+
+  .problem-section__title {
+    font-size:
+      clamp(2.5rem, 12.5vw, 3.5rem);
+
+    line-height:
+      0.97;
+  }
+
+
+  .problem-section__message {
+    padding-left:
+      0;
+  }
+
+
+  .problem-section__statement {
+    font-size:
+      clamp(1.35rem, 6vw, 1.7rem);
+  }
+
+
+  .problem-section__supporting {
+    margin-top:
+      1rem;
+
+    font-size:
+      0.95rem;
+  }
+
+
+  .problem-section__clarity {
+    margin-top:
+      4.5rem;
+
+    padding-top:
+      1.25rem;
+  }
+
+
+  .problem-section__clarity-head {
+    margin-bottom:
+      1.5rem;
+  }
+
+
+  .problem-section__clarity-line {
+    max-width:
+      100px;
+  }
+
+
+  .problem-section__step {
+    min-height:
+      96px;
+
+    padding:
+      1.15rem 1.25rem;
+  }
+
+
+  .problem-section__step-text {
+    font-size:
+      1.25rem;
+  }
+
+
+  .problem-section__bottom {
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    align-items:
+      flex-start;
+
+    gap:
+      1rem;
+
+    margin-top:
+      4rem;
+  }
+
+
+  .problem-section__bottom-copy {
+    font-size:
+      0.9rem;
+  }
+}
+
+
+/* ================================================================
+   21. VERY SMALL DEVICES
+================================================================ */
+
+@media (max-width: 360px) {
+
+  .problem-section__inner {
+    padding-top:
+      3.75rem;
+
+    padding-bottom:
+      3.75rem;
+  }
+
+
+  .problem-section__title {
+    font-size:
+      2.3rem;
+
+    line-height:
+      0.98;
+  }
+
+
+  .problem-section__statement {
+    font-size:
+      1.25rem;
+  }
+
+
+  .problem-section__step {
+    min-height:
+      88px;
+
+    padding:
+      1rem;
+  }
+
+
+  .problem-section__step-text {
+    font-size:
+      1.15rem;
+  }
+}

@@ -1,0 +1,889 @@
+/* src\styles\components\homeCTA.css */
+
+/* ================================================================
+   BIG DAY MA — FINAL CTA
+   src/styles/components/homeCTA.css
+
+   Theme:
+   ------------------------------------------------
+   Light section
+   Uses global tokens from theme.css
+================================================================ */
+
+
+/* ================================================================
+   01. SECTION
+================================================================ */
+
+.home-cta {
+  position: relative;
+
+  min-height: min(900px, 90vh);
+
+  display: flex;
+  align-items: center;
+
+  padding-block:
+    clamp(6rem, 12vw, 11rem);
+
+  overflow: hidden;
+
+  background:
+    var(--gradient-light);
+
+  isolation: isolate;
+}
+
+
+/* ================================================================
+   02. ATMOSPHERE / GLOWS
+================================================================ */
+
+.home-cta__glow {
+  position: absolute;
+
+  pointer-events: none;
+
+  z-index: -1;
+
+  border-radius: 50%;
+
+  filter: blur(10px);
+}
+
+
+/* Primary blue atmosphere */
+
+.home-cta__glow--primary {
+  width: clamp(280px, 42vw, 680px);
+  height: clamp(280px, 42vw, 680px);
+
+  top: -35%;
+  right: -12%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(77, 141, 255, 0.14) 0%,
+      rgba(77, 141, 255, 0.07) 32%,
+      rgba(77, 141, 255, 0.02) 58%,
+      transparent 75%
+    );
+
+  opacity: 0.9;
+}
+
+
+/* Secondary blue atmosphere */
+
+.home-cta__glow--secondary {
+  width: clamp(220px, 32vw, 520px);
+  height: clamp(220px, 32vw, 520px);
+
+  bottom: -35%;
+  left: -14%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(36, 88, 200, 0.09) 0%,
+      rgba(36, 88, 200, 0.035) 42%,
+      transparent 72%
+    );
+
+  opacity: 0.8;
+}
+
+
+/* ================================================================
+   03. CONTAINER
+================================================================ */
+
+.home-cta__container {
+  position: relative;
+
+  width: min(
+    calc(100% - (var(--page-padding) * 2)),
+    var(--container-xl)
+  );
+
+  margin-inline: auto;
+}
+
+
+/* ================================================================
+   04. TOP ROW
+================================================================ */
+
+.home-cta__top {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  padding-bottom:
+    clamp(1.5rem, 3vw, 2.5rem);
+
+  border-bottom:
+    1px solid var(--section-border);
+}
+
+
+.home-cta__eyebrow {
+  color: var(--section-text-muted);
+}
+
+
+/* Keep the number subtle */
+
+.home-cta__eyebrow span:first-child {
+  color: var(--section-text);
+}
+
+
+/* Right-side brand label */
+
+.home-cta__top-index {
+  color: var(--section-text-subtle);
+
+  font-size: var(--font-xs);
+  font-weight: var(--weight-medium);
+
+  letter-spacing: var(--tracking-wide);
+}
+
+
+/* ================================================================
+   05. MAIN CONTENT
+================================================================ */
+
+.home-cta__content {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.45fr)
+    minmax(280px, 0.55fr);
+
+  gap:
+    clamp(3rem, 8vw, 10rem);
+
+  align-items: end;
+
+  padding-block:
+    clamp(4.5rem, 9vw, 8.5rem);
+}
+
+
+/* ================================================================
+   06. TITLE AREA
+================================================================ */
+
+.home-cta__heading-wrap {
+  min-width: 0;
+}
+
+
+.home-cta__label {
+  display: block;
+
+  margin-bottom:
+    clamp(1.5rem, 3vw, 2.5rem);
+
+  color:
+    var(--section-accent-dark);
+
+  font-family:
+    var(--font-mono);
+
+  font-size:
+    var(--font-xs);
+
+  font-weight:
+    var(--weight-medium);
+
+  letter-spacing:
+    var(--tracking-wide);
+
+  line-height:
+    1;
+
+  text-transform:
+    uppercase;
+}
+
+
+.home-cta__title {
+  max-width: 1050px;
+
+  color:
+    var(--section-text);
+
+  font-family:
+    var(--font-display);
+
+  font-size:
+    clamp(3.5rem, 7.4vw, 8rem);
+
+  font-weight:
+    var(--weight-bold);
+
+  line-height:
+    0.91;
+
+  letter-spacing:
+    var(--tracking-tighter);
+}
+
+
+/* Second line */
+
+.home-cta__title span {
+  display: inline-block;
+
+  background:
+    var(--gradient-dark-text);
+
+  background-clip:
+    text;
+
+  -webkit-background-clip:
+    text;
+
+  -webkit-text-fill-color:
+    transparent;
+}
+
+
+/* ================================================================
+   07. ACTION AREA
+================================================================ */
+
+.home-cta__action {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-start;
+
+  gap:
+    clamp(1.75rem, 3vw, 2.75rem);
+
+  padding-bottom:
+    0.5rem;
+}
+
+
+.home-cta__description {
+  max-width:
+    390px;
+
+  color:
+    var(--section-text-muted);
+
+  font-size:
+    clamp(0.95rem, 1.3vw, 1.075rem);
+
+  line-height:
+    var(--leading-relaxed);
+}
+
+
+/* ================================================================
+   08. CTA BUTTON
+================================================================ */
+
+.home-cta__button {
+  position: relative;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap:
+    1rem;
+
+  min-height:
+    58px;
+
+  padding:
+    0 1.65rem;
+
+  border:
+    1px solid rgba(8, 8, 8, 0.12);
+
+  border-radius:
+    var(--radius-full);
+
+  background:
+    var(--brand-black);
+
+  color:
+    var(--brand-white-pure);
+
+  font-size:
+    var(--font-sm);
+
+  font-weight:
+    var(--weight-semibold);
+
+  letter-spacing:
+    -0.01em;
+
+  white-space:
+    nowrap;
+
+  overflow:
+    hidden;
+
+  isolation:
+    isolate;
+
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.12);
+
+  transition:
+    transform var(--transition-normal),
+    box-shadow var(--transition-normal),
+    background var(--transition-normal);
+}
+
+
+.home-cta__button::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  z-index: -1;
+
+  background:
+    var(--gradient-blue);
+
+  opacity: 0;
+
+  transform:
+    translateX(-100%);
+
+  transition:
+    transform 600ms var(--ease-smooth),
+    opacity 400ms var(--ease-out);
+}
+
+
+.home-cta__button span {
+  position: relative;
+
+  z-index: 2;
+}
+
+
+.home-cta__button-icon {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 28px;
+  height: 28px;
+
+  border:
+    1px solid rgba(255, 255, 255, 0.18);
+
+  border-radius:
+    50%;
+
+  font-size:
+    0.95rem;
+
+  line-height:
+    1;
+
+  transition:
+    transform var(--transition-normal),
+    background var(--transition-normal),
+    border-color var(--transition-normal);
+}
+
+
+.home-cta__button:hover {
+  transform:
+    translateY(-4px);
+
+  box-shadow:
+    0 20px 42px rgba(0, 0, 0, 0.18);
+}
+
+
+.home-cta__button:hover::before {
+  transform:
+    translateX(0);
+
+  opacity:
+    1;
+}
+
+
+.home-cta__button:hover .home-cta__button-icon {
+  transform:
+    translate(2px, -2px);
+
+  background:
+    rgba(255, 255, 255, 0.12);
+
+  border-color:
+    rgba(255, 255, 255, 0.3);
+}
+
+
+.home-cta__button:active {
+  transform:
+    translateY(-1px);
+}
+
+
+/* ================================================================
+   09. BOTTOM STRUCTURE
+================================================================ */
+
+.home-cta__bottom {
+  display: grid;
+
+  grid-template-columns:
+    minmax(100px, 1fr)
+    auto
+    auto;
+
+  align-items: center;
+
+  gap:
+    clamp(1.5rem, 4vw, 4rem);
+
+  padding-top:
+    clamp(1.5rem, 3vw, 2.5rem);
+
+  border-top:
+    1px solid var(--section-border);
+}
+
+
+.home-cta__line {
+  display: none;
+}
+
+
+/* ================================================================
+   10. BOTTOM META
+================================================================ */
+
+.home-cta__bottom-meta {
+  display: flex;
+
+  align-items: center;
+
+  gap:
+    1.5rem;
+
+  color:
+    var(--section-text-subtle);
+
+  font-family:
+    var(--font-mono);
+
+  font-size:
+    var(--font-xs);
+
+  letter-spacing:
+    var(--tracking-wide);
+
+  text-transform:
+    uppercase;
+}
+
+
+.home-cta__bottom-meta span {
+  position: relative;
+}
+
+
+.home-cta__bottom-meta span:not(:last-child)::after {
+  content: "";
+
+  position: absolute;
+
+  top: 50%;
+  right: -0.85rem;
+
+  width: 3px;
+  height: 3px;
+
+  border-radius: 50%;
+
+  background:
+    var(--section-text-subtle);
+
+  transform:
+    translateY(-50%);
+}
+
+
+.home-cta__year {
+  color:
+    var(--section-text-subtle);
+
+  font-family:
+    var(--font-mono);
+
+  font-size:
+    var(--font-xs);
+
+  letter-spacing:
+    var(--tracking-wide);
+
+  text-transform:
+    uppercase;
+
+  white-space:
+    nowrap;
+}
+
+
+/* ================================================================
+   11. TABLET
+================================================================ */
+
+@media (max-width: 1024px) {
+
+  .home-cta {
+    min-height:
+      auto;
+
+    padding-block:
+      clamp(5.5rem, 10vw, 8rem);
+  }
+
+
+  .home-cta__content {
+    grid-template-columns:
+      minmax(0, 1.25fr)
+      minmax(240px, 0.75fr);
+
+    gap:
+      clamp(2.5rem, 5vw, 5rem);
+
+    padding-block:
+      clamp(4rem, 8vw, 6.5rem);
+  }
+
+
+  .home-cta__title {
+    font-size:
+      clamp(3.25rem, 7.2vw, 6rem);
+  }
+}
+
+
+/* ================================================================
+   12. TABLET / SMALL LAPTOP
+================================================================ */
+
+@media (max-width: 820px) {
+
+  .home-cta__content {
+    grid-template-columns:
+      1fr;
+
+    gap:
+      3rem;
+
+    align-items:
+      start;
+  }
+
+
+  .home-cta__title {
+    max-width:
+      760px;
+
+    font-size:
+      clamp(3.25rem, 9vw, 5.5rem);
+  }
+
+
+  .home-cta__action {
+    display:
+      grid;
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      auto;
+
+    align-items:
+      end;
+
+    gap:
+      2rem;
+  }
+
+
+  .home-cta__description {
+    max-width:
+      480px;
+  }
+}
+
+
+/* ================================================================
+   13. MOBILE
+================================================================ */
+
+@media (max-width: 600px) {
+
+  .home-cta {
+    padding-block:
+      5rem;
+  }
+
+
+  .home-cta__top {
+    align-items:
+      flex-start;
+
+    gap:
+      1rem;
+  }
+
+
+  .home-cta__top-index {
+    display:
+      none;
+  }
+
+
+  .home-cta__content {
+    gap:
+      2.75rem;
+
+    padding-block:
+      4rem;
+  }
+
+
+  .home-cta__label {
+    margin-bottom:
+      1.5rem;
+  }
+
+
+  .home-cta__title {
+    font-size:
+      clamp(2.75rem, 12.5vw, 4.5rem);
+
+    line-height:
+      0.94;
+  }
+
+
+  .home-cta__action {
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    align-items:
+      flex-start;
+
+    gap:
+      1.75rem;
+  }
+
+
+  .home-cta__description {
+    max-width:
+      100%;
+
+    font-size:
+      0.98rem;
+  }
+
+
+  .home-cta__button {
+    min-height:
+      54px;
+
+    padding-inline:
+      1.4rem;
+  }
+
+
+  .home-cta__bottom {
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    align-items:
+      flex-start;
+
+    gap:
+      1.25rem;
+  }
+
+
+  .home-cta__bottom-meta {
+    flex-wrap:
+      wrap;
+
+    gap:
+      0.85rem 1.5rem;
+  }
+}
+
+
+/* ================================================================
+   14. SMALL MOBILE
+================================================================ */
+
+@media (max-width: 460px) {
+
+  .home-cta {
+    padding-block:
+      4.5rem;
+  }
+
+
+  .home-cta__top {
+    padding-bottom:
+      1.25rem;
+  }
+
+
+  .home-cta__eyebrow {
+    gap:
+      0.5rem;
+
+    font-size:
+      0.625rem;
+  }
+
+
+  .home-cta__eyebrow::before {
+    width:
+      22px;
+  }
+
+
+  .home-cta__content {
+    padding-block:
+      3.5rem;
+  }
+
+
+  .home-cta__title {
+    font-size:
+      clamp(2.45rem, 12.5vw, 3.5rem);
+
+    letter-spacing:
+      -0.06em;
+  }
+
+
+  .home-cta__description {
+    font-size:
+      0.94rem;
+
+    line-height:
+      1.65;
+  }
+
+
+  .home-cta__button {
+    width:
+      100%;
+
+    min-height:
+      52px;
+  }
+
+
+  .home-cta__bottom-meta {
+    font-size:
+      0.625rem;
+  }
+
+
+  .home-cta__year {
+    font-size:
+      0.625rem;
+  }
+}
+
+
+/* ================================================================
+   15. VERY SMALL DEVICES
+================================================================ */
+
+@media (max-width: 360px) {
+
+  .home-cta {
+    padding-block:
+      3.75rem;
+  }
+
+
+  .home-cta__content {
+    padding-block:
+      3rem;
+  }
+
+
+  .home-cta__title {
+    font-size:
+      clamp(2.2rem, 12.5vw, 3rem);
+  }
+
+
+  .home-cta__button {
+    padding-inline:
+      1.1rem;
+  }
+
+
+  .home-cta__button-icon {
+    width:
+      26px;
+
+    height:
+      26px;
+  }
+}
+
+
+/* ================================================================
+   16. REDUCED MOTION
+================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .home-cta__button,
+  .home-cta__button::before,
+  .home-cta__button-icon {
+    transition:
+      none;
+  }
+
+
+  .home-cta__button:hover {
+    transform:
+      none;
+  }
+
+
+  .home-cta__button:hover::before {
+    transform:
+      none;
+  }
+}
