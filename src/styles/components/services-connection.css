@@ -1,0 +1,840 @@
+/* src\styles\components\services-connection.css */
+
+
+/* ================================================================
+   BIG DAY MA — SERVICES CONNECTION
+   Light-path service architecture section
+================================================================ */
+
+
+/* ================================================================
+   01. SECTION
+================================================================ */
+
+.services-connection {
+  position: relative;
+
+  overflow: hidden;
+
+  padding-block:
+    clamp(6.5rem, 11vw, 11rem);
+
+  background:
+    var(--section-bg);
+
+  color:
+    var(--section-text);
+}
+
+
+/* ================================================================
+   02. ATMOSPHERE
+================================================================ */
+
+.services-connection::before {
+  content: "";
+
+  position: absolute;
+
+  top: -18rem;
+  right: -14rem;
+
+  width: 42rem;
+  height: 42rem;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(77, 141, 255, 0.075) 0%,
+      rgba(77, 141, 255, 0.025) 38%,
+      transparent 70%
+    );
+
+  pointer-events: none;
+
+  z-index: -1;
+}
+
+.services-connection::after {
+  content: "";
+
+  position: absolute;
+
+  bottom: -20rem;
+  left: -16rem;
+
+  width: 40rem;
+  height: 40rem;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(0, 0, 0, 0.035) 0%,
+      transparent 68%
+    );
+
+  pointer-events: none;
+
+  z-index: -1;
+}
+
+
+/* ================================================================
+   03. CONTAINER
+================================================================ */
+
+.services-connection__container {
+  position: relative;
+}
+
+
+/* ================================================================
+   04. HEADER
+================================================================ */
+
+.services-connection__header {
+  display: grid;
+
+  grid-template-columns:
+    minmax(180px, 0.38fr)
+    minmax(0, 1fr);
+
+  gap:
+    clamp(2rem, 7vw, 8rem);
+
+  padding-bottom:
+    clamp(4.5rem, 8vw, 8rem);
+
+  border-bottom:
+    1px solid var(--section-border);
+}
+
+.services-connection__eyebrow {
+  align-self: start;
+
+  padding-top:
+    0.75rem;
+}
+
+.services-connection__heading-wrap {
+  max-width:
+    960px;
+}
+
+.services-connection__title {
+  max-width:
+    900px;
+
+  font-size:
+    clamp(3.2rem, 6.7vw, 6.5rem);
+
+  line-height:
+    0.93;
+}
+
+.services-connection__title-accent {
+  display: block;
+
+  color:
+    var(--section-text-muted);
+
+  font-weight:
+    var(--weight-regular);
+
+  letter-spacing:
+    var(--tracking-tighter);
+}
+
+.services-connection__intro {
+  max-width:
+    670px;
+
+  margin-top:
+    clamp(2rem, 3.5vw, 3.5rem);
+
+  color:
+    var(--section-text-secondary);
+
+  font-size:
+    clamp(1rem, 1.35vw, 1.15rem);
+
+  line-height:
+    var(--leading-relaxed);
+}
+
+
+/* ================================================================
+   05. SYSTEM
+================================================================ */
+
+.services-connection__system {
+  position: relative;
+
+  padding-top:
+    clamp(4rem, 7vw, 7rem);
+}
+
+.services-connection__system-label {
+  display: flex;
+  align-items: center;
+
+  margin-bottom:
+    clamp(2.5rem, 4vw, 4rem);
+
+  color:
+    var(--section-text-muted);
+}
+
+.services-connection__system-label::after {
+  content: "";
+
+  display: block;
+
+  width:
+    min(120px, 12vw);
+
+  height:
+    1px;
+
+  margin-left:
+    1rem;
+
+  background:
+    var(--section-border);
+}
+
+
+/* ================================================================
+   06. FLOW
+================================================================ */
+
+.services-connection__flow {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  max-width:
+    900px;
+
+  margin-inline:
+    auto;
+}
+
+
+/* ================================================================
+   07. NODE
+================================================================ */
+
+.services-connection__node {
+  position: relative;
+
+  display: grid;
+
+  grid-template-columns:
+    90px
+    minmax(0, 1fr);
+
+  min-height:
+    130px;
+
+  padding:
+    1.5rem 0 1.75rem;
+
+  border:
+    1px solid transparent;
+
+  transition:
+    transform var(--transition-normal),
+    border-color var(--transition-normal),
+    background var(--transition-normal),
+    box-shadow var(--transition-normal);
+}
+
+.services-connection__node:hover {
+  transform:
+    translateX(8px);
+
+  padding-inline:
+    1.5rem;
+
+  border-color:
+    var(--section-border);
+
+  border-radius:
+    var(--radius-lg);
+
+  background:
+    rgba(255, 255, 255, 0.7);
+
+  box-shadow:
+    var(--section-shadow);
+}
+
+
+/* ================================================================
+   08. NODE TOP / NUMBER
+================================================================ */
+
+.services-connection__node-top {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  gap:
+    1rem;
+}
+
+.services-connection__number {
+  color:
+    var(--section-text-subtle);
+
+  font-family:
+    var(--font-mono);
+
+  font-size:
+    var(--font-xs);
+
+  font-weight:
+    var(--weight-medium);
+
+  letter-spacing:
+    var(--tracking-wide);
+}
+
+.services-connection__node-marker {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width:
+    18px;
+
+  height:
+    18px;
+
+  border:
+    1px solid var(--section-accent);
+
+  border-radius:
+    50%;
+
+  background:
+    var(--section-bg);
+
+  box-shadow:
+    0 0 0 5px rgba(36, 88, 200, 0.045);
+
+  z-index:
+    2;
+}
+
+.services-connection__node-marker span {
+  width:
+    5px;
+
+  height:
+    5px;
+
+  border-radius:
+    50%;
+
+  background:
+    var(--section-accent);
+}
+
+
+/* ================================================================
+   09. NODE CONTENT
+================================================================ */
+
+.services-connection__node-content {
+  padding-right:
+    2rem;
+}
+
+.services-connection__node-content h3 {
+  color:
+    var(--section-text);
+
+  font-family:
+    var(--font-display);
+
+  font-size:
+    clamp(1.6rem, 2.7vw, 2.5rem);
+
+  font-weight:
+    var(--weight-semibold);
+
+  line-height:
+    1.05;
+
+  letter-spacing:
+    var(--tracking-tight);
+
+  transition:
+    color var(--transition-fast);
+}
+
+.services-connection__node:hover
+.services-connection__node-content h3 {
+  color:
+    var(--section-accent-dark);
+}
+
+.services-connection__node-content p {
+  max-width:
+    480px;
+
+  margin-top:
+    0.7rem;
+
+  color:
+    var(--section-text-muted);
+
+  font-size:
+    var(--font-sm);
+
+  line-height:
+    var(--leading-normal);
+}
+
+.services-connection__node-line {
+  position: absolute;
+
+  right:
+    0;
+
+  bottom:
+    0;
+
+  left:
+    90px;
+
+  height:
+    1px;
+
+  background:
+    var(--section-border-soft);
+
+  transition:
+    background var(--transition-normal);
+}
+
+.services-connection__node:hover
+.services-connection__node-line {
+  background:
+    var(--section-border);
+}
+
+
+/* ================================================================
+   10. CONNECTOR
+================================================================ */
+
+.services-connection__connector {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  height:
+    48px;
+
+  padding-left:
+    0.4rem;
+
+  color:
+    var(--section-accent);
+}
+
+.services-connection__connector::before {
+  content: "";
+
+  position: absolute;
+
+  top:
+    -1px;
+
+  left:
+    0.9rem;
+
+  width:
+    1px;
+
+  height:
+    calc(100% + 2px);
+
+  background:
+    linear-gradient(
+      to bottom,
+      var(--section-border),
+      var(--section-accent),
+      var(--section-border)
+    );
+
+  opacity:
+    0.75;
+}
+
+.services-connection__connector svg {
+  position: relative;
+
+  z-index:
+    2;
+
+  padding:
+    0.2rem;
+
+  background:
+    var(--section-bg);
+}
+
+
+/* ================================================================
+   11. FOOTER STATEMENT
+=============================================================================== */
+
+.services-connection__footer {
+  margin-top:
+    clamp(5rem, 9vw, 9rem);
+}
+
+.services-connection__footer-line {
+  width:
+    100%;
+
+  height:
+    1px;
+
+  background:
+    var(--section-border);
+}
+
+.services-connection__footer-content {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap:
+    2rem;
+
+  padding-top:
+    clamp(2rem, 4vw, 4rem);
+}
+
+.services-connection__statement {
+  color:
+    var(--section-text-muted);
+
+  font-family:
+    var(--font-display);
+
+  font-size:
+    clamp(1.5rem, 3vw, 2.8rem);
+
+  line-height:
+    1.12;
+
+  letter-spacing:
+    var(--tracking-tight);
+}
+
+.services-connection__statement strong {
+  color:
+    var(--section-text);
+
+  font-weight:
+    var(--weight-medium);
+}
+
+.services-connection__footer-mark {
+  display: inline-flex;
+  align-items: center;
+
+  gap:
+    0.75rem;
+
+  flex: 0 0 auto;
+
+  color:
+    var(--section-text-subtle);
+
+  font-family:
+    var(--font-mono);
+
+  font-size:
+    var(--font-xs);
+
+  letter-spacing:
+    var(--tracking-wide);
+}
+
+.services-connection__footer-mark svg {
+  color:
+    var(--section-accent);
+
+  transition:
+    transform var(--transition-fast);
+}
+
+.services-connection__footer-mark:hover svg {
+  transform:
+    translateX(4px);
+}
+
+
+/* ================================================================
+   12. TABLET
+================================================================ */
+
+@media (max-width: 900px) {
+
+  .services-connection__header {
+    grid-template-columns:
+      1fr;
+
+    gap:
+      2rem;
+  }
+
+  .services-connection__eyebrow {
+    padding-top:
+      0;
+  }
+
+  .services-connection__heading-wrap {
+    max-width:
+      800px;
+  }
+
+  .services-connection__flow {
+    max-width:
+      760px;
+  }
+}
+
+
+/* ================================================================
+   13. MOBILE
+================================================================ */
+
+@media (max-width: 768px) {
+
+  .services-connection {
+    padding-block:
+      5.5rem;
+  }
+
+  .services-connection__header {
+    padding-bottom:
+      4rem;
+  }
+
+  .services-connection__title {
+    font-size:
+      clamp(2.75rem, 12vw, 4.5rem);
+  }
+
+  .services-connection__intro {
+    margin-top:
+      1.75rem;
+  }
+
+  .services-connection__system {
+    padding-top:
+      4rem;
+  }
+
+  .services-connection__node {
+    grid-template-columns:
+      64px
+      minmax(0, 1fr);
+
+    min-height:
+      120px;
+
+    padding-block:
+      1.25rem;
+  }
+
+  .services-connection__node:hover {
+    transform:
+      translateX(4px);
+
+    padding-inline:
+      1rem;
+  }
+
+  .services-connection__node-line {
+    left:
+      64px;
+  }
+
+  .services-connection__node-content {
+    padding-right:
+      0;
+  }
+
+  .services-connection__node-content h3 {
+    font-size:
+      clamp(1.45rem, 6vw, 2rem);
+  }
+
+  .services-connection__connector {
+    height:
+      42px;
+  }
+
+  .services-connection__footer-content {
+    align-items:
+      flex-start;
+
+    flex-direction:
+      column;
+  }
+
+  .services-connection__footer-mark {
+    margin-top:
+      0.5rem;
+  }
+}
+
+
+/* ================================================================
+   14. SMALL MOBILE
+================================================================ */
+
+@media (max-width: 460px) {
+
+  .services-connection {
+    padding-block:
+      4.5rem;
+  }
+
+  .services-connection__header {
+    padding-bottom:
+      3.5rem;
+  }
+
+  .services-connection__title {
+    font-size:
+      clamp(2.45rem, 12.5vw, 3.5rem);
+  }
+
+  .services-connection__intro {
+    font-size:
+      0.98rem;
+  }
+
+  .services-connection__system-label {
+    margin-bottom:
+      2rem;
+  }
+
+  .services-connection__node {
+    grid-template-columns:
+      52px
+      minmax(0, 1fr);
+
+    min-height:
+      112px;
+  }
+
+  .services-connection__node-line {
+    left:
+      52px;
+  }
+
+  .services-connection__node-content h3 {
+    font-size:
+      1.45rem;
+  }
+
+  .services-connection__node-content p {
+    max-width:
+      290px;
+
+    font-size:
+    0.86rem;
+  }
+
+  .services-connection__connector {
+    height:
+      36px;
+
+    padding-left:
+      0.25rem;
+  }
+
+  .services-connection__connector::before {
+    left:
+      0.75rem;
+  }
+
+  .services-connection__statement {
+    font-size:
+      1.45rem;
+  }
+}
+
+
+/* ================================================================
+   15. VERY SMALL DEVICES
+================================================================ */
+
+@media (max-width: 360px) {
+
+  .services-connection__title {
+    font-size:
+      2.25rem;
+  }
+
+  .services-connection__node {
+    grid-template-columns:
+      44px
+      minmax(0, 1fr);
+  }
+
+  .services-connection__node-line {
+    left:
+      44px;
+  }
+
+  .services-connection__node-content h3 {
+    font-size:
+      1.3rem;
+  }
+
+  .services-connection__node-content p {
+    font-size:
+      0.82rem;
+  }
+}
+
+
+/* ================================================================
+   16. REDUCED MOTION
+================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .services-connection__node:hover {
+    transform:
+      none;
+  }
+
+  .services-connection__footer-mark:hover svg {
+    transform:
+      none;
+  }
+}

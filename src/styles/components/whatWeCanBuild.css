@@ -1,0 +1,861 @@
+/* src\styles\components\whatWeCanBuild.css */
+
+/* ================================================================
+   BIG DAY MA
+   WHAT WE CAN BUILD — SECTION 04
+
+   src/styles/components/whatWeCanBuild.css
+
+   Uses:
+   - src/styles/theme.css
+   - Global section tokens
+   - Global typography
+   - Global spacing
+   - Global surfaces
+   - Global breakpoints
+================================================================ */
+
+
+/* ================================================================
+   01. SECTION
+================================================================ */
+
+.what-build {
+  position: relative;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 78% 16%,
+      rgba(77, 141, 255, 0.075),
+      transparent 27%
+    ),
+    radial-gradient(
+      circle at 10% 84%,
+      rgba(77, 141, 255, 0.035),
+      transparent 24%
+    ),
+    var(--section-bg);
+
+  border-top:
+    1px solid var(--section-border-soft);
+}
+
+
+/* ================================================================
+   02. BACKGROUND ORBS
+================================================================ */
+
+.what-build__orb {
+  position: absolute;
+
+  width: 34rem;
+  height: 34rem;
+
+  border-radius: var(--radius-full);
+
+  pointer-events: none;
+
+  filter: blur(100px);
+
+  opacity: 0.07;
+
+  z-index: -1;
+}
+
+.what-build__orb--one {
+  top: 8%;
+  right: -18rem;
+
+  background: var(--section-accent);
+}
+
+.what-build__orb--two {
+  bottom: -20rem;
+  left: -18rem;
+
+  background: var(--section-accent-dark);
+}
+
+
+/* ================================================================
+   03. HEADER
+================================================================ */
+
+.what-build__header {
+  display: grid;
+
+  grid-template-columns:
+    minmax(180px, 0.7fr)
+    minmax(0, 2fr);
+
+  gap: var(--space-12);
+
+  padding-bottom:
+    var(--space-20);
+
+  border-bottom:
+    1px solid var(--section-border);
+}
+
+.what-build__eyebrow {
+  padding-top: 0.6rem;
+}
+
+.what-build__heading-wrap {
+  max-width: 1080px;
+}
+
+
+/* ================================================================
+   04. TITLE
+================================================================ */
+
+.what-build__title {
+  max-width: 1000px;
+
+  text-wrap: balance;
+}
+
+.what-build__title-accent {
+  color: var(--section-accent-light);
+}
+
+
+/* ================================================================
+   05. INTRO
+================================================================ */
+
+.what-build__intro {
+  max-width: 650px;
+
+  margin-top: var(--space-8);
+
+  color: var(--section-text-muted);
+
+  font-size:
+    clamp(1rem, 1.35vw, 1.125rem);
+
+  line-height:
+    var(--leading-relaxed);
+}
+
+
+/* ================================================================
+   06. GRID
+================================================================ */
+
+.what-build__grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 1px;
+
+  margin-top:
+    var(--space-20);
+
+  overflow: hidden;
+
+  border:
+    1px solid var(--section-border);
+
+  border-radius:
+    var(--radius-xl);
+
+  background:
+    var(--section-border);
+}
+
+
+/* ================================================================
+   07. CARD
+================================================================ */
+
+.what-build-card {
+  position: relative;
+
+  min-width: 0;
+
+  overflow: hidden;
+
+  background:
+    var(--section-bg);
+
+  transition:
+    background var(--transition-normal),
+    transform var(--transition-normal);
+}
+
+.what-build-card:hover {
+  background:
+    var(--section-surface);
+}
+
+.what-build-card--active {
+  background:
+    var(--section-surface);
+}
+
+
+/* ================================================================
+   08. CARD TRIGGER
+================================================================ */
+
+.what-build-card__trigger {
+  position: relative;
+
+  display: block;
+
+  width: 100%;
+
+  padding:
+    clamp(1.5rem, 3vw, 2.75rem);
+
+  text-align: left;
+
+  background: transparent;
+
+  color: inherit;
+
+  cursor: pointer;
+
+  z-index: 2;
+}
+
+
+/* ================================================================
+   09. CARD TOP
+================================================================ */
+
+.what-build-card__top {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: var(--space-4);
+
+  margin-bottom:
+    clamp(3.5rem, 7vw, 7rem);
+}
+
+.what-build-card__number {
+  color:
+    var(--section-text-subtle);
+
+  font-family:
+    var(--font-mono);
+
+  font-size:
+    var(--font-xs);
+
+  letter-spacing:
+    var(--tracking-wide);
+}
+
+.what-build-card__icon {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+
+  border:
+    1px solid var(--section-border);
+
+  border-radius:
+    var(--radius-full);
+
+  color:
+    var(--section-text-muted);
+
+  background:
+    rgba(255, 255, 255, 0.018);
+
+  transition:
+    color var(--transition-fast),
+    border-color var(--transition-fast),
+    background var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.what-build-card:hover .what-build-card__icon,
+.what-build-card--active .what-build-card__icon {
+  color:
+    var(--section-accent-light);
+
+  border-color:
+    rgba(77, 141, 255, 0.35);
+
+  background:
+    rgba(77, 141, 255, 0.07);
+
+  transform:
+    rotate(6deg);
+}
+
+
+/* ================================================================
+   10. CARD CONTENT
+================================================================ */
+
+.what-build-card__content {
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: var(--space-6);
+}
+
+.what-build-card__title {
+  display: block;
+
+  max-width: 600px;
+
+  color:
+    var(--section-text);
+
+  font-family:
+    var(--font-display);
+
+  font-size:
+    clamp(1.55rem, 2.7vw, 2.45rem);
+
+  font-weight:
+    var(--weight-semibold);
+
+  line-height:
+    var(--leading-snug);
+
+  letter-spacing:
+    var(--tracking-tight);
+
+  text-wrap: balance;
+}
+
+.what-build-card__arrow {
+  display: inline-flex;
+
+  flex: 0 0 auto;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 38px;
+  height: 38px;
+
+  color:
+    var(--section-text-subtle);
+
+  border:
+    1px solid transparent;
+
+  border-radius:
+    var(--radius-full);
+
+  transition:
+    transform var(--transition-normal),
+    color var(--transition-fast),
+    border-color var(--transition-fast),
+    background var(--transition-fast);
+}
+
+.what-build-card:hover .what-build-card__arrow,
+.what-build-card--active .what-build-card__arrow {
+  color:
+    var(--section-accent-light);
+
+  border-color:
+    var(--section-border);
+
+  background:
+    rgba(255, 255, 255, 0.035);
+
+  transform:
+    translate(3px, -3px);
+}
+
+
+/* ================================================================
+   11. DESCRIPTION
+================================================================ */
+
+.what-build-card__description {
+  display: block;
+
+  max-width: 560px;
+
+  margin-top:
+    var(--space-5);
+
+  color:
+    var(--section-text-muted);
+
+  font-size:
+    var(--font-sm);
+
+  line-height:
+    var(--leading-relaxed);
+}
+
+
+/* ================================================================
+   12. TAG DETAILS
+================================================================ */
+
+.what-build-card__details {
+  display: grid;
+
+  grid-template-rows:
+    0fr;
+
+  padding-inline:
+    clamp(1.5rem, 3vw, 2.75rem);
+
+  transition:
+    grid-template-rows var(--transition-normal),
+    padding-bottom var(--transition-normal);
+}
+
+.what-build-card__details::before {
+  content: "";
+
+  min-height: 0;
+}
+
+.what-build-card--active .what-build-card__details {
+  grid-template-rows:
+    1fr;
+
+  padding-bottom:
+    clamp(1.5rem, 3vw, 2.75rem);
+}
+
+.what-build-card__tags {
+  min-height: 0;
+
+  overflow: hidden;
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 0.5rem;
+}
+
+.what-build-card__tag {
+  display: inline-flex;
+
+  align-items: center;
+
+  min-height: 30px;
+
+  padding:
+    0.35rem 0.7rem;
+
+  border:
+    1px solid var(--section-border);
+
+  border-radius:
+    var(--radius-full);
+
+  color:
+    var(--section-text-secondary);
+
+  background:
+    rgba(255, 255, 255, 0.025);
+
+  font-family:
+    var(--font-mono);
+
+  font-size:
+    0.625rem;
+
+  letter-spacing:
+    var(--tracking-wide);
+
+  text-transform:
+    uppercase;
+}
+
+
+/* ================================================================
+   13. CARD SHINE
+================================================================ */
+
+.what-build-card__shine {
+  position: absolute;
+
+  top: 0;
+  left: -120%;
+
+  width: 70%;
+  height: 1px;
+
+  background:
+    var(--shine-line);
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transition:
+    left 900ms var(--ease-smooth),
+    opacity var(--transition-normal);
+}
+
+.what-build-card:hover .what-build-card__shine {
+  left: 130%;
+
+  opacity: 1;
+}
+
+
+/* ================================================================
+   14. CARD ACCENT EDGE
+================================================================ */
+
+.what-build-card::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 2px;
+  height: 0;
+
+  background:
+    var(--section-accent);
+
+  transition:
+    height var(--transition-slow);
+}
+
+.what-build-card:hover::before,
+.what-build-card--active::before {
+  height: 100%;
+}
+
+
+/* ================================================================
+   15. FOOTER
+================================================================ */
+
+.what-build__footer {
+  display: grid;
+
+  grid-template-columns:
+    minmax(60px, 0.45fr)
+    minmax(0, 2fr)
+    minmax(60px, 0.45fr);
+
+  align-items: center;
+
+  gap: var(--space-8);
+
+  margin-top:
+    var(--space-16);
+}
+
+.what-build__footer-line {
+  height: 1px;
+
+  background:
+    var(--section-border);
+}
+
+.what-build__footer-content {
+  display: grid;
+
+  grid-template-columns:
+    auto minmax(0, 1fr);
+
+  align-items: center;
+
+  gap: var(--space-8);
+}
+
+.what-build__footer-label {
+  color:
+    var(--section-accent-light);
+
+  white-space: nowrap;
+}
+
+.what-build__footer-text {
+  max-width: 540px;
+
+  color:
+    var(--section-text-muted);
+
+  font-size:
+    var(--font-sm);
+
+  line-height:
+    var(--leading-relaxed);
+}
+
+
+/* ================================================================
+   16. TABLET
+================================================================ */
+
+@media (max-width: 1024px) {
+
+  .what-build__header {
+    grid-template-columns:
+      1fr;
+
+    gap:
+      var(--space-8);
+  }
+
+  .what-build__eyebrow {
+    padding-top: 0;
+  }
+
+  .what-build__grid {
+    margin-top:
+      var(--space-16);
+  }
+
+  .what-build-card__top {
+    margin-bottom:
+      clamp(3rem, 7vw, 5rem);
+  }
+
+  .what-build__footer-content {
+    grid-template-columns:
+      1fr;
+
+    gap:
+      var(--space-3);
+  }
+}
+
+
+/* ================================================================
+   17. MOBILE
+================================================================ */
+
+@media (max-width: 768px) {
+
+  .what-build__header {
+    padding-bottom:
+      var(--space-12);
+  }
+
+  .what-build__intro {
+    margin-top:
+      var(--space-6);
+  }
+
+  .what-build__grid {
+    grid-template-columns:
+      1fr;
+
+    margin-top:
+      var(--space-12);
+
+    border-radius:
+      var(--radius-lg);
+  }
+
+  .what-build-card__trigger {
+    padding:
+      1.5rem;
+  }
+
+  .what-build-card__top {
+    margin-bottom:
+      4rem;
+  }
+
+  .what-build-card__title {
+    font-size:
+      clamp(1.45rem, 6vw, 2rem);
+  }
+
+  .what-build-card__description {
+    max-width:
+      100%;
+  }
+
+  .what-build-card__details {
+    padding-inline:
+      1.5rem;
+  }
+
+  .what-build-card--active .what-build-card__details {
+    padding-bottom:
+      1.5rem;
+  }
+
+  .what-build__footer {
+    grid-template-columns:
+      1fr;
+
+    gap:
+      var(--space-5);
+
+    margin-top:
+      var(--space-12);
+  }
+
+  .what-build__footer-line {
+    display: none;
+  }
+
+  .what-build__footer-content {
+    grid-template-columns:
+      1fr;
+
+    gap:
+      var(--space-3);
+
+    padding-top:
+      var(--space-6);
+
+    border-top:
+      1px solid var(--section-border);
+  }
+}
+
+
+/* ================================================================
+   18. SMALL MOBILE
+================================================================ */
+
+@media (max-width: 460px) {
+
+  .what-build__header {
+    gap:
+      var(--space-6);
+  }
+
+  .what-build__grid {
+    margin-top:
+      var(--space-10);
+
+    border-radius:
+      var(--radius-md);
+  }
+
+  .what-build-card__trigger {
+    padding:
+      1.25rem;
+  }
+
+  .what-build-card__top {
+    margin-bottom:
+      3.5rem;
+  }
+
+  .what-build-card__icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .what-build-card__title {
+    font-size:
+      1.4rem;
+  }
+
+  .what-build-card__arrow {
+    width: 32px;
+    height: 32px;
+  }
+
+  .what-build-card__description {
+    margin-top:
+      var(--space-4);
+
+    font-size:
+      0.875rem;
+  }
+
+  .what-build-card__details {
+    padding-inline:
+      1.25rem;
+  }
+
+  .what-build-card--active .what-build-card__details {
+    padding-bottom:
+      1.25rem;
+  }
+
+  .what-build__footer {
+    margin-top:
+      var(--space-10);
+  }
+}
+
+
+/* ================================================================
+   19. VERY SMALL DEVICES
+================================================================ */
+
+@media (max-width: 360px) {
+
+  .what-build-card__trigger {
+    padding:
+      1rem;
+  }
+
+  .what-build-card__top {
+    margin-bottom:
+      3rem;
+  }
+
+  .what-build-card__content {
+    gap:
+      var(--space-3);
+  }
+
+  .what-build-card__title {
+    font-size:
+      1.3rem;
+  }
+
+  .what-build-card__arrow {
+    display: none;
+  }
+
+  .what-build-card__details {
+    padding-inline:
+      1rem;
+  }
+
+  .what-build-card--active .what-build-card__details {
+    padding-bottom:
+      1rem;
+  }
+}
+
+
+/* ================================================================
+   20. REDUCED MOTION
+================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .what-build-card,
+  .what-build-card *,
+  .what-build__orb {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .what-build-card__shine {
+    display: none;
+  }
+}
