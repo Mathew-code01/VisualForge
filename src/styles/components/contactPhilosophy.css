@@ -1,0 +1,81 @@
+/* src\styles\components\contactPhilosophy.css */
+
+
+.contact-philosophy {
+  position: relative;
+  padding-block: var(--section-padding-y);
+}
+
+.contact-philosophy__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 380px);
+  gap: clamp(3rem, 6vw, 6rem);
+  align-items: start;
+
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out);
+}
+
+.contact-philosophy__inner.is-in-view {
+  opacity: 1;
+  transform: none;
+}
+
+.contact-philosophy__title {
+  font-size: clamp(2rem, 3.6vw, 3rem);
+  letter-spacing: var(--tracking-tighter);
+}
+
+.contact-philosophy__copy {
+  max-width: 480px;
+  margin-top: var(--space-6);
+  font-size: clamp(1rem, 1.3vw, 1.125rem);
+  line-height: var(--leading-relaxed);
+  color: var(--section-text-secondary);
+}
+
+.contact-philosophy__points {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-philosophy__point {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-5);
+  padding-block: var(--space-6);
+  border-top: 1px solid var(--section-border);
+
+  opacity: 0;
+  transform: translateX(20px);
+  transition: opacity 550ms var(--ease-out), transform 550ms var(--ease-out);
+}
+
+.contact-philosophy__inner.is-in-view .contact-philosophy__point {
+  opacity: 1;
+  transform: none;
+}
+
+.contact-philosophy__point:last-child {
+  border-bottom: 1px solid var(--section-border);
+}
+
+.contact-philosophy__point-number {
+  color: var(--section-accent);
+  font-size: var(--font-sm);
+}
+
+.contact-philosophy__point-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  font-weight: var(--weight-semibold);
+  color: var(--section-text);
+  letter-spacing: var(--tracking-tight);
+}
+
+@media (max-width: 900px) {
+  .contact-philosophy__inner {
+    grid-template-columns: 1fr;
+  }
+}
