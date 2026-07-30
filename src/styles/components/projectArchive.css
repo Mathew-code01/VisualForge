@@ -1,0 +1,565 @@
+/* src\styles\components\projectArchive.css */
+
+/* ================================================================
+   BIGDAY MA — PROJECT ARCHIVE
+   Section 03 — Light Theme
+================================================================ */
+
+
+/* ================================================================
+   SECTION
+================================================================ */
+
+.project-archive-section {
+  position: relative;
+
+  padding-block:
+    var(--section-padding-y-large);
+
+  overflow: hidden;
+}
+
+
+/* ================================================================
+   CONTAINER
+================================================================ */
+
+.project-archive-container {
+  width: min(
+    calc(100% - (var(--page-padding) * 2)),
+    var(--container-xl)
+  );
+
+  margin-inline: auto;
+}
+
+
+/* ================================================================
+   INTRO
+================================================================ */
+
+.project-archive-intro {
+  margin-bottom:
+    clamp(4rem, 7vw, 7rem);
+}
+
+
+/* ================================================================
+   INTRO TOP
+================================================================ */
+
+.project-archive-intro-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding-bottom:
+    var(--space-5);
+
+  border-bottom:
+    1px solid var(--section-border);
+}
+
+
+/* ================================================================
+   EYEBROW
+================================================================ */
+
+.project-archive-eyebrow {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 0.75rem;
+
+  color:
+    var(--section-text-muted);
+
+  font-size:
+    var(--font-xs);
+
+  font-weight:
+    var(--weight-semibold);
+
+  letter-spacing:
+    var(--tracking-wider);
+
+  text-transform:
+    uppercase;
+}
+
+.project-archive-eyebrow-line {
+  width: 30px;
+  height: 1px;
+
+  background:
+    var(--section-accent);
+}
+
+
+/* ================================================================
+   INDEX
+================================================================ */
+
+.project-archive-index {
+  color:
+    var(--section-text-subtle);
+
+  font-family:
+    var(--font-mono);
+
+  font-size:
+    var(--font-xs);
+
+  letter-spacing:
+    var(--tracking-wide);
+
+  text-transform:
+    uppercase;
+}
+
+
+/* ================================================================
+   HEADING GRID
+================================================================ */
+
+.project-archive-heading-grid {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.35fr)
+    minmax(280px, 0.65fr);
+
+  gap:
+    clamp(3rem, 8vw, 10rem);
+
+  padding-top:
+    clamp(2.5rem, 5vw, 5rem);
+}
+
+
+/* ================================================================
+   HEADING
+================================================================ */
+
+.project-archive-heading {
+  max-width:
+    900px;
+
+  color:
+    var(--section-text);
+
+  font-family:
+    var(--font-display);
+
+  font-size:
+    clamp(3.25rem, 7vw, 7rem);
+
+  font-weight:
+    var(--weight-bold);
+
+  line-height:
+    0.94;
+
+  letter-spacing:
+    var(--tracking-tighter);
+}
+
+.project-archive-heading span {
+  color:
+    var(--section-text-muted);
+}
+
+
+/* ================================================================
+   INTRO COPY
+================================================================ */
+
+.project-archive-intro-copy {
+  align-self:
+    end;
+
+  max-width:
+    480px;
+}
+
+.project-archive-intro-copy p {
+  max-width:
+    440px;
+
+  color:
+    var(--section-text-secondary);
+
+  font-size:
+    clamp(0.95rem, 1.2vw, 1.075rem);
+
+  line-height:
+    var(--leading-relaxed);
+}
+
+.project-archive-intro-rule {
+  width:
+    100%;
+
+  height:
+    1px;
+
+  margin-top:
+    var(--space-8);
+
+  background:
+    var(--section-border);
+}
+
+
+/* ================================================================
+   ARCHIVE LIST
+================================================================ */
+
+.project-archive-list {
+  border-top:
+    1px solid var(--section-border-strong);
+}
+
+
+/* ================================================================
+   LIST HEADER
+================================================================ */
+
+.project-archive-list-header {
+  display: grid;
+
+  grid-template-columns:
+    80px
+    minmax(0, 1fr)
+    120px
+    150px;
+
+  gap:
+    var(--space-6);
+
+  align-items:
+    center;
+
+  min-height:
+    52px;
+
+  padding-inline:
+    var(--space-4);
+
+  border-bottom:
+    1px solid var(--section-border);
+
+  color:
+    var(--section-text-subtle);
+
+  font-family:
+    var(--font-mono);
+
+  font-size:
+    var(--font-xs);
+
+  letter-spacing:
+    var(--tracking-wide);
+
+  text-transform:
+    uppercase;
+}
+
+.project-archive-list-header span:last-child {
+  text-align:
+    right;
+}
+
+
+/* ================================================================
+   SKELETON
+================================================================ */
+
+.project-archive-skeleton-list {
+  width: 100%;
+}
+
+.project-archive-skeleton-row {
+  display: grid;
+
+  grid-template-columns:
+    80px
+    minmax(0, 1fr)
+    120px
+    150px;
+
+  gap:
+    var(--space-6);
+
+  align-items:
+    center;
+
+  min-height:
+    120px;
+
+  padding-inline:
+    var(--space-4);
+
+  border-bottom:
+    1px solid var(--section-border-soft);
+}
+
+.project-archive-skeleton-row span {
+  display: block;
+
+  height:
+    12px;
+
+  border-radius:
+    var(--radius-full);
+
+  background:
+    var(--section-surface-3);
+
+  animation:
+    archiveSkeleton 1.8s ease-in-out infinite;
+}
+
+.project-archive-skeleton-row span:nth-child(2) {
+  width:
+    60%;
+}
+
+.project-archive-skeleton-row span:nth-child(3) {
+  width:
+    45px;
+}
+
+.project-archive-skeleton-row span:nth-child(4) {
+  width:
+    80px;
+
+  margin-left:
+    auto;
+}
+
+@keyframes archiveSkeleton {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+
+  50% {
+    opacity: 0.9;
+  }
+}
+
+
+/* ================================================================
+   EMPTY STATE
+================================================================ */
+
+.project-archive-empty {
+  display: flex;
+  align-items: flex-start;
+
+  gap:
+    var(--space-8);
+
+  padding:
+    clamp(3rem, 6vw, 6rem)
+    var(--space-4);
+
+  border-bottom:
+    1px solid var(--section-border);
+}
+
+.project-archive-empty-mark {
+  display: grid;
+  place-items: center;
+
+  width:
+    48px;
+
+  height:
+    48px;
+
+  flex: 0 0 auto;
+
+  border:
+    1px solid var(--section-border);
+
+  border-radius:
+    var(--radius-full);
+
+  color:
+    var(--section-accent);
+}
+
+.project-archive-empty-mark svg {
+  width:
+    18px;
+
+  height:
+    18px;
+}
+
+.project-archive-empty-label {
+  display: block;
+
+  margin-bottom:
+    var(--space-3);
+
+  color:
+    var(--section-text-muted);
+
+  font-family:
+    var(--font-mono);
+
+  font-size:
+    var(--font-xs);
+
+  letter-spacing:
+    var(--tracking-wide);
+
+  text-transform:
+    uppercase;
+}
+
+.project-archive-empty h3 {
+  color:
+    var(--section-text);
+
+  font-size:
+    clamp(2rem, 4vw, 3.5rem);
+
+  line-height:
+    0.98;
+}
+
+.project-archive-empty p {
+  margin-top:
+    var(--space-4);
+
+  color:
+    var(--section-text-muted);
+
+  font-size:
+    var(--font-sm);
+}
+
+
+/* ================================================================
+   RESPONSIVE
+================================================================ */
+
+@media (max-width: 900px) {
+
+  .project-archive-heading-grid {
+    grid-template-columns:
+      1fr;
+
+    gap:
+      var(--space-10);
+  }
+
+  .project-archive-intro-copy {
+    max-width:
+      600px;
+  }
+
+  .project-archive-list-header {
+    grid-template-columns:
+      60px
+      minmax(0, 1fr)
+      90px
+      130px;
+  }
+
+  .project-archive-skeleton-row {
+    grid-template-columns:
+      60px
+      minmax(0, 1fr)
+      90px
+      130px;
+  }
+}
+
+
+@media (max-width: 680px) {
+
+  .project-archive-section {
+    padding-block:
+      clamp(5rem, 15vw, 7rem);
+  }
+
+  .project-archive-intro {
+    margin-bottom:
+      3.5rem;
+  }
+
+  .project-archive-intro-top {
+    align-items:
+      flex-start;
+  }
+
+  .project-archive-index {
+    display:
+      none;
+  }
+
+  .project-archive-heading {
+    font-size:
+      clamp(2.8rem, 13vw, 5rem);
+  }
+
+  .project-archive-list-header {
+    display:
+      none;
+  }
+
+  .project-archive-skeleton-row {
+    grid-template-columns:
+      40px
+      minmax(0, 1fr);
+
+    min-height:
+      100px;
+  }
+
+  .project-archive-skeleton-row span:nth-child(3),
+  .project-archive-skeleton-row span:nth-child(4) {
+    display:
+      none;
+  }
+
+  .project-archive-empty {
+    gap:
+      var(--space-5);
+
+    padding-inline:
+      0;
+  }
+}
+
+
+@media (max-width: 460px) {
+
+  .project-archive-heading-grid {
+    padding-top:
+      2.25rem;
+  }
+
+  .project-archive-heading {
+    font-size:
+      clamp(2.5rem, 13vw, 4rem);
+
+    line-height:
+      0.96;
+  }
+
+  .project-archive-intro-copy p {
+    font-size:
+      0.95rem;
+  }
+
+  .project-archive-empty h3 {
+    font-size:
+      2rem;
+  }
+}

@@ -1,22 +1,32 @@
 // src/components/layout/SiteHeader.jsx
 
+// src/components/layout/SiteHeader.jsx
+
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   ArrowRight,
   ArrowUpRight,
   ChevronDown,
+  Fingerprint,
+  LayoutGrid,
+  MessageSquare,
   Menu,
+  Target,
   X,
 } from "lucide-react";
 
-import logoHorizontal from "../../assets/BIG DAY LOGO-02.png";
+import logoWhite from "../../assets/BIG DAY LOGO-02.png";
+import logoBlack from "../../assets/BIG DAY LOGO-01.png";
 import logoStacked from "../../assets/BIG DAY LOGO-03.png";
 
 import "../../styles/components/siteHeader.css";
 
 /* ============================================================
    SERVICES
+   href points to anchors on the single /services page.
+   Set a real `image` path later and the card renders it in
+   place of the icon mark automatically.
    ============================================================ */
 
 const SERVICES = [
@@ -24,46 +34,139 @@ const SERVICES = [
     number: "01",
     title: "Strategy",
     description: "Define the message.",
-    href: "/services/strategy",
+    href: "/services#strategy",
+    icon: Target,
+    image: null,
   },
   {
     number: "02",
     title: "Brand Identity",
     description: "Build a brand people recognize and remember.",
-    href: "/services/brand-identity",
+    href: "/services#brand-identity",
+    icon: Fingerprint,
+    image: null,
   },
   {
     number: "03",
     title: "Communication",
     description: "Bring your story to life.",
-    href: "/services/communication",
+    href: "/services#communication",
+    icon: MessageSquare,
+    image: null,
   },
   {
     number: "04",
     title: "Digital Experiences",
     description: "Build products and systems that support growth.",
-    href: "/services/digital-experiences",
+    href: "/services#digital-experiences",
+    icon: LayoutGrid,
+    image: null,
   },
 ];
-
-/* ============================================================
-   MAIN NAVIGATION
-   ============================================================ */
 
 const NAV_LINKS = [
-  {
-    label: "Work",
-    href: "/work",
-  },
-  {
-    label: "Process",
-    href: "/process",
-  },
-  {
-    label: "Insights",
-    href: "/insights",
-  },
+  { label: "Work", href: "/work" },
+  { label: "Process", href: "/process" },
+  { label: "Insights", href: "/insights" },
 ];
+
+const DESKTOP_BREAKPOINT = 901;
+const HOVER_CLOSE_DELAY = 150;
+const HEADER_THEME_PROBE_Y = 90;
+
+/* ============================================================
+   HOOK — is the viewport wide enough for the desktop nav?
+   Used to fully UNMOUNT the mega menu on mobile, not just
+   hide it with CSS.
+   ============================================================ */
+
+function useIsDesktop(breakpoint = DESKTOP_BREAKPOINT) {
+  const [isDesktop, setIsDesktop] = useState(
+    () => typeof window !== "undefined" && window.innerWidth >= breakpoint
+  );
+
+  useEffect(() => {
+    const mql = window.matchMedia(`(min-width: ${breakpoint}px)`);
+    const handle = (event) => setIsDesktop(event.matches);
+
+    handle(mql);
+    mql.addEventListener("change", handle);
+    return () => mql.removeEventListener("change", handle);
+  }, [breakpoint]);
+
+  return isDesktop;
+}
+
+/* ============================================================
+   HOOK — per-section header theme
+   Reuses the site's EXISTING convention: any element already
+   carrying [data-theme="light"|"dark"] (as ServicesHero.jsx
+   does) is treated as a themed section. The header watches
+   which one currently sits at header height and adapts its
+   own colors + logo to match — no new markup required on
+   pages that already use this pattern.
+   ============================================================ */
+
+function useHeaderTheme(pathname) {
+  const [theme, setTheme] = useState("dark");
+
+  useEffect(() => {
+    const sections = Array.from(
+      document.querySelectorAll("[data-theme]")
+    ).filter((el) => el !== document.documentElement);
+
+    if (sections.length === 0) {
+      const root = document.documentElement;
+      const readRootTheme = () =>
+        setTheme(root.getAttribute("data-theme") || "dark");
+
+      readRootTheme();
+
+      const observer = new MutationObserver(readRootTheme);
+      observer.observe(root, {
+        attributes: true,
+        attributeFilter: ["data-theme"],
+      });
+
+      return () => observer.disconnect();
+    }
+
+    let ticking = false;
+
+    const evaluate = () => {
+      let next = "dark";
+
+      for (const el of sections) {
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= HEADER_THEME_PROBE_Y && rect.bottom > HEADER_THEME_PROBE_Y) {
+          next = el.getAttribute("data-theme") || "dark";
+          break;
+        }
+      }
+
+      setTheme(next);
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(evaluate);
+        ticking = true;
+      }
+    };
+
+    evaluate();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [pathname]);
+
+  return theme;
+}
 
 /* ============================================================
    HEADER
@@ -72,31 +175,50 @@ const NAV_LINKS = [
 export default function SiteHeader() {
   const location = useLocation();
 
+  const isDesktop = useIsDesktop();
+  const theme = useHeaderTheme(location.pathname);
+  const isLight = theme === "light";
+
   const [scrolled, setScrolled] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const servicesRef = useRef(null);
+  const hoverCloseTimer = useRef(null);
 
   /* ============================================================
-     SCROLL BEHAVIOR
+     ENTRANCE MOTION — one-time stagger on first paint
      ============================================================ */
 
   useEffect(() => {
-    const handleScroll = () => {
+    const id = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
+
+  /* ============================================================
+     SCROLL STATE — rAF-throttled, single listener
+     ============================================================ */
+
+  useEffect(() => {
+    let ticking = false;
+
+    const commit = () => {
       setScrolled(window.scrollY > 20);
+      ticking = false;
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(commit);
+        ticking = true;
+      }
     };
 
     handleScroll();
-
-    window.addEventListener("scroll", handleScroll, {
-      passive: true,
-    });
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   /* ============================================================
@@ -110,6 +232,19 @@ export default function SiteHeader() {
   }, [location.pathname]);
 
   /* ============================================================
+     FORCE-CLOSE MOBILE STATE WHEN VIEWPORT BECOMES DESKTOP
+     ============================================================ */
+
+  useEffect(() => {
+    if (isDesktop) {
+      setMobileOpen(false);
+      setMobileServicesOpen(false);
+    } else {
+      setServicesOpen(false);
+    }
+  }, [isDesktop]);
+
+  /* ============================================================
      LOCK BODY WHEN MOBILE MENU IS OPEN
      ============================================================ */
 
@@ -120,7 +255,6 @@ export default function SiteHeader() {
     }
 
     const previousOverflow = document.body.style.overflow;
-
     document.body.style.overflow = "hidden";
 
     return () => {
@@ -134,19 +268,13 @@ export default function SiteHeader() {
 
   useEffect(() => {
     const handlePointerDown = (event) => {
-      if (
-        servicesRef.current &&
-        !servicesRef.current.contains(event.target)
-      ) {
+      if (servicesRef.current && !servicesRef.current.contains(event.target)) {
         setServicesOpen(false);
       }
     };
 
     document.addEventListener("mousedown", handlePointerDown);
-
-    return () => {
-      document.removeEventListener("mousedown", handlePointerDown);
-    };
+    return () => document.removeEventListener("mousedown", handlePointerDown);
   }, []);
 
   /* ============================================================
@@ -155,9 +283,7 @@ export default function SiteHeader() {
 
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.key !== "Escape") {
-        return;
-      }
+      if (event.key !== "Escape") return;
 
       setServicesOpen(false);
       setMobileOpen(false);
@@ -165,11 +291,25 @@ export default function SiteHeader() {
     };
 
     document.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
+    return () => document.removeEventListener("keydown", handleKeyDown);
   }, []);
+
+  /* ============================================================
+     SERVICES — hover intent (desktop only)
+     ============================================================ */
+
+  const openServicesOnHover = useCallback(() => {
+    clearTimeout(hoverCloseTimer.current);
+    setServicesOpen(true);
+  }, []);
+
+  const closeServicesOnHover = useCallback(() => {
+    hoverCloseTimer.current = setTimeout(() => {
+      setServicesOpen(false);
+    }, HOVER_CLOSE_DELAY);
+  }, []);
+
+  useEffect(() => () => clearTimeout(hoverCloseTimer.current), []);
 
   /* ============================================================
      MOBILE MENU
@@ -189,27 +329,46 @@ export default function SiteHeader() {
      ============================================================ */
 
   const isActive = (href) => {
-    if (href === "/") {
-      return location.pathname === "/";
-    }
-
+    if (href === "/") return location.pathname === "/";
     return (
-      location.pathname === href ||
-      location.pathname.startsWith(`${href}/`)
+      location.pathname === href || location.pathname.startsWith(`${href}/`)
     );
   };
 
+  const isServicesActive = location.pathname.startsWith("/services");
+
   return (
     <>
+      {/* ========================================================
+          DESKTOP SCRIM — dims the page while the mega menu is
+          open, giving it real depth instead of floating flat.
+          ======================================================== */}
+
+      {isDesktop && (
+        <div
+          className={[
+            "bd-header__scrim",
+            servicesOpen ? "bd-header__scrim--visible" : "",
+          ]
+            .filter(Boolean)
+            .join(" ")}
+          aria-hidden="true"
+          onClick={() => setServicesOpen(false)}
+        />
+      )}
+
       {/* ========================================================
           SITE HEADER
           ======================================================== */}
 
       <header
+        data-header-state={scrolled ? "scrolled" : "top"}
+        data-theme={theme}
         className={[
           "bd-header",
           scrolled ? "bd-header--scrolled" : "",
           mobileOpen ? "bd-header--menu-open" : "",
+          mounted ? "bd-header--mounted" : "",
         ]
           .filter(Boolean)
           .join(" ")}
@@ -226,7 +385,7 @@ export default function SiteHeader() {
             onClick={closeMobile}
           >
             <img
-              src={logoHorizontal}
+              src={isLight ? logoBlack : logoWhite}
               alt="Big Day"
               className="bd-header__logo-image bd-header__logo-image--wide"
             />
@@ -235,201 +394,215 @@ export default function SiteHeader() {
               src={logoStacked}
               alt=""
               aria-hidden="true"
-              className="bd-header__logo-image bd-header__logo-image--stacked"
+              className={[
+                "bd-header__logo-image",
+                "bd-header__logo-image--stacked",
+                isLight ? "" : "bd-header__logo-image--invert",
+              ]
+                .filter(Boolean)
+                .join(" ")}
             />
+
+            <span className="bd-header__logo-accent" aria-hidden="true" />
           </Link>
 
           {/* ==================================================
               DESKTOP NAVIGATION
+              Only mounted at desktop widths — not merely hidden.
               ================================================== */}
 
-          <nav
-            className="bd-header__nav"
-            aria-label="Primary navigation"
-          >
-            {/* SERVICES */}
-
-            <div
-              className="bd-header__services"
-              ref={servicesRef}
-            >
-              <button
-                type="button"
-                className={[
-                  "bd-header__nav-link",
-                  "bd-header__nav-link--button",
-                  servicesOpen ? "is-open" : "",
-                ]
-                  .filter(Boolean)
-                  .join(" ")}
-                onClick={() =>
-                  setServicesOpen((current) => !current)
-                }
-                aria-expanded={servicesOpen}
-                aria-haspopup="true"
+          {isDesktop && (
+            <nav className="bd-header__nav" aria-label="Primary navigation">
+              <div
+                className="bd-header__services"
+                ref={servicesRef}
+                onMouseEnter={openServicesOnHover}
+                onMouseLeave={closeServicesOnHover}
+                style={{ "--stagger": 0 }}
               >
-                <span>Services</span>
-
-                <ChevronDown
-                  size={14}
-                  strokeWidth={1.8}
+                <div
                   className={[
-                    "bd-header__chevron",
+                    "bd-header__nav-link",
+                    "bd-header__nav-link--services",
                     servicesOpen ? "is-open" : "",
+                    isServicesActive ? "is-active" : "",
                   ]
                     .filter(Boolean)
                     .join(" ")}
-                  aria-hidden="true"
-                />
-              </button>
+                >
+                  <Link
+                    to="/services"
+                    className="bd-header__services-label"
+                    aria-current={isServicesActive ? "page" : undefined}
+                  >
+                    Services
+                  </Link>
 
-              {/* DESKTOP SERVICES MENU */}
+                  <button
+                    type="button"
+                    className="bd-header__services-toggle"
+                    onClick={() => setServicesOpen((current) => !current)}
+                    aria-expanded={servicesOpen}
+                    aria-haspopup="true"
+                    aria-controls="bd-services-menu"
+                    aria-label={
+                      servicesOpen ? "Close services menu" : "Open services menu"
+                    }
+                  >
+                    <ChevronDown
+                      size={14}
+                      strokeWidth={1.8}
+                      className={[
+                        "bd-header__chevron",
+                        servicesOpen ? "is-open" : "",
+                      ]
+                        .filter(Boolean)
+                        .join(" ")}
+                      aria-hidden="true"
+                    />
+                  </button>
+                </div>
 
-              <div
-                className={[
-                  "bd-header__mega",
-                  servicesOpen ? "bd-header__mega--open" : "",
-                ]
-                  .filter(Boolean)
-                  .join(" ")}
-                aria-hidden={!servicesOpen}
-              >
-                <div className="bd-header__mega-inner">
-                  <div className="bd-header__mega-top">
-                    <span className="bd-header__mega-label">
-                      What we do
-                    </span>
+                {/* DESKTOP SERVICES MEGA MENU */}
 
-                    <span className="bd-header__mega-count">
-                      04 capabilities
-                    </span>
-                  </div>
+                <div
+                  id="bd-services-menu"
+                  role="menu"
+                  aria-hidden={!servicesOpen}
+                  className={[
+                    "bd-header__mega",
+                    servicesOpen ? "bd-header__mega--open" : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
+                >
+                  <div className="bd-header__mega-inner">
+                    <div className="bd-header__mega-top">
+                      <span className="bd-header__mega-label">What we do</span>
+                      <span className="bd-header__mega-count">
+                        04 capabilities
+                      </span>
+                    </div>
 
-                  <div className="bd-header__mega-grid">
-                    {SERVICES.map((service) => (
+                    <div className="bd-header__mega-grid">
+                      {SERVICES.map((service, index) => {
+                        const Icon = service.icon;
+
+                        return (
+                          <Link
+                            key={service.number}
+                            to={service.href}
+                            role="menuitem"
+                            className="bd-header__service-card"
+                            style={{
+                              transitionDelay: servicesOpen
+                                ? `${index * 45}ms`
+                                : "0ms",
+                            }}
+                            tabIndex={servicesOpen ? 0 : -1}
+                            onClick={() => setServicesOpen(false)}
+                          >
+                            <span
+                              className="bd-header__service-visual"
+                              aria-hidden="true"
+                            >
+                              {service.image ? (
+                                <img src={service.image} alt="" loading="lazy" />
+                              ) : (
+                                <span className="bd-header__service-mark">
+                                  <Icon size={22} strokeWidth={1.5} />
+                                </span>
+                              )}
+                            </span>
+
+                            <div className="bd-header__service-content">
+                              <span className="bd-header__service-number">
+                                {service.number}
+                              </span>
+                              <h3>{service.title}</h3>
+                              <p>{service.description}</p>
+                            </div>
+
+                            <span className="bd-header__service-action">
+                              <ArrowUpRight
+                                size={17}
+                                strokeWidth={1.7}
+                                aria-hidden="true"
+                              />
+                            </span>
+                          </Link>
+                        );
+                      })}
+                    </div>
+
+                    <div className="bd-header__mega-bottom">
+                      <span className="bd-header__mega-summary">
+                        Strategy · Identity · Communication · Digital
+                      </span>
+
                       <Link
-                        key={service.number}
-                        to={service.href}
-                        className="bd-header__service-card"
+                        to="/services"
+                        className="bd-header__mega-link"
                         tabIndex={servicesOpen ? 0 : -1}
                         onClick={() => setServicesOpen(false)}
                       >
-                        <span className="bd-header__service-number">
-                          {service.number}
-                        </span>
-
-                        <div className="bd-header__service-content">
-                          <h3>{service.title}</h3>
-
-                          <p>{service.description}</p>
-                        </div>
-
-                        <span className="bd-header__service-action">
-                          <ArrowUpRight
-                            size={17}
-                            strokeWidth={1.7}
-                            aria-hidden="true"
-                          />
-                        </span>
+                        <span>View all services</span>
+                        <ArrowRight size={15} strokeWidth={1.7} aria-hidden="true" />
                       </Link>
-                    ))}
-                  </div>
-
-                  <div className="bd-header__mega-bottom">
-                    <span className="bd-header__mega-summary">
-                      Strategy · Identity · Communication · Digital
-                    </span>
-
-                    <Link
-                      to="/services"
-                      className="bd-header__mega-link"
-                      tabIndex={servicesOpen ? 0 : -1}
-                      onClick={() => setServicesOpen(false)}
-                    >
-                      <span>View all services</span>
-
-                      <ArrowRight
-                        size={15}
-                        strokeWidth={1.7}
-                        aria-hidden="true"
-                      />
-                    </Link>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* STANDARD LINKS */}
-
-            {NAV_LINKS.map((item) => (
-              <Link
-                key={item.label}
-                to={item.href}
-                className={[
-                  "bd-header__nav-link",
-                  isActive(item.href) ? "is-active" : "",
-                ]
-                  .filter(Boolean)
-                  .join(" ")}
-                aria-current={
-                  isActive(item.href) ? "page" : undefined
-                }
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
+              {NAV_LINKS.map((item, index) => (
+                <Link
+                  key={item.label}
+                  to={item.href}
+                  className={[
+                    "bd-header__nav-link",
+                    isActive(item.href) ? "is-active" : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
+                  aria-current={isActive(item.href) ? "page" : undefined}
+                  style={{ "--stagger": index + 1 }}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+          )}
 
           {/* ==================================================
               ACTIONS
               ================================================== */}
 
           <div className="bd-header__actions">
-            <Link
-              to="/contact"
-              className="bd-header__cta"
-            >
+            <Link to="/contact" className="bd-header__cta">
               <span>Start a Project</span>
-
-              <ArrowUpRight
-                size={16}
-                strokeWidth={1.8}
-                aria-hidden="true"
-              />
+              <ArrowUpRight size={16} strokeWidth={1.8} aria-hidden="true" />
             </Link>
 
+            {/* SINGLE close/open control — also serves as the
+                only dismiss button for the mobile drawer below. */}
             <button
               type="button"
               className={[
                 "bd-header__menu-button",
-                mobileOpen
-                  ? "bd-header__menu-button--open"
-                  : "",
+                mobileOpen ? "bd-header__menu-button--open" : "",
               ]
                 .filter(Boolean)
                 .join(" ")}
               onClick={toggleMobile}
-              aria-label={
-                mobileOpen
-                  ? "Close navigation"
-                  : "Open navigation"
-              }
+              aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
               aria-expanded={mobileOpen}
               aria-controls="bd-mobile-navigation"
             >
               <span className="bd-header__menu-icon">
                 {mobileOpen ? (
-                  <X
-                    size={21}
-                    strokeWidth={1.7}
-                    aria-hidden="true"
-                  />
+                  <X size={21} strokeWidth={1.7} aria-hidden="true" />
                 ) : (
-                  <Menu
-                    size={21}
-                    strokeWidth={1.7}
-                    aria-hidden="true"
-                  />
+                  <Menu size={21} strokeWidth={1.7} aria-hidden="true" />
                 )}
               </span>
             </button>
@@ -439,14 +612,14 @@ export default function SiteHeader() {
 
       {/* ========================================================
           MOBILE NAVIGATION
+          No separate close button in here — the header's own
+          toggle above is the single, permanent dismiss control.
           ======================================================== */}
 
       <aside
         id="bd-mobile-navigation"
-        className={[
-          "bd-mobile",
-          mobileOpen ? "bd-mobile--open" : "",
-        ]
+        data-theme={theme}
+        className={["bd-mobile", mobileOpen ? "bd-mobile--open" : ""]
           .filter(Boolean)
           .join(" ")}
         aria-hidden={!mobileOpen}
@@ -455,13 +628,9 @@ export default function SiteHeader() {
           {/* INTRO */}
 
           <div className="bd-mobile__intro">
-            <span className="bd-mobile__eyebrow">
-              Big Day
-            </span>
-
+            <span className="bd-mobile__eyebrow">Big Day</span>
             <p>
-              Strategy, design and visual storytelling for
-              ambitious ideas.
+              Strategy, design and visual storytelling for ambitious ideas.
             </p>
           </div>
 
@@ -471,74 +640,72 @@ export default function SiteHeader() {
             <button
               type="button"
               className="bd-mobile__service-trigger"
-              onClick={() =>
-                setMobileServicesOpen(
-                  (current) => !current
-                )
-              }
+              onClick={() => setMobileServicesOpen((current) => !current)}
               aria-expanded={mobileServicesOpen}
+              aria-controls="bd-mobile-services-list"
               tabIndex={mobileOpen ? 0 : -1}
             >
               <span>Services</span>
-
               <ChevronDown
                 size={19}
                 strokeWidth={1.6}
-                className={
-                  mobileServicesOpen ? "is-open" : ""
-                }
+                className={mobileServicesOpen ? "is-open" : ""}
                 aria-hidden="true"
               />
             </button>
 
             <div
+              id="bd-mobile-services-list"
               className={[
                 "bd-mobile__service-list",
-                mobileServicesOpen
-                  ? "bd-mobile__service-list--open"
-                  : "",
+                mobileServicesOpen ? "bd-mobile__service-list--open" : "",
               ]
                 .filter(Boolean)
                 .join(" ")}
             >
-              {SERVICES.map((service) => (
-                <Link
-                  key={service.number}
-                  to={service.href}
-                  className="bd-mobile__service"
-                  tabIndex={
-                    mobileOpen && mobileServicesOpen
-                      ? 0
-                      : -1
-                  }
-                  onClick={closeMobile}
-                >
-                  <span className="bd-mobile__service-number">
-                    {service.number}
-                  </span>
+              {SERVICES.map((service) => {
+                const Icon = service.icon;
 
-                  <span className="bd-mobile__service-copy">
-                    <strong>{service.title}</strong>
+                return (
+                  <Link
+                    key={service.number}
+                    to={service.href}
+                    className="bd-mobile__service"
+                    tabIndex={mobileOpen && mobileServicesOpen ? 0 : -1}
+                    onClick={closeMobile}
+                  >
+                    <Icon
+                      size={16}
+                      strokeWidth={1.6}
+                      className="bd-mobile__service-icon"
+                      aria-hidden="true"
+                    />
 
-                    <small>{service.description}</small>
-                  </span>
+                    <span className="bd-mobile__service-copy">
+                      <strong>{service.title}</strong>
+                      <small>{service.description}</small>
+                    </span>
 
-                  <ArrowUpRight
-                    size={17}
-                    strokeWidth={1.6}
-                    aria-hidden="true"
-                  />
-                </Link>
-              ))}
+                    <ArrowUpRight size={17} strokeWidth={1.6} aria-hidden="true" />
+                  </Link>
+                );
+              })}
+
+              <Link
+                to="/services"
+                className="bd-mobile__service-all"
+                tabIndex={mobileOpen && mobileServicesOpen ? 0 : -1}
+                onClick={closeMobile}
+              >
+                <span>View all services</span>
+                <ArrowRight size={15} strokeWidth={1.7} aria-hidden="true" />
+              </Link>
             </div>
           </div>
 
           {/* MAIN NAV */}
 
-          <nav
-            className="bd-mobile__nav"
-            aria-label="Mobile navigation"
-          >
+          <nav className="bd-mobile__nav" aria-label="Mobile navigation">
             {NAV_LINKS.map((item, index) => (
               <Link
                 key={item.label}
@@ -550,22 +717,12 @@ export default function SiteHeader() {
                   .filter(Boolean)
                   .join(" ")}
                 tabIndex={mobileOpen ? 0 : -1}
-                aria-current={
-                  isActive(item.href) ? "page" : undefined
-                }
+                aria-current={isActive(item.href) ? "page" : undefined}
                 onClick={closeMobile}
               >
-                <span className="bd-mobile__nav-index">
-                  0{index + 2}
-                </span>
-
+                <span className="bd-mobile__nav-index">0{index + 2}</span>
                 <span>{item.label}</span>
-
-                <ArrowUpRight
-                  size={18}
-                  strokeWidth={1.6}
-                  aria-hidden="true"
-                />
+                <ArrowUpRight size={18} strokeWidth={1.6} aria-hidden="true" />
               </Link>
             ))}
           </nav>
@@ -580,12 +737,7 @@ export default function SiteHeader() {
               onClick={closeMobile}
             >
               <span>Start a Project</span>
-
-              <ArrowRight
-                size={18}
-                strokeWidth={1.7}
-                aria-hidden="true"
-              />
+              <ArrowRight size={18} strokeWidth={1.7} aria-hidden="true" />
             </Link>
 
             <p className="bd-mobile__footer-note">
@@ -596,7 +748,8 @@ export default function SiteHeader() {
       </aside>
 
       {/* ========================================================
-          MOBILE BACKDROP
+          MOBILE BACKDROP — closes on tap, but is not a close
+          BUTTON in the accessibility sense; the header toggle is.
           ======================================================== */}
 
       {mobileOpen && (

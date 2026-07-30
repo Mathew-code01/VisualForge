@@ -1,0 +1,959 @@
+/* src/styles/components/case-study-preview.css */
+
+/* ================================================================
+   BIG DAY MA
+   CASE STUDY PREVIEW — LIGHT SECTION
+
+   Section:
+   05 — CASE STUDY PREVIEW
+
+   Theme:
+   LIGHT
+
+   Depends on:
+   src/styles/theme.css
+================================================================ */
+
+
+/* ================================================================
+   01. SECTION
+================================================================ */
+
+.case-study-preview {
+  position: relative;
+
+  overflow: hidden;
+
+  background:
+    var(--gradient-light),
+    var(--section-bg);
+
+  color:
+    var(--section-text);
+}
+
+
+/* ================================================================
+   02. INNER CONTAINER
+================================================================ */
+
+.case-study-preview__inner {
+  position: relative;
+
+  z-index: 1;
+}
+
+
+/* ================================================================
+   03. HEADER
+================================================================ */
+
+.case-study-preview__header {
+  display: grid;
+
+  grid-template-columns:
+    minmax(180px, 0.72fr)
+    minmax(0, 1.8fr);
+
+  column-gap:
+    clamp(
+      var(--space-12),
+      8vw,
+      var(--space-32)
+    );
+
+  align-items: start;
+}
+
+
+/* ================================================================
+   04. EYEBROW
+================================================================ */
+
+.case-study-preview__eyebrow {
+  padding-top:
+    0.55rem;
+}
+
+
+/* ================================================================
+   05. INTRO
+================================================================ */
+
+.case-study-preview__intro {
+  max-width:
+    980px;
+}
+
+
+/* ================================================================
+   06. TITLE
+================================================================ */
+
+.case-study-preview__title {
+  max-width:
+    900px;
+
+  margin:
+    0;
+}
+
+
+/* ================================================================
+   07. DESCRIPTION
+================================================================ */
+
+.case-study-preview__description {
+  max-width:
+    720px;
+
+  margin-top:
+    var(--space-8);
+
+  font-size:
+    clamp(
+      var(--font-base),
+      1.35vw,
+      var(--font-lg)
+    );
+
+  line-height:
+    var(--leading-relaxed);
+}
+
+
+/* ================================================================
+   08. PROCESS
+================================================================ */
+
+.case-study-preview__process {
+  margin-top:
+    clamp(
+      var(--space-16),
+      9vw,
+      var(--space-32)
+    );
+
+  padding-top:
+    var(--space-6);
+
+  border-top:
+    1px solid var(--section-border);
+}
+
+
+/* ================================================================
+   09. PROCESS LABEL
+================================================================ */
+
+.case-study-preview__process-label {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom:
+    var(--space-8);
+
+  color:
+    var(--section-text-muted);
+}
+
+
+.case-study-preview__process-arrow {
+  width:
+    18px;
+
+  height:
+    18px;
+
+  color:
+    var(--section-accent);
+
+  opacity:
+    0.8;
+}
+
+
+/* ================================================================
+   10. STEPS
+================================================================ */
+
+.case-study-preview__steps {
+  display: flex;
+
+  align-items: stretch;
+
+  width:
+    100%;
+}
+
+
+/* ================================================================
+   11. STEP
+================================================================ */
+
+.case-study-preview__step {
+  position: relative;
+
+  flex:
+    1 1 0;
+
+  min-width:
+    0;
+
+  min-height:
+    270px;
+
+  padding:
+    var(--space-6)
+    clamp(
+      var(--space-4),
+      2vw,
+      var(--space-8)
+    )
+    var(--space-8);
+
+  background:
+    rgba(255, 255, 255, 0.35);
+
+  border:
+    1px solid transparent;
+
+  transition:
+    background var(--transition-normal),
+    border-color var(--transition-normal),
+    transform var(--transition-normal);
+}
+
+
+/* ================================================================
+   12. STEP HOVER
+================================================================ */
+
+.case-study-preview__step:hover {
+  z-index: 2;
+
+  background:
+    rgba(255, 255, 255, 0.82);
+
+  border-color:
+    var(--section-border);
+
+  transform:
+    translateY(-4px);
+
+  box-shadow:
+    var(--section-shadow);
+}
+
+
+/* ================================================================
+   13. STEP TOP
+================================================================ */
+
+.case-study-preview__step-top {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  width:
+    100%;
+}
+
+
+/* ================================================================
+   14. STEP NUMBER
+================================================================ */
+
+.case-study-preview__step-number {
+  color:
+    var(--section-text-muted);
+}
+
+
+/* ================================================================
+   15. STEP ICON
+================================================================ */
+
+.case-study-preview__step-icon {
+  width:
+    18px;
+
+  height:
+    18px;
+
+  color:
+    var(--section-text-subtle);
+
+  opacity:
+    0.7;
+
+  transform:
+    translate(-4px, 4px);
+
+  transition:
+    color var(--transition-normal),
+    transform var(--transition-normal),
+    opacity var(--transition-normal);
+}
+
+
+.case-study-preview__step:hover
+.case-study-preview__step-icon {
+  color:
+    var(--section-accent);
+
+  opacity:
+    1;
+
+  transform:
+    translate(0, 0);
+}
+
+
+/* ================================================================
+   16. STEP CONTENT
+================================================================ */
+
+.case-study-preview__step-content {
+  position: absolute;
+
+  left:
+    clamp(
+      var(--space-4),
+      2vw,
+      var(--space-8)
+    );
+
+  right:
+    clamp(
+      var(--space-4),
+      2vw,
+      var(--space-8)
+    );
+
+  bottom:
+    var(--space-8);
+}
+
+
+/* ================================================================
+   17. STEP TITLE
+================================================================ */
+
+.case-study-preview__step-title {
+  margin:
+    0;
+
+  color:
+    var(--section-text);
+
+  font-family:
+    var(--font-display);
+
+  font-size:
+    clamp(
+      var(--font-lg),
+      1.8vw,
+      var(--font-2xl)
+    );
+
+  font-weight:
+    var(--weight-semibold);
+
+  line-height:
+    var(--leading-snug);
+
+  letter-spacing:
+    var(--tracking-tight);
+}
+
+
+/* ================================================================
+   18. STEP DESCRIPTION
+================================================================ */
+
+.case-study-preview__step-description {
+  max-width:
+    180px;
+
+  margin-top:
+    var(--space-3);
+
+  color:
+    var(--section-text-muted);
+
+  font-size:
+    var(--font-sm);
+
+  line-height:
+    var(--leading-normal);
+
+  transition:
+    color var(--transition-fast);
+}
+
+
+.case-study-preview__step:hover
+.case-study-preview__step-description {
+  color:
+    var(--section-text-secondary);
+}
+
+
+/* ================================================================
+   19. CONNECTOR
+================================================================ */
+
+.case-study-preview__connector {
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex:
+    0 0 clamp(
+      18px,
+      2.2vw,
+      34px
+    );
+
+  pointer-events:
+    none;
+}
+
+
+/* ================================================================
+   20. CONNECTOR LINE
+================================================================ */
+
+.case-study-preview__connector::before {
+  content:
+    "";
+
+  position: absolute;
+
+  top:
+    50%;
+
+  left:
+    0;
+
+  right:
+    0;
+
+  height:
+    1px;
+
+  background:
+    var(--section-border);
+}
+
+
+/* ================================================================
+   21. CONNECTOR DOT
+================================================================ */
+
+.case-study-preview__connector span {
+  position:
+    relative;
+
+  z-index:
+    1;
+
+  width:
+    5px;
+
+  height:
+    5px;
+
+  border-radius:
+    var(--radius-full);
+
+  background:
+    var(--section-accent);
+
+  box-shadow:
+    0 0 0 5px var(--section-bg);
+}
+
+
+/* ================================================================
+   22. STATEMENT
+================================================================ */
+
+.case-study-preview__statement {
+  margin-top:
+    clamp(
+      var(--space-16),
+      9vw,
+      var(--space-32)
+    );
+}
+
+
+/* ================================================================
+   23. STATEMENT LINE
+================================================================ */
+
+.case-study-preview__statement-line {
+  width:
+    100%;
+
+  height:
+    1px;
+
+  background:
+    var(--section-border);
+}
+
+
+/* ================================================================
+   24. STATEMENT CONTENT
+================================================================ */
+
+.case-study-preview__statement-content {
+  display: grid;
+
+  grid-template-columns:
+    minmax(160px, 0.72fr)
+    minmax(0, 1.8fr)
+    auto;
+
+  column-gap:
+    clamp(
+      var(--space-12),
+      8vw,
+      var(--space-32)
+    );
+
+  align-items:
+    start;
+
+  padding-top:
+    var(--space-8);
+}
+
+
+/* ================================================================
+   25. STATEMENT LABEL
+================================================================ */
+
+.case-study-preview__statement-label {
+  padding-top:
+    0.35rem;
+
+  color:
+    var(--section-text-muted);
+}
+
+
+/* ================================================================
+   26. STATEMENT TEXT
+================================================================ */
+
+.case-study-preview__statement-text {
+  max-width:
+    760px;
+
+  color:
+    var(--section-text);
+
+  font-family:
+    var(--font-display);
+
+  font-size:
+    clamp(
+      1.6rem,
+      3vw,
+      3rem
+    );
+
+  font-weight:
+    var(--weight-semibold);
+
+  line-height:
+    1.08;
+
+  letter-spacing:
+    var(--tracking-tight);
+}
+
+
+/* ================================================================
+   27. STATEMENT ICON
+================================================================ */
+
+.case-study-preview__statement-icon {
+  width:
+    22px;
+
+  height:
+    22px;
+
+  margin-top:
+    0.25rem;
+
+  color:
+    var(--section-accent);
+}
+
+
+/* ================================================================
+   28. LARGE DESKTOP
+================================================================ */
+
+@media (max-width: 1100px) {
+
+  .case-study-preview__header {
+    grid-template-columns:
+      minmax(150px, 0.55fr)
+      minmax(0, 2fr);
+
+    column-gap:
+      var(--space-12);
+  }
+
+  .case-study-preview__step {
+    min-height:
+      290px;
+  }
+
+  .case-study-preview__statement-content {
+    grid-template-columns:
+      minmax(150px, 0.55fr)
+      minmax(0, 2fr)
+      auto;
+
+    column-gap:
+      var(--space-12);
+  }
+}
+
+
+/* ================================================================
+   29. TABLET
+================================================================ */
+
+@media (max-width: 768px) {
+
+  .case-study-preview__header {
+    display:
+      block;
+  }
+
+  .case-study-preview__eyebrow {
+    padding-top:
+      0;
+  }
+
+  .case-study-preview__intro {
+    margin-top:
+      var(--space-8);
+  }
+
+  .case-study-preview__description {
+    margin-top:
+      var(--space-6);
+  }
+
+
+  /* --------------------------------------------------------------
+     PROCESS
+  -------------------------------------------------------------- */
+
+  .case-study-preview__process {
+    margin-top:
+      var(--space-16);
+  }
+
+  .case-study-preview__steps {
+    display:
+      grid;
+
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+
+  /* --------------------------------------------------------------
+     STEP
+  -------------------------------------------------------------- */
+
+  .case-study-preview__step {
+    min-height:
+      250px;
+
+    padding:
+      var(--space-5);
+  }
+
+
+  /* --------------------------------------------------------------
+     CONNECTOR
+  -------------------------------------------------------------- */
+
+  .case-study-preview__connector {
+    display:
+      none;
+  }
+
+
+  /* --------------------------------------------------------------
+     STEP CONTENT
+  -------------------------------------------------------------- */
+
+  .case-study-preview__step-content {
+    left:
+      var(--space-5);
+
+    right:
+      var(--space-5);
+
+    bottom:
+      var(--space-6);
+  }
+
+
+  /* --------------------------------------------------------------
+     STATEMENT
+  -------------------------------------------------------------- */
+
+  .case-study-preview__statement {
+    margin-top:
+      var(--space-16);
+  }
+
+  .case-study-preview__statement-content {
+    display:
+      grid;
+
+    grid-template-columns:
+      1fr auto;
+
+    gap:
+      var(--space-6);
+  }
+
+  .case-study-preview__statement-label {
+    grid-column:
+      1 / -1;
+  }
+
+  .case-study-preview__statement-text {
+    font-size:
+      clamp(
+        1.5rem,
+        5vw,
+        2.25rem
+      );
+  }
+}
+
+
+/* ================================================================
+   30. MOBILE
+================================================================ */
+
+@media (max-width: 560px) {
+
+  .case-study-preview__process {
+    padding-top:
+      var(--space-5);
+  }
+
+  .case-study-preview__process-label {
+    margin-bottom:
+      var(--space-6);
+  }
+
+  .case-study-preview__steps {
+    display:
+      block;
+  }
+
+  .case-study-preview__step {
+    min-height:
+      auto;
+
+    padding:
+      var(--space-5)
+      0
+      var(--space-6);
+
+    background:
+      transparent;
+
+    border:
+      0;
+
+    border-bottom:
+      1px solid var(--section-border);
+
+    transform:
+      none;
+  }
+
+  .case-study-preview__step:first-child {
+    border-top:
+      1px solid var(--section-border);
+  }
+
+  .case-study-preview__step:last-child {
+    border-bottom:
+      0;
+  }
+
+  .case-study-preview__step:hover {
+    background:
+      transparent;
+
+    border-color:
+      var(--section-border);
+
+    box-shadow:
+      none;
+
+    transform:
+      none;
+  }
+
+  .case-study-preview__step-content {
+    position:
+      static;
+
+    margin-top:
+      var(--space-8);
+  }
+
+  .case-study-preview__step-title {
+    font-size:
+      var(--font-xl);
+  }
+
+  .case-study-preview__step-description {
+    max-width:
+      280px;
+
+    margin-top:
+      var(--space-2);
+  }
+
+  .case-study-preview__statement {
+    margin-top:
+      var(--space-12);
+  }
+
+  .case-study-preview__statement-content {
+    display:
+      block;
+
+    padding-top:
+      var(--space-6);
+  }
+
+  .case-study-preview__statement-label {
+    display:
+      block;
+
+    margin-bottom:
+      var(--space-5);
+  }
+
+  .case-study-preview__statement-text {
+    font-size:
+      clamp(
+        1.5rem,
+        7vw,
+        2rem
+      );
+  }
+
+  .case-study-preview__statement-icon {
+    display:
+      none;
+  }
+}
+
+
+/* ================================================================
+   31. SMALL MOBILE
+================================================================ */
+
+@media (max-width: 460px) {
+
+  .case-study-preview__intro {
+    margin-top:
+      var(--space-6);
+  }
+
+  .case-study-preview__description {
+    margin-top:
+      var(--space-5);
+
+    font-size:
+      0.98rem;
+  }
+
+  .case-study-preview__process {
+    margin-top:
+      var(--space-12);
+  }
+
+  .case-study-preview__step {
+    padding-block:
+      var(--space-5);
+  }
+
+  .case-study-preview__step-content {
+    margin-top:
+      var(--space-6);
+  }
+
+  .case-study-preview__statement {
+    margin-top:
+      var(--space-12);
+  }
+}
+
+
+/* ================================================================
+   32. VERY SMALL DEVICES
+================================================================ */
+
+@media (max-width: 360px) {
+
+  .case-study-preview__step-title {
+    font-size:
+      var(--font-lg);
+  }
+
+  .case-study-preview__step-description {
+    font-size:
+      var(--font-xs);
+  }
+
+  .case-study-preview__statement-text {
+    font-size:
+      1.4rem;
+  }
+}
+
+
+/* ================================================================
+   33. REDUCED MOTION
+================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .case-study-preview__step,
+  .case-study-preview__step-icon,
+  .case-study-preview__step-description {
+    transition:
+      none;
+  }
+}

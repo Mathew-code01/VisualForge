@@ -1,10 +1,11 @@
 /* src\styles\components\siteHeader.css */
+/* src/styles/components/siteHeader.css */
 /* ============================================================
    BIG DAY — SITE HEADER
-   Premium / Editorial / Studio Navigation
-   Designed for the black + blue theme
+   Single naming system: bd-*
+   Theme-aware via existing [data-theme] sections, scroll-aware
+   via data-header-state, motion-aware via .bd-header--mounted
    ============================================================ */
-
 
 /* ============================================================
    HEADER
@@ -15,24 +16,39 @@
   top: 0;
   left: 0;
   right: 0;
-
   z-index: var(--z-header);
-
   width: 100%;
 
-  background: rgba(5, 5, 5, 0.72);
-
+  background: var(--header-surface-top);
   border-bottom: 1px solid transparent;
-
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
 
   transition:
     background var(--transition-normal),
     border-color var(--transition-normal),
-    box-shadow var(--transition-normal);
+    box-shadow var(--transition-normal),
+    backdrop-filter var(--transition-normal);
 }
 
+.bd-header[data-header-state="scrolled"] {
+  background: var(--header-surface-scrolled);
+  border-bottom-color: var(--header-border-scrolled);
+  box-shadow: var(--header-shadow-scrolled);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* While the mobile drawer is open, the header blends into the
+   drawer's own surface — one seamless panel, one visible close
+   control, instead of two separate bars stacked on each other. */
+.bd-header--menu-open {
+  z-index: calc(var(--z-mobile) + 10);
+  background: var(--header-mobile-surface) !important;
+  border-bottom-color: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
 
 /* ============================================================
    HEADER INNER
@@ -40,41 +56,58 @@
 
 .bd-header__inner {
   position: relative;
-
-  width: min(
-    calc(100% - (var(--page-padding) * 2)),
-    var(--container-xl)
-  );
-
-  min-height: 82px;
-
+  width: min(calc(100% - (var(--page-padding) * 2)), var(--container-xl));
+  min-height: clamp(64px, 6vw + 48px, 82px);
   margin-inline: auto;
 
   display: grid;
-  grid-template-columns: minmax(150px, 1fr) auto minmax(150px, 1fr);
-
+  grid-template-columns: minmax(140px, 1fr) auto minmax(140px, 1fr);
   align-items: center;
-  gap: var(--space-8);
+  gap: clamp(var(--space-4), 3vw, var(--space-8));
+
+  transition: min-height var(--transition-normal);
 }
 
+.bd-header[data-header-state="scrolled"] .bd-header__inner {
+  min-height: clamp(58px, 5vw + 42px, 74px);
+}
 
 /* ============================================================
-   SCROLLED STATE
+   ENTRANCE MOTION — one-time stagger on first paint
    ============================================================ */
 
-.bd-header--scrolled {
-  background: rgba(5, 5, 5, 0.91);
-
-  border-bottom-color: var(--color-border-soft);
-
-  box-shadow:
-    0 10px 34px rgba(0, 0, 0, 0.22);
+.bd-header__logo {
+  opacity: 0;
+  transform: translateY(-6px);
+  transition:
+    opacity 480ms var(--ease-out),
+    transform 480ms var(--ease-out),
+    color var(--transition-fast);
 }
 
-.bd-header--scrolled .bd-header__inner {
-  min-height: 74px;
+.bd-header--mounted .bd-header__logo {
+  opacity: 1;
+  transform: none;
+  transition-delay: 40ms;
 }
 
+.bd-header__nav-link,
+.bd-header__actions > * {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+
+.bd-header--mounted .bd-header__nav-link,
+.bd-header--mounted .bd-header__actions > * {
+  opacity: 1;
+  transform: none;
+  transition: opacity 420ms var(--ease-out), transform 420ms var(--ease-out);
+  transition-delay: calc(100ms + (var(--stagger, 0) * 55ms));
+}
+
+.bd-header--mounted .bd-header__actions > * {
+  transition-delay: 280ms;
+}
 
 /* ============================================================
    LOGO
@@ -82,63 +115,53 @@
 
 .bd-header__logo {
   position: relative;
-
   justify-self: start;
-
   display: inline-flex;
   align-items: center;
-
   width: max-content;
-
-  color: var(--brand-white);
-
+  color: var(--header-text);
   line-height: 0;
-
-  transition:
-    opacity var(--transition-fast),
-    transform var(--transition-fast);
 }
 
-.bd-header__logo:hover {
-  opacity: 0.86;
-}
-
-.bd-header__logo:active {
-  transform: scale(0.985);
-}
-
+.bd-header__logo:hover { opacity: 0.86; }
+.bd-header__logo:active { transform: scale(0.985); }
 
 .bd-header__logo-image {
   display: block;
-
   width: auto;
   height: auto;
-
   object-fit: contain;
-
-  transition:
-    opacity var(--transition-normal),
-    transform var(--transition-normal);
+  transition: opacity var(--transition-normal), width var(--transition-normal);
 }
-
-
-/* Desktop / wide logo */
 
 .bd-header__logo-image--wide {
-  width: 126px;
-  max-width: 126px;
+  width: clamp(88px, 9vw, 126px);
 }
-
-
-/* Compact logo */
 
 .bd-header__logo-image--stacked {
   display: none;
-
-  width: 38px;
-  max-width: 38px;
+  width: 34px;
 }
 
+.bd-header__logo-image--invert {
+  filter: brightness(0) invert(1);
+}
+
+/* Subtle animated underline that sweeps in once on mount —
+   a small, deliberate signature touch rather than a static logo. */
+.bd-header__logo-accent {
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  height: 1px;
+  width: 0;
+  background: var(--brand-blue);
+  transition: width 900ms var(--ease-out) 500ms;
+}
+
+.bd-header--mounted .bd-header__logo-accent {
+  width: 100%;
+}
 
 /* ============================================================
    DESKTOP NAV
@@ -146,16 +169,12 @@
 
 .bd-header__nav {
   justify-self: center;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
-  gap: 0.25rem;
-
+  gap: 0.15rem;
   height: 100%;
 }
-
 
 /* ============================================================
    NAV LINKS
@@ -163,93 +182,110 @@
 
 .bd-header__nav-link {
   position: relative;
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.45rem;
-
+  gap: 0.4rem;
   min-height: 42px;
-
-  padding: 0 0.85rem;
-
+  padding: 0 clamp(0.6rem, 1vw, 0.85rem);
   border-radius: var(--radius-sm);
-
   background: transparent;
-  color: var(--brand-muted);
-
+  color: var(--header-text-muted);
   font-family: var(--font-body);
-  font-size: 0.8125rem;
+  font-size: clamp(0.76rem, 0.6vw + 0.6rem, 0.8125rem);
   font-weight: var(--weight-medium);
-
   letter-spacing: -0.005em;
   white-space: nowrap;
-
   cursor: pointer;
-
-  transition:
-    color var(--transition-fast),
-    background var(--transition-fast);
+  transition: color var(--transition-fast), background var(--transition-fast);
 }
-
 
 .bd-header__nav-link::after {
   content: "";
-
   position: absolute;
-
   left: 0.85rem;
   right: 0.85rem;
   bottom: 5px;
-
   height: 1px;
-
   background: var(--brand-blue);
-
   transform: scaleX(0);
   transform-origin: center;
-
-  transition:
-    transform var(--transition-normal);
+  transition: transform var(--transition-normal);
 }
 
-
-.bd-header__nav-link:hover {
-  color: var(--brand-white);
-}
-
+.bd-header__nav-link:hover { color: var(--header-text); }
 
 .bd-header__nav-link:hover::after,
 .bd-header__nav-link.is-active::after {
   transform: scaleX(1);
 }
 
-
-.bd-header__nav-link.is-active {
-  color: var(--brand-white);
-}
-
+.bd-header__nav-link.is-active { color: var(--header-text); }
 
 /* ============================================================
-   SERVICES BUTTON
+   SERVICES TRIGGER (split: Link + toggle button)
    ============================================================ */
 
-.bd-header__nav-link--button {
-  appearance: none;
-
-  font: inherit;
+.bd-header__services {
+  position: static;
+  display: flex;
+  align-items: center;
 }
 
-.bd-header__nav-link--button.is-open {
-  color: var(--brand-white);
-
-  background: rgba(255, 255, 255, 0.045);
+.bd-header__nav-link--services {
+  padding-right: 0.35rem;
+  gap: 0.15rem;
+  opacity: 0;
+  transform: translateY(-6px);
 }
 
-.bd-header__nav-link--button.is-open::after {
+.bd-header--mounted .bd-header__services .bd-header__nav-link--services {
+  opacity: 1;
+  transform: none;
+  transition: opacity 420ms var(--ease-out), transform 420ms var(--ease-out);
+  transition-delay: 100ms;
+}
+
+.bd-header__nav-link--services.is-open,
+.bd-header__nav-link--services.is-active {
+  color: var(--header-text);
+}
+
+.bd-header__nav-link--services.is-open {
+  background: var(--header-hover);
+}
+
+.bd-header__nav-link--services.is-open::after,
+.bd-header__nav-link--services.is-active::after {
   transform: scaleX(1);
 }
 
+.bd-header__services-label {
+  padding: 0 0.5rem;
+  color: inherit;
+}
+
+.bd-header__services-toggle {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 0 0.4rem;
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+  color: inherit;
+  cursor: pointer;
+}
+
+.bd-header__services-toggle:focus-visible,
+.bd-header__nav-link:focus-visible,
+.bd-header__cta:focus-visible,
+.bd-header__menu-button:focus-visible,
+.bd-header__logo:focus-visible {
+  outline: 2px solid var(--brand-blue);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
 
 /* ============================================================
    CHEVRON
@@ -257,30 +293,34 @@
 
 .bd-header__chevron {
   flex: 0 0 auto;
-
-  transition:
-    transform var(--transition-normal),
-    color var(--transition-fast);
+  transition: transform var(--transition-normal), color var(--transition-fast);
 }
 
 .bd-header__chevron.is-open {
   color: var(--brand-blue-light);
-
   transform: rotate(180deg);
 }
 
-
 /* ============================================================
-   SERVICES WRAPPER
+   DESKTOP SCRIM — dims the page behind the open mega menu
    ============================================================ */
 
-.bd-header__services {
-  position: static;
-
-  display: flex;
-  align-items: center;
+.bd-header__scrim {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-header) - 1);
+  background: rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 320ms var(--ease-out), visibility 320ms var(--ease-out);
 }
 
+.bd-header__scrim--visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
 
 /* ============================================================
    DESKTOP MEGA MENU
@@ -288,109 +328,66 @@
 
 .bd-header__mega {
   position: absolute;
-
   top: calc(100% + 1px);
   left: 50%;
-
   z-index: var(--z-dropdown);
+  width: min(calc(100vw - 3rem), 1080px);
 
-  width: min(
-    calc(100vw - 3rem),
-    1080px
-  );
-
-  transform:
-    translate(-50%, -10px)
-    scale(0.985);
-
+  transform: translate(-50%, -8px) scale(0.98);
   transform-origin: top center;
 
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+  filter: blur(4px);
 
-  background:
-    linear-gradient(
-      145deg,
-      rgba(19, 19, 19, 0.98),
-      rgba(9, 9, 9, 0.98)
-    );
-
-  border: 1px solid var(--color-border);
-
+  background: var(--header-mega-surface);
+  border: 1px solid var(--header-border-scrolled);
   border-radius: var(--radius-lg);
-
-  box-shadow:
-    0 30px 80px rgba(0, 0, 0, 0.62),
-    inset 0 1px 0 rgba(255, 255, 255, 0.035);
-
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.035);
   overflow: hidden;
 
   transition:
-    opacity var(--transition-normal),
-    transform var(--transition-normal),
-    visibility var(--transition-normal);
+    opacity 220ms var(--ease-out),
+    transform 220ms var(--ease-out),
+    filter 220ms var(--ease-out),
+    visibility 220ms var(--ease-out);
 }
 
-
 .bd-header__mega--open {
-  transform:
-    translate(-50%, 0)
-    scale(1);
-
+  transform: translate(-50%, 0) scale(1);
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
+  filter: blur(0);
 }
 
-
-/* ============================================================
-   MEGA INNER
-   ============================================================ */
-
-.bd-header__mega-inner {
-  padding: 1.35rem;
-}
-
-
-/* ============================================================
-   MEGA TOP
-   ============================================================ */
+.bd-header__mega-inner { padding: clamp(1rem, 1.5vw, 1.35rem); }
 
 .bd-header__mega-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   gap: 1rem;
-
   padding: 0.25rem 0.25rem 1.1rem;
-
-  border-bottom: 1px solid var(--color-border-soft);
+  border-bottom: 1px solid var(--header-border-scrolled);
 }
 
-
 .bd-header__mega-label {
-  color: var(--brand-white);
-
+  color: var(--header-text);
   font-family: var(--font-display);
   font-size: 0.78rem;
   font-weight: var(--weight-semibold);
-
   letter-spacing: -0.01em;
 }
 
-
 .bd-header__mega-count {
-  color: var(--brand-subtle);
-
+  color: var(--header-text-subtle);
   font-family: var(--font-mono);
   font-size: 0.62rem;
-
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
-
 
 /* ============================================================
    SERVICES GRID
@@ -398,14 +395,10 @@
 
 .bd-header__mega-grid {
   display: grid;
-
   grid-template-columns: repeat(4, minmax(0, 1fr));
-
-  gap: 0.6rem;
-
+  gap: clamp(0.4rem, 1vw, 0.6rem);
   padding: 0.75rem 0;
 }
-
 
 /* ============================================================
    SERVICE CARD
@@ -413,148 +406,112 @@
 
 .bd-header__service-card {
   position: relative;
-
-  min-height: 188px;
-
   display: flex;
   flex-direction: column;
-
-  padding: 1.15rem;
-
+  padding: clamp(0.9rem, 1.3vw, 1.15rem);
   border: 1px solid transparent;
   border-radius: var(--radius-md);
-
-  background: rgba(255, 255, 255, 0.018);
-
+  background: var(--header-surface-card);
   overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(6px);
 
   transition:
     background var(--transition-normal),
     border-color var(--transition-normal),
-    transform var(--transition-normal);
+    transform var(--transition-normal),
+    opacity 260ms var(--ease-out);
 }
 
-
-.bd-header__service-card::before {
-  content: "";
-
-  position: absolute;
-
-  top: 0;
-  left: 1.15rem;
-  right: 1.15rem;
-
-  height: 1px;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      rgba(77, 141, 255, 0.5),
-      transparent
-    );
-
-  opacity: 0;
-
-  transition:
-    opacity var(--transition-normal);
+.bd-header__mega--open .bd-header__service-card {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-
-.bd-header__service-card:hover {
+.bd-header__service-card:hover,
+.bd-header__service-card:focus-visible {
   transform: translateY(-2px);
-
-  background: rgba(255, 255, 255, 0.045);
-
+  background: var(--header-surface-card-hover);
   border-color: rgba(77, 141, 255, 0.22);
 }
 
+.bd-header__service-visual {
+  position: relative;
+  height: 68px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.85rem;
+  overflow: hidden;
+  background: var(--header-service-visual);
+  border: 1px solid var(--header-border-scrolled);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-.bd-header__service-card:hover::before {
+.bd-header__mega-grid > a:nth-child(2) .bd-header__service-visual,
+.bd-header__mega-grid > a:nth-child(4) .bd-header__service-visual {
+  background: var(--header-service-visual-alt);
+}
+
+.bd-header__service-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bd-header__service-mark {
+  color: var(--brand-blue-light);
+  opacity: 0.85;
+  transition: transform var(--transition-normal), opacity var(--transition-normal);
+}
+
+.bd-header__service-card:hover .bd-header__service-mark {
+  transform: scale(1.12);
   opacity: 1;
 }
 
-
-/* ============================================================
-   SERVICE NUMBER
-   ============================================================ */
-
 .bd-header__service-number {
   display: block;
-
-  margin-bottom: auto;
-
   color: var(--brand-blue-light);
-
   font-family: var(--font-mono);
   font-size: 0.62rem;
   font-weight: var(--weight-medium);
-
   letter-spacing: 0.06em;
+  margin-bottom: 0.5rem;
 }
-
-
-/* ============================================================
-   SERVICE CONTENT
-   ============================================================ */
-
-.bd-header__service-content {
-  padding-top: 2rem;
-}
-
 
 .bd-header__service-content h3 {
   margin: 0;
-
-  color: var(--brand-white);
-
+  color: var(--header-text);
   font-family: var(--font-display);
   font-size: 1rem;
   font-weight: var(--weight-semibold);
-
   letter-spacing: -0.025em;
-
   line-height: 1.2;
 }
 
-
 .bd-header__service-content p {
-  max-width: 190px;
-
   margin-top: 0.5rem;
-
-  color: var(--brand-muted);
-
+  color: var(--header-text-muted);
   font-family: var(--font-body);
   font-size: 0.73rem;
-
   line-height: 1.55;
+  padding-right: 2rem;
 }
-
-
-/* ============================================================
-   SERVICE ACTION
-   ============================================================ */
 
 .bd-header__service-action {
   position: absolute;
-
   right: 1rem;
   bottom: 1rem;
-
   width: 30px;
   height: 30px;
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
-  border: 1px solid var(--color-border);
-
+  border: 1px solid var(--header-border-scrolled);
   border-radius: var(--radius-full);
-
-  color: var(--brand-muted);
-
+  color: var(--header-text-muted);
   transition:
     color var(--transition-fast),
     background var(--transition-fast),
@@ -562,18 +519,12 @@
     transform var(--transition-normal);
 }
 
-
-.bd-header__service-card:hover
-.bd-header__service-action {
-  color: var(--brand-white);
-
+.bd-header__service-card:hover .bd-header__service-action {
+  color: #fff;
   background: var(--brand-blue);
-
   border-color: var(--brand-blue);
-
   transform: translate(2px, -2px);
 }
-
 
 /* ============================================================
    MEGA BOTTOM
@@ -583,42 +534,31 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   gap: 1rem;
-
   padding: 1rem 0.25rem 0.15rem;
-
-  border-top: 1px solid var(--color-border-soft);
+  border-top: 1px solid var(--header-border-scrolled);
 }
 
-
 .bd-header__mega-summary {
-  color: var(--brand-subtle);
-
+  color: var(--header-text-subtle);
   font-family: var(--font-body);
   font-size: 0.68rem;
 }
-
 
 .bd-header__mega-link {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-
-  color: var(--brand-soft-white);
-
+  color: var(--header-text);
   font-size: 0.72rem;
   font-weight: var(--weight-semibold);
-
-  transition:
-    color var(--transition-fast);
+  transition: color var(--transition-fast), gap var(--transition-fast);
 }
-
 
 .bd-header__mega-link:hover {
   color: var(--brand-blue-light);
+  gap: 0.6rem;
 }
-
 
 /* ============================================================
    HEADER ACTIONS
@@ -626,14 +566,11 @@
 
 .bd-header__actions {
   justify-self: end;
-
   display: flex;
   align-items: center;
   justify-content: flex-end;
-
-  gap: 0.65rem;
+  gap: 0.6rem;
 }
-
 
 /* ============================================================
    DESKTOP CTA
@@ -641,29 +578,19 @@
 
 .bd-header__cta {
   position: relative;
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.55rem;
-
+  gap: 0.5rem;
   min-height: 42px;
-
-  padding: 0 1rem;
-
-  border: 1px solid rgba(255, 255, 255, 0.13);
-
+  padding: 0 clamp(0.8rem, 1.2vw, 1rem);
+  border: 1px solid var(--header-border-scrolled);
   border-radius: var(--radius-full);
-
-  background: rgba(255, 255, 255, 0.035);
-
-  color: var(--brand-white);
-
-  font-size: 0.75rem;
+  background: var(--header-hover);
+  color: var(--header-text);
+  font-size: clamp(0.7rem, 0.5vw + 0.55rem, 0.75rem);
   font-weight: var(--weight-semibold);
-
   white-space: nowrap;
-
   overflow: hidden;
 
   transition:
@@ -674,28 +601,14 @@
     box-shadow var(--transition-normal);
 }
 
-
 .bd-header__cta::before {
   content: "";
-
   position: absolute;
-
   inset: 0;
-
-  background:
-    linear-gradient(
-      110deg,
-      transparent 30%,
-      rgba(255, 255, 255, 0.12) 50%,
-      transparent 70%
-    );
-
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.12) 50%, transparent 70%);
   transform: translateX(-120%);
-
-  transition:
-    transform 700ms var(--ease-smooth);
+  transition: transform 700ms var(--ease-smooth);
 }
-
 
 .bd-header__cta span,
 .bd-header__cta svg {
@@ -703,63 +616,38 @@
   z-index: 1;
 }
 
-
 .bd-header__cta:hover {
-  color: var(--brand-white);
-
   background: rgba(77, 141, 255, 0.11);
-
   border-color: rgba(77, 141, 255, 0.4);
-
   box-shadow: var(--shadow-blue);
-
   transform: translateY(-1px);
 }
 
-
-.bd-header__cta:hover::before {
-  transform: translateX(120%);
-}
-
+.bd-header__cta:hover::before { transform: translateX(120%); }
 
 .bd-header__cta svg {
   color: var(--brand-blue-light);
-
-  transition:
-    transform var(--transition-normal);
+  transition: transform var(--transition-normal);
 }
 
-
-.bd-header__cta:hover svg {
-  transform: translate(2px, -2px);
-}
-
+.bd-header__cta:hover svg { transform: translate(2px, -2px); }
 
 /* ============================================================
-   MOBILE MENU BUTTON
+   MOBILE MENU BUTTON — the single close control site-wide
    ============================================================ */
 
 .bd-header__menu-button {
   display: none;
-
   align-items: center;
   justify-content: center;
-
   width: 42px;
   height: 42px;
-
   padding: 0;
-
-  border: 1px solid var(--color-border);
-
+  border: 1px solid var(--header-border-scrolled);
   border-radius: var(--radius-full);
-
-  background: rgba(255, 255, 255, 0.035);
-
-  color: var(--brand-white);
-
+  background: var(--header-hover);
+  color: var(--header-text);
   cursor: pointer;
-
   transition:
     background var(--transition-fast),
     border-color var(--transition-fast),
@@ -767,36 +655,21 @@
     transform var(--transition-fast);
 }
 
-
-.bd-header__menu-button:hover {
-  background: rgba(255, 255, 255, 0.07);
-
-  border-color: var(--color-border-hover);
-}
-
-
-.bd-header__menu-button:active {
-  transform: scale(0.95);
-}
-
+.bd-header__menu-button:hover { background: var(--header-hover-strong); }
+.bd-header__menu-button:active { transform: scale(0.95); }
 
 .bd-header__menu-button--open {
   color: var(--brand-blue-light);
-
-  background: rgba(77, 141, 255, 0.08);
-
-  border-color: rgba(77, 141, 255, 0.3);
+  background: rgba(77, 141, 255, 0.1);
+  border-color: rgba(77, 141, 255, 0.35);
 }
-
 
 .bd-header__menu-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   line-height: 0;
 }
-
 
 /* ============================================================
    MOBILE NAVIGATION
@@ -804,288 +677,199 @@
 
 .bd-mobile {
   position: fixed;
-
   top: 0;
   right: 0;
   bottom: 0;
-
   z-index: var(--z-mobile);
-
   width: min(430px, 100%);
 
-  background:
-    linear-gradient(
-      160deg,
-      #111111 0%,
-      #080808 48%,
-      #050505 100%
-    );
-
-  border-left: 1px solid var(--color-border);
-
-  box-shadow:
-    -30px 0 80px rgba(0, 0, 0, 0.4);
+  background: var(--header-mobile-surface);
+  border-left: 1px solid var(--header-border-scrolled);
+  box-shadow: -30px 0 80px rgba(0, 0, 0, 0.4);
 
   overflow-y: auto;
   overflow-x: hidden;
-
   visibility: hidden;
   pointer-events: none;
-
   transform: translateX(100%);
 
-  transition:
-    transform 420ms var(--ease-out),
-    visibility 420ms var(--ease-out);
+  transition: transform 420ms var(--ease-out), visibility 420ms var(--ease-out);
 }
-
 
 .bd-mobile--open {
   visibility: visible;
   pointer-events: auto;
-
   transform: translateX(0);
 }
 
-
-/* ============================================================
-   MOBILE INNER
-   ============================================================ */
-
+/* Content starts below the still-visible fixed header, which
+   remains the single close control the whole time it's open. */
 .bd-mobile__inner {
   min-height: 100%;
-
   display: flex;
   flex-direction: column;
-
-  padding:
-    7.25rem
-    clamp(1.25rem, 6vw, 2rem)
-    1.5rem;
+  padding: clamp(5.5rem, 12vw, 7.25rem) clamp(1.1rem, 6vw, 2rem) 1.5rem;
 }
-
-
-/* ============================================================
-   MOBILE INTRO
-   ============================================================ */
 
 .bd-mobile__intro {
   padding-bottom: 1.75rem;
-
-  border-bottom: 1px solid var(--color-border-soft);
+  border-bottom: 1px solid var(--header-border-scrolled);
 }
-
 
 .bd-mobile__eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
-
   color: var(--brand-blue-light);
-
   font-family: var(--font-mono);
   font-size: 0.64rem;
-
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-
 .bd-mobile__eyebrow::before {
   content: "";
-
   width: 20px;
   height: 1px;
-
   background: var(--brand-blue);
 }
 
-
 .bd-mobile__intro p {
   max-width: 320px;
-
   margin-top: 0.8rem;
-
-  color: var(--brand-muted);
-
-  font-size: 0.84rem;
-
+  color: var(--header-text-muted);
+  font-size: clamp(0.78rem, 1vw + 0.6rem, 0.84rem);
   line-height: 1.65;
 }
-
 
 /* ============================================================
    MOBILE SERVICES
    ============================================================ */
 
-.bd-mobile__services {
-  border-bottom: 1px solid var(--color-border-soft);
-}
-
+.bd-mobile__services { border-bottom: 1px solid var(--header-border-scrolled); }
 
 .bd-mobile__service-trigger {
   width: 100%;
-
-  min-height: 68px;
-
+  min-height: clamp(60px, 8vw, 68px);
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   padding: 0;
-
   background: transparent;
-
-  color: var(--brand-white);
-
+  border: none;
+  color: var(--header-text);
   font-family: var(--font-display);
-  font-size: 1.15rem;
+  font-size: clamp(1rem, 3vw, 1.15rem);
   font-weight: var(--weight-semibold);
-
   letter-spacing: -0.025em;
-
   cursor: pointer;
 }
 
-
 .bd-mobile__service-trigger svg {
-  color: var(--brand-muted);
-
-  transition:
-    transform var(--transition-normal),
-    color var(--transition-fast);
+  color: var(--header-text-muted);
+  transition: transform var(--transition-normal), color var(--transition-fast);
 }
 
-
-.bd-mobile__service-trigger:hover svg {
-  color: var(--brand-blue-light);
-}
-
+.bd-mobile__service-trigger:hover svg { color: var(--brand-blue-light); }
 
 .bd-mobile__service-trigger svg.is-open {
   color: var(--brand-blue-light);
-
   transform: rotate(180deg);
 }
-
-
-/* ============================================================
-   MOBILE SERVICE LIST
-   ============================================================ */
 
 .bd-mobile__service-list {
   display: grid;
   grid-template-rows: 0fr;
-
   opacity: 0;
-
-  transition:
-    grid-template-rows 350ms var(--ease-out),
-    opacity 220ms ease;
+  transition: grid-template-rows 350ms var(--ease-out), opacity 220ms ease;
 }
 
-
+/* Baseline collapse behavior for the row wrapper. */
 .bd-mobile__service-list > * {
   min-height: 0;
-
   overflow: hidden;
 }
 
+/* THE FIX: while collapsed, this selector's specificity
+   (two classes) beats `.bd-mobile__service { min-height: 60px }`
+   (one class) outright, so children are forced to zero instead
+   of losing that fight by source order. This is what was
+   holding a permanent gap open above the main nav links. */
+.bd-mobile__service-list:not(.bd-mobile__service-list--open) > * {
+  min-height: 0;
+}
 
 .bd-mobile__service-list--open {
   grid-template-rows: 1fr;
-
   opacity: 1;
-
   padding-bottom: 0.7rem;
 }
 
-
-/* ============================================================
-   MOBILE SERVICE
-   ============================================================ */
-
 .bd-mobile__service {
-  min-height: 64px;
-
+  min-height: 60px;
   display: grid;
-  grid-template-columns: 30px 1fr 20px;
-
+  grid-template-columns: 22px 1fr 18px;
   align-items: center;
-
   gap: 0.85rem;
-
-  padding: 0.75rem 0.7rem;
-
+  padding: 0.7rem;
   border-radius: var(--radius-md);
-
-  color: var(--brand-soft-white);
-
-  transition:
-    background var(--transition-fast),
-    color var(--transition-fast);
+  color: var(--header-text);
+  transition: background var(--transition-fast);
 }
 
+.bd-mobile__service:hover { background: var(--header-hover); }
 
-.bd-mobile__service:hover {
-  background: rgba(255, 255, 255, 0.035);
-
-  color: var(--brand-white);
-}
-
-
-.bd-mobile__service-number {
-  color: var(--brand-blue-light);
-
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-}
-
+.bd-mobile__service-icon { color: var(--brand-blue-light); }
 
 .bd-mobile__service-copy {
   min-width: 0;
-
   display: flex;
   flex-direction: column;
-
   gap: 0.18rem;
 }
 
-
 .bd-mobile__service-copy strong {
-  color: inherit;
-
   font-family: var(--font-display);
   font-size: 0.82rem;
   font-weight: var(--weight-semibold);
 }
 
-
 .bd-mobile__service-copy small {
-  color: var(--brand-subtle);
-
+  color: var(--header-text-subtle);
   font-family: var(--font-body);
   font-size: 0.68rem;
-
   line-height: 1.45;
 }
 
-
 .bd-mobile__service > svg {
-  color: var(--brand-subtle);
-
-  transition:
-    color var(--transition-fast),
-    transform var(--transition-normal);
+  color: var(--header-text-subtle);
+  transition: color var(--transition-fast), transform var(--transition-normal);
 }
-
 
 .bd-mobile__service:hover > svg {
   color: var(--brand-blue-light);
-
   transform: translate(2px, -2px);
 }
 
+.bd-mobile__service-all {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  margin-top: 0.35rem;
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--header-border-scrolled);
+  color: var(--header-text-muted);
+  font-size: 0.72rem;
+  font-weight: var(--weight-semibold);
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.bd-mobile__service-all:hover {
+  color: var(--brand-blue-light);
+  border-color: rgba(77, 141, 255, 0.4);
+}
 
 /* ============================================================
    MOBILE MAIN NAV
@@ -1094,115 +878,68 @@
 .bd-mobile__nav {
   display: flex;
   flex-direction: column;
-
   padding: 0.65rem 0;
-
-  border-bottom: 1px solid var(--color-border-soft);
+  border-bottom: 1px solid var(--header-border-scrolled);
 }
-
 
 .bd-mobile__nav-link {
-  min-height: 68px;
-
+  min-height: clamp(56px, 8vw, 68px);
   display: grid;
-  grid-template-columns: 30px 1fr auto;
-
+  grid-template-columns: 26px 1fr auto;
   align-items: center;
-
   gap: 0.85rem;
-
   border-radius: var(--radius-md);
-
-  color: var(--brand-white);
-
+  color: var(--header-text);
   font-family: var(--font-display);
-  font-size: 1.2rem;
+  font-size: clamp(1.02rem, 3vw, 1.2rem);
   font-weight: var(--weight-semibold);
-
   letter-spacing: -0.03em;
-
-  transition:
-    background var(--transition-fast),
-    color var(--transition-fast),
-    padding var(--transition-normal);
+  transition: background var(--transition-fast), color var(--transition-fast), padding var(--transition-normal);
 }
-
 
 .bd-mobile__nav-link:hover {
   padding-inline: 0.7rem;
-
-  background: rgba(255, 255, 255, 0.035);
+  background: var(--header-hover);
 }
 
-
-.bd-mobile__nav-link.is-active {
-  color: var(--brand-blue-light);
-}
-
+.bd-mobile__nav-link.is-active { color: var(--brand-blue-light); }
 
 .bd-mobile__nav-index {
-  color: var(--brand-subtle);
-
+  color: var(--header-text-subtle);
   font-family: var(--font-mono);
   font-size: 0.6rem;
   font-weight: var(--weight-medium);
-
   letter-spacing: 0.03em;
 }
 
-
 .bd-mobile__nav-link svg {
-  color: var(--brand-subtle);
-
-  transition:
-    color var(--transition-fast),
-    transform var(--transition-normal);
+  color: var(--header-text-subtle);
+  transition: color var(--transition-fast), transform var(--transition-normal);
 }
-
 
 .bd-mobile__nav-link:hover svg {
   color: var(--brand-blue-light);
-
   transform: translate(2px, -2px);
 }
-
 
 /* ============================================================
    MOBILE FOOTER
    ============================================================ */
 
-.bd-mobile__footer {
-  margin-top: auto;
-
-  padding-top: 1.5rem;
-}
-
+.bd-mobile__footer { margin-top: auto; padding-top: 1.5rem; }
 
 .bd-mobile__cta {
   min-height: 56px;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   padding: 0 1rem;
-
   border: 1px solid rgba(77, 141, 255, 0.35);
-
   border-radius: var(--radius-md);
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(77, 141, 255, 0.14),
-      rgba(77, 141, 255, 0.045)
-    );
-
-  color: var(--brand-white);
-
+  background: linear-gradient(135deg, rgba(77, 141, 255, 0.14), rgba(77, 141, 255, 0.045));
+  color: var(--header-text);
   font-size: 0.82rem;
   font-weight: var(--weight-semibold);
-
   transition:
     background var(--transition-normal),
     border-color var(--transition-normal),
@@ -1210,38 +947,21 @@
     box-shadow var(--transition-normal);
 }
 
-
 .bd-mobile__cta:hover {
-  background:
-    linear-gradient(
-      135deg,
-      rgba(77, 141, 255, 0.21),
-      rgba(77, 141, 255, 0.07)
-    );
-
+  background: linear-gradient(135deg, rgba(77, 141, 255, 0.21), rgba(77, 141, 255, 0.07));
   border-color: rgba(77, 141, 255, 0.55);
-
   box-shadow: var(--shadow-blue);
-
   transform: translateY(-1px);
 }
 
-
-.bd-mobile__cta svg {
-  color: var(--brand-blue-light);
-}
-
+.bd-mobile__cta svg { color: var(--brand-blue-light); }
 
 .bd-mobile__footer-note {
   margin-top: 1rem;
-
-  color: var(--brand-subtle);
-
+  color: var(--header-text-subtle);
   font-size: 0.68rem;
-
   line-height: 1.55;
 }
-
 
 /* ============================================================
    MOBILE BACKDROP
@@ -1249,229 +969,81 @@
 
 .bd-backdrop {
   position: fixed;
-
   inset: 0;
-
   z-index: calc(var(--z-mobile) - 1);
-
   width: 100%;
   height: 100%;
-
   padding: 0;
-
   border: 0;
-
-  background: rgba(0, 0, 0, 0.62);
-
+  background: var(--header-backdrop);
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
-
   cursor: pointer;
-
   animation: bdBackdropIn 220ms ease forwards;
 }
 
-
 @keyframes bdBackdropIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-
 /* ============================================================
-   TABLET
+   RESPONSIVE — structural breakpoints
+   (typography/spacing above already fluid via clamp())
    ============================================================ */
+
+@media (max-width: 1200px) {
+  .bd-header__mega { width: min(calc(100vw - 2.5rem), 980px); }
+}
 
 @media (max-width: 1024px) {
   .bd-header__inner {
-    grid-template-columns:
-      minmax(130px, 1fr)
-      auto
-      minmax(130px, 1fr);
-
-    gap: var(--space-4);
+    grid-template-columns: minmax(120px, 1fr) auto minmax(120px, 1fr);
   }
 
-  .bd-header__logo-image--wide {
-    width: 116px;
-    max-width: 116px;
-  }
-
-  .bd-header__nav-link {
-    padding-inline: 0.65rem;
-
-    font-size: 0.76rem;
-  }
-
-  .bd-header__nav-link::after {
-    left: 0.65rem;
-    right: 0.65rem;
-  }
-
-  .bd-header__cta {
-    padding-inline: 0.85rem;
-
-    font-size: 0.7rem;
-  }
-
-  .bd-header__mega {
-    width: min(
-      calc(100vw - 2.5rem),
-      960px
-    );
-  }
-
-  .bd-header__mega-grid {
-    gap: 0.45rem;
-  }
-
-  .bd-header__service-card {
-    padding: 1rem;
-
-    min-height: 178px;
-  }
+  .bd-header__mega { width: min(calc(100vw - 2.5rem), 900px); }
 }
 
-
-/* ============================================================
-   MOBILE / TABLET NAVIGATION
-   ============================================================ */
-
-@media (max-width: 860px) {
+@media (max-width: 900px) {
   .bd-header__inner {
-    min-height: 74px;
-
+    min-height: 72px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     gap: 1rem;
   }
 
-  .bd-header--scrolled .bd-header__inner {
-    min-height: 68px;
-  }
+  .bd-header[data-header-state="scrolled"] .bd-header__inner { min-height: 64px; }
 
-  .bd-header__nav {
-    display: none;
-  }
+  .bd-header__actions { margin-left: auto; }
+  .bd-header__cta { display: none; }
+  .bd-header__menu-button { display: inline-flex; }
+  .bd-header__nav { display: none; }
 
-  .bd-header__actions {
-    margin-left: auto;
-
-    display: flex;
-  }
-
-  .bd-header__cta {
-    display: none;
-  }
-
-  .bd-header__menu-button {
-    display: inline-flex;
-  }
-
-  .bd-header__logo-image--wide {
-    width: 116px;
-    max-width: 116px;
-  }
-
-  .bd-header__mega {
-    display: none;
+  .bd-header {
+    background: var(--header-surface-scrolled);
+    border-bottom-color: var(--header-border-scrolled);
   }
 }
-
-
-/* ============================================================
-   SMALL MOBILE
-   ============================================================ */
 
 @media (max-width: 560px) {
-  .bd-header__inner {
-    width: calc(100% - 2rem);
-  }
-
-  .bd-header__logo-image--wide {
-    width: 106px;
-    max-width: 106px;
-  }
-
-  .bd-header__menu-button {
-    width: 40px;
-    height: 40px;
-  }
-
-  .bd-mobile {
-    width: 100%;
-
-    border-left: 0;
-  }
-
-  .bd-mobile__inner {
-    padding-top: 6.8rem;
-  }
-
-  .bd-mobile__nav-link {
-    min-height: 64px;
-
-    font-size: 1.08rem;
-  }
-
-  .bd-mobile__service-trigger {
-    min-height: 64px;
-
-    font-size: 1.05rem;
-  }
+  .bd-header__inner { width: calc(100% - 2rem); }
+  .bd-header__logo-image--wide { width: clamp(78px, 22vw, 100px); }
+  .bd-header__menu-button { width: 40px; height: 40px; }
+  .bd-mobile { width: 100%; border-left: 0; }
 }
 
-
-/* ============================================================
-   VERY SMALL DEVICES
-   ============================================================ */
-
-@media (max-width: 380px) {
-  .bd-header__inner {
-    width: calc(100% - 1.5rem);
-  }
-
-  .bd-header__logo-image--wide {
-    width: 96px;
-    max-width: 96px;
-  }
-
-  .bd-header__menu-button {
-    width: 38px;
-    height: 38px;
-  }
-
-  .bd-mobile__inner {
-    padding:
-      6.5rem
-      1rem
-      1.25rem;
-  }
-
-  .bd-mobile__intro p {
-    font-size: 0.78rem;
-  }
-
-  .bd-mobile__nav-link {
-    min-height: 60px;
-
-    font-size: 1rem;
-  }
-
-  .bd-mobile__service-trigger {
-    min-height: 60px;
-
-    font-size: 1rem;
-  }
+@media (max-width: 430px) {
+  .bd-header__inner { width: calc(100% - 1.5rem); }
+  .bd-header__logo-image--wide { display: none; }
+  .bd-header__logo-image--stacked { display: block; }
+  .bd-header__menu-button { width: 38px; height: 38px; }
 }
 
+@media (max-width: 360px) {
+  .bd-header__inner { width: calc(100% - 1.1rem); }
+  .bd-mobile__inner { padding-left: 0.9rem; padding-right: 0.9rem; }
+}
 
 /* ============================================================
    REDUCED MOTION
@@ -1482,9 +1054,21 @@
   .bd-header *,
   .bd-mobile,
   .bd-mobile *,
-  .bd-backdrop {
+  .bd-backdrop,
+  .bd-header__scrim {
     animation: none !important;
-
     transition-duration: 0.01ms !important;
+  }
+
+  .bd-header__mega,
+  .bd-header__service-card,
+  .bd-header__logo,
+  .bd-header__logo-accent,
+  .bd-header__nav-link,
+  .bd-header__actions > * {
+    filter: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+    width: auto !important;
   }
 }

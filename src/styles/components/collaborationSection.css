@@ -1,0 +1,498 @@
+/* src\styles\components\collaborationSection.css */
+
+/* ================================================================
+   BIG DAY MA — COLLABORATION SECTION
+   src/styles/CollaborationSection.css
+================================================================ */
+
+
+/* ================================================================
+   SECTION
+================================================================ */
+
+.collaboration-section {
+  position: relative;
+  overflow: hidden;
+
+  padding-block:
+    clamp(6rem, 11vw, 11rem);
+
+  background:
+    radial-gradient(
+      circle at 82% 18%,
+      rgba(77, 141, 255, 0.075),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 12% 80%,
+      rgba(255, 255, 255, 0.025),
+      transparent 28%
+    ),
+    var(--section-bg);
+
+  isolation: isolate;
+}
+
+
+/* ================================================================
+   BACKGROUND DETAIL
+================================================================ */
+
+.collaboration-section::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  z-index: -1;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.025) 50%,
+      transparent 100%
+    );
+
+  opacity: 0.45;
+}
+
+
+/* ================================================================
+   CONTAINER
+================================================================ */
+
+.collaboration-section__container {
+  position: relative;
+}
+
+
+/* ================================================================
+   HEADER
+================================================================ */
+
+.collaboration-section__header {
+  display: grid;
+
+  grid-template-columns:
+    minmax(180px, 0.38fr)
+    minmax(0, 1fr);
+
+  gap:
+    clamp(3rem, 8vw, 9rem);
+
+  align-items: start;
+}
+
+
+/* ================================================================
+   HEADING WRAPPER
+================================================================ */
+
+.collaboration-section__heading-wrap {
+  max-width: 900px;
+}
+
+
+/* ================================================================
+   HEADING
+================================================================ */
+
+.collaboration-section__heading {
+  max-width: 850px;
+
+  color: var(--section-text);
+
+  font-family: var(--font-display);
+
+  font-size:
+    clamp(3rem, 6.2vw, 6rem);
+
+  font-weight:
+    var(--weight-bold);
+
+  line-height:
+    0.96;
+
+  letter-spacing:
+    var(--tracking-tighter);
+}
+
+
+/* ================================================================
+   DESCRIPTION
+================================================================ */
+
+.collaboration-section__description {
+  max-width: 650px;
+
+  margin-top:
+    clamp(2rem, 3vw, 3rem);
+
+  color: var(--section-text-secondary);
+
+  font-family: var(--font-body);
+
+  font-size:
+    clamp(1rem, 1.45vw, 1.2rem);
+
+  line-height:
+    var(--leading-relaxed);
+}
+
+
+/* ================================================================
+   DISCIPLINES
+================================================================ */
+
+.collaboration-section__disciplines {
+  display: flex;
+  align-items: center;
+
+  margin-top:
+    clamp(5rem, 9vw, 9rem);
+
+  padding-block:
+    clamp(1.5rem, 2.5vw, 2.25rem);
+
+  border-top:
+    1px solid var(--section-border);
+
+  border-bottom:
+    1px solid var(--section-border);
+
+  overflow-x: auto;
+
+  scrollbar-width: none;
+}
+
+.collaboration-section__disciplines::-webkit-scrollbar {
+  display: none;
+}
+
+
+/* ================================================================
+   DISCIPLINE
+================================================================ */
+
+.collaboration-section__discipline {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+
+  min-width:
+    clamp(145px, 16vw, 220px);
+
+  gap:
+    0.75rem;
+}
+
+
+/* ================================================================
+   DISCIPLINE NUMBER
+================================================================ */
+
+.collaboration-section__discipline-number {
+  color:
+    var(--section-text-subtle);
+
+  font-family:
+    var(--font-mono);
+
+  font-size:
+    0.625rem;
+
+  font-weight:
+    var(--weight-medium);
+
+  letter-spacing:
+    var(--tracking-wide);
+}
+
+
+/* ================================================================
+   DISCIPLINE NAME
+================================================================ */
+
+.collaboration-section__discipline-name {
+  color:
+    var(--section-text);
+
+  font-family:
+    var(--font-display);
+
+  font-size:
+    clamp(0.95rem, 1.35vw, 1.2rem);
+
+  font-weight:
+    var(--weight-semibold);
+
+  line-height:
+    1.1;
+
+  letter-spacing:
+    -0.02em;
+
+  white-space:
+    nowrap;
+
+  transition:
+    color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.collaboration-section__discipline:hover
+  .collaboration-section__discipline-name {
+  color:
+    var(--section-accent-light);
+
+  transform:
+    translateX(4px);
+}
+
+
+/* ================================================================
+   PLUS
+================================================================ */
+
+.collaboration-section__plus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex:
+    0 0 auto;
+
+  width:
+    clamp(38px, 4vw, 64px);
+
+  color:
+    var(--section-text-subtle);
+
+  font-family:
+    var(--font-display);
+
+  font-size:
+    clamp(1.25rem, 2vw, 1.75rem);
+
+  font-weight:
+    var(--weight-regular);
+
+  line-height:
+    1;
+
+  user-select:
+    none;
+}
+
+
+/* ================================================================
+   FOOTER
+================================================================ */
+
+.collaboration-section__footer {
+  display: grid;
+
+  grid-template-columns:
+    minmax(180px, 0.38fr)
+    minmax(0, 1fr);
+
+  gap:
+    clamp(3rem, 8vw, 9rem);
+
+  margin-top:
+    clamp(2rem, 3.5vw, 3.5rem);
+}
+
+
+/* ================================================================
+   FOOTER LINE
+================================================================ */
+
+.collaboration-section__footer-line {
+  width:
+    44px;
+
+  height:
+    2px;
+
+  margin-top:
+    0.7rem;
+
+  background:
+    var(--section-accent);
+}
+
+
+/* ================================================================
+   FOOTER COPY
+================================================================ */
+
+.collaboration-section__footer-copy {
+  max-width:
+    650px;
+
+  color:
+    var(--section-text-secondary);
+
+  font-family:
+    var(--font-display);
+
+  font-size:
+    clamp(1.25rem, 2vw, 1.75rem);
+
+  font-weight:
+    var(--weight-medium);
+
+  line-height:
+    1.35;
+
+  letter-spacing:
+    -0.025em;
+}
+
+
+/* ================================================================
+   TABLET
+================================================================ */
+
+@media (max-width: 900px) {
+
+  .collaboration-section__header,
+  .collaboration-section__footer {
+    grid-template-columns:
+      1fr;
+
+    gap:
+      2rem;
+  }
+
+  .collaboration-section__heading {
+    max-width:
+      760px;
+  }
+
+  .collaboration-section__footer-line {
+    margin-top:
+      0;
+  }
+}
+
+
+/* ================================================================
+   MOBILE
+================================================================ */
+
+@media (max-width: 768px) {
+
+  .collaboration-section {
+    padding-block:
+      5.5rem;
+  }
+
+  .collaboration-section__disciplines {
+    align-items: stretch;
+
+    margin-top:
+      4rem;
+
+    padding-block:
+      1.5rem;
+  }
+
+  .collaboration-section__discipline {
+    min-width:
+      135px;
+  }
+
+  .collaboration-section__plus {
+    width:
+      32px;
+  }
+}
+
+
+/* ================================================================
+   SMALL MOBILE
+================================================================ */
+
+@media (max-width: 460px) {
+
+  .collaboration-section {
+    padding-block:
+      4.5rem;
+  }
+
+  .collaboration-section__header {
+    gap:
+      1.75rem;
+  }
+
+  .collaboration-section__heading {
+    font-size:
+      clamp(2.45rem, 12vw, 3.5rem);
+
+    line-height:
+      0.98;
+  }
+
+  .collaboration-section__description {
+    margin-top:
+      1.5rem;
+
+    font-size:
+      0.98rem;
+
+    line-height:
+      1.65;
+  }
+
+  .collaboration-section__disciplines {
+    margin-top:
+      3.5rem;
+  }
+
+  .collaboration-section__footer {
+    gap:
+      1.5rem;
+
+    margin-top:
+      2rem;
+  }
+
+  .collaboration-section__footer-copy {
+    font-size:
+      1.2rem;
+  }
+}
+
+
+/* ================================================================
+   VERY SMALL DEVICES
+================================================================ */
+
+@media (max-width: 360px) {
+
+  .collaboration-section {
+    padding-block:
+      4rem;
+  }
+
+  .collaboration-section__discipline {
+    min-width:
+      120px;
+  }
+
+  .collaboration-section__discipline-name {
+    font-size:
+      0.88rem;
+  }
+
+  .collaboration-section__plus {
+    width:
+      26px;
+  }
+}

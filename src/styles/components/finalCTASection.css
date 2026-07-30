@@ -1,0 +1,416 @@
+/* src\styles\components\finalCTASection.css */
+
+
+/* ================================================================
+   BIG DAY MA — FINAL CTA SECTION
+   src/styles/FinalCTASection.css
+================================================================ */
+
+
+/* ================================================================
+   SECTION
+================================================================ */
+
+.final-cta-section {
+  position: relative;
+
+  overflow: hidden;
+
+  padding-block:
+    clamp(7rem, 13vw, 13rem);
+
+  background:
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(77, 141, 255, 0.10),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 10% 90%,
+      rgba(0, 0, 0, 0.035),
+      transparent 30%
+    ),
+    var(--section-bg);
+
+  isolation: isolate;
+}
+
+
+/* ================================================================
+   BACKGROUND GRID
+================================================================ */
+
+.final-cta-section::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  z-index: -1;
+
+  pointer-events: none;
+
+  background-image:
+    linear-gradient(
+      to right,
+      rgba(8, 8, 8, 0.035) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(8, 8, 8, 0.035) 1px,
+      transparent 1px
+    );
+
+  background-size:
+    72px 72px;
+
+  mask-image:
+    linear-gradient(
+      to bottom,
+      transparent,
+      black 15%,
+      black 85%,
+      transparent
+    );
+
+  opacity:
+    0.5;
+}
+
+
+/* ================================================================
+   CONTAINER
+================================================================ */
+
+.final-cta-section__container {
+  position: relative;
+}
+
+
+/* ================================================================
+   EYEBROW
+================================================================ */
+
+.final-cta-section .eyebrow {
+  color:
+    var(--section-text-muted);
+}
+
+
+/* ================================================================
+   CONTENT
+================================================================ */
+
+.final-cta-section__content {
+  margin-top:
+    clamp(2rem, 4vw, 3.5rem);
+}
+
+
+/* ================================================================
+   HEADING
+================================================================ */
+
+.final-cta-section__heading {
+  max-width:
+    1050px;
+
+  color:
+    var(--section-text);
+
+  font-family:
+    var(--font-display);
+
+  font-size:
+    clamp(3.5rem, 8vw, 8rem);
+
+  font-weight:
+    var(--weight-bold);
+
+  line-height:
+    0.91;
+
+  letter-spacing:
+    var(--tracking-tighter);
+}
+
+
+/* ================================================================
+   BOTTOM
+================================================================ */
+
+.final-cta-section__bottom {
+  display: grid;
+
+  grid-template-columns:
+    minmax(180px, 0.7fr)
+    minmax(300px, 1fr);
+
+  align-items: end;
+
+  gap:
+    clamp(3rem, 8vw, 9rem);
+
+  margin-top:
+    clamp(4rem, 7vw, 7rem);
+
+  padding-top:
+    clamp(1.5rem, 2.5vw, 2.5rem);
+
+  border-top:
+    1px solid var(--section-border);
+}
+
+
+/* ================================================================
+   DESCRIPTION
+================================================================ */
+
+.final-cta-section__description {
+  max-width:
+    570px;
+
+  color:
+    var(--section-text-secondary);
+
+  font-size:
+    clamp(1.05rem, 1.5vw, 1.2rem);
+
+  line-height:
+    var(--leading-relaxed);
+}
+
+
+/* ================================================================
+   BUTTON
+================================================================ */
+
+.final-cta-section__button {
+  justify-self:
+    start;
+
+  min-height:
+    58px;
+
+  padding-inline:
+    1.75rem;
+
+  background:
+    var(--section-text);
+
+  color:
+    var(--section-bg);
+
+  border:
+    1px solid var(--section-text);
+
+  box-shadow:
+    0 12px 30px rgba(8, 8, 8, 0.08);
+}
+
+
+/* ================================================================
+   BUTTON ICON
+================================================================ */
+
+.final-cta-section__button svg {
+  transition:
+    transform var(--transition-fast);
+}
+
+.final-cta-section__button:hover svg {
+  transform:
+    translate(3px, -3px);
+}
+
+
+/* ================================================================
+   BUTTON HOVER
+================================================================ */
+
+.final-cta-section__button:hover {
+  background:
+    var(--brand-black);
+
+  color:
+    var(--brand-white);
+
+  border-color:
+    var(--brand-black);
+
+  box-shadow:
+    0 18px 42px rgba(8, 8, 8, 0.14);
+}
+
+
+/* ================================================================
+   DECORATIVE ACCENT
+================================================================ */
+
+.final-cta-section__container::after {
+  content: "";
+
+  position: absolute;
+
+  top:
+    0;
+
+  right:
+    0;
+
+  width:
+    clamp(100px, 15vw, 220px);
+
+  height:
+    1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--section-accent)
+    );
+
+  opacity:
+    0.65;
+}
+
+
+/* ================================================================
+   TABLET
+================================================================ */
+
+@media (max-width: 900px) {
+
+  .final-cta-section__bottom {
+    grid-template-columns:
+      1fr;
+
+    align-items:
+      start;
+
+    gap:
+      2rem;
+  }
+
+  .final-cta-section__button {
+    justify-self:
+      start;
+  }
+}
+
+
+/* ================================================================
+   MOBILE
+================================================================ */
+
+@media (max-width: 768px) {
+
+  .final-cta-section {
+    padding-block:
+      6rem;
+  }
+
+  .final-cta-section__heading {
+    font-size:
+      clamp(3rem, 13vw, 5rem);
+
+    line-height:
+      0.94;
+  }
+
+  .final-cta-section__bottom {
+    margin-top:
+      4rem;
+  }
+
+  .final-cta-section__description {
+    max-width:
+      600px;
+  }
+}
+
+
+/* ================================================================
+   SMALL MOBILE
+================================================================ */
+
+@media (max-width: 460px) {
+
+  .final-cta-section {
+    padding-block:
+      5rem;
+  }
+
+  .final-cta-section__content {
+    margin-top:
+      1.75rem;
+  }
+
+  .final-cta-section__heading {
+    font-size:
+      clamp(2.65rem, 13vw, 4rem);
+
+    line-height:
+      0.96;
+  }
+
+  .final-cta-section__bottom {
+    gap:
+      2rem;
+
+    margin-top:
+      3.5rem;
+
+    padding-top:
+      1.5rem;
+  }
+
+  .final-cta-section__description {
+    font-size:
+      0.98rem;
+
+    line-height:
+      1.65;
+  }
+
+  .final-cta-section__button {
+    width:
+      auto;
+
+    min-height:
+      52px;
+
+    padding-inline:
+      1.35rem;
+  }
+
+  .final-cta-section__container::after {
+    width:
+      90px;
+  }
+}
+
+
+/* ================================================================
+   VERY SMALL DEVICES
+================================================================ */
+
+@media (max-width: 360px) {
+
+  .final-cta-section {
+    padding-block:
+      4.25rem;
+  }
+
+  .final-cta-section__heading {
+    font-size:
+      2.5rem;
+  }
+
+  .final-cta-section__button {
+    width:
+      100%;
+  }
+}

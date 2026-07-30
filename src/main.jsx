@@ -13,7 +13,7 @@ import { AuthProvider } from "./context/AuthContext";
 
 import MainLayout from "./layouts/MainLayout";
 import Home from "./pages/Home";
-import Service from "./pages/Services";
+import Services from "./pages/Services";
 import Work from "./pages/Work";
 import WorkDetail from "./pages/WorkDetail";
 import About from "./pages/About";
@@ -23,6 +23,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import AdminUpload from "./pages/AdminUpload";
 import ProtectedRouteWrapper from "./components/ProtectedRouteWrapper"; // ✅ import wrapper
 import AdminLogin from "./pages/AdminLogin";
+import ServicesConnection from "./components/services/ServicesConnection";
 
 const router = createBrowserRouter([
   {
@@ -31,9 +32,9 @@ const router = createBrowserRouter([
 
     children: [
       { index: true, element: <Home /> },
-      { path: "service", element: <Service />},
-      { path: "work", element: <Work /> },
-      { path: "work/:id", element: <WorkDetail /> },
+      { path: "services", element: <Services/>},
+      // { path: "work", element: <Work /> },
+      // { path: "work/:id", element: <WorkDetail /> },
       { path: "about", element: <About /> },
       { path: "contact", element: <Contact /> },
       { path: "admin-login", element: <AdminLogin /> },

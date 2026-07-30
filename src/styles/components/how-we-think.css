@@ -1,0 +1,640 @@
+
+/* // src/styles/work/how-we-think.css */
+/* ================================================================
+   BIG DAY MA
+   HOW WE THINK — DARK SECTION
+
+   Section:
+   04 — HOW WE THINK
+
+   Theme:
+   DARK
+
+   Depends on:
+   src/styles/theme.css
+================================================================ */
+
+
+/* ================================================================
+   01. SECTION
+================================================================ */
+
+.how-we-think {
+  position: relative;
+
+  overflow: hidden;
+
+  background:
+    var(--gradient-black),
+    var(--section-bg);
+
+  color:
+    var(--section-text);
+}
+
+
+/* ================================================================
+   02. INNER CONTAINER
+================================================================ */
+
+.how-we-think__inner {
+  position: relative;
+
+  z-index: 1;
+}
+
+
+/* ================================================================
+   03. HEADER
+================================================================ */
+
+.how-we-think__header {
+  display: grid;
+
+  grid-template-columns:
+    minmax(180px, 0.72fr)
+    minmax(0, 1.8fr);
+
+  column-gap:
+    clamp(
+      var(--space-12),
+      8vw,
+      var(--space-32)
+    );
+
+  align-items: start;
+}
+
+
+/* ================================================================
+   04. EYEBROW
+================================================================ */
+
+.how-we-think__eyebrow {
+  padding-top:
+    0.55rem;
+}
+
+
+/* ================================================================
+   05. INTRO
+================================================================ */
+
+.how-we-think__intro {
+  max-width:
+    980px;
+}
+
+
+/* ================================================================
+   06. TITLE
+================================================================ */
+
+.how-we-think__title {
+  max-width:
+    900px;
+
+  margin:
+    0;
+}
+
+
+/* ================================================================
+   07. DESCRIPTION
+================================================================ */
+
+.how-we-think__description {
+  max-width:
+    720px;
+
+  margin-top:
+    var(--space-8);
+
+  font-size:
+    clamp(
+      var(--font-base),
+      1.35vw,
+      var(--font-lg)
+    );
+
+  line-height:
+    var(--leading-relaxed);
+}
+
+
+/* ================================================================
+   08. LAYERS GRID
+================================================================ */
+
+.how-we-think__layers {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  margin-top:
+    clamp(
+      var(--space-16),
+      9vw,
+      var(--space-32)
+    );
+
+  border-top:
+    1px solid var(--section-border);
+}
+
+
+/* ================================================================
+   09. LAYER
+================================================================ */
+
+.how-we-think__layer {
+  position: relative;
+
+  min-height:
+    clamp(
+      260px,
+      25vw,
+      380px
+    );
+
+  padding:
+    var(--space-6)
+    clamp(
+      var(--space-4),
+      2vw,
+      var(--space-8)
+    )
+    var(--space-8);
+
+  border-right:
+    1px solid var(--section-border);
+
+  background:
+    transparent;
+
+  transition:
+    background var(--transition-normal),
+    transform var(--transition-normal);
+}
+
+
+/* ================================================================
+   10. LAST LAYER
+================================================================ */
+
+.how-we-think__layer:last-child {
+  border-right:
+    0;
+}
+
+
+/* ================================================================
+   11. TOP ROW
+================================================================ */
+
+.how-we-think__layer-top {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  width:
+    100%;
+}
+
+
+/* ================================================================
+   12. NUMBER
+================================================================ */
+
+.how-we-think__number {
+  color:
+    var(--section-text-muted);
+
+  font-weight:
+    var(--weight-semibold);
+
+  letter-spacing:
+    var(--tracking-wider);
+}
+
+
+/* ================================================================
+   13. ICON
+================================================================ */
+
+.how-we-think__icon {
+  width:
+    18px;
+
+  height:
+    18px;
+
+  color:
+    var(--section-text-subtle);
+
+  opacity:
+    0.7;
+
+  transform:
+    translate(-4px, 4px);
+
+  transition:
+    color var(--transition-normal),
+    transform var(--transition-normal),
+    opacity var(--transition-normal);
+}
+
+
+/* ================================================================
+   14. CONTENT
+================================================================ */
+
+.how-we-think__layer-content {
+  position: absolute;
+
+  left:
+    clamp(
+      var(--space-4),
+      2vw,
+      var(--space-8)
+    );
+
+  right:
+    clamp(
+      var(--space-4),
+      2vw,
+      var(--space-8)
+    );
+
+  bottom:
+    var(--space-8);
+}
+
+
+/* ================================================================
+   15. TITLE
+================================================================ */
+
+.how-we-think__layer-title {
+  margin:
+    0;
+
+  color:
+    var(--section-text);
+
+  font-family:
+    var(--font-display);
+
+  font-size:
+    clamp(
+      var(--font-xl),
+      2vw,
+      var(--font-2xl)
+    );
+
+  font-weight:
+    var(--weight-semibold);
+
+  line-height:
+    var(--leading-snug);
+
+  letter-spacing:
+    var(--tracking-tight);
+}
+
+
+/* ================================================================
+   16. DESCRIPTION
+================================================================ */
+
+.how-we-think__layer-description {
+  margin-top:
+    var(--space-3);
+
+  color:
+    var(--section-text-muted);
+
+  font-size:
+    var(--font-sm);
+
+  line-height:
+    var(--leading-normal);
+
+  transition:
+    color var(--transition-fast);
+}
+
+
+/* ================================================================
+   17. HOVER
+================================================================ */
+
+.how-we-think__layer:hover {
+  background:
+    var(--section-surface);
+}
+
+.how-we-think__layer:hover
+.how-we-think__icon {
+  color:
+    var(--section-accent);
+
+  opacity:
+    1;
+
+  transform:
+    translate(0, 0);
+}
+
+.how-we-think__layer:hover
+.how-we-think__layer-description {
+  color:
+    var(--section-text-secondary);
+}
+
+
+/* ================================================================
+   18. TOP ACCENT
+================================================================ */
+
+.how-we-think__layer::before {
+  content:
+    "";
+
+  position: absolute;
+
+  top:
+    -1px;
+
+  left:
+    0;
+
+  width:
+    0;
+
+  height:
+    2px;
+
+  background:
+    var(--section-accent);
+
+  transition:
+    width var(--transition-slow);
+}
+
+
+.how-we-think__layer:hover::before {
+  width:
+    100%;
+}
+
+
+/* ================================================================
+   19. LARGE DESKTOP
+================================================================ */
+
+@media (max-width: 1100px) {
+
+  .how-we-think__header {
+    grid-template-columns:
+      minmax(150px, 0.55fr)
+      minmax(0, 2fr);
+
+    column-gap:
+      var(--space-12);
+  }
+
+  .how-we-think__layer {
+    min-height:
+      300px;
+  }
+}
+
+
+/* ================================================================
+   20. TABLET
+================================================================ */
+
+@media (max-width: 768px) {
+
+  .how-we-think__header {
+    display:
+      block;
+  }
+
+  .how-we-think__eyebrow {
+    padding-top:
+      0;
+  }
+
+  .how-we-think__intro {
+    margin-top:
+      var(--space-8);
+  }
+
+  .how-we-think__description {
+    margin-top:
+      var(--space-6);
+  }
+
+  .how-we-think__layers {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    margin-top:
+      var(--space-16);
+  }
+
+  .how-we-think__layer {
+    min-height:
+      280px;
+
+    padding:
+      var(--space-5);
+
+    border-right:
+      1px solid var(--section-border);
+
+    border-bottom:
+      1px solid var(--section-border);
+  }
+
+  .how-we-think__layer:nth-child(2) {
+    border-right:
+      0;
+  }
+
+  .how-we-think__layer:nth-child(3),
+  .how-we-think__layer:nth-child(4) {
+    border-bottom:
+      0;
+  }
+
+  .how-we-think__layer:nth-child(4) {
+    border-right:
+      0;
+  }
+
+  .how-we-think__layer-content {
+    left:
+      var(--space-5);
+
+    right:
+      var(--space-5);
+
+    bottom:
+      var(--space-6);
+  }
+}
+
+
+/* ================================================================
+   21. MOBILE
+================================================================ */
+
+@media (max-width: 560px) {
+
+  .how-we-think__layers {
+    display:
+      block;
+
+    border-top:
+      1px solid var(--section-border);
+  }
+
+  .how-we-think__layer {
+    min-height:
+      auto;
+
+    padding:
+      var(--space-5)
+      0
+      var(--space-6);
+
+    border-right:
+      0;
+
+    border-bottom:
+      1px solid var(--section-border);
+  }
+
+  .how-we-think__layer:last-child {
+    border-bottom:
+      0;
+  }
+
+  .how-we-think__layer:nth-child(2),
+  .how-we-think__layer:nth-child(3),
+  .how-we-think__layer:nth-child(4) {
+    border-right:
+      0;
+
+    border-bottom:
+      1px solid var(--section-border);
+  }
+
+  .how-we-think__layer:last-child {
+    border-bottom:
+      0;
+  }
+
+  .how-we-think__layer-content {
+    position:
+      static;
+
+    margin-top:
+      var(--space-10);
+  }
+
+  .how-we-think__layer-title {
+    font-size:
+      var(--font-xl);
+  }
+
+  .how-we-think__layer-description {
+    margin-top:
+      var(--space-2);
+  }
+
+  .how-we-think__layer::before {
+    width:
+      0;
+  }
+
+  .how-we-think__layer:hover::before {
+    width:
+      100%;
+  }
+}
+
+
+/* ================================================================
+   22. SMALL MOBILE
+================================================================ */
+
+@media (max-width: 460px) {
+
+  .how-we-think__intro {
+    margin-top:
+      var(--space-6);
+  }
+
+  .how-we-think__description {
+    margin-top:
+      var(--space-5);
+
+    font-size:
+      0.98rem;
+  }
+
+  .how-we-think__layers {
+    margin-top:
+      var(--space-12);
+  }
+
+  .how-we-think__layer {
+    padding-block:
+      var(--space-5);
+  }
+
+  .how-we-think__layer-content {
+    margin-top:
+      var(--space-8);
+  }
+}
+
+
+/* ================================================================
+   23. VERY SMALL DEVICES
+================================================================ */
+
+@media (max-width: 360px) {
+
+  .how-we-think__layer-title {
+    font-size:
+      var(--font-lg);
+  }
+
+  .how-we-think__layer-description {
+    font-size:
+      var(--font-xs);
+  }
+}
+
+
+/* ================================================================
+   24. REDUCED MOTION
+================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .how-we-think__layer,
+  .how-we-think__icon,
+  .how-we-think__layer-description,
+  .how-we-think__layer::before {
+    transition:
+      none;
+  }
+}
