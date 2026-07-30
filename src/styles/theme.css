@@ -1,4 +1,5 @@
 /* src\styles\theme.css */
+/* src\styles\theme.css */
 /* ================================================================
    BIG DAY MA — GLOBAL DESIGN SYSTEM
    src/styles/theme.css
@@ -25,288 +26,130 @@
    The global :root defaults to DARK.
 ================================================================ */
 
-
 /* ================================================================
    01. ROOT / BRAND TOKENS
 ================================================================ */
 
 :root {
-
-  /* ==============================================================
+  /* ============================================================
      BRAND — CORE DARK
-  ============================================================== */
-
+  ============================================================ */
   --brand-black: #050505;
   --brand-ink: #090909;
-
   --brand-surface: #0d0d0d;
   --brand-surface-2: #111111;
   --brand-surface-3: #171717;
-
   --brand-white: #f6f5f1;
   --brand-white-pure: #ffffff;
-
   --brand-soft-white: #deddd7;
   --brand-muted: #9b9a94;
   --brand-subtle: #666660;
 
-
-  /* ==============================================================
+  /* ============================================================
      SIGNATURE BLUE
-  ============================================================== */
-
+  ============================================================ */
   --brand-blue: #4d8dff;
   --brand-blue-light: #8db5ff;
   --brand-blue-dark: #2458c8;
   --brand-blue-deep: #173b86;
-
   --brand-cool: #aeb9c8;
 
-
-  /* ==============================================================
+  /* ============================================================
      GLOBAL DARK DEFAULT
-  ============================================================== */
-
+  ============================================================ */
   --color-bg: var(--brand-black);
   --color-bg-subtle: #080808;
-
   --color-bg-elevated: var(--brand-surface);
   --color-bg-elevated-2: var(--brand-surface-2);
   --color-bg-elevated-3: var(--brand-surface-3);
-
   --color-text-primary: var(--brand-white);
   --color-text-secondary: var(--brand-soft-white);
   --color-text-muted: var(--brand-muted);
   --color-text-subtle: var(--brand-subtle);
-
   --color-border: rgba(255, 255, 255, 0.09);
   --color-border-soft: rgba(255, 255, 255, 0.055);
   --color-border-hover: rgba(255, 255, 255, 0.18);
   --color-border-strong: rgba(255, 255, 255, 0.28);
-
   --color-blue: var(--brand-blue);
   --color-blue-light: var(--brand-blue-light);
   --color-blue-dark: var(--brand-blue-dark);
 
-
-  /* ==============================================================
+  /* ============================================================
      SECTION-SPECIFIC VARIABLES
      These are overridden by .section-light / .section-dark
-  ============================================================== */
-
+  ============================================================ */
   --section-bg: var(--brand-black);
   --section-bg-subtle: #080808;
-
   --section-text: var(--brand-white);
   --section-text-secondary: var(--brand-soft-white);
   --section-text-muted: var(--brand-muted);
   --section-text-subtle: var(--brand-subtle);
-
   --section-border: rgba(255, 255, 255, 0.09);
   --section-border-soft: rgba(255, 255, 255, 0.055);
   --section-border-hover: rgba(255, 255, 255, 0.18);
   --section-border-strong: rgba(255, 255, 255, 0.28);
-
   --section-surface: var(--brand-surface);
   --section-surface-2: var(--brand-surface-2);
   --section-surface-3: var(--brand-surface-3);
-
-  --section-shadow:
-    0 24px 70px rgba(0, 0, 0, 0.32);
-
+  --section-shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
   --section-accent: var(--brand-blue);
   --section-accent-light: var(--brand-blue-light);
   --section-accent-dark: var(--brand-blue-dark);
 
-
-  /* ==============================================================
+  /* ============================================================
      DARK GRADIENTS
-  ============================================================== */
+  ============================================================ */
+  --gradient-black: linear-gradient(135deg, #050505 0%, #0b0b0b 45%, #111111 100%);
+  --gradient-surface: linear-gradient(145deg, rgba(255, 255, 255, 0.055) 0%, rgba(255, 255, 255, 0.018) 42%, rgba(255, 255, 255, 0.005) 100%);
 
-  --gradient-black:
-    linear-gradient(
-      135deg,
-      #050505 0%,
-      #0b0b0b 45%,
-      #111111 100%
-    );
-
-  --gradient-surface:
-    linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.055) 0%,
-      rgba(255, 255, 255, 0.018) 42%,
-      rgba(255, 255, 255, 0.005) 100%
-    );
-
-
-  /* ==============================================================
+  /* ============================================================
      BLUE GRADIENT
-  ============================================================== */
+  ============================================================ */
+  --gradient-blue: linear-gradient(115deg, #2458c8 0%, #4d8dff 28%, #8db5ff 48%, #4d8dff 72%, #2458c8 100%);
 
-  --gradient-blue:
-    linear-gradient(
-      115deg,
-      #2458c8 0%,
-      #4d8dff 28%,
-      #8db5ff 48%,
-      #4d8dff 72%,
-      #2458c8 100%
-    );
-
-
-  /* ==============================================================
+  /* ============================================================
      SILVER / TEXT GRADIENT
-  ============================================================== */
+  ============================================================ */
+  --gradient-silver: linear-gradient(110deg, #777771 0%, #f6f5f1 40%, #b9b8b1 68%, #f7f6f2 100%);
+  --gradient-text: linear-gradient(100deg, #f7f6f1 0%, #ffffff 42%, #b9b8b1 72%, #f4f2ea 100%);
 
-  --gradient-silver:
-    linear-gradient(
-      110deg,
-      #777771 0%,
-      #f6f5f1 40%,
-      #b9b8b1 68%,
-      #f7f6f2 100%
-    );
-
-  --gradient-text:
-    linear-gradient(
-      100deg,
-      #f7f6f1 0%,
-      #ffffff 42%,
-      #b9b8b1 72%,
-      #f4f2ea 100%
-    );
-
-
-  /* ==============================================================
+  /* ============================================================
      LIGHT THEME GRADIENTS
-  ============================================================== */
+  ============================================================ */
+  --gradient-light: linear-gradient(135deg, #f8f8f6 0%, #f1f2f4 48%, #e9ebee 100%);
+  --gradient-light-surface: linear-gradient(145deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 249, 250, 0.92) 100%);
+  --gradient-light-blue: linear-gradient(115deg, #173b86 0%, #2458c8 35%, #4d8dff 65%, #2458c8 100%);
+  --gradient-dark-text: linear-gradient(105deg, #050505 0%, #1a1a1a 55%, #55565a 100%);
 
-  --gradient-light:
-    linear-gradient(
-      135deg,
-      #f8f8f6 0%,
-      #f1f2f4 48%,
-      #e9ebee 100%
-    );
-
-  --gradient-light-surface:
-    linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.96) 0%,
-      rgba(248, 249, 250, 0.92) 100%
-    );
-
-  --gradient-light-blue:
-    linear-gradient(
-      115deg,
-      #173b86 0%,
-      #2458c8 35%,
-      #4d8dff 65%,
-      #2458c8 100%
-    );
-
-  --gradient-dark-text:
-    linear-gradient(
-      105deg,
-      #050505 0%,
-      #1a1a1a 55%,
-      #55565a 100%
-    );
-
-
-  /* ==============================================================
+  /* ============================================================
      SHINE
-  ============================================================== */
+  ============================================================ */
+  --shine-line: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.16), transparent);
+  --shine-blue: linear-gradient(100deg, transparent 0%, transparent 42%, rgba(255, 255, 255, 0.42) 50%, transparent 58%, transparent 100%);
+  --shine-dark: linear-gradient(100deg, transparent 0%, transparent 42%, rgba(0, 0, 0, 0.16) 50%, transparent 58%, transparent 100%);
 
-  --shine-line:
-    linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.16),
-      transparent
-    );
-
-  --shine-blue:
-    linear-gradient(
-      100deg,
-      transparent 0%,
-      transparent 42%,
-      rgba(255, 255, 255, 0.42) 50%,
-      transparent 58%,
-      transparent 100%
-    );
-
-  --shine-dark:
-    linear-gradient(
-      100deg,
-      transparent 0%,
-      transparent 42%,
-      rgba(0, 0, 0, 0.16) 50%,
-      transparent 58%,
-      transparent 100%
-    );
-
-
-  /* ==============================================================
+  /* ============================================================
      SHADOWS
-  ============================================================== */
+  ============================================================ */
+  --shadow-xs: 0 4px 14px rgba(0, 0, 0, 0.12);
+  --shadow-sm: 0 8px 24px rgba(0, 0, 0, 0.28);
+  --shadow-md: 0 16px 42px rgba(0, 0, 0, 0.42);
+  --shadow-lg: 0 30px 80px rgba(0, 0, 0, 0.56);
+  --shadow-xl: 0 45px 120px rgba(0, 0, 0, 0.72);
+  --shadow-blue: 0 10px 34px rgba(77, 141, 255, 0.18);
+  --shadow-blue-strong: 0 18px 50px rgba(77, 141, 255, 0.22);
+  --shadow-header: 0 18px 50px rgba(0, 0, 0, 0.42);
 
-  --shadow-xs:
-    0 4px 14px rgba(0, 0, 0, 0.12);
-
-  --shadow-sm:
-    0 8px 24px rgba(0, 0, 0, 0.28);
-
-  --shadow-md:
-    0 16px 42px rgba(0, 0, 0, 0.42);
-
-  --shadow-lg:
-    0 30px 80px rgba(0, 0, 0, 0.56);
-
-  --shadow-xl:
-    0 45px 120px rgba(0, 0, 0, 0.72);
-
-  --shadow-blue:
-    0 10px 34px rgba(77, 141, 255, 0.18);
-
-  --shadow-blue-strong:
-    0 18px 50px rgba(77, 141, 255, 0.22);
-
-  --shadow-header:
-    0 18px 50px rgba(0, 0, 0, 0.42);
-
-
-  /* ==============================================================
+  /* ============================================================
      TYPOGRAPHY
-  ============================================================== */
+  ============================================================ */
+  --font-display: "Sora", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
 
-  --font-display:
-    "Sora",
-    "Inter",
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-
-  --font-body:
-    "Inter",
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-
-  --font-mono:
-    "JetBrains Mono",
-    "SFMono-Regular",
-    Consolas,
-    monospace;
-
-
-  /* ==============================================================
+  /* ============================================================
      TYPE SCALE
-  ============================================================== */
-
+  ============================================================ */
   --font-xs: 0.6875rem;
   --font-sm: 0.8125rem;
   --font-base: 1rem;
@@ -319,42 +162,33 @@
   --font-6xl: 5rem;
   --font-7xl: 6.5rem;
 
-
-  /* ==============================================================
+  /* ============================================================
      FONT WEIGHTS
-  ============================================================== */
-
+  ============================================================ */
   --weight-regular: 400;
   --weight-medium: 500;
   --weight-semibold: 600;
   --weight-bold: 700;
 
-
-  /* ==============================================================
+  /* ============================================================
      LETTER SPACING
-  ============================================================== */
-
+  ============================================================ */
   --tracking-tight: -0.035em;
   --tracking-tighter: -0.055em;
-
   --tracking-wide: 0.04em;
   --tracking-wider: 0.1em;
 
-
-  /* ==============================================================
+  /* ============================================================
      LINE HEIGHT
-  ============================================================== */
-
+  ============================================================ */
   --leading-tight: 1.04;
   --leading-snug: 1.2;
   --leading-normal: 1.55;
   --leading-relaxed: 1.7;
 
-
-  /* ==============================================================
+  /* ============================================================
      SPACING
-  ============================================================== */
-
+  ============================================================ */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -371,71 +205,67 @@
   --space-40: 10rem;
   --space-48: 12rem;
 
-
-  /* ==============================================================
+  /* ============================================================
      RADIUS
-  ============================================================== */
-
+  ============================================================ */
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 18px;
   --radius-xl: 24px;
   --radius-full: 999px;
 
-
-  /* ==============================================================
+  /* ============================================================
      LAYOUT
-  ============================================================== */
-
+  ============================================================ */
   --container-sm: 720px;
   --container-md: 960px;
   --container-lg: 1180px;
   --container-xl: 1380px;
-
   --page-padding: clamp(1.25rem, 4vw, 4rem);
 
-
-  /* ==============================================================
+  /* ============================================================
      SECTION SPACING
-  ============================================================== */
+  ============================================================ */
+  --section-padding-y: clamp(5rem, 9vw, 9rem);
+  --section-padding-y-large: clamp(7rem, 12vw, 12rem);
 
-  --section-padding-y:
-    clamp(5rem, 9vw, 9rem);
-
-  --section-padding-y-large:
-    clamp(7rem, 12vw, 12rem);
-
-
-  /* ==============================================================
+  /* ============================================================
      TRANSITIONS
-  ============================================================== */
+  ============================================================ */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --transition-fast: 180ms var(--ease-out);
+  --transition-normal: 280ms var(--ease-out);
+  --transition-slow: 500ms var(--ease-out);
 
-  --ease-out:
-    cubic-bezier(0.16, 1, 0.3, 1);
-
-  --ease-smooth:
-    cubic-bezier(0.22, 0.61, 0.36, 1);
-
-  --transition-fast:
-    180ms var(--ease-out);
-
-  --transition-normal:
-    280ms var(--ease-out);
-
-  --transition-slow:
-    500ms var(--ease-out);
-
-
-  /* ==============================================================
+  /* ============================================================
      Z INDEX
-  ============================================================== */
-
+  ============================================================ */
   --z-header: 1000;
   --z-dropdown: 1100;
   --z-overlay: 1200;
   --z-mobile: 1300;
-}
 
+  /* ============================================================
+     HEADER TOKENS — DARK DEFAULT
+  ============================================================ */
+  --header-surface-top: transparent;
+  --header-surface-scrolled: rgba(5, 5, 5, 0.9);
+  --header-border-scrolled: var(--color-border-soft, rgba(255, 255, 255, 0.08));
+  --header-shadow-scrolled: 0 10px 34px rgba(0, 0, 0, 0.22);
+  --header-text: var(--brand-white, #f5f5f5);
+  --header-text-muted: var(--brand-muted, #9a9a9a);
+  --header-text-subtle: var(--brand-subtle, #6f6f6f);
+  --header-hover: rgba(255, 255, 255, 0.045);
+  --header-hover-strong: rgba(255, 255, 255, 0.07);
+  --header-backdrop: rgba(0, 0, 0, 0.62);
+  --header-surface-card: rgba(255, 255, 255, 0.018);
+  --header-surface-card-hover: rgba(255, 255, 255, 0.045);
+  --header-mega-surface: linear-gradient(145deg, rgba(19, 19, 19, 0.98), rgba(9, 9, 9, 0.98));
+  --header-mobile-surface: linear-gradient(160deg, #111 0%, #080808 48%, #050505 100%);
+  --header-service-visual: linear-gradient(135deg, rgba(77, 141, 255, 0.16), rgba(255, 255, 255, 0.02));
+  --header-service-visual-alt: linear-gradient(135deg, rgba(77, 141, 255, 0.09), rgba(255, 255, 255, 0.015));
+}
 
 /* ================================================================
    02. DARK SECTION THEME
@@ -443,39 +273,24 @@
 
 .section-dark,
 [data-theme="dark"] {
-
   --section-bg: #050505;
   --section-bg-subtle: #080808;
-
   --section-text: #f6f5f1;
   --section-text-secondary: #deddd7;
   --section-text-muted: #9b9a94;
   --section-text-subtle: #666660;
-
-  --section-border:
-    rgba(255, 255, 255, 0.09);
-
-  --section-border-soft:
-    rgba(255, 255, 255, 0.055);
-
-  --section-border-hover:
-    rgba(255, 255, 255, 0.18);
-
-  --section-border-strong:
-    rgba(255, 255, 255, 0.28);
-
+  --section-border: rgba(255, 255, 255, 0.09);
+  --section-border-soft: rgba(255, 255, 255, 0.055);
+  --section-border-hover: rgba(255, 255, 255, 0.18);
+  --section-border-strong: rgba(255, 255, 255, 0.28);
   --section-surface: #0d0d0d;
   --section-surface-2: #111111;
   --section-surface-3: #171717;
-
   --section-accent: #4d8dff;
   --section-accent-light: #8db5ff;
   --section-accent-dark: #2458c8;
-
-  --section-shadow:
-    0 24px 70px rgba(0, 0, 0, 0.32);
+  --section-shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
 }
-
 
 /* ================================================================
    03. LIGHT SECTION THEME
@@ -483,39 +298,46 @@
 
 .section-light,
 [data-theme="light"] {
-
   --section-bg: #f5f5f2;
   --section-bg-subtle: #eeeeeb;
-
   --section-text: #080808;
   --section-text-secondary: #303136;
   --section-text-muted: #65676b;
   --section-text-subtle: #8b8d91;
-
-  --section-border:
-    rgba(8, 8, 8, 0.10);
-
-  --section-border-soft:
-    rgba(8, 8, 8, 0.065);
-
-  --section-border-hover:
-    rgba(8, 8, 8, 0.18);
-
-  --section-border-strong:
-    rgba(8, 8, 8, 0.26);
-
+  --section-border: rgba(8, 8, 8, 0.10);
+  --section-border-soft: rgba(8, 8, 8, 0.065);
+  --section-border-hover: rgba(8, 8, 8, 0.18);
+  --section-border-strong: rgba(8, 8, 8, 0.26);
   --section-surface: #ffffff;
   --section-surface-2: #f0f1f2;
   --section-surface-3: #e7e8ea;
-
   --section-accent: #2458c8;
   --section-accent-light: #4d8dff;
   --section-accent-dark: #173b86;
-
-  --section-shadow:
-    0 24px 70px rgba(0, 0, 0, 0.08);
+  --section-shadow: 0 24px 70px rgba(0, 0, 0, 0.08);
 }
 
+/* ================================================================
+   03B. LIGHT THEME — HEADER TOKEN OVERRIDES
+================================================================ */
+
+:root[data-theme="light"] {
+  --header-surface-scrolled: rgba(255, 255, 255, 0.9);
+  --header-border-scrolled: rgba(10, 10, 10, 0.08);
+  --header-shadow-scrolled: 0 10px 34px rgba(0, 0, 0, 0.08);
+  --header-text: #121212;
+  --header-text-muted: #5c5c5c;
+  --header-text-subtle: #8a8a8a;
+  --header-hover: rgba(0, 0, 0, 0.035);
+  --header-hover-strong: rgba(0, 0, 0, 0.06);
+  --header-backdrop: rgba(255, 255, 255, 0.72);
+  --header-surface-card: rgba(0, 0, 0, 0.02);
+  --header-surface-card-hover: rgba(0, 0, 0, 0.045);
+  --header-mega-surface: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(246, 246, 246, 0.98));
+  --header-mobile-surface: linear-gradient(160deg, #fff 0%, #f7f7f7 48%, #f1f1f1 100%);
+  --header-service-visual: linear-gradient(135deg, rgba(36, 88, 200, 0.10), rgba(0, 0, 0, 0.02));
+  --header-service-visual-alt: linear-gradient(135deg, rgba(36, 88, 200, 0.06), rgba(0, 0, 0, 0.015));
+}
 
 /* ================================================================
    04. THEME SURFACE BASE
@@ -525,78 +347,48 @@
 .section-light,
 [data-theme="dark"],
 [data-theme="light"] {
-
   position: relative;
-
   color: var(--section-text);
-
   background-color: var(--section-bg);
-
   isolation: isolate;
 }
-
 
 /* ================================================================
    05. RESET
 ================================================================ */
 
-*,
-*::before,
-*::after {
+*, *::before, *::after {
   box-sizing: border-box;
 }
 
 html {
   margin: 0;
   padding: 0;
-
   background: var(--color-bg);
-
   color-scheme: dark;
-
   scroll-behavior: smooth;
-
   -webkit-text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
   padding: 0;
-
   min-width: 320px;
-
-  background:
-    radial-gradient(
-      circle at 50% -20%,
-      rgba(255, 255, 255, 0.025),
-      transparent 38%
-    ),
-    var(--color-bg);
-
+  background: radial-gradient(circle at 50% -20%, rgba(255, 255, 255, 0.025), transparent 38%), var(--color-bg);
   color: var(--color-text-primary);
-
   font-family: var(--font-body);
   font-size: var(--font-base);
   line-height: var(--leading-normal);
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
   overflow-x: hidden;
 }
 
-body,
-button,
-input,
-textarea,
-select {
+body, button, input, textarea, select {
   font-family: var(--font-body);
 }
 
-button,
-input,
-textarea,
-select {
+button, input, textarea, select {
   font-size: inherit;
 }
 
@@ -604,15 +396,11 @@ button {
   border: 0;
 }
 
-button,
-a {
+button, a {
   -webkit-tap-highlight-color: transparent;
 }
 
-img,
-svg,
-video,
-canvas {
+img, svg, video, canvas {
   display: block;
   max-width: 100%;
 }
@@ -626,27 +414,14 @@ a {
   text-decoration: none;
 }
 
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+p, h1, h2, h3, h4, h5, h6 {
   margin: 0;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
   color: var(--color-text-primary);
-
   font-family: var(--font-display);
   font-weight: var(--weight-bold);
-
   letter-spacing: var(--tracking-tight);
   line-height: var(--leading-tight);
 }
@@ -655,8 +430,7 @@ p {
   color: var(--color-text-secondary);
 }
 
-ul,
-ol {
+ul, ol {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -667,53 +441,31 @@ ol {
   color: var(--brand-black);
 }
 
-
 /* ================================================================
    06. SECTION TYPOGRAPHY
 ================================================================ */
 
-.section-dark h1,
-.section-dark h2,
-.section-dark h3,
-.section-dark h4,
-.section-dark h5,
-.section-dark h6,
-[data-theme="dark"] h1,
-[data-theme="dark"] h2,
-[data-theme="dark"] h3,
-[data-theme="dark"] h4,
-[data-theme="dark"] h5,
-[data-theme="dark"] h6 {
-
+.section-dark h1, .section-dark h2, .section-dark h3,
+.section-dark h4, .section-dark h5, .section-dark h6,
+[data-theme="dark"] h1, [data-theme="dark"] h2, [data-theme="dark"] h3,
+[data-theme="dark"] h4, [data-theme="dark"] h5, [data-theme="dark"] h6 {
   color: var(--section-text);
 }
 
-.section-light h1,
-.section-light h2,
-.section-light h3,
-.section-light h4,
-.section-light h5,
-.section-light h6,
-[data-theme="light"] h1,
-[data-theme="light"] h2,
-[data-theme="light"] h3,
-[data-theme="light"] h4,
-[data-theme="light"] h5,
-[data-theme="light"] h6 {
-
+.section-light h1, .section-light h2, .section-light h3,
+.section-light h4, .section-light h5, .section-light h6,
+[data-theme="light"] h1, [data-theme="light"] h2, [data-theme="light"] h3,
+[data-theme="light"] h4, [data-theme="light"] h5, [data-theme="light"] h6 {
   color: var(--section-text);
 }
 
-.section-dark p,
-[data-theme="dark"] p {
+.section-dark p, [data-theme="dark"] p {
   color: var(--section-text-secondary);
 }
 
-.section-light p,
-[data-theme="light"] p {
+.section-light p, [data-theme="light"] p {
   color: var(--section-text-secondary);
 }
-
 
 /* ================================================================
    07. SCROLLBAR
@@ -737,7 +489,6 @@ ol {
   background: #3c3c3c;
 }
 
-
 /* ================================================================
    08. ACCESSIBILITY
 ================================================================ */
@@ -747,52 +498,33 @@ ol {
   outline-offset: 4px;
 }
 
-
 /* ================================================================
    09. GLOBAL CONTAINERS
 ================================================================ */
 
 .container {
-  width: min(
-    calc(100% - (var(--page-padding) * 2)),
-    var(--container-lg)
-  );
-
+  width: min(calc(100% - (var(--page-padding) * 2)), var(--container-lg));
   margin-inline: auto;
 }
 
 .container-wide {
-  width: min(
-    calc(100% - (var(--page-padding) * 2)),
-    var(--container-xl)
-  );
-
+  width: min(calc(100% - (var(--page-padding) * 2)), var(--container-xl));
   margin-inline: auto;
 }
 
 .container-sm {
-  width: min(
-    calc(100% - (var(--page-padding) * 2)),
-    var(--container-sm)
-  );
-
+  width: min(calc(100% - (var(--page-padding) * 2)), var(--container-sm));
   margin-inline: auto;
 }
-
 
 /* ================================================================
    10. SECTION CONTAINER
 ================================================================ */
 
 .section-container {
-  width: min(
-    calc(100% - (var(--page-padding) * 2)),
-    var(--container-xl)
-  );
-
+  width: min(calc(100% - (var(--page-padding) * 2)), var(--container-xl));
   margin-inline: auto;
 }
-
 
 /* ================================================================
    11. STANDARD SECTION SPACING
@@ -800,16 +532,12 @@ ol {
 
 .section {
   position: relative;
-
-  padding-block:
-    var(--section-padding-y);
+  padding-block: var(--section-padding-y);
 }
 
 .section--large {
-  padding-block:
-    var(--section-padding-y-large);
+  padding-block: var(--section-padding-y-large);
 }
-
 
 /* ================================================================
    12. EYEBROW
@@ -819,43 +547,33 @@ ol {
   display: inline-flex;
   align-items: center;
   gap: 0.625rem;
-
   color: var(--section-text-muted);
-
   font-family: var(--font-body);
   font-size: var(--font-xs);
   font-weight: var(--weight-semibold);
-
   letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
 }
 
 .eyebrow::before {
   content: "";
-
   width: 28px;
   height: 1px;
-
   flex: 0 0 auto;
-
   background: var(--section-accent);
 }
-
 
 /* ================================================================
    13. THEME-AWARE EYEBROW
 ================================================================ */
 
-.section-light .eyebrow,
-[data-theme="light"] .eyebrow {
+.section-light .eyebrow, [data-theme="light"] .eyebrow {
   color: var(--section-text-muted);
 }
 
-.section-dark .eyebrow,
-[data-theme="dark"] .eyebrow {
+.section-dark .eyebrow, [data-theme="dark"] .eyebrow {
   color: var(--section-text-muted);
 }
-
 
 /* ================================================================
    14. PREMIUM TEXT
@@ -863,7 +581,6 @@ ol {
 
 .gradient-text {
   background: var(--gradient-text);
-
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -871,7 +588,6 @@ ol {
 
 .blue-text {
   background: var(--gradient-blue);
-
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -879,89 +595,59 @@ ol {
 
 .shine-text {
   position: relative;
-
   background: var(--gradient-silver);
-
   background-size: 200% 100%;
   background-position: 100% 0;
-
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-
-  animation:
-    textShine 7s ease-in-out infinite;
+  animation: textShine 7s ease-in-out infinite;
 }
 
 .dark-gradient-text {
   background: var(--gradient-dark-text);
-
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-
 
 /* ================================================================
    15. LIGHT THEME TEXT HELPERS
 ================================================================ */
 
-.section-light .gradient-text,
-[data-theme="light"] .gradient-text {
-
+.section-light .gradient-text, [data-theme="light"] .gradient-text {
   background: var(--gradient-dark-text);
-
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.section-light .shine-text,
-[data-theme="light"] .shine-text {
-
+.section-light .shine-text, [data-theme="light"] .shine-text {
   background: var(--gradient-dark-text);
-
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-
 
 /* ================================================================
    16. PREMIUM SURFACE
 ================================================================ */
 
 .surface {
-  background:
-    var(--gradient-surface),
-    var(--section-surface);
-
+  background: var(--gradient-surface), var(--section-surface);
   border: 1px solid var(--section-border);
-
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.045),
-    var(--section-shadow);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.045), var(--section-shadow);
 }
-
 
 /* ================================================================
    17. LIGHT SURFACE
 ================================================================ */
 
-.section-light .surface,
-[data-theme="light"] .surface {
-
-  background:
-    var(--gradient-light-surface),
-    var(--section-surface);
-
+.section-light .surface, [data-theme="light"] .surface {
+  background: var(--gradient-light-surface), var(--section-surface);
   border-color: var(--section-border);
-
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.9) inset,
-    var(--section-shadow);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, var(--section-shadow);
 }
-
 
 /* ================================================================
    18. BUTTON SYSTEM — PRIMARY
@@ -969,47 +655,22 @@ ol {
 
 .btn-primary {
   position: relative;
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   gap: 0.75rem;
-
   min-height: 52px;
-
-  padding:
-    0 1.5rem;
-
-  border:
-    1px solid rgba(255, 255, 255, 0.15);
-
-  border-radius:
-    var(--radius-full);
-
-  background:
-    var(--brand-white);
-
-  color:
-    var(--brand-black);
-
-  font-size:
-    var(--font-sm);
-
-  font-weight:
-    var(--weight-semibold);
-
+  padding: 0 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-full);
+  background: var(--brand-white);
+  color: var(--brand-black);
+  font-size: var(--font-sm);
+  font-weight: var(--weight-semibold);
   white-space: nowrap;
-
   overflow: hidden;
-
   isolation: isolate;
-
-  transition:
-    transform var(--transition-fast),
-    background var(--transition-fast),
-    color var(--transition-fast),
-    box-shadow var(--transition-fast);
+  transition: transform var(--transition-fast), background var(--transition-fast), color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .btn-primary > * {
@@ -1019,48 +680,29 @@ ol {
 
 .btn-primary::after {
   content: "";
-
   position: absolute;
   inset: 0;
-
   z-index: 1;
-
-  background:
-    var(--shine-blue);
-
-  background-size:
-    220% 100%;
-
-  background-position:
-    200% 0;
-
-  transition:
-    background-position 800ms var(--ease-smooth);
-
+  background: var(--shine-blue);
+  background-size: 220% 100%;
+  background-position: 200% 0;
+  transition: background-position 800ms var(--ease-smooth);
   pointer-events: none;
 }
 
 .btn-primary:hover {
-  transform:
-    translateY(-2px);
-
-  background:
-    var(--brand-white-pure);
-
-  box-shadow:
-    0 14px 36px rgba(0, 0, 0, 0.32);
+  transform: translateY(-2px);
+  background: var(--brand-white-pure);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.32);
 }
 
 .btn-primary:hover::after {
-  background-position:
-    -20% 0;
+  background-position: -20% 0;
 }
 
 .btn-primary:active {
-  transform:
-    translateY(0);
+  transform: translateY(0);
 }
-
 
 /* ================================================================
    19. BUTTON SYSTEM — SECONDARY
@@ -1070,80 +712,39 @@ ol {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   gap: 0.75rem;
-
   min-height: 52px;
-
-  padding:
-    0 1.5rem;
-
-  border:
-    1px solid var(--section-border-hover);
-
-  border-radius:
-    var(--radius-full);
-
-  background:
-    rgba(255, 255, 255, 0.025);
-
-  color:
-    var(--section-text);
-
-  font-size:
-    var(--font-sm);
-
-  font-weight:
-    var(--weight-semibold);
-
+  padding: 0 1.5rem;
+  border: 1px solid var(--section-border-hover);
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.025);
+  color: var(--section-text);
+  font-size: var(--font-sm);
+  font-weight: var(--weight-semibold);
   white-space: nowrap;
-
-  transition:
-    transform var(--transition-fast),
-    background var(--transition-fast),
-    border-color var(--transition-fast),
-    color var(--transition-fast);
+  transition: transform var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
 }
 
 .btn-secondary:hover {
-  transform:
-    translateY(-2px);
-
-  background:
-    rgba(255, 255, 255, 0.06);
-
-  border-color:
-    var(--section-border-strong);
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--section-border-strong);
 }
-
 
 /* ================================================================
    20. LIGHT SECTION BUTTONS
 ================================================================ */
 
-.section-light .btn-secondary,
-[data-theme="light"] .btn-secondary {
-
-  background:
-    rgba(8, 8, 8, 0.025);
-
-  color:
-    var(--section-text);
-
-  border-color:
-    var(--section-border-hover);
+.section-light .btn-secondary, [data-theme="light"] .btn-secondary {
+  background: rgba(8, 8, 8, 0.025);
+  color: var(--section-text);
+  border-color: var(--section-border-hover);
 }
 
-.section-light .btn-secondary:hover,
-[data-theme="light"] .btn-secondary:hover {
-
-  background:
-    rgba(8, 8, 8, 0.055);
-
-  border-color:
-    var(--section-border-strong);
+.section-light .btn-secondary:hover, [data-theme="light"] .btn-secondary:hover {
+  background: rgba(8, 8, 8, 0.055);
+  border-color: var(--section-border-strong);
 }
-
 
 /* ================================================================
    21. BLUE BUTTON
@@ -1153,52 +754,24 @@ ol {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   gap: 0.75rem;
-
   min-height: 52px;
-
-  padding:
-    0 1.5rem;
-
-  border:
-    1px solid rgba(77, 141, 255, 0.35);
-
-  border-radius:
-    var(--radius-full);
-
-  background:
-    var(--gradient-blue);
-
-  color:
-    #ffffff;
-
-  font-size:
-    var(--font-sm);
-
-  font-weight:
-    var(--weight-semibold);
-
-  box-shadow:
-    var(--shadow-blue);
-
-  transition:
-    transform var(--transition-fast),
-    box-shadow var(--transition-fast),
-    filter var(--transition-fast);
+  padding: 0 1.5rem;
+  border: 1px solid rgba(77, 141, 255, 0.35);
+  border-radius: var(--radius-full);
+  background: var(--gradient-blue);
+  color: #ffffff;
+  font-size: var(--font-sm);
+  font-weight: var(--weight-semibold);
+  box-shadow: var(--shadow-blue);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), filter var(--transition-fast);
 }
 
 .btn-blue:hover {
-  transform:
-    translateY(-2px);
-
-  filter:
-    brightness(1.05);
-
-  box-shadow:
-    var(--shadow-blue-strong);
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+  box-shadow: var(--shadow-blue-strong);
 }
-
 
 /* ================================================================
    22. DIVIDERS
@@ -1207,102 +780,58 @@ ol {
 .divider {
   width: 100%;
   height: 1px;
-
-  background:
-    var(--section-border);
+  background: var(--section-border);
 }
 
 .divider-soft {
   width: 100%;
   height: 1px;
-
-  background:
-    var(--section-border-soft);
+  background: var(--section-border-soft);
 }
-
 
 /* ================================================================
    23. RESPONSIVE DISPLAY TYPE
 ================================================================ */
 
 .display-xl {
-  font-size:
-    clamp(3.5rem, 8vw, 7rem);
-
-  line-height:
-    0.94;
-
-  letter-spacing:
-    var(--tracking-tighter);
+  font-size: clamp(3.5rem, 8vw, 7rem);
+  line-height: 0.94;
+  letter-spacing: var(--tracking-tighter);
 }
 
 .display-lg {
-  font-size:
-    clamp(2.75rem, 6vw, 5rem);
-
-  line-height:
-    0.98;
-
-  letter-spacing:
-    var(--tracking-tighter);
+  font-size: clamp(2.75rem, 6vw, 5rem);
+  line-height: 0.98;
+  letter-spacing: var(--tracking-tighter);
 }
 
 .display-md {
-  font-size:
-    clamp(2.25rem, 4vw, 3.75rem);
-
-  line-height:
-    1;
-
-  letter-spacing:
-    var(--tracking-tight);
+  font-size: clamp(2.25rem, 4vw, 3.75rem);
+  line-height: 1;
+  letter-spacing: var(--tracking-tight);
 }
-
 
 /* ================================================================
    24. SECTION TITLE HELPERS
 ================================================================ */
 
 .section-title {
-  max-width:
-    900px;
-
-  color:
-    var(--section-text);
-
-  font-family:
-    var(--font-display);
-
-  font-size:
-    clamp(2.75rem, 6vw, 5.5rem);
-
-  font-weight:
-    var(--weight-bold);
-
-  line-height:
-    0.98;
-
-  letter-spacing:
-    var(--tracking-tighter);
+  max-width: 900px;
+  color: var(--section-text);
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 6vw, 5.5rem);
+  font-weight: var(--weight-bold);
+  line-height: 0.98;
+  letter-spacing: var(--tracking-tighter);
 }
 
 .section-description {
-  max-width:
-    650px;
-
-  margin-top:
-    var(--space-6);
-
-  color:
-    var(--section-text-secondary);
-
-  font-size:
-    clamp(1rem, 1.4vw, 1.125rem);
-
-  line-height:
-    var(--leading-relaxed);
+  max-width: 650px;
+  margin-top: var(--space-6);
+  color: var(--section-text-secondary);
+  font-size: clamp(1rem, 1.4vw, 1.125rem);
+  line-height: var(--leading-relaxed);
 }
-
 
 /* ================================================================
    25. GRAIN / FILM TEXTURE
@@ -1314,327 +843,192 @@ ol {
 
 .grain::after {
   content: "";
-
   position: absolute;
   inset: 0;
-
   z-index: 20;
-
   pointer-events: none;
-
-  opacity:
-    0.035;
-
-  background-image:
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.55'/%3E%3C/svg%3E");
-
-  mix-blend-mode:
-    soft-light;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.55'/%3E%3C/svg%3E");
+  mix-blend-mode: soft-light;
 }
-
 
 /* ================================================================
    26. DARK SECTION GRAIN
 ================================================================ */
 
-.section-dark.grain::after,
-[data-theme="dark"].grain::after {
-  opacity:
-    0.035;
+.section-dark.grain::after, [data-theme="dark"].grain::after {
+  opacity: 0.035;
 }
-
 
 /* ================================================================
    27. LIGHT SECTION GRAIN
 ================================================================ */
 
-.section-light.grain::after,
-[data-theme="light"].grain::after {
-
-  opacity:
-    0.018;
-
-  mix-blend-mode:
-    multiply;
+.section-light.grain::after, [data-theme="light"].grain::after {
+  opacity: 0.018;
+  mix-blend-mode: multiply;
 }
-
 
 /* ================================================================
    28. BLUE ACCENT LINE
 ================================================================ */
 
 .accent-line {
-  width:
-    44px;
-
-  height:
-    2px;
-
-  background:
-    var(--section-accent);
+  width: 44px;
+  height: 2px;
+  background: var(--section-accent);
 }
-
 
 /* ================================================================
    29. THEME-AWARE LINKS
 ================================================================ */
 
-.section-dark a,
-[data-theme="dark"] a {
-  transition:
-    color var(--transition-fast),
-    opacity var(--transition-fast);
+.section-dark a, [data-theme="dark"] a {
+  transition: color var(--transition-fast), opacity var(--transition-fast);
 }
 
-.section-light a,
-[data-theme="light"] a {
-  transition:
-    color var(--transition-fast),
-    opacity var(--transition-fast);
+.section-light a, [data-theme="light"] a {
+  transition: color var(--transition-fast), opacity var(--transition-fast);
 }
-
 
 /* ================================================================
    30. THEME-AWARE CODE / MONO
 ================================================================ */
 
 .mono {
-  font-family:
-    var(--font-mono);
-
-  font-size:
-    var(--font-xs);
-
-  letter-spacing:
-    var(--tracking-wide);
-
-  text-transform:
-    uppercase;
+  font-family: var(--font-mono);
+  font-size: var(--font-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
 }
-
 
 /* ================================================================
    31. MOBILE SECTION PADDING
 ================================================================ */
 
 @media (max-width: 1024px) {
-
   :root {
-    --page-padding:
-      clamp(1.25rem, 3.5vw, 2.5rem);
+    --page-padding: clamp(1.25rem, 3.5vw, 2.5rem);
   }
 
   .section {
-    padding-block:
-      clamp(4.5rem, 8vw, 7rem);
+    padding-block: clamp(4.5rem, 8vw, 7rem);
   }
 
   .section--large {
-    padding-block:
-      clamp(5.5rem, 10vw, 9rem);
+    padding-block: clamp(5.5rem, 10vw, 9rem);
   }
 }
-
 
 /* ================================================================
    32. TABLET
 ================================================================ */
 
 @media (max-width: 768px) {
-
   :root {
-    --page-padding:
-      1.25rem;
+    --page-padding: 1.25rem;
   }
 
   .display-xl {
-    font-size:
-      clamp(3rem, 14vw, 5rem);
+    font-size: clamp(3rem, 14vw, 5rem);
   }
 
   .display-lg {
-    font-size:
-      clamp(2.5rem, 11vw, 4rem);
+    font-size: clamp(2.5rem, 11vw, 4rem);
   }
 
   .display-md {
-    font-size:
-      clamp(2.1rem, 8vw, 3.25rem);
+    font-size: clamp(2.1rem, 8vw, 3.25rem);
   }
 
   .section {
-    padding-block:
-      5rem;
+    padding-block: 5rem;
   }
 
   .section--large {
-    padding-block:
-      6rem;
+    padding-block: 6rem;
   }
 
   .section-title {
-    font-size:
-      clamp(2.5rem, 10vw, 4.5rem);
+    font-size: clamp(2.5rem, 10vw, 4.5rem);
   }
 }
-
 
 /* ================================================================
    33. SMALL MOBILE
 ================================================================ */
 
 @media (max-width: 460px) {
-
   :root {
-    --page-padding:
-      1rem;
+    --page-padding: 1rem;
   }
 
   .display-xl {
-    font-size:
-      clamp(2.65rem, 13vw, 4rem);
+    font-size: clamp(2.65rem, 13vw, 4rem);
   }
 
   .display-lg {
-    font-size:
-      clamp(2.25rem, 11vw, 3.25rem);
+    font-size: clamp(2.25rem, 11vw, 3.25rem);
   }
 
   .display-md {
-    font-size:
-      clamp(2rem, 9vw, 2.75rem);
+    font-size: clamp(2rem, 9vw, 2.75rem);
   }
 
   .section {
-    padding-block:
-      4.25rem;
+    padding-block: 4.25rem;
   }
 
   .section--large {
-    padding-block:
-      5rem;
+    padding-block: 5rem;
   }
 
   .section-title {
-    font-size:
-      clamp(2.25rem, 11vw, 3.25rem);
+    font-size: clamp(2.25rem, 11vw, 3.25rem);
   }
 
   .section-description {
-    font-size:
-      0.98rem;
+    font-size: 0.98rem;
   }
 
-  .btn-primary,
-  .btn-secondary,
-  .btn-blue {
-
-    min-height:
-      50px;
-
-    padding-inline:
-      1.25rem;
+  .btn-primary, .btn-secondary, .btn-blue {
+    min-height: 50px;
+    padding-inline: 1.25rem;
   }
 }
-
 
 /* ================================================================
    34. VERY SMALL DEVICES
 ================================================================ */
 
 @media (max-width: 360px) {
-
   :root {
-    --page-padding:
-      0.9rem;
+    --page-padding: 0.9rem;
   }
 
   .section {
-    padding-block:
-      3.75rem;
+    padding-block: 3.75rem;
   }
 
-  .btn-primary,
-  .btn-secondary,
-  .btn-blue {
-
-    width:
-      100%;
-
-    min-height:
-      50px;
+  .btn-primary, .btn-secondary, .btn-blue {
+    width: 100%;
+    min-height: 50px;
   }
 }
-
 
 /* ================================================================
    35. REDUCED MOTION
 ================================================================ */
 
 @media (prefers-reduced-motion: reduce) {
-
   html {
-    scroll-behavior:
-      auto !important;
+    scroll-behavior: auto !important;
   }
 
-  *,
-  *::before,
-  *::after {
-
-    animation-duration:
-      0.01ms !important;
-
-    animation-iteration-count:
-      1 !important;
-
-    transition-duration:
-      0.01ms !important;
-
-    scroll-behavior:
-      auto !important;
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
-}
-
-:root {
-  --header-surface-top: transparent;
-  --header-surface-scrolled: rgba(5, 5, 5, 0.9);
-  --header-border-scrolled: var(--color-border-soft, rgba(255, 255, 255, 0.08));
-  --header-shadow-scrolled: 0 10px 34px rgba(0, 0, 0, 0.22);
-  --header-text: var(--brand-white, #f5f5f5);
-  --header-text-muted: var(--brand-muted, #9a9a9a);
-  --header-text-subtle: var(--brand-subtle, #6f6f6f);
-  --header-hover: rgba(255, 255, 255, 0.045);
-  --header-hover-strong: rgba(255, 255, 255, 0.07);
-  --header-backdrop: rgba(0, 0, 0, 0.62);
-  --header-surface-card: rgba(255, 255, 255, 0.018);
-  --header-surface-card-hover: rgba(255, 255, 255, 0.045);
-  --header-mega-surface: linear-gradient(145deg, rgba(19, 19, 19, 0.98), rgba(9, 9, 9, 0.98));
-  --header-mobile-surface: linear-gradient(160deg, #111 0%, #080808 48%, #050505 100%);
-}
-
-:root[data-theme="light"] {
-  --header-surface-scrolled: rgba(255, 255, 255, 0.9);
-  --header-border-scrolled: rgba(10, 10, 10, 0.08);
-  --header-shadow-scrolled: 0 10px 34px rgba(0, 0, 0, 0.08);
-  --header-text: #121212;
-  --header-text-muted: #5c5c5c;
-  --header-text-subtle: #8a8a8a;
-  --header-hover: rgba(0, 0, 0, 0.035);
-  --header-hover-strong: rgba(0, 0, 0, 0.06);
-  --header-backdrop: rgba(255, 255, 255, 0.72);
-  --header-surface-card: rgba(0, 0, 0, 0.02);
-  --header-surface-card-hover: rgba(0, 0, 0, 0.045);
-  --header-mega-surface: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(246, 246, 246, 0.98));
-  --header-mobile-surface: linear-gradient(160deg, #fff 0%, #f7f7f7 48%, #f1f1f1 100%);
-}
-
-:root {
-  --header-service-visual: linear-gradient(135deg, rgba(77, 141, 255, 0.16), rgba(255, 255, 255, 0.02));
-  --header-service-visual-alt: linear-gradient(135deg, rgba(77, 141, 255, 0.09), rgba(255, 255, 255, 0.015));
-}
-
-:root[data-theme="light"] {
-  --header-service-visual: linear-gradient(135deg, rgba(36, 88, 200, 0.10), rgba(0, 0, 0, 0.02));
-  --header-service-visual-alt: linear-gradient(135deg, rgba(36, 88, 200, 0.06), rgba(0, 0, 0, 0.015));
 }
