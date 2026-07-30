@@ -1,0 +1,87 @@
+/* src\styles\components\contactOptions.css */
+
+/* src/styles/components/contactOptions.css */
+
+.contact-options {
+  position: relative;
+  padding-block: var(--section-padding-y);
+}
+
+.contact-options__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+}
+
+.contact-options__card {
+  position: relative;
+  padding: clamp(1.75rem, 2.5vw, 2.5rem);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 600ms var(--ease-out), transform 600ms var(--ease-out),
+    border-color var(--transition-normal), transform var(--transition-normal);
+}
+
+.contact-options__grid.is-in-view .contact-options__card {
+  opacity: 1;
+  transform: none;
+}
+
+.contact-options__card:hover {
+  border-color: rgba(77, 141, 255, 0.32);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-blue);
+}
+
+.contact-options__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-md);
+  background: rgba(77, 141, 255, 0.1);
+  color: var(--brand-blue-light);
+  margin-bottom: var(--space-6);
+}
+
+.contact-options__title {
+  font-size: var(--font-xl);
+  letter-spacing: var(--tracking-tight);
+  color: var(--section-text);
+}
+
+.contact-options__text {
+  margin-top: var(--space-3);
+  font-size: var(--font-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--section-text-muted);
+  max-width: 280px;
+}
+
+.contact-options__arrow {
+  position: absolute;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  display: inline-flex;
+  color: var(--section-text-subtle);
+  opacity: 0;
+  transform: translate(-4px, 4px);
+  transition: opacity var(--transition-fast), transform var(--transition-fast), color var(--transition-fast);
+}
+
+.contact-options__card:hover .contact-options__arrow {
+  opacity: 1;
+  transform: translate(0, 0);
+  color: var(--brand-blue-light);
+}
+
+@media (max-width: 900px) {
+  .contact-options__grid {
+    grid-template-columns: 1fr;
+  }
+}

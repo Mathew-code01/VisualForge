@@ -1,0 +1,99 @@
+/* src/styles/components/contactServices.css */
+
+.contact-services {
+  position: relative;
+  padding-block: var(--section-padding-y);
+}
+
+.contact-services__inner {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out);
+}
+
+.contact-services__inner.is-in-view {
+  opacity: 1;
+  transform: none;
+}
+
+.contact-services__title {
+  max-width: 620px;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  letter-spacing: var(--tracking-tighter);
+  margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+.contact-services__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--section-border);
+  border-left: 1px solid var(--section-border);
+}
+
+.contact-services__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: flex-start;
+  padding: clamp(1.75rem, 3vw, 2.5rem);
+  border-right: 1px solid var(--section-border);
+  border-bottom: 1px solid var(--section-border);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 550ms var(--ease-out), transform 550ms var(--ease-out),
+    background var(--transition-normal);
+}
+
+.contact-services__inner.is-in-view .contact-services__card {
+  opacity: 1;
+  transform: none;
+}
+
+.contact-services__card:hover {
+  background: var(--section-surface-2);
+}
+
+.contact-services__card.is-selected {
+  background: var(--section-surface-2);
+}
+
+.contact-services__card.is-selected .contact-services__number,
+.contact-services__card.is-selected .contact-services__name {
+  color: var(--brand-blue-dark);
+}
+
+.contact-services__number {
+  color: var(--section-accent);
+  font-size: var(--font-xs);
+}
+
+.contact-services__name {
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  font-weight: var(--weight-semibold);
+  color: var(--section-text);
+  letter-spacing: var(--tracking-tight);
+  transition: transform var(--transition-fast);
+}
+
+.contact-services__card:hover .contact-services__name {
+  transform: translateX(4px);
+}
+
+@media (max-width: 860px) {
+  .contact-services__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .contact-services__grid {
+    grid-template-columns: 1fr;
+  }
+}

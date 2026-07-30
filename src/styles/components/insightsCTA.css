@@ -1,0 +1,698 @@
+/* src\styles\components\insightsCTA.css */
+
+/* ================================================================
+   BIG DAY MA
+   INSIGHTS CTA SECTION
+   src/styles/components/InsightsCTA.css
+
+   Section 05
+   Dark Editorial Conversation CTA
+================================================================ */
+
+
+/* ================================================================
+   ROOT SECTION
+================================================================ */
+
+.icta {
+  position: relative;
+  overflow: hidden;
+  min-height: 900px;
+  display: flex;
+  align-items: center;
+  isolation: isolate;
+  background:
+    radial-gradient(
+      circle at 50% 30%,
+      rgba(77, 141, 255, 0.08),
+      transparent 35%
+    ),
+    var(--section-bg);
+}
+
+
+/* ================================================================
+   SOFT RADIAL GLOW
+================================================================ */
+
+.icta__glow {
+  position: absolute;
+  width: 900px;
+  height: 900px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(77,141,255,0.12),
+      rgba(77,141,255,0.04) 35%,
+      transparent 70%
+    );
+
+  filter: blur(80px);
+
+  opacity: .7;
+
+  pointer-events: none;
+
+  z-index: -3;
+
+  animation:
+    ictaGlow 12s ease-in-out infinite;
+}
+
+
+@keyframes ictaGlow {
+
+  0%,
+  100% {
+    transform:
+      translate(-50%, -50%)
+      scale(1);
+  }
+
+
+  50% {
+    transform:
+      translate(-50%, -50%)
+      scale(1.15);
+  }
+
+}
+
+
+
+/* ================================================================
+   EDITORIAL LINES
+================================================================ */
+
+
+.icta__editorial {
+
+  position: absolute;
+
+  inset: 0;
+
+  overflow: hidden;
+
+  pointer-events: none;
+
+  z-index: -2;
+
+}
+
+
+
+.icta__line {
+
+  position: absolute;
+
+  display: block;
+
+  height: 1px;
+
+  width: 70vw;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.12),
+      transparent
+    );
+
+
+  transform-origin: center;
+
+}
+
+
+
+.icta__line--1 {
+  top: 12%;
+  left: -20%;
+  transform: rotate(-8deg);
+}
+
+
+.icta__line--2 {
+  top: 22%;
+  right: -30%;
+  transform: rotate(5deg);
+}
+
+
+.icta__line--3 {
+  top: 35%;
+  left: -15%;
+  transform: rotate(-4deg);
+}
+
+
+.icta__line--4 {
+  top: 50%;
+  right: -20%;
+  transform: rotate(7deg);
+}
+
+
+.icta__line--5 {
+  top: 62%;
+  left: -25%;
+  transform: rotate(-6deg);
+}
+
+
+.icta__line--6 {
+  top: 72%;
+  right: -15%;
+  transform: rotate(4deg);
+}
+
+
+.icta__line--7 {
+  top: 82%;
+  left: -20%;
+  transform: rotate(-3deg);
+}
+
+
+.icta__line--8 {
+  top: 90%;
+  right: -30%;
+  transform: rotate(8deg);
+}
+
+
+.icta__line--9 {
+
+  top: 42%;
+  left: 20%;
+
+  width: 35vw;
+
+  opacity:.5;
+
+}
+
+
+.icta__line--10 {
+
+  top: 68%;
+  right:20%;
+
+  width:40vw;
+
+  opacity:.4;
+
+}
+
+
+
+/* ================================================================
+   FLOATING PARTICLES
+================================================================ */
+
+
+.icta__particles {
+
+  position:absolute;
+
+  inset:0;
+
+  pointer-events:none;
+
+  z-index:-1;
+
+}
+
+
+
+.icta__particle {
+
+  position:absolute;
+
+  width:4px;
+
+  height:4px;
+
+  border-radius:50%;
+
+
+  background:
+    rgba(255,255,255,.35);
+
+
+  filter:
+    blur(.2px);
+
+}
+
+
+
+
+/* ================================================================
+   MAIN WRAPPER
+================================================================ */
+
+
+.icta__wrapper {
+
+  position:relative;
+
+  max-width:900px;
+
+  margin-inline:auto;
+
+  text-align:center;
+
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+
+
+}
+
+
+
+/* ================================================================
+   EYEBROW
+================================================================ */
+
+
+.icta__eyebrow {
+
+  margin-bottom:var(--space-10);
+
+}
+
+
+
+/* ================================================================
+   TITLE
+================================================================ */
+
+
+.icta__title {
+
+  max-width:950px;
+
+  font-family:var(--font-display);
+
+  font-size:
+    clamp(
+      3.25rem,
+      7vw,
+      6.5rem
+    );
+
+
+  line-height:.95;
+
+  letter-spacing:
+    var(--tracking-tighter);
+
+
+  font-weight:
+    var(--weight-bold);
+
+
+  color:
+    var(--section-text);
+
+
+}
+
+
+
+
+/* ================================================================
+   DESCRIPTION
+================================================================ */
+
+
+.icta__description {
+
+  max-width:620px;
+
+  margin-top:var(--space-8);
+
+
+  font-size:
+    clamp(
+      1rem,
+      1.5vw,
+      1.2rem
+    );
+
+
+  line-height:
+    var(--leading-relaxed);
+
+
+  color:
+    var(--section-text-muted);
+
+
+}
+
+
+
+/* ================================================================
+   ACTION AREA
+================================================================ */
+
+
+.icta__actions {
+
+  margin-top:var(--space-12);
+
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:var(--space-6);
+
+  flex-wrap:wrap;
+
+
+}
+
+
+
+.icta__button {
+
+  min-width:220px;
+
+}
+
+
+
+/* ================================================================
+   EMAIL LINK
+================================================================ */
+
+
+.icta__email {
+
+  display:inline-flex;
+
+  align-items:center;
+
+  gap:.55rem;
+
+
+  color:
+    var(--section-text-muted);
+
+
+  font-size:
+    var(--font-sm);
+
+
+  font-weight:
+    var(--weight-medium);
+
+
+  transition:
+    color var(--transition-fast),
+    transform var(--transition-fast);
+
+}
+
+
+
+.icta__email svg {
+
+  color:
+    var(--brand-blue);
+
+}
+
+
+
+.icta__email:hover {
+
+  color:
+    var(--section-text);
+
+
+  transform:
+    translateY(-2px);
+
+}
+
+
+
+/* ================================================================
+   BOTTOM STATEMENT
+================================================================ */
+
+
+.icta__bottom {
+
+  margin-top:
+    var(--space-32);
+
+
+  width:100%;
+
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+
+  gap:var(--space-6);
+
+}
+
+
+
+.icta__bottom-line {
+
+  width:100%;
+
+  max-width:500px;
+
+  height:1px;
+
+
+  background:
+    var(--section-border-soft);
+
+}
+
+
+
+.icta__bottom p {
+
+  color:
+    var(--section-text-subtle);
+
+
+  font-size:
+    var(--font-sm);
+
+
+  letter-spacing:
+    var(--tracking-wide);
+
+
+}
+
+
+
+/* ================================================================
+   EXTRA BREATHING SPACE BEFORE FOOTER
+================================================================ */
+
+
+.icta__space {
+
+  height:
+    clamp(
+      4rem,
+      8vw,
+      8rem
+    );
+
+}
+
+
+
+
+
+/* ================================================================
+   TABLET
+================================================================ */
+
+
+@media(max-width:1024px){
+
+  .icta {
+
+    min-height:780px;
+
+  }
+
+
+  .icta__glow {
+
+    width:650px;
+
+    height:650px;
+
+  }
+
+
+}
+
+
+
+
+/* ================================================================
+   MOBILE
+================================================================ */
+
+
+@media(max-width:768px){
+
+
+  .icta {
+
+    min-height:auto;
+
+    padding-block:
+      6rem;
+
+  }
+
+
+
+  .icta__title {
+
+    font-size:
+      clamp(
+        2.5rem,
+        11vw,
+        4rem
+      );
+
+
+  }
+
+
+
+  .icta__description {
+
+    margin-top:
+      var(--space-6);
+
+  }
+
+
+
+  .icta__actions {
+
+    flex-direction:column;
+
+    width:100%;
+
+  }
+
+
+
+  .icta__button {
+
+    width:100%;
+
+  }
+
+
+
+  .icta__email {
+
+    margin-top:
+      var(--space-2);
+
+  }
+
+
+}
+
+
+
+
+
+/* ================================================================
+   SMALL MOBILE
+================================================================ */
+
+
+@media(max-width:460px){
+
+
+  .icta {
+
+    padding-block:
+      4.5rem;
+
+  }
+
+
+
+  .icta__title {
+
+    letter-spacing:
+      -0.045em;
+
+  }
+
+
+
+  .icta__line {
+
+    width:130vw;
+
+  }
+
+
+
+  .icta__bottom {
+
+    margin-top:
+      var(--space-20);
+
+  }
+
+
+}
+
+
+
+/* ================================================================
+   REDUCED MOTION
+================================================================ */
+
+
+@media(prefers-reduced-motion:reduce){
+
+
+  .icta__glow,
+  .icta__particle,
+  .icta__line {
+
+    animation:none !important;
+
+  }
+
+
+}

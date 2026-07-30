@@ -1,0 +1,528 @@
+/* src\styles\components\insights-grid.css */
+
+/* ==========================================================
+   INSIGHTS GRID
+   SECTION 04
+   Editorial Archive
+========================================================== */
+
+.ig {
+  position: relative;
+  background: var(--section-bg);
+  overflow: hidden;
+}
+
+.ig .section-container {
+  max-width: 1220px;
+}
+
+/* ======================================================
+   HEADER
+====================================================== */
+
+.ig__header {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: clamp(4rem, 8vw, 6rem);
+}
+
+.ig__title {
+  max-width: 780px;
+
+  font-family: var(--font-display);
+
+  font-size: clamp(3rem, 5vw, 5.3rem);
+
+  line-height: 0.96;
+
+  letter-spacing: var(--tracking-tighter);
+
+  font-weight: 700;
+}
+
+/* ======================================================
+   ARCHIVE
+====================================================== */
+
+.ig__archive {
+  display: flex;
+  flex-direction: column;
+
+  border-top: 1px solid var(--section-border);
+}
+
+/* ======================================================
+   ARTICLE
+====================================================== */
+
+.ig__article {
+  position: relative;
+
+  border-bottom: 1px solid var(--section-border);
+
+  transition:
+    border-color var(--transition-normal),
+    background var(--transition-normal);
+}
+
+.ig__article:hover {
+  border-color: var(--section-border-hover);
+}
+
+/* ======================================================
+   LINK
+====================================================== */
+
+.ig__link {
+  display: grid;
+
+  grid-template-columns:
+    180px
+    minmax(0,1fr)
+    110px;
+
+  align-items: center;
+
+  gap: 3rem;
+
+  padding:
+    2.2rem
+    0;
+
+  transition:
+    transform .45s cubic-bezier(.22,1,.36,1);
+}
+
+.ig__article:hover .ig__link {
+  transform: translateX(18px);
+}
+
+/* ======================================================
+   META
+====================================================== */
+
+.ig__meta {
+  display: flex;
+  align-items: center;
+  gap: .85rem;
+
+  font-size: .82rem;
+
+  text-transform: uppercase;
+
+  letter-spacing: .12em;
+
+  color: var(--section-text-muted);
+
+  font-weight: 600;
+}
+
+.ig__date {
+  white-space: nowrap;
+}
+
+.ig__category {
+  white-space: nowrap;
+}
+
+.ig__dot {
+  width: 4px;
+  height: 4px;
+
+  border-radius: 50%;
+
+  background: var(--section-accent);
+
+  flex-shrink: 0;
+}
+
+/* ======================================================
+   CONTENT
+====================================================== */
+
+.ig__content {
+  display: flex;
+  flex-direction: column;
+
+  gap: 1rem;
+}
+
+.ig__content h3 {
+  margin: 0;
+
+  max-width: 760px;
+
+  color: var(--section-text);
+
+  font-family: var(--font-display);
+
+  font-size: clamp(1.55rem,2vw,2.2rem);
+
+  font-weight: 600;
+
+  line-height: 1.12;
+
+  letter-spacing: -.03em;
+
+  transition:
+      color var(--transition-fast);
+}
+
+.ig__article:hover .ig__content h3 {
+  color: var(--section-accent);
+}
+
+.ig__content p {
+  max-width: 620px;
+
+  font-size: 1rem;
+
+  line-height: 1.8;
+
+  color: var(--section-text-muted);
+}
+
+/* ======================================================
+   RIGHT COLUMN
+====================================================== */
+
+.ig__right {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: flex-end;
+
+  gap: 1.25rem;
+
+  color: var(--section-text-muted);
+
+  font-size: .92rem;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+.ig__icon {
+  transition:
+      transform .45s cubic-bezier(.22,1,.36,1),
+      color var(--transition-fast);
+
+  color: var(--section-text);
+}
+
+.ig__article:hover .ig__icon {
+  transform: rotate(45deg);
+
+  color: var(--section-accent);
+}
+
+/* ======================================================
+   HOVER BACKGROUND
+====================================================== */
+
+.ig__article::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+      linear-gradient(
+          90deg,
+          rgba(36,88,200,.04),
+          transparent
+      );
+
+  opacity: 0;
+
+  transition: opacity .45s ease;
+
+  pointer-events: none;
+}
+
+.ig__article:hover::before {
+  opacity: 1;
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+/* ==========================================
+   Large Laptop
+========================================== */
+
+@media (max-width: 1200px) {
+  .ig__link {
+    grid-template-columns: 160px minmax(0, 1fr) 90px;
+    gap: 2rem;
+  }
+
+  .ig__content h3 {
+    font-size: clamp(1.4rem, 2vw, 1.9rem);
+  }
+}
+
+/* ==========================================
+   Tablet
+========================================== */
+
+@media (max-width: 992px) {
+  .ig__header {
+    margin-bottom: 4rem;
+  }
+
+  .ig__title {
+    max-width: 640px;
+  }
+
+  .ig__link {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+
+    padding: 2rem 0;
+  }
+
+  .ig__meta {
+    order: 1;
+  }
+
+  .ig__content {
+    order: 2;
+  }
+
+  .ig__right {
+    order: 3;
+
+    justify-content: space-between;
+
+    padding-top: .5rem;
+  }
+
+  .ig__content h3 {
+    max-width: 100%;
+  }
+
+  .ig__content p {
+    max-width: 100%;
+  }
+}
+
+/* ==========================================
+   Mobile
+========================================== */
+
+@media (max-width: 768px) {
+  .ig__header {
+    gap: 1rem;
+
+    margin-bottom: 3.5rem;
+  }
+
+  .ig__title {
+    font-size: clamp(2.4rem, 9vw, 3.8rem);
+
+    line-height: 1;
+  }
+
+  .ig__link {
+    gap: 1.25rem;
+
+    padding: 1.8rem 0;
+  }
+
+  .ig__meta {
+    flex-wrap: wrap;
+
+    gap: .65rem;
+
+    font-size: .74rem;
+  }
+
+  .ig__content {
+    gap: .75rem;
+  }
+
+  .ig__content h3 {
+    font-size: 1.45rem;
+
+    line-height: 1.18;
+  }
+
+  .ig__content p {
+    font-size: .95rem;
+
+    line-height: 1.7;
+  }
+
+  .ig__right {
+    font-size: .88rem;
+  }
+
+  .ig__icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* ==========================================
+   Small Mobile
+========================================== */
+
+@media (max-width: 560px) {
+  .ig__header {
+    margin-bottom: 3rem;
+  }
+
+  .ig__title {
+    font-size: clamp(2rem, 10vw, 3rem);
+  }
+
+  .ig__link {
+    padding: 1.6rem 0;
+
+    gap: 1rem;
+  }
+
+  .ig__meta {
+    font-size: .7rem;
+
+    letter-spacing: .14em;
+  }
+
+  .ig__content h3 {
+    font-size: 1.28rem;
+  }
+
+  .ig__content p {
+    font-size: .92rem;
+  }
+
+  .ig__right {
+    font-size: .82rem;
+  }
+}
+
+/* ==========================================
+   Extra Small
+========================================== */
+
+@media (max-width: 420px) {
+  .ig__title {
+    font-size: 1.9rem;
+  }
+
+  .ig__content h3 {
+    font-size: 1.15rem;
+  }
+
+  .ig__content p {
+    font-size: .9rem;
+  }
+
+  .ig__link {
+    padding: 1.45rem 0;
+  }
+
+  .ig__right {
+    gap: .75rem;
+  }
+
+  .ig__icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* ==========================================
+   Hover Improvements
+========================================== */
+
+@media (hover: hover) {
+  .ig__article {
+    cursor: pointer;
+  }
+
+  .ig__article:hover {
+    background: rgba(255, 255, 255, .02);
+  }
+
+  .section-light .ig__article:hover {
+    background: rgba(0, 0, 0, .02);
+  }
+
+  .ig__article:hover .ig__content h3 {
+    transform: translateX(6px);
+
+    transition:
+      transform .35s cubic-bezier(.22,1,.36,1),
+      color .35s ease;
+  }
+}
+
+/* ==========================================
+   Touch Devices
+========================================== */
+
+@media (hover: none) {
+  .ig__article:hover .ig__link {
+    transform: none;
+  }
+
+  .ig__article:hover .ig__icon {
+    transform: none;
+  }
+
+  .ig__article:hover .ig__content h3 {
+    transform: none;
+  }
+}
+
+/* ==========================================
+   Focus States
+========================================== */
+
+.ig__link:focus-visible {
+  outline: 2px solid var(--section-accent);
+
+  outline-offset: 8px;
+
+  border-radius: 8px;
+}
+
+/* ==========================================
+   Smooth Rendering
+========================================== */
+
+.ig__content h3,
+.ig__content p,
+.ig__meta,
+.ig__right,
+.ig__icon {
+  -webkit-font-smoothing: antialiased;
+
+  text-rendering: optimizeLegibility;
+}
+
+/* ==========================================
+   Reduced Motion
+========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .ig__article,
+  .ig__link,
+  .ig__icon,
+  .ig__content h3 {
+    transition: none !important;
+  }
+
+  .ig__article:hover .ig__link,
+  .ig__article:hover .ig__icon,
+  .ig__article:hover .ig__content h3 {
+    transform: none !important;
+  }
+}
