@@ -1,0 +1,349 @@
+/* src\styles\components\aboutThinking.css */
+
+/* ==========================================================
+   AboutThinking.css
+   SECTION 03 — HOW WE THINK
+   ========================================================== */
+
+.abt-thinking {
+  position: relative;
+  overflow: hidden;
+  background: var(--section-bg);
+}
+
+.abt-thinking .section-container {
+  position: relative;
+  z-index: 5;
+}
+
+.abt-thinking__intro {
+  position: relative;
+  max-width: 860px;
+  margin-inline: auto;
+  text-align: center;
+  margin-bottom: clamp(5rem, 10vw, 8rem);
+}
+
+.abt-thinking__intro .eyebrow {
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.abt-thinking__intro .section-title {
+  margin-inline: auto;
+}
+
+.abt-thinking__principles {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 4vw, 3rem);
+}
+
+.abt-thinking__item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  align-items: center;
+  gap: clamp(2rem, 5vw, 5rem);
+  min-height: 170px;
+  padding: clamp(2rem, 4vw, 3rem) 0;
+}
+
+.abt-thinking__item:not(:last-child) {
+  border-bottom: 1px solid var(--section-border-soft);
+}
+
+.abt-thinking__item:nth-child(even) {
+  grid-template-columns: 1fr 180px;
+}
+
+.abt-thinking__item:nth-child(even)
+.abt-thinking__number-wrap {
+  order: 2;
+  justify-content: flex-end;
+}
+
+.abt-thinking__item:nth-child(even)
+.abt-thinking__content {
+  order: 1;
+  text-align: right;
+}
+
+.abt-thinking__number-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.abt-thinking__number {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 10vw, 9rem);
+  font-weight: 700;
+  line-height: 0.8;
+  letter-spacing: -.08em;
+  color: var(--section-text);
+  user-select: none;
+  pointer-events: none;
+}
+
+.abt-thinking__content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.abt-thinking__heading {
+  position: relative;
+  font-size: clamp(1.6rem, 2vw, 2.3rem);
+  line-height: 1.15;
+  letter-spacing: -.03em;
+  font-weight: 600;
+  color: var(--section-text);
+  max-width: 700px;
+  transition:
+    color var(--transition-normal),
+    transform var(--transition-normal);
+}
+
+.abt-thinking__line {
+  position: relative;
+  width: 100%;
+  height: 1px;
+  background: var(--section-border);
+  overflow: hidden;
+}
+
+.abt-thinking__line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 35%;
+  background: var(--gradient-blue);
+  transform: translateX(-120%);
+  transition: transform .8s var(--ease-out);
+}
+
+.abt-thinking__item:hover
+.abt-thinking__line::after {
+  transform: translateX(320%);
+}
+
+.abt-thinking__item:hover
+.abt-thinking__heading {
+  color: var(--section-accent-light);
+  transform: translateX(8px);
+}
+
+.abt-thinking__item:nth-child(even):hover
+.abt-thinking__heading {
+  transform: translateX(-8px);
+}
+
+/* ==========================================================
+   AboutThinking.css
+   PART 2 — Quote, Ambient Background & Cinematic Effects
+   ========================================================== */
+
+.abt-thinking__closing {
+  position: relative;
+  margin-top: clamp(7rem, 12vw, 11rem);
+  max-width: 980px;
+  margin-inline: auto;
+  text-align: center;
+  z-index: 5;
+}
+
+.abt-thinking__quote-mark {
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 10vw, 8rem);
+  line-height: .8;
+  color: rgba(255,255,255,.08);
+  margin-bottom: 1rem;
+  user-select: none;
+}
+
+.abt-thinking__quote {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 4.5rem);
+  font-weight: var(--weight-semibold);
+  line-height: 1.08;
+  letter-spacing: var(--tracking-tight);
+  color: var(--section-text);
+}
+
+.abt-thinking__quote span {
+  display: inline-block;
+  margin-top: .6rem;
+  background: var(--gradient-blue);
+  background-size: 220% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: thinkingGradientShift 10s linear infinite;
+}
+
+/* ==========================================================
+   Ambient Background
+   ========================================================== */
+
+.abt-thinking__ambient {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.abt-thinking__grid {
+  position: absolute;
+  inset: 0;
+  opacity: .035;
+  background-image:
+    linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+  background-size: 90px 90px;
+  mask-image: radial-gradient(circle at center,
+      rgba(0,0,0,1),
+      rgba(0,0,0,.2),
+      transparent);
+}
+
+.abt-thinking__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: .16;
+  animation: thinkingFloat 18s ease-in-out infinite;
+}
+
+.abt-thinking__orb--one {
+  width: 420px;
+  height: 420px;
+  top: -120px;
+  left: -120px;
+  background: rgba(77,141,255,.18);
+}
+
+.abt-thinking__orb--two {
+  width: 500px;
+  height: 500px;
+  right: -180px;
+  top: 30%;
+  background: rgba(255,255,255,.05);
+  animation-delay: 4s;
+}
+
+.abt-thinking__orb--three {
+  width: 380px;
+  height: 380px;
+  bottom: -140px;
+  left: 40%;
+  background: rgba(77,141,255,.12);
+  animation-delay: 8s;
+}
+
+/* ==========================================================
+   Decorative Lines
+   ========================================================== */
+
+.abt-thinking__line-bg {
+  position: absolute;
+  display: block;
+  height: 1px;
+  background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(77,141,255,.4),
+      transparent
+  );
+  opacity: .35;
+}
+
+.line-one {
+  top: 18%;
+  left: -15%;
+  width: 45%;
+  transform: rotate(12deg);
+}
+
+.line-two {
+  top: 55%;
+  right: -10%;
+  width: 40%;
+  transform: rotate(-10deg);
+}
+
+.line-three {
+  bottom: 14%;
+  left: 20%;
+  width: 30%;
+}
+
+/* ==========================================================
+   Hover Enhancement
+   ========================================================== */
+
+.abt-thinking__item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(circle at left,
+      rgba(77,141,255,.08),
+      transparent 65%);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.abt-thinking__item:hover::before {
+  opacity: 1;
+}
+
+.abt-thinking__item:hover .abt-thinking__number {
+  color: rgba(255,255,255,.14);
+}
+
+/* ==========================================================
+   Keyframes
+   ========================================================== */
+
+@keyframes thinkingGradientShift {
+
+  0%{
+    background-position:0% 50%;
+  }
+
+  100%{
+    background-position:220% 50%;
+  }
+
+}
+
+@keyframes thinkingFloat {
+
+  0%{
+    transform:translate3d(0,0,0) scale(1);
+  }
+
+  25%{
+    transform:translate3d(25px,-30px,0) scale(1.05);
+  }
+
+  50%{
+    transform:translate3d(-15px,20px,0) scale(.96);
+  }
+
+  75%{
+    transform:translate3d(30px,15px,0) scale(1.04);
+  }
+
+  100%{
+    transform:translate3d(0,0,0) scale(1);
+  }
+
+}

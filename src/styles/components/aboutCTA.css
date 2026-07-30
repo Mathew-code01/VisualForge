@@ -1,0 +1,381 @@
+/* src\styles\components\aboutCTA.css */
+
+/* ==========================================================
+   BIG DAY MA
+   ABOUT CTA SECTION
+========================================================== */
+
+
+.about-cta {
+  position: relative;
+  overflow: hidden;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  isolation: isolate;
+}
+
+
+
+/* ==========================================================
+   CONTENT
+========================================================== */
+
+
+.about-cta-content {
+
+  position: relative;
+  z-index: 2;
+
+  max-width: 900px;
+
+  padding-block:
+    clamp(5rem, 12vw, 10rem);
+
+}
+
+
+
+/* TITLE */
+
+.about-cta .section-title {
+
+  max-width: 820px;
+
+  margin-top: var(--space-8);
+
+}
+
+
+
+/* DESCRIPTION */
+
+.about-cta .section-description {
+
+  max-width: 620px;
+
+  margin-top: var(--space-8);
+
+  font-size:
+    clamp(
+      1rem,
+      1.5vw,
+      1.2rem
+    );
+
+}
+
+
+
+/* ==========================================================
+   ACTIONS
+========================================================== */
+
+
+.about-cta-actions {
+
+  display:flex;
+
+  align-items:center;
+
+  gap:var(--space-8);
+
+  margin-top:var(--space-12);
+
+}
+
+
+
+.about-cta-email {
+
+  position:relative;
+
+  color:var(--section-text);
+
+  font-size:var(--font-base);
+
+  font-weight:var(--weight-medium);
+
+  letter-spacing:-0.01em;
+
+  transition:
+    opacity var(--transition-fast);
+
+}
+
+
+
+.about-cta-email::after {
+
+  content:"";
+
+  position:absolute;
+
+  left:0;
+
+  bottom:-8px;
+
+  width:100%;
+
+  height:1px;
+
+  background:
+    var(--section-text);
+
+  transform:
+    scaleX(0);
+
+  transform-origin:left;
+
+  transition:
+    transform var(--transition-normal);
+
+}
+
+
+
+.about-cta-email:hover {
+
+  opacity:.7;
+
+}
+
+
+
+.about-cta-email:hover::after {
+
+  transform:
+    scaleX(1);
+
+}
+
+
+
+/* ==========================================================
+   ABSTRACT FLOWING LINES
+========================================================== */
+
+
+.about-cta-lines {
+
+  position:absolute;
+
+  inset:0;
+
+  pointer-events:none;
+
+  overflow:hidden;
+
+  z-index:0;
+
+}
+
+
+
+.about-cta-lines span {
+
+  position:absolute;
+
+  display:block;
+
+  border-radius:50%;
+
+  border:1px solid rgba(8,8,8,.05);
+
+  filter:blur(.2px);
+
+}
+
+
+
+/* Large curve */
+
+
+.about-cta-lines span:nth-child(1){
+
+  width:900px;
+
+  height:900px;
+
+  right:-300px;
+
+  top:-250px;
+
+  animation:
+
+    ctaFloat 18s ease-in-out infinite;
+
+}
+
+
+
+/* Medium curve */
+
+
+.about-cta-lines span:nth-child(2){
+
+  width:650px;
+
+  height:650px;
+
+  left:-260px;
+
+  bottom:-300px;
+
+  animation:
+
+    ctaFloat 22s ease-in-out infinite reverse;
+
+}
+
+
+
+/* Small detail */
+
+
+.about-cta-lines span:nth-child(3){
+
+  width:280px;
+
+  height:280px;
+
+  right:25%;
+
+  bottom:10%;
+
+  border-color:
+    rgba(36,88,200,.08);
+
+  animation:
+
+    ctaFloatSmall 12s ease-in-out infinite;
+
+}
+
+
+
+/* ==========================================================
+   ANIMATION
+========================================================== */
+
+
+@keyframes ctaFloat {
+
+
+  0%,
+  100% {
+
+    transform:
+      translate3d(0,0,0)
+      rotate(0deg);
+
+  }
+
+
+  50% {
+
+    transform:
+      translate3d(-30px,20px,0)
+      rotate(8deg);
+
+  }
+
+}
+
+
+
+@keyframes ctaFloatSmall {
+
+
+  0%,
+  100% {
+
+    transform:
+      translateY(0);
+
+  }
+
+
+  50% {
+
+    transform:
+      translateY(-20px);
+
+  }
+
+}
+
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+
+@media(max-width:768px){
+
+
+  .about-cta {
+
+    min-height:auto;
+
+  }
+
+
+
+  .about-cta-actions {
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:var(--space-6);
+
+  }
+
+
+
+  .about-cta-lines span:nth-child(1){
+
+    width:600px;
+
+    height:600px;
+
+  }
+
+
+
+}
+
+
+
+@media(max-width:460px){
+
+
+  .about-cta-content {
+
+    padding-block:
+      4.5rem;
+
+  }
+
+
+
+  .about-cta .section-title {
+
+    margin-top:
+      var(--space-6);
+
+  }
+
+
+
+  .about-cta .section-description {
+
+    margin-top:
+      var(--space-6);
+
+  }
+
+
+}
