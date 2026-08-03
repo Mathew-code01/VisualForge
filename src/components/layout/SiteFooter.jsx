@@ -1,6 +1,6 @@
-// src\components\layout\SiteFooter.jsx
 
 
+// src/components/layout/SiteFooter.jsx
 // src/components/layout/SiteFooter.jsx
 
 import { NavLink } from "react-router-dom";
@@ -35,44 +35,16 @@ const capabilityLinks = [
 ];
 
 const socialLinks = [
-  {
-    label: "Instagram",
-    href: "#",
-    icon: <FiInstagram />,
-  },
-  {
-    label: "X / Twitter",
-    href: "#",
-    icon: <FiTwitter />,
-  },
-  {
-    label: "LinkedIn",
-    href: "#",
-    icon: <FiLinkedin />,
-  },
+  { label: "Instagram", href: "#", icon: <FiInstagram /> },
+  { label: "X / Twitter", href: "#", icon: <FiTwitter /> },
+  { label: "LinkedIn", href: "#", icon: <FiLinkedin /> },
 ];
 
 const disciplines = [
-  {
-    number: "01",
-    title: "Strategy",
-    icon: <FiAperture />,
-  },
-  {
-    number: "02",
-    title: "Creative",
-    icon: <FiPlay />,
-  },
-  {
-    number: "03",
-    title: "AI Systems",
-    icon: <FiCpu />,
-  },
-  {
-    number: "04",
-    title: "Digital",
-    icon: <FiLayers />,
-  },
+  { number: "01", title: "Strategy", icon: <FiAperture /> },
+  { number: "02", title: "Creative", icon: <FiPlay /> },
+  { number: "03", title: "AI Systems", icon: <FiCpu /> },
+  { number: "04", title: "Digital", icon: <FiLayers /> },
 ];
 
 function SiteFooter() {
@@ -81,23 +53,11 @@ function SiteFooter() {
   const developerWhatsapp =
     "https://wa.me/2349065692168?text=Hello%20Mathew,%20I%20saw%20your%20work%20on%20BigDay%20and%20would%20like%20to%20discuss%20a%20project.";
 
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   return (
-    <footer className="bd-footer section-dark grain">
+    <footer className="bd-footer theme-dark noise" data-theme="dark">
       <div className="bd-footer-shell">
-
-       
-
-        {/* =====================================================
-            FOOTER IDENTITY
-        ====================================================== */}
-
         <section className="bd-footer-identity">
           <div className="bd-footer-identity-main">
             <NavLink to="/" className="bd-footer-brand">
@@ -107,7 +67,7 @@ function SiteFooter() {
               </span>
 
               <span className="bd-footer-brand-name">
-                BigDay<span>.</span>
+                Big Day<span>.</span>
               </span>
             </NavLink>
 
@@ -119,7 +79,6 @@ function SiteFooter() {
 
           <div className="bd-footer-identity-meta">
             <span className="bd-footer-meta-line" />
-
             <span>
               Creative technology
               <br />
@@ -128,17 +87,11 @@ function SiteFooter() {
           </div>
         </section>
 
-        {/* =====================================================
-            MAIN NAVIGATION
-        ====================================================== */}
-
         <div className="bd-footer-main">
-
-          {/* Brand / introduction */}
           <div className="bd-footer-brand-column">
             <div className="bd-footer-column-index">
               <span>00</span>
-              <span>BigDay</span>
+              <span>Big Day</span>
             </div>
 
             <p className="bd-footer-brand-description">
@@ -148,14 +101,10 @@ function SiteFooter() {
 
             <div className="bd-footer-status">
               <span className="bd-footer-status-dot" />
-
-              <span>
-                Open for selected projects
-              </span>
+              <span>Open for selected projects</span>
             </div>
           </div>
 
-          {/* Company */}
           <nav className="bd-footer-column" aria-label="Company">
             <div className="bd-footer-column-heading">
               <span>01</span>
@@ -174,7 +123,6 @@ function SiteFooter() {
             </ul>
           </nav>
 
-          {/* Capabilities */}
           <nav className="bd-footer-column" aria-label="Capabilities">
             <div className="bd-footer-column-heading">
               <span>02</span>
@@ -193,37 +141,31 @@ function SiteFooter() {
             </ul>
           </nav>
 
-          {/* Connect */}
           <div className="bd-footer-column bd-footer-connect">
             <div className="bd-footer-column-heading">
               <span>03</span>
               <h3>Connect</h3>
             </div>
 
-            <a
-              href="mailto:hello@bigday.com"
-              className="bd-footer-email"
-            >
+            <a href="mailto:hello@bigday.com" className="bd-footer-email">
               <FiMail />
               <span>hello@bigday.com</span>
             </a>
 
-            <a
+            
               href={developerWhatsapp}
               target="_blank"
               rel="noreferrer"
               className="bd-footer-whatsapp"
             >
               <FaWhatsapp />
-
               <span>Talk on WhatsApp</span>
-
               <FiArrowUpRight />
             </a>
 
             <div className="bd-footer-socials">
               {socialLinks.map((social) => (
-                <a
+                
                   key={social.label}
                   href={social.href}
                   target="_blank"
@@ -236,10 +178,6 @@ function SiteFooter() {
             </div>
           </div>
         </div>
-
-        {/* =====================================================
-            DISCIPLINES
-        ====================================================== */}
 
         <section className="bd-footer-disciplines">
           <div className="bd-footer-disciplines-heading">
@@ -256,81 +194,46 @@ function SiteFooter() {
 
           <div className="bd-footer-disciplines-grid">
             {disciplines.map((discipline) => (
-              <div
-                className="bd-footer-discipline"
-                key={discipline.number}
-              >
-                <span className="bd-footer-discipline-number">
-                  {discipline.number}
-                </span>
-
-                <span className="bd-footer-discipline-icon">
-                  {discipline.icon}
-                </span>
-
-                <span className="bd-footer-discipline-title">
-                  {discipline.title}
-                </span>
-
+              <div className="bd-footer-discipline" key={discipline.number}>
+                <span className="bd-footer-discipline-number">{discipline.number}</span>
+                <span className="bd-footer-discipline-icon">{discipline.icon}</span>
+                <span className="bd-footer-discipline-title">{discipline.title}</span>
                 <FiArrowUpRight className="bd-footer-discipline-arrow" />
               </div>
             ))}
           </div>
         </section>
 
-        {/* =====================================================
-            LARGE BRAND STATEMENT
-        ====================================================== */}
-
         <section className="bd-footer-statement">
           <span className="bd-footer-statement-line" />
-
           <p>
             The best ideas deserve
             <span> to be understood.</span>
           </p>
         </section>
 
-        {/* =====================================================
-            BOTTOM BAR
-        ====================================================== */}
-
         <div className="bd-footer-bottom">
           <div className="bd-footer-legal">
-            <span>© {currentYear} BigDay.</span>
-
+            <span>© {currentYear} Big Day.</span>
             <span className="bd-footer-legal-dot">•</span>
-
             <span>All rights reserved.</span>
           </div>
 
           <div className="bd-footer-credit">
             <span>Built with collaboration by</span>
-
-            <a
-              href={developerWhatsapp}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href={developerWhatsapp} target="_blank" rel="noreferrer">
               Mathew Oloyede
               <FiArrowUpRight />
             </a>
           </div>
 
-          <button
-            type="button"
-            className="bd-footer-top"
-            onClick={scrollToTop}
-            aria-label="Back to top"
-          >
+          <button type="button" className="bd-footer-top" onClick={scrollToTop} aria-label="Back to top">
             <span>Back to top</span>
-
             <span className="bd-footer-top-icon">
               <FiArrowUp />
             </span>
           </button>
         </div>
-
       </div>
     </footer>
   );

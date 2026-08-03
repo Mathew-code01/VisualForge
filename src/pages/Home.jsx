@@ -1,5 +1,7 @@
 // src/pages/Home.jsx
 
+// src/pages/Home.jsx
+
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
@@ -27,7 +29,7 @@ import "../styles/pages/home.css";
 const EASE = [0.16, 1, 0.3, 1];
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 0, y: 36 },
   show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EASE } },
 };
 
@@ -37,19 +39,17 @@ const stagger = {
 };
 
 const staggerItem = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 22 },
   show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } },
 };
 
-const MotionLink = motion(Link);
-
 const SERVICES = [
-  { number: "01", title: "Commercial Video Editing", icon: Clapperboard },
-  { number: "02", title: "Wedding Films", icon: Film },
-  { number: "03", title: "Social Media Content", icon: Sparkles },
-  { number: "04", title: "Motion Graphics", icon: Layers },
-  { number: "05", title: "Color Grading", icon: Palette },
-  { number: "06", title: "YouTube Editing", icon: Youtube },
+  { number: "01", title: "Commercial video editing", icon: Clapperboard },
+  { number: "02", title: "Wedding films", icon: Film },
+  { number: "03", title: "Social media content", icon: Sparkles },
+  { number: "04", title: "Motion graphics", icon: Layers },
+  { number: "05", title: "Color grading", icon: Palette },
+  { number: "06", title: "YouTube editing", icon: Youtube },
 ];
 
 const PROCESS_STEPS = [
@@ -126,16 +126,16 @@ export default function Home() {
   return (
     <main className="home">
       {/* ============================================================
-          SECTION 1 — CINEMATIC HERO
+          1 — CINEMATIC HERO (dark, video)
       ============================================================ */}
 
       <HomeHero heroProject={heroProject} loading={loading} />
 
       {/* ============================================================
-          SECTION 2 — SHOWREEL / FEATURED WORK
+          2 — SHOWREEL / FEATURED WORK (dark)
       ============================================================ */}
 
-      <section className="section home-showreel">
+      <section className="section home-showreel theme-dark" data-theme="dark">
         <div className="container-wide">
           <motion.div className="home-showreel__head" variants={fadeUp} {...motionProps}>
             <span className="eyebrow">Featured Work</span>
@@ -166,7 +166,7 @@ export default function Home() {
                   <div className="home-showreel__meta">
                     <span className="mono home-showreel__index">0{index + 1}</span>
                     <h3 className="home-showreel__project-title">
-                      {project.title || "Untitled Project"}
+                      {project.title || "Untitled project"}
                     </h3>
                     <span className="home-showreel__category">
                       {project.category || "Selected Work"}
@@ -182,10 +182,10 @@ export default function Home() {
       </section>
 
       {/* ============================================================
-          SECTION 3 — SERVICES
+          3 — SERVICES (light)
       ============================================================ */}
 
-      <section className="section home-services">
+      <section className="section home-services theme-light" data-theme="light">
         <div className="container">
           <motion.span className="eyebrow" variants={fadeUp} {...motionProps}>
             What We Create
@@ -211,10 +211,10 @@ export default function Home() {
       </section>
 
       {/* ============================================================
-          SECTION 4 — BEFORE & AFTER
+          4 — BEFORE & AFTER (dark)
       ============================================================ */}
 
-      <section className="section home-compare">
+      <section className="section home-compare theme-dark" data-theme="dark">
         <div className="container">
           <motion.span className="eyebrow" variants={fadeUp} {...motionProps}>
             The Craft
@@ -251,10 +251,10 @@ export default function Home() {
       </section>
 
       {/* ============================================================
-          SECTION 5 — PROCESS
+          5 — PROCESS (light)
       ============================================================ */}
 
-      <section className="section home-process">
+      <section className="section home-process theme-light" data-theme="light">
         <div className="container">
           <motion.span className="eyebrow" variants={fadeUp} {...motionProps}>
             Our Process
@@ -282,10 +282,10 @@ export default function Home() {
       </section>
 
       {/* ============================================================
-          SECTION 6 — ABOUT BIG DAY
+          6 — ABOUT BIG DAY (dark, video)
       ============================================================ */}
 
-      <section className="home-about">
+      <section className="home-about theme-dark" data-theme="dark">
         <div className="home-about__media">
           <SmartVideo project={aboutProject} className="home-about__video home-media" />
           <div className="home-about__overlay" />
@@ -319,10 +319,10 @@ export default function Home() {
       </section>
 
       {/* ============================================================
-          SECTION 7 — CLIENT RESULTS
+          7 — CLIENT RESULTS (light)
       ============================================================ */}
 
-      <section className="section home-stats">
+      <section className="section home-stats theme-light" data-theme="light">
         <div className="container">
           <motion.div className="home-stats__grid" variants={stagger} {...motionProps}>
             {STATS.map((stat) => (
@@ -336,10 +336,10 @@ export default function Home() {
       </section>
 
       {/* ============================================================
-          SECTION 8 — FINAL CTA
+          8 — FINAL CTA (dark, video)
       ============================================================ */}
 
-      <section className="home-cta">
+      <section className="home-cta theme-dark" data-theme="dark">
         <div className="home-cta__media">
           <SmartVideo project={ctaProject} className="home-cta__video home-media" />
           <div className="home-cta__overlay" />
