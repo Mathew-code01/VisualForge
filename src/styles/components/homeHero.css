@@ -502,103 +502,186 @@
 
 @media(max-width:768px){
 
+  .home-hero {
 
-  .home-hero{
-
-    min-height:auto;
+    min-height: auto;
+    padding-bottom: 40px;
 
   }
 
 
-  .home-hero__container{
+  .home-hero__background {
 
-    padding-top:110px;
+    position:absolute;
 
-    padding-bottom:50px;
+  }
+
+
+  .home-hero__background-video {
+
+    object-position:center;
+
+  }
+
+
+  .home-hero__container {
+
+    width:100%;
+
+    padding-top:120px;
+
+    padding-left:16px;
+
+    padding-right:16px;
+
+    padding-bottom:30px;
 
     display:block;
 
   }
 
 
-  .home-hero__content{
+  .home-hero__content {
+
+    max-width:100%;
 
     text-align:left;
 
   }
 
 
-  .home-hero__title{
+  .home-hero__eyebrow {
 
-    font-size:
-      clamp(
-        2.6rem,
-        12vw,
-        3.5rem
-      );
+    margin-bottom:20px;
 
   }
 
 
-  .home-hero__description{
+  .home-hero__title {
 
-    font-size:16px;
+    font-size:clamp(
+      2.4rem,
+      11vw,
+      3.2rem
+    );
+
+    line-height:1.05;
+
+    letter-spacing:-0.045em;
+
+    margin-bottom:20px;
 
   }
 
 
-  .home-hero__actions{
+  .home-hero__description {
+
+    font-size:15px;
+
+    line-height:1.65;
+
+    margin-bottom:32px;
+
+  }
+
+
+
+  .home-hero__actions {
+
+    display:flex;
 
     flex-direction:column;
 
-    align-items:stretch;
-
-  }
-
-
-  .home-hero__actions .btn{
+    gap:12px;
 
     width:100%;
 
   }
 
 
-  .home-hero__trusted{
+  .home-hero__actions .btn {
 
-    margin-top:20px;
+    width:100%;
 
-  }
-
-
-  .home-hero__logos{
-
-    gap:22px;
+    height:54px;
 
   }
 
 
-  .home-hero__logo{
+  .home-hero__reel-btn {
 
-    width:70px;
+    margin-top:24px;
 
   }
 
 
-  .home-hero__overlay{
+
+  /* Trusted logos */
+
+  .home-hero__trusted {
+
+    position:relative;
+
+    left:auto;
+
+    bottom:auto;
+
+    transform:none;
+
+    width:100%;
+
+    margin-top:45px;
+
+  }
+
+
+  .home-hero__trusted p {
+
+    margin-bottom:16px;
+
+  }
+
+
+  .home-hero__logos {
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:20px;
+
+  }
+
+
+  .home-hero__logo {
+
+    width:auto;
+
+    height:35px;
+
+  }
+
+
+  .home-hero__logo img {
+
+    max-height:24px;
+
+  }
+
+
+
+  .home-hero__overlay {
 
     background:
 
-      linear-gradient(
-
-        180deg,
-
-        rgba(5,5,5,.8),
-
-        rgba(5,5,5,.96)
-
-      );
+    linear-gradient(
+      180deg,
+      rgba(5,5,5,.75),
+      rgba(5,5,5,.97)
+    );
 
   }
+
 
 }
 
