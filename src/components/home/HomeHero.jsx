@@ -13,12 +13,12 @@ import { ArrowRight, Play } from "lucide-react";
 
 import SmartVideo from "../SmartVideo";
 
-import aflluxeLogo from "../assets/trusted/AFLLUXE-04.png";
-import coloredBlackLogo from "../assets/trusted/Colored black.png";
-import expetHubLogo from "../assets/trusted/Expet hub-05.png";
-import newkrooLogo from "../assets/trusted/newkroo-logo-BBgxBlWa.png";
-import ziboraLogo from "../assets/trusted/Zibora LOGO-02.png";
-import zidexLogo from "../assets/trusted/zidex-logo-master.png";
+import aflluxeLogo from "../../assets/trusted/AFLLUXE-04.png";
+import coloredBlackLogo from "../../assets/trusted/Colored black.png";
+import expetHubLogo from "../../assets/trusted/Expet hub-05.png";
+import newkrooLogo from "../../assets/trusted/newkroo-logo-BBgxBlWa.png";
+import ziboraLogo from "../../assets/trusted/Zibora LOGO-02.png";
+import zidexLogo from "../../assets/trusted/zidex-logo-master.png";
 
 import "../../styles/components/homeHero.css";
 
@@ -319,6 +319,135 @@ export default function HomeHero({
 
       </motion.div>
 
+
+
+
+{/* ============================================================
+    FLOATING MESSAGE SYSTEM
+    Adds a premium "communication clarity" visual
+============================================================ */}
+
+<motion.div
+  className="home-hero__system"
+  initial={
+    shouldReduceMotion
+      ? false
+      : {
+          opacity: 0,
+          y: 30,
+        }
+  }
+  animate={{
+    opacity: 1,
+    y: 0,
+  }}
+  transition={{
+    duration: 1,
+    delay: 0.8,
+    ease: EASE,
+  }}
+>
+
+  <div className="home-hero__system-header">
+
+    <span className="home-hero__system-dot" />
+
+    Communication System
+
+  </div>
+
+
+  <div className="home-hero__system-card">
+
+    <span>
+      Complex Idea
+    </span>
+
+
+    <div className="home-hero__system-line" />
+
+
+    <strong>
+      Clear Message
+    </strong>
+
+
+    <div className="home-hero__system-line" />
+
+
+    <span className="active">
+      People Understand
+    </span>
+
+  </div>
+
+
+</motion.div>
+
+
+
+
+{/* ============================================================
+    SCROLL INDICATOR
+============================================================ */}
+
+
+<motion.div
+
+  className="home-hero__scroll"
+
+  initial={
+    shouldReduceMotion
+      ? false
+      : {
+          opacity:0,
+        }
+  }
+
+  animate={{
+    opacity:1,
+  }}
+
+  transition={{
+    duration:.8,
+    delay:1.5,
+  }}
+
+>
+
+
+  <span>
+    Scroll
+  </span>
+
+
+  <div className="home-hero__scroll-line">
+
+    <motion.span
+
+      animate={
+        shouldReduceMotion
+          ? undefined
+          : {
+              y:[
+                "-100%",
+                "100%"
+              ],
+            }
+      }
+
+      transition={{
+        duration:2,
+        repeat:Infinity,
+        ease:"easeInOut",
+      }}
+
+    />
+
+  </div>
+
+
+</motion.div>
 
     </section>
   );
