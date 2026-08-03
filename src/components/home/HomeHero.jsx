@@ -151,17 +151,15 @@ export default function HomeHero({
           </motion.span>
 
 
-          <motion.h1
-            className="home-hero__title"
-            variants={fadeUp}
-          >
-            Complex ideas
-            <br />
-            deserve clear
-            <span className="gradient-text">
-              {" "}communication.
-            </span>
-          </motion.h1>
+         <motion.h1
+ className="home-hero__title"
+ variants={fadeUp}
+>
+ Complex ideas deserve clear{" "}
+ <span className="gradient-text">
+ communication.
+ </span>
+</motion.h1>
 
 
           <motion.p

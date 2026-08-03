@@ -463,6 +463,12 @@
 
 @media(max-width:1024px){
 
+  .home-hero__system {
+
+ display:none;
+
+}
+
   .home-hero__container{
 
     grid-template-columns:1fr;
@@ -891,17 +897,35 @@
 
   .home-hero__system{
 
-    position:relative;
+ position:relative;
 
-    right:auto;
+ right:auto;
 
-    top:auto;
+ top:auto;
 
-    margin-top:50px;
+ width:100%;
 
-    width:100%;
+ margin-top:40px;
 
-  }
+ padding:0 16px;
+
+}
+
+
+.home-hero__system-card {
+
+ padding:22px;
+
+ border-radius:22px;
+
+}
+
+
+.home-hero__system-card strong {
+
+ font-size:20px;
+
+}
 
 
   .home-hero__scroll{
@@ -909,5 +933,43 @@
     display:none;
 
   }
+
+}
+
+@media(max-width:480px){
+
+.home-hero__container{
+
+padding-top:100px;
+
+}
+
+
+.home-hero__title{
+
+font-size:2.35rem;
+
+}
+
+
+.home-hero__description{
+
+font-size:14px;
+
+}
+
+
+.home-hero__logos{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+
+.home-hero__system-card{
+
+padding:18px;
+
+}
 
 }
