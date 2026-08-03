@@ -21,10 +21,12 @@ import {
 } from "lucide-react";
 
 import HomeHero from "../components/home/HomeHero";
-import SmartVideo from "../components/SmartVideo";
+import FeaturedWork from "../components/home/FeaturedWork";
 import { getVideos } from "../firebase/uploadVideo.js";
-
+import TrustedBy from "../components/home/TrustedBy"
+import ServicesOverview from "../components/home/ServicesOverview"
 import "../styles/pages/home.css";
+import SmartVideo from "../components/SmartVideo";
 
 const EASE = [0.16, 1, 0.3, 1];
 
@@ -131,84 +133,28 @@ export default function Home() {
 
       <HomeHero heroProject={heroProject} loading={loading} />
 
+      <TrustedBy />
       {/* ============================================================
           2 — SHOWREEL / FEATURED WORK (dark)
       ============================================================ */}
 
-      <section className="section home-showreel theme-dark" data-theme="dark">
-        <div className="container-wide">
-          <motion.div className="home-showreel__head" variants={fadeUp} {...motionProps}>
-            <span className="eyebrow">Featured Work</span>
-            <h2 className="home-showreel__title">Showreel</h2>
-          </motion.div>
+      <FeaturedWork
 
-          <motion.div className="home-showreel__list" variants={stagger} {...motionProps}>
-            {loading ? (
-              <div className="home-showreel__empty">Loading reel…</div>
-            ) : showreelProjects.length ? (
-              showreelProjects.map((project, index) => (
-                <motion.article
-                  className="home-showreel__row"
-                  key={project.id}
-                  variants={staggerItem}
-                >
-                  <Link to={`/work/${project.id}`} className="home-showreel__media-link">
-                    <motion.div
-                      className="home-showreel__media"
-                      whileHover={shouldReduceMotion ? undefined : { scale: 1.015 }}
-                      transition={{ duration: 0.6, ease: EASE }}
-                    >
-                      <SmartVideo project={project} className="home-showreel__video home-media" />
-                      <div className="home-showreel__media-overlay" />
-                    </motion.div>
-                  </Link>
+projects={showreelProjects}
 
-                  <div className="home-showreel__meta">
-                    <span className="mono home-showreel__index">0{index + 1}</span>
-                    <h3 className="home-showreel__project-title">
-                      {project.title || "Untitled project"}
-                    </h3>
-                    <span className="home-showreel__category">
-                      {project.category || "Selected Work"}
-                    </span>
-                  </div>
-                </motion.article>
-              ))
-            ) : (
-              <div className="home-showreel__empty">New work is currently in production.</div>
-            )}
-          </motion.div>
-        </div>
-      </section>
+loading={loading}
+
+shouldReduceMotion={shouldReduceMotion}
+
+/>
 
       {/* ============================================================
-          3 — SERVICES (light)
+          3 — SERVICES (dark)
       ============================================================ */}
 
-      <section className="section home-services theme-light" data-theme="light">
-        <div className="container">
-          <motion.span className="eyebrow" variants={fadeUp} {...motionProps}>
-            What We Create
-          </motion.span>
-
-          <motion.div className="home-services__list" variants={stagger} {...motionProps}>
-            {SERVICES.map((service) => {
-              const Icon = service.icon;
-
-              return (
-                <motion.div className="home-services__row" key={service.number} variants={staggerItem}>
-                  <span className="mono home-services__number">{service.number}</span>
-                  <span className="home-services__title">{service.title}</span>
-                  <span className="home-services__icon">
-                    <Icon size={20} strokeWidth={1.6} aria-hidden="true" />
-                  </span>
-                  <ArrowUpRight size={20} strokeWidth={1.8} className="home-services__arrow" aria-hidden="true" />
-                </motion.div>
-              );
-            })}
-          </motion.div>
-        </div>
-      </section>
+      <ServicesOverview
+    shouldReduceMotion={shouldReduceMotion}
+/>
 
       {/* ============================================================
           4 — BEFORE & AFTER (dark)

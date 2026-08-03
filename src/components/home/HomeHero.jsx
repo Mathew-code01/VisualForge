@@ -266,57 +266,7 @@ export default function HomeHero({
 
 
 
-      {/* TRUSTED BY */}
-
-      <motion.div
-        className="home-hero__trusted"
-        initial={
-          shouldReduceMotion
-            ? false
-            : {
-                opacity: 0,
-                y: 25,
-              }
-        }
-        animate={{
-          opacity: 1,
-          y: 0,
-        }}
-        transition={{
-          duration: 0.8,
-          delay: 1,
-        }}
-      >
-
-        <p>
-          Trusted by ambitious brands
-        </p>
-
-
-        <div className="home-hero__logos">
-
-          {TRUSTED_LOGOS.map((logo) => (
-
-            <div
-              className="home-hero__logo"
-              key={logo.name}
-            >
-
-              <img
-                src={logo.image}
-                alt={logo.name}
-                loading="lazy"
-              />
-
-            </div>
-
-          ))}
-
-        </div>
-
-
-      </motion.div>
-
+      
 
 
 

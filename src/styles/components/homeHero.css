@@ -8,6 +8,7 @@
 .home-hero {
   position: relative;
   min-height: 100vh;
+  padding-bottom:130px;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -355,107 +356,6 @@
 }
 
 
-
-/* ============================================================
-   TRUSTED LOGOS
-============================================================ */
-
-
-.home-hero__trusted {
-
-  position:absolute;
-
-  bottom:32px;
-
-  left:50%;
-
-  transform:translateX(-50%);
-
-  width:min(
-    calc(100% - 48px),
-    1100px
-  );
-
-}
-
-
-.home-hero__trusted p {
-
-  text-align:center;
-
-  font-size:12px;
-
-  text-transform:uppercase;
-
-  letter-spacing:.15em;
-
-  color:
-    rgba(255,255,255,.5);
-
-  margin-bottom:20px;
-
-}
-
-
-
-.home-hero__logos {
-
-  display:flex;
-
-  justify-content:center;
-
-  align-items:center;
-
-  gap:35px;
-
-  flex-wrap:wrap;
-
-}
-
-
-.home-hero__logo {
-
-  width:90px;
-
-  height:35px;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  opacity:.55;
-
-  filter:
-    grayscale(100%);
-
-  transition:.3s ease;
-
-}
-
-
-.home-hero__logo:hover {
-
-  opacity:1;
-
-  filter:none;
-
-}
-
-
-.home-hero__logo img {
-
-  max-height:32px;
-
-  width:auto;
-
-  object-fit:contain;
-
-}
-
-
-
 /* ============================================================
    TABLET
 ============================================================ */
@@ -621,53 +521,41 @@
   }
 
 
+.home-hero__trusted {
 
-  /* Trusted logos */
+  padding:24px 0;
 
-  .home-hero__trusted {
-
-    position:relative;
-
-    left:auto;
-
-    bottom:auto;
-
-    transform:none;
-
-    width:100%;
-
-    margin-top:45px;
-
-  }
+}
 
 
-  .home-hero__trusted p {
+.home-hero__trusted p {
 
-    margin-bottom:16px;
+  margin-bottom:18px;
 
-  }
-
-
-  .home-hero__logos {
-
-    display:grid;
-
-    grid-template-columns:repeat(3,1fr);
-
-    gap:20px;
-
-  }
+}
 
 
-  .home-hero__logo {
+.home-hero__logos {
 
-    width:auto;
+  gap:45px;
 
-    height:35px;
-
-  }
+}
 
 
+.home-hero__logo {
+
+  width:90px;
+
+}
+
+
+.home-hero__logo img {
+
+  max-width:90px;
+
+  max-height:30px;
+
+}
   .home-hero__logo img {
 
     max-height:24px;
@@ -971,5 +859,45 @@ grid-template-columns:repeat(2,1fr);
 padding:18px;
 
 }
+
+}
+
+@media(max-width:480px){
+
+
+.home-hero {
+
+  padding-bottom:110px;
+
+}
+
+
+.home-hero__trusted {
+
+  padding:20px 0;
+
+}
+
+
+.home-hero__logos {
+
+  gap:35px;
+
+}
+
+
+.home-hero__logo {
+
+  width:80px;
+
+}
+
+
+.home-hero__logo img {
+
+  max-height:26px;
+
+}
+
 
 }

@@ -1,1204 +1,1525 @@
 /* src\styles\components\featuredWork.css */
-
-
-/* ================================================================
-   BIGDAY MA — SELECTED WORK
-   SECTION 05
-   DARK THEME PATH
-
-   Uses:
-   src/styles/theme.css
-================================================================ */
-
-
-/* ================================================================
-   01. SECTION
-================================================================ */
+/* ==========================================================================
+   FEATURED WORK
+   Phase 1 — Premium Layout & Media
+   Designed to work with theme.css
+   ========================================================================== */
 
 .featured-work {
-  position:
-    relative;
-
-  overflow:
-    hidden;
-
-  background:
-    radial-gradient(
-      circle at 78% 12%,
-      rgba(77, 141, 255, 0.065),
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 10% 82%,
-      rgba(255, 255, 255, 0.018),
-      transparent 30%
-    ),
-    var(--section-bg);
-
-  color:
-    var(--section-text);
-
-  isolation:
-    isolate;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
 }
 
+/* --------------------------------------------------------------------------
+   Background
+--------------------------------------------------------------------------- */
 
-/* ================================================================
-   02. AMBIENT
-================================================================ */
+.featured-work::before,
+.featured-work::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
 
-.featured-work__ambient {
-  position:
-    absolute;
+.featured-work::before {
+  width: 720px;
+  height: 720px;
+  border-radius: 50%;
+  top: -220px;
+  right: -260px;
+  background: var(--gradient-glow);
+  filter: blur(90px);
+  opacity: .45;
+}
 
-  top:
-    18%;
-
-  right:
-    -12%;
-
-  width:
-    min(55vw, 850px);
-
-  aspect-ratio:
-    1;
-
-  border-radius:
-    50%;
-
-  background:
-    radial-gradient(
+.featured-work::after {
+  width: 600px;
+  height: 600px;
+  left: -240px;
+  bottom: -220px;
+  border-radius: 50%;
+  background: radial-gradient(
       circle,
-      rgba(77, 141, 255, 0.06) 0%,
-      rgba(77, 141, 255, 0.018) 38%,
+      rgba(37,99,235,.08),
       transparent 70%
-    );
+  );
+  filter: blur(80px);
+}
 
-  filter:
-    blur(35px);
-
-  pointer-events:
-    none;
-
-  z-index:
-    -1;
+.featured-work .container-wide{
+  position:relative;
+  z-index:2;
 }
 
 
-/* ================================================================
-   03. INNER
-================================================================ */
+/* ==========================================================================
+   HEADER
+   ========================================================================== */
 
-.featured-work__inner {
-  position:
-    relative;
+.featured-work__header{
 
-  padding-block:
-    var(--section-padding-y-large);
+  max-width:760px;
+
+  margin-inline:auto;
+
+  text-align:center;
+
+  margin-bottom:140px;
+
+}
+
+.featured-work__header .eyebrow{
+
+  justify-content:center;
+
+}
+
+.featured-work__header h2{
+
+  margin-top:26px;
+
+  font-size:clamp(3rem,5vw,5.5rem);
+
+  line-height:1;
+
+  letter-spacing:-0.06em;
+
+  max-width:780px;
+
+  margin-inline:auto;
+
+}
+
+.featured-work__header p{
+
+  margin-top:34px;
+
+  font-size:20px;
+
+  line-height:1.8;
+
+  color:var(--color-text-muted);
+
+  max-width:650px;
+
+  margin-inline:auto;
+
 }
 
 
-/* ================================================================
-   04. HEADER META
-================================================================ */
+/* ==========================================================================
+   PROJECT LIST
+   ========================================================================== */
 
-.featured-work__meta {
-  display:
-    flex;
+.featured-work__list{
 
-  align-items:
-    center;
+  display:flex;
 
-  justify-content:
-    space-between;
+  flex-direction:column;
 
-  gap:
-    var(--space-6);
+  gap:180px;
+
 }
 
 
-/* ================================================================
-   05. NUMBER
-================================================================ */
+/* ==========================================================================
+   PROJECT ITEM
+   ========================================================================== */
 
-.featured-work__number {
-  display:
-    inline-flex;
+.featured-work__item{
 
-  align-items:
-    center;
+  position:relative;
 
-  justify-content:
-    center;
+  display:grid;
 
-  width:
-    42px;
+  grid-template-columns:
+  minmax(0,1fr)
+  360px;
 
-  height:
-    42px;
+  gap:80px;
 
-  flex:
-    0 0 auto;
+  align-items:center;
 
-  border:
-    1px solid var(--section-border);
+}
 
-  border-radius:
-    var(--radius-full);
+.featured-work__item:nth-child(even){
 
-  background:
-    rgba(255, 255, 255, 0.025);
+  grid-template-columns:
+  360px
+  minmax(0,1fr);
 
-  color:
-    var(--section-text);
+}
+
+.featured-work__item:nth-child(even)
+.featured-work__media-link{
+
+  order:2;
+
+}
+
+.featured-work__item::after{
+
+  content:"";
+
+  position:absolute;
+
+  left:0;
+
+  bottom:-90px;
+
+  width:100%;
+
+  height:1px;
+
+  background:linear-gradient(
+      90deg,
+      transparent,
+      var(--color-border),
+      transparent
+  );
+
+}
+
+
+/* ==========================================================================
+   MEDIA LINK
+   ========================================================================== */
+
+.featured-work__media-link{
+
+  display:block;
+
+  position:relative;
+
+  border-radius:32px;
+
+  text-decoration:none;
+
+}
+
+.featured-work__media-link:focus-visible{
+
+  outline:2px solid var(--color-primary);
+
+  outline-offset:6px;
+
+}
+
+
+/* ==========================================================================
+   MEDIA CONTAINER
+   ========================================================================== */
+
+.featured-work__media{
+
+  position:relative;
+
+  overflow:hidden;
+
+  aspect-ratio:16/9;
+
+  border-radius:32px;
+
+  background:var(--color-bg-elevated);
+
+  border:1px solid var(--color-border);
 
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
-}
-
-
-/* ================================================================
-   06. EYEBROW
-================================================================ */
-
-.featured-work__eyebrow {
-  margin-left:
-    auto;
-
-  color:
-    var(--section-text-muted);
-}
-
-
-/* ================================================================
-   07. HEADER LINE
-================================================================ */
-
-.featured-work__header-line {
-  margin-top:
-    var(--space-6);
-}
-
-
-/* ================================================================
-   08. HEADING
-================================================================ */
-
-.featured-work__heading-wrap {
-  display:
-    grid;
-
-  grid-template-columns:
-    minmax(0, 1.4fr)
-    minmax(250px, 0.6fr);
-
-  align-items:
-    end;
-
-  gap:
-    clamp(3rem, 8vw, 9rem);
-
-  padding-top:
-    clamp(4.5rem, 8vw, 7.5rem);
-}
-
-
-/* ================================================================
-   09. TITLE
-================================================================ */
-
-.featured-work__title {
-  max-width:
-    900px;
-
-  color:
-    var(--section-text);
-
-  font-family:
-    var(--font-display);
-
-  font-size:
-    clamp(3.25rem, 6.2vw, 6.5rem);
-
-  font-weight:
-    var(--weight-bold);
-
-  line-height:
-    0.94;
-
-  letter-spacing:
-    var(--tracking-tighter);
-
-  text-wrap:
-    balance;
-}
-
-
-/* ================================================================
-   10. MUTED TITLE
-================================================================ */
-
-.featured-work__title-muted {
-  color:
-    var(--section-text-subtle);
-}
-
-
-/* ================================================================
-   11. INTRO
-================================================================ */
-
-.featured-work__intro {
-  max-width:
-    420px;
-
-  padding-bottom:
-    var(--space-2);
-
-  color:
-    var(--section-text-muted);
-
-  font-size:
-    clamp(0.98rem, 1.3vw, 1.1rem);
-
-  line-height:
-    var(--leading-relaxed);
-}
-
-
-/* ================================================================
-   12. WORK GRID
-================================================================ */
-
-.featured-work__grid {
-  display:
-    grid;
-
-  grid-template-columns:
-    repeat(3, minmax(0, 1fr));
-
-  gap:
-    1px;
-
-  margin-top:
-    clamp(5rem, 10vw, 10rem);
-
-  background:
-    var(--section-border);
-}
-
-
-/* ================================================================
-   13. WORK CARD
-================================================================ */
-
-.work-card {
-  min-width:
-    0;
-
-  background:
-    var(--section-bg);
+      0 10px 30px rgba(0,0,0,.06),
+      0 35px 90px rgba(0,0,0,.12);
 
   transition:
-    background var(--transition-normal);
+      transform .7s var(--ease-premium),
+      box-shadow .7s var(--ease-premium),
+      border-color .4s ease;
+
 }
 
 
-/* ================================================================
-   14. CARD HOVER
-================================================================ */
+/* glass reflection */
 
-.work-card:hover {
-  background:
-    var(--section-bg-subtle);
+.featured-work__media::before{
+
+  content:"";
+
+  position:absolute;
+
+  inset:0;
+
+  z-index:3;
+
+  background:linear-gradient(
+      130deg,
+      rgba(255,255,255,.22),
+      transparent 30%,
+      transparent 65%,
+      rgba(255,255,255,.08)
+  );
+
+  pointer-events:none;
+
 }
 
 
-/* ================================================================
-   15. PROJECT VISUAL
-================================================================ */
+/* subtle blue glow */
 
-.work-card__visual {
-  position:
-    relative;
+.featured-work__media::after{
 
-  display:
-    flex;
+  content:"";
 
-  align-items:
-    center;
+  position:absolute;
 
-  justify-content:
-    center;
+  inset:0;
 
-  min-height:
-    clamp(340px, 32vw, 500px);
+  background:radial-gradient(
+      circle at top right,
+      rgba(37,99,235,.14),
+      transparent 55%
+  );
 
-  overflow:
-    hidden;
+  z-index:2;
 
-  border-bottom:
-    1px solid var(--section-border);
+  opacity:0;
 
+  transition:opacity .6s ease;
+
+}
+
+
+/* ==========================================================================
+   VIDEO
+   ========================================================================== */
+
+.featured-work__video{
+
+  width:100%;
+
+  height:100%;
+
+  object-fit:cover;
+
+  transition:
+      transform 1.4s var(--ease-premium),
+      filter .8s ease;
+
+  will-change:transform;
+
+}
+
+
+/* ==========================================================================
+   OVERLAY
+   ========================================================================== */
+
+.featured-work__overlay{
+
+  position:absolute;
+
+  inset:0;
+
+  z-index:4;
+
+  background:linear-gradient(
+      180deg,
+      rgba(0,0,0,0) 20%,
+      rgba(0,0,0,.08) 65%,
+      rgba(0,0,0,.24)
+  );
+
+  pointer-events:none;
+
+}
+
+
+/* ==========================================================================
+   PREMIUM HOVER
+   ========================================================================== */
+
+.featured-work__item:hover
+.featured-work__media{
+
+  transform:translateY(-10px);
+
+  border-color:var(--color-border-hover);
+
+  box-shadow:
+      0 20px 45px rgba(0,0,0,.10),
+      0 45px 110px rgba(0,0,0,.18);
+
+}
+
+.featured-work__item:hover
+.featured-work__media::after{
+
+  opacity:1;
+
+}
+
+.featured-work__item:hover
+.featured-work__video{
+
+  transform:scale(1.08);
+
+  filter:contrast(1.05) saturate(1.06);
+
+}
+
+/* ==========================================================================
+   PHASE 2
+   INFORMATION PANEL
+   ========================================================================== */
+
+.featured-work__info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+  gap: 20px;
+  max-width: 420px;
+  position: relative;
+}
+
+/* --------------------------------------------------------------------------
+   Project Number
+--------------------------------------------------------------------------- */
+
+.featured-work__number {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.featured-work__number::after {
+  content: "";
+  width: 48px;
+  height: 1px;
+  margin-left: 14px;
+  background: var(--color-primary);
+  opacity: .35;
+}
+
+
+/* --------------------------------------------------------------------------
+   Category
+--------------------------------------------------------------------------- */
+
+.featured-work__category {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+
+  padding: 10px 18px;
+
+  border-radius: 999px;
+
+  background: var(--glass-bg);
+
+  border: 1px solid var(--glass-border);
+
+  backdrop-filter: blur(12px);
+
+  -webkit-backdrop-filter: blur(12px);
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  letter-spacing: .14em;
+
+  text-transform: uppercase;
+
+  color: var(--color-text-subtle);
+
+  transition: all .35s ease;
+}
+
+.featured-work__item:hover .featured-work__category {
+  color: var(--color-primary);
+  border-color: var(--color-border-hover);
+}
+
+
+/* --------------------------------------------------------------------------
+   Title
+--------------------------------------------------------------------------- */
+
+.featured-work__info h3 {
+  font-size: clamp(2rem, 3vw, 3rem);
+
+  line-height: 1.05;
+
+  letter-spacing: -.05em;
+
+  color: var(--color-text);
+
+  transition: color .35s ease;
+}
+
+.featured-work__item:hover h3 {
+  color: var(--color-primary);
+}
+
+
+/* --------------------------------------------------------------------------
+   Description
+--------------------------------------------------------------------------- */
+
+.featured-work__description {
+  font-size: 17px;
+
+  line-height: 1.9;
+
+  color: var(--color-text-muted);
+
+  max-width: 95%;
+}
+
+
+/* --------------------------------------------------------------------------
+   Meta
+--------------------------------------------------------------------------- */
+
+.featured-work__meta {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 12px;
+
+  margin-top: 8px;
+}
+
+.featured-work__meta span {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  min-height: 40px;
+
+  padding: 0 18px;
+
+  border-radius: 999px;
+
+  background: var(--color-bg-elevated);
+
+  border: 1px solid var(--color-border);
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  color: var(--color-text-muted);
+
+  transition: all .35s ease;
+}
+
+.featured-work__meta span:hover {
+  transform: translateY(-3px);
+
+  border-color: var(--color-border-hover);
+
+  color: var(--color-primary);
+
+  box-shadow: 0 12px 30px rgba(37,99,235,.08);
+}
+
+
+/* --------------------------------------------------------------------------
+   CTA
+--------------------------------------------------------------------------- */
+
+.featured-work__link {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  width: fit-content;
+
+  margin-top: 18px;
+
+  font-weight: 700;
+
+  font-size: 15px;
+
+  color: var(--color-text);
+
+  transition: all .35s var(--ease-premium);
+}
+
+.featured-work__link::after {
+  content: "→";
+
+  font-size: 18px;
+
+  transition: transform .35s var(--ease-premium);
+}
+
+.featured-work__item:hover .featured-work__link {
+  color: var(--color-primary);
+
+  gap: 16px;
+}
+
+.featured-work__item:hover .featured-work__link::after {
+  transform: translateX(8px);
+}
+
+
+/* ==========================================================================
+   LOADING / EMPTY STATES
+   ========================================================================== */
+
+.featured-work__empty {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  min-height: 360px;
+
+  border-radius: 28px;
+
+  border: 1px solid var(--color-border);
+
+  background: linear-gradient(
+      135deg,
+      var(--color-bg-elevated),
+      var(--color-bg-secondary)
+  );
+
+  color: var(--color-text-muted);
+
+  font-size: 18px;
+
+  text-align: center;
+
+  overflow: hidden;
+
+  position: relative;
+}
+
+.featured-work__empty::before {
+  content: "";
+
+  position: absolute;
+
+  width: 500px;
+
+  height: 500px;
+
+  border-radius: 50%;
+
+  background: radial-gradient(
+      circle,
+      rgba(37,99,235,.08),
+      transparent 70%
+  );
+
+  filter: blur(60px);
+
+  animation: featuredGlow 8s linear infinite;
+}
+
+@keyframes featuredGlow {
+
+  0%{
+      transform:translate(-25%,-10%);
+  }
+
+  50%{
+      transform:translate(15%,12%);
+  }
+
+  100%{
+      transform:translate(-25%,-10%);
+  }
+
+}
+
+
+/* ==========================================================================
+   SUBTLE ENTRANCE
+   ========================================================================== */
+
+.featured-work__item {
+  transition:
+      transform .45s ease,
+      opacity .45s ease;
+}
+
+.featured-work__item:hover {
+  z-index: 5;
+}
+
+/* ==========================================================================
+   PHASE 3
+   RESPONSIVE LAYOUT
+   ========================================================================== */
+
+
+/* ==========================================================================
+   LARGE DESKTOP
+   ========================================================================== */
+
+@media (min-width: 1600px){
+
+.featured-work__list{
+
+gap:220px;
+
+}
+
+.featured-work__item{
+
+grid-template-columns:
+minmax(0,1fr)
+420px;
+
+gap:120px;
+
+}
+
+.featured-work__item:nth-child(even){
+
+grid-template-columns:
+420px
+minmax(0,1fr);
+
+}
+
+.featured-work__info{
+
+max-width:460px;
+
+}
+
+.featured-work__header{
+
+margin-bottom:180px;
+
+}
+
+.featured-work__media{
+
+border-radius:36px;
+
+}
+
+}
+
+
+
+/* ==========================================================================
+   LAPTOP
+   ========================================================================== */
+
+@media (max-width:1280px){
+
+.featured-work__item{
+
+grid-template-columns:
+minmax(0,1fr)
+320px;
+
+gap:60px;
+
+}
+
+.featured-work__item:nth-child(even){
+
+grid-template-columns:
+320px
+minmax(0,1fr);
+
+}
+
+.featured-work__list{
+
+gap:140px;
+
+}
+
+.featured-work__header{
+
+margin-bottom:110px;
+
+}
+
+}
+
+
+
+/* ==========================================================================
+   TABLET
+   ========================================================================== */
+
+@media (max-width:1024px){
+
+.featured-work__header{
+
+margin-bottom:90px;
+
+}
+
+.featured-work__header h2{
+
+font-size:clamp(2.8rem,7vw,4rem);
+
+}
+
+.featured-work__header p{
+
+font-size:18px;
+
+}
+
+.featured-work__list{
+
+gap:90px;
+
+}
+
+.featured-work__item,
+.featured-work__item:nth-child(even){
+
+display:flex;
+
+flex-direction:column;
+
+gap:36px;
+
+}
+
+.featured-work__item:nth-child(even)
+.featured-work__media-link{
+
+order:initial;
+
+}
+
+.featured-work__media-link{
+
+width:100%;
+
+}
+
+.featured-work__media{
+
+width:100%;
+
+aspect-ratio:16/9;
+
+}
+
+.featured-work__info{
+
+max-width:100%;
+
+gap:18px;
+
+}
+
+.featured-work__description{
+
+max-width:100%;
+
+}
+
+.featured-work__item::after{
+
+bottom:-45px;
+
+}
+
+}
+
+
+
+/* ==========================================================================
+   SMALL TABLET
+   ========================================================================== */
+
+@media (max-width:768px){
+
+.featured-work{
+
+overflow:hidden;
+
+}
+
+.featured-work::before{
+
+width:500px;
+
+height:500px;
+
+right:-220px;
+
+top:-180px;
+
+opacity:.35;
+
+}
+
+.featured-work::after{
+
+width:420px;
+
+height:420px;
+
+left:-200px;
+
+bottom:-180px;
+
+opacity:.35;
+
+}
+
+.featured-work__header{
+
+margin-bottom:72px;
+
+text-align:left;
+
+}
+
+.featured-work__header .eyebrow{
+
+justify-content:flex-start;
+
+}
+
+.featured-work__header h2{
+
+margin-top:18px;
+
+font-size:clamp(2.4rem,8vw,3.5rem);
+
+}
+
+.featured-work__header p{
+
+margin-top:22px;
+
+font-size:17px;
+
+line-height:1.75;
+
+}
+
+.featured-work__list{
+
+gap:72px;
+
+}
+
+.featured-work__media{
+
+border-radius:24px;
+
+}
+
+.featured-work__info h3{
+
+font-size:clamp(2rem,6vw,2.6rem);
+
+}
+
+.featured-work__description{
+
+font-size:16px;
+
+line-height:1.8;
+
+}
+
+.featured-work__meta{
+
+gap:10px;
+
+}
+
+.featured-work__meta span{
+
+min-height:36px;
+
+padding:0 14px;
+
+font-size:12px;
+
+}
+
+.featured-work__link{
+
+margin-top:10px;
+
+}
+
+}
+
+
+
+/* ==========================================================================
+   LARGE PHONE
+   ========================================================================== */
+
+@media (max-width:576px){
+
+.featured-work__header{
+
+margin-bottom:56px;
+
+}
+
+.featured-work__header h2{
+
+font-size:2.4rem;
+
+}
+
+.featured-work__header p{
+
+font-size:16px;
+
+}
+
+.featured-work__list{
+
+gap:60px;
+
+}
+
+.featured-work__media{
+
+border-radius:20px;
+
+}
+
+.featured-work__info{
+
+gap:16px;
+
+}
+
+.featured-work__number{
+
+font-size:13px;
+
+}
+
+.featured-work__category{
+
+padding:8px 14px;
+
+font-size:11px;
+
+}
+
+.featured-work__info h3{
+
+font-size:30px;
+
+}
+
+.featured-work__description{
+
+font-size:15px;
+
+line-height:1.8;
+
+}
+
+.featured-work__meta{
+
+gap:8px;
+
+}
+
+.featured-work__meta span{
+
+padding:0 12px;
+
+font-size:11px;
+
+}
+
+.featured-work__link{
+
+font-size:14px;
+
+}
+
+.featured-work__item::after{
+
+display:none;
+
+}
+
+}
+
+
+
+/* ==========================================================================
+   SMALL PHONE
+   ========================================================================== */
+
+@media (max-width:390px){
+
+.featured-work__header h2{
+
+font-size:2rem;
+
+}
+
+.featured-work__header p{
+
+font-size:15px;
+
+}
+
+.featured-work__media{
+
+border-radius:18px;
+
+}
+
+.featured-work__info h3{
+
+font-size:26px;
+
+}
+
+.featured-work__description{
+
+font-size:14px;
+
+}
+
+.featured-work__meta{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+}
+
+.featured-work__meta span{
+
+width:100%;
+
+justify-content:center;
+
+}
+
+.featured-work__link{
+
+width:100%;
+
+justify-content:center;
+
+padding:16px 22px;
+
+border-radius:999px;
+
+background:var(--gradient-primary);
+
+color:#fff;
+
+}
+
+.featured-work__item:hover
+.featured-work__link{
+
+color:#fff;
+
+}
+
+.featured-work__link::after{
+
+display:none;
+
+}
+
+}
+
+
+
+/* ==========================================================================
+   EXTRA SMALL
+   ========================================================================== */
+
+@media (max-width:320px){
+
+.featured-work__header h2{
+
+font-size:1.75rem;
+
+}
+
+.featured-work__header p{
+
+font-size:14px;
+
+}
+
+.featured-work__info h3{
+
+font-size:22px;
+
+}
+
+}
+
+/* ==========================================================================
+   PHASE 4
+   PREMIUM POLISH
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Smooth Rendering
+--------------------------------------------------------------------------- */
+
+.featured-work,
+.featured-work * {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.featured-work__video,
+.featured-work__media,
+.featured-work__item {
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+
+/* --------------------------------------------------------------------------
+   Premium Ambient Animation
+--------------------------------------------------------------------------- */
+
+.featured-work::before {
+  animation: featuredAmbientOne 18s ease-in-out infinite alternate;
+}
+
+.featured-work::after {
+  animation: featuredAmbientTwo 22s ease-in-out infinite alternate;
+}
+
+@keyframes featuredAmbientOne {
+
+  from {
+    transform: translate3d(0,0,0) scale(1);
+  }
+
+  to {
+    transform: translate3d(-40px,40px,0) scale(1.08);
+  }
+
+}
+
+@keyframes featuredAmbientTwo {
+
+  from {
+    transform: translate3d(0,0,0) scale(1);
+  }
+
+  to {
+    transform: translate3d(45px,-35px,0) scale(1.05);
+  }
+
+}
+
+
+/* --------------------------------------------------------------------------
+   Elegant Media Hover
+--------------------------------------------------------------------------- */
+
+.featured-work__media {
+  overflow: hidden;
+}
+
+.featured-work__media::before {
+  background-size: 220% 220%;
+  transition:
+    opacity .7s ease,
+    background-position 1.2s ease;
+}
+
+.featured-work__item:hover .featured-work__media::before {
+  background-position: 100% 100%;
+}
+
+.featured-work__item:hover .featured-work__overlay {
   background:
     linear-gradient(
-      145deg,
-      #111111 0%,
-      #0b0b0b 55%,
-      #080808 100%
+      180deg,
+      rgba(0,0,0,0),
+      rgba(0,0,0,.10) 60%,
+      rgba(0,0,0,.32)
     );
-
-  isolation:
-    isolate;
 }
 
 
-/* ================================================================
-   16. VISUAL GRID
-================================================================ */
+/* --------------------------------------------------------------------------
+   Subtle Card Lift
+--------------------------------------------------------------------------- */
 
-.work-card__visual-grid {
-  position:
-    absolute;
+.featured-work__item {
+  transition:
+    transform .55s var(--ease-premium),
+    opacity .45s ease;
+}
 
-  inset:
-    0;
+.featured-work__item:hover {
+  transform: translateY(-2px);
+}
 
-  background-image:
-    linear-gradient(
-      rgba(255, 255, 255, 0.035) 1px,
-      transparent 1px
-    ),
+
+/* --------------------------------------------------------------------------
+   Heading Accent
+--------------------------------------------------------------------------- */
+
+.featured-work__info h3 {
+  position: relative;
+}
+
+.featured-work__info h3::after {
+
+  content: "";
+
+  display: block;
+
+  width: 0;
+
+  height: 2px;
+
+  margin-top: 14px;
+
+  background: var(--gradient-primary);
+
+  border-radius: 999px;
+
+  transition: width .55s var(--ease-premium);
+
+}
+
+.featured-work__item:hover
+.featured-work__info h3::after {
+
+  width: 90px;
+
+}
+
+
+/* --------------------------------------------------------------------------
+   Meta Animation
+--------------------------------------------------------------------------- */
+
+.featured-work__meta span {
+
+  position: relative;
+
+  overflow: hidden;
+
+}
+
+.featured-work__meta span::before {
+
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  transform: translateX(-110%);
+
+  background:
+
     linear-gradient(
       90deg,
-      rgba(255, 255, 255, 0.035) 1px,
-      transparent 1px
+      transparent,
+      rgba(255,255,255,.28),
+      transparent
     );
 
-  background-size:
-    42px 42px;
+  transition: transform .8s ease;
 
-  opacity:
-    0.5;
+}
 
-  mask-image:
-    linear-gradient(
-      to bottom,
-      black,
-      transparent 88%
-    );
+.featured-work__item:hover
+.featured-work__meta span::before {
 
-  pointer-events:
-    none;
+  transform: translateX(120%);
+
 }
 
 
-/* ================================================================
-   17. VISUAL GLOW
-================================================================ */
+/* --------------------------------------------------------------------------
+   CTA Polish
+--------------------------------------------------------------------------- */
 
-.work-card__visual-glow {
-  position:
-    absolute;
+.featured-work__link {
 
-  top:
-    50%;
+  position: relative;
 
-  left:
-    50%;
+}
 
-  width:
-    55%;
+.featured-work__link::before {
 
-  aspect-ratio:
-    1;
+  content: "";
 
-  transform:
-    translate(-50%, -50%);
+  position: absolute;
 
-  border-radius:
-    50%;
+  left: 0;
 
-  background:
-    radial-gradient(
-      circle,
-      rgba(77, 141, 255, 0.12),
-      transparent 68%
-    );
+  bottom: -6px;
 
-  filter:
-    blur(18px);
+  width: 0;
 
-  opacity:
-    0.65;
+  height: 2px;
 
-  transition:
-    transform var(--transition-slow),
-    opacity var(--transition-slow);
+  background: var(--gradient-primary);
+
+  transition: width .45s var(--ease-premium);
+
+}
+
+.featured-work__item:hover
+.featured-work__link::before {
+
+  width: 100%;
+
 }
 
 
-.work-card:hover .work-card__visual-glow {
-  transform:
-    translate(-50%, -50%) scale(1.15);
+/* --------------------------------------------------------------------------
+   Better Focus States
+--------------------------------------------------------------------------- */
 
-  opacity:
-    0.9;
+.featured-work a:focus-visible {
+
+  outline: 2px solid var(--color-primary);
+
+  outline-offset: 5px;
+
+  border-radius: 8px;
+
 }
 
 
-/* ================================================================
-   18. PROJECT PREVIEW LABEL
-================================================================ */
+/* --------------------------------------------------------------------------
+   Image Loading Improvement
+--------------------------------------------------------------------------- */
 
-.work-card__placeholder {
-  position:
-    relative;
+.featured-work__video {
 
-  z-index:
-    2;
+  background: var(--color-bg-secondary);
 
-  color:
-    rgba(246, 245, 241, 0.42);
-
-  font-size:
-    0.6rem;
-
-  letter-spacing:
-    var(--tracking-wider);
-
-  text-transform:
-    uppercase;
-
-  transition:
-    color var(--transition-normal);
 }
 
 
-.work-card:hover .work-card__placeholder {
-  color:
-    rgba(246, 245, 241, 0.72);
+/* --------------------------------------------------------------------------
+   Premium Divider Fade
+--------------------------------------------------------------------------- */
+
+.featured-work__item:last-child::after {
+
+  display: none;
+
 }
 
 
-/* ================================================================
-   19. COMING SOON
-================================================================ */
+/* --------------------------------------------------------------------------
+   Hover Cursor Hint
+--------------------------------------------------------------------------- */
 
-.work-card__coming-soon {
-  position:
-    absolute;
+.featured-work__media-link {
 
-  right:
-    1.5rem;
+  cursor: pointer;
 
-  bottom:
-    1.5rem;
-
-  z-index:
-    3;
-
-  padding:
-    0.45rem 0.7rem;
-
-  border:
-    1px solid rgba(255, 255, 255, 0.09);
-
-  border-radius:
-    var(--radius-full);
-
-  background:
-    rgba(255, 255, 255, 0.035);
-
-  color:
-    var(--section-text-subtle);
-
-  font-size:
-    0.62rem;
-
-  font-weight:
-    var(--weight-medium);
-
-  letter-spacing:
-    var(--tracking-wide);
-
-  text-transform:
-    uppercase;
-
-  backdrop-filter:
-    blur(10px);
 }
 
 
-/* ================================================================
-   20. VISUAL INDEX
-================================================================ */
+/* --------------------------------------------------------------------------
+   Selection
+--------------------------------------------------------------------------- */
 
-.work-card__visual-index {
-  position:
-    absolute;
+.featured-work ::selection {
 
-  top:
-    1.5rem;
+  background: var(--color-primary);
 
-  left:
-    1.5rem;
+  color: white;
 
-  z-index:
-    3;
-
-  color:
-    rgba(246, 245, 241, 0.3);
-
-  font-size:
-    0.6rem;
 }
 
 
-/* ================================================================
-   21. CARD CONTENT
-================================================================ */
-
-.work-card__content {
-  padding:
-    clamp(1.5rem, 3vw, 2.5rem);
-}
-
-
-/* ================================================================
-   22. CARD TOP
-================================================================ */
-
-.work-card__top {
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  justify-content:
-    space-between;
-
-  gap:
-    var(--space-4);
-}
-
-
-/* ================================================================
-   23. CATEGORY
-================================================================ */
-
-.work-card__category {
-  color:
-    var(--section-text-subtle);
-
-  font-size:
-    0.6rem;
-
-  line-height:
-    1.4;
-}
-
-
-/* ================================================================
-   24. ARROW
-================================================================ */
-
-.work-card__arrow {
-  display:
-    inline-flex;
-
-  align-items:
-    center;
-
-  justify-content:
-    center;
-
-  width:
-    38px;
-
-  height:
-    38px;
-
-  flex:
-    0 0 auto;
-
-  border:
-    1px solid var(--section-border);
-
-  border-radius:
-    var(--radius-full);
-
-  color:
-    var(--section-text-muted);
-
-  transition:
-    color var(--transition-normal),
-    border-color var(--transition-normal),
-    background var(--transition-normal),
-    transform var(--transition-normal);
-}
-
-
-.work-card:hover .work-card__arrow {
-  color:
-    var(--section-accent-light);
-
-  border-color:
-    rgba(77, 141, 255, 0.28);
-
-  background:
-    rgba(77, 141, 255, 0.07);
-
-  transform:
-    translate(2px, -2px);
-}
-
-
-/* ================================================================
-   25. CARD TITLE
-================================================================ */
-
-.work-card__title {
-  margin-top:
-    var(--space-10);
-
-  color:
-    var(--section-text);
-
-  font-family:
-    var(--font-display);
-
-  font-size:
-    clamp(1.5rem, 2.2vw, 2rem);
-
-  font-weight:
-    var(--weight-semibold);
-
-  line-height:
-    var(--leading-snug);
-
-  letter-spacing:
-    var(--tracking-tight);
-}
-
-
-/* ================================================================
-   26. CARD DESCRIPTION
-================================================================ */
-
-.work-card__description {
-  max-width:
-    360px;
-
-  margin-top:
-    var(--space-4);
-
-  color:
-    var(--section-text-muted);
-
-  font-size:
-    var(--font-sm);
-
-  line-height:
-    var(--leading-relaxed);
-}
-
-
-/* ================================================================
-   27. BOTTOM STATEMENT
-================================================================ */
-
-.featured-work__bottom {
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  gap:
-    var(--space-5);
-
-  margin-top:
-    clamp(3.5rem, 7vw, 6rem);
-
-  padding-top:
-    var(--space-5);
-
-  border-top:
-    1px solid var(--section-border-soft);
-}
-
-
-/* ================================================================
-   28. BOTTOM LINE
-================================================================ */
-
-.featured-work__bottom-line {
-  width:
-    44px;
-
-  height:
-    1px;
-
-  flex:
-    0 0 auto;
-
-  background:
-    var(--section-accent);
-}
-
-
-/* ================================================================
-   29. BOTTOM COPY
-================================================================ */
-
-.featured-work__bottom-copy {
-  max-width:
-    560px;
-
-  color:
-    var(--section-text-muted);
-
-  font-size:
-    var(--font-sm);
-
-  line-height:
-    var(--leading-relaxed);
-}
-
-
-/* ================================================================
-   30. STATUS
-================================================================ */
-
-.featured-work__bottom-status {
-  margin-left:
-    auto;
-
-  color:
-    var(--section-text-subtle);
-
-  font-size:
-    0.58rem;
-
-  white-space:
-    nowrap;
-}
-
-
-/* ================================================================
-   31. LARGE TABLET
-================================================================ */
-
-@media (max-width: 1100px) {
-
-  .featured-work__heading-wrap {
-    gap:
-      clamp(2rem, 5vw, 5rem);
-  }
-
-
-  .work-card__visual {
-    min-height:
-      380px;
-  }
-
-
-  .work-card__content {
-    padding:
-      1.75rem;
-  }
-}
-
-
-/* ================================================================
-   32. TABLET
-================================================================ */
-
-@media (max-width: 900px) {
-
-  .featured-work__heading-wrap {
-    grid-template-columns:
-      1fr;
-
-    gap:
-      2rem;
-  }
-
-
-  .featured-work__title {
-    max-width:
-      760px;
-
-    font-size:
-      clamp(3rem, 8vw, 5rem);
-  }
-
-
-  .featured-work__intro {
-    max-width:
-      560px;
-
-    padding-bottom:
-      0;
-  }
-
-
-  .featured-work__grid {
-    grid-template-columns:
-      1fr;
-
-    gap:
-      1px;
-  }
-
-
-  .work-card {
-    display:
-      grid;
-
-    grid-template-columns:
-      minmax(0, 1fr)
-      minmax(0, 1fr);
-  }
-
-
-  .work-card__visual {
-    min-height:
-      360px;
-
-    border-bottom:
-      0;
-
-    border-right:
-      1px solid var(--section-border);
-  }
-
-
-  .work-card__content {
-    display:
-      flex;
-
-    flex-direction:
-      column;
-
-    justify-content:
-      center;
-  }
-
-
-  .work-card__title {
-    margin-top:
-      var(--space-8);
-  }
-}
-
-
-/* ================================================================
-   33. MOBILE
-================================================================ */
-
-@media (max-width: 600px) {
-
-  .featured-work__inner {
-    padding-block:
-      5rem;
-  }
-
-
-  .featured-work__meta {
-    gap:
-      var(--space-4);
-  }
-
-
-  .featured-work__number {
-    width:
-      38px;
-
-    height:
-      38px;
-  }
-
-
-  .featured-work__eyebrow {
-    font-size:
-      0.625rem;
-  }
-
-
-  .featured-work__eyebrow::before {
-    width:
-      20px;
-  }
-
-
-  .featured-work__heading-wrap {
-    padding-top:
-      3.75rem;
-  }
-
-
-  .featured-work__title {
-    font-size:
-      clamp(2.5rem, 12vw, 4rem);
-
-    line-height:
-      0.96;
-  }
-
-
-  .featured-work__intro {
-    font-size:
-      0.95rem;
-  }
-
-
-  .featured-work__grid {
-    margin-top:
-      4.5rem;
-  }
-
-
-  .work-card {
-    display:
-      block;
-  }
-
-
-  .work-card__visual {
-    min-height:
-      340px;
-
-    border-right:
-      0;
-
-    border-bottom:
-      1px solid var(--section-border);
-  }
-
-
-  .work-card__content {
-    padding:
-      1.5rem;
-  }
-
-
-  .work-card__title {
-    margin-top:
-      var(--space-8);
-
-    font-size:
-      1.5rem;
-  }
-
-
-  .work-card__description {
-    font-size:
-      0.9rem;
-  }
-
-
-  .featured-work__bottom {
-    align-items:
-      flex-start;
-
-    flex-wrap:
-      wrap;
-
-    gap:
-      var(--space-3);
-
-    margin-top:
-      3.5rem;
-  }
-
-
-  .featured-work__bottom-copy {
-    max-width:
-      100%;
-
-    font-size:
-      0.9rem;
-  }
-
-
-  .featured-work__bottom-status {
-    width:
-      100%;
-
-    margin-left:
-      0;
-
-    margin-top:
-      var(--space-2);
-  }
-}
-
-
-/* ================================================================
-   34. SMALL MOBILE
-================================================================ */
-
-@media (max-width: 460px) {
-
-  .featured-work__inner {
-    padding-block:
-      4.25rem;
-  }
-
-
-  .featured-work__heading-wrap {
-    padding-top:
-      3.25rem;
-  }
-
-
-  .featured-work__title {
-    font-size:
-      clamp(2.3rem, 12.5vw, 3.4rem);
-  }
-
-
-  .featured-work__grid {
-    margin-top:
-      4rem;
-  }
-
-
-  .work-card__visual {
-    min-height:
-      300px;
-  }
-
-
-  .work-card__content {
-    padding:
-      1.35rem;
-  }
-
-
-  .work-card__title {
-    font-size:
-      1.4rem;
-  }
-
-
-  .work-card__description {
-    font-size:
-      0.85rem;
-  }
-
-
-  .work-card__coming-soon {
-    right:
-      1.25rem;
-
-    bottom:
-      1.25rem;
-  }
-
-
-  .work-card__visual-index {
-    top:
-      1.25rem;
-
-    left:
-      1.25rem;
-  }
-}
-
-
-/* ================================================================
-   35. VERY SMALL DEVICES
-================================================================ */
-
-@media (max-width: 360px) {
-
-  .featured-work__inner {
-    padding-block:
-      3.75rem;
-  }
-
-
-  .featured-work__title {
-    font-size:
-      2.25rem;
-  }
-
-
-  .featured-work__intro {
-    font-size:
-      0.9rem;
-  }
-
-
-  .work-card__visual {
-    min-height:
-      270px;
-  }
-
-
-  .work-card__content {
-    padding:
-      1.1rem;
-  }
-
-
-  .work-card__title {
-    font-size:
-      1.3rem;
-  }
-
-
-  .work-card__description {
-    font-size:
-      0.82rem;
-  }
-}
-
-
-/* ================================================================
-   36. TOUCH DEVICES
-================================================================ */
-
-@media (hover: none) {
-
-  .work-card:hover {
-    background:
-      var(--section-bg);
-  }
-
-
-  .work-card:hover .work-card__visual-glow {
-    transform:
-      translate(-50%, -50%);
-
-    opacity:
-      0.65;
-  }
-
-
-  .work-card:hover .work-card__arrow {
-    transform:
-      none;
-  }
-}
-
-
-/* ================================================================
-   37. REDUCED MOTION
-================================================================ */
+/* --------------------------------------------------------------------------
+   Reduced Motion
+--------------------------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
 
-  .work-card,
-  .work-card__visual-glow,
-  .work-card__placeholder,
-  .work-card__arrow {
+  .featured-work::before,
+  .featured-work::after {
 
-    transition:
-      none;
+    animation: none;
+
   }
+
+  .featured-work__video,
+  .featured-work__media,
+  .featured-work__item,
+  .featured-work__link,
+  .featured-work__meta span,
+  .featured-work__info h3 {
+
+    transition: none !important;
+
+    transform: none !important;
+
+  }
+
+}
+
+
+/* --------------------------------------------------------------------------
+   Print
+--------------------------------------------------------------------------- */
+
+@media print {
+
+  .featured-work {
+
+    background: white !important;
+
+    color: black !important;
+
+  }
+
+  .featured-work__overlay {
+
+    display: none;
+
+  }
+
+  .featured-work__media {
+
+    box-shadow: none;
+
+    border: 1px solid #ddd;
+
+  }
+
 }
