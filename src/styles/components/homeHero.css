@@ -1,6 +1,7 @@
 
 
 /* src/styles/components/homeHero.css */
+<<<<<<< Updated upstream
 /* ============================================================
    BIG DAY MA — HOME HERO
    Dark editorial opening section
@@ -44,16 +45,40 @@
     var(--brand-black);
 
   color: var(--color-text-primary);
+=======
+/* src/styles/components/homeHero.css */
+/* src/styles/components/homeHero.css */
+/* ==========================================================================
+   HOME HERO — full-screen cinematic video intro
+   ========================================================================== */
+
+.home-hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--color-bg);
+  color: var(--color-text);
+>>>>>>> Stashed changes
 }
 
 
 /* ============================================================
+<<<<<<< Updated upstream
    BACKGROUND SYSTEM
    ============================================================ */
+=======
+   BACKGROUND
+============================================================ */
+>>>>>>> Stashed changes
 
 .home-hero__background {
   position: absolute;
   inset: 0;
+<<<<<<< Updated upstream
 
   z-index: -1;
 
@@ -138,6 +163,55 @@
       rgba(0, 0, 0, 0.8),
       transparent 88%
     );
+=======
+  z-index: 0;
+}
+
+.home-hero__background-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(1.08) contrast(1.05) brightness(0.92);
+}
+
+.home-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(5, 5, 5, 0.7) 0%, rgba(5, 5, 5, 0.45) 35%, rgba(5, 5, 5, 0.55) 65%, rgba(5, 5, 5, 0.92) 100%);
+}
+
+.home-hero__vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 35%, rgba(0, 0, 0, 0.65) 100%);
+}
+
+.home-hero__light {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  animation: float-slow 18s ease-in-out infinite;
+}
+
+.home-hero__light--one {
+  width: 560px;
+  height: 560px;
+  top: -12%;
+  right: -6%;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.5), transparent 70%);
+}
+
+.home-hero__light--two {
+  width: 460px;
+  height: 460px;
+  bottom: -18%;
+  left: -8%;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.32), transparent 70%);
+  animation-direction: reverse;
+  animation-duration: 22s;
+>>>>>>> Stashed changes
 }
 
 
@@ -148,6 +222,7 @@
 .home-hero__grain {
   position: absolute;
   inset: 0;
+<<<<<<< Updated upstream
 
   opacity: 0.025;
 
@@ -234,6 +309,105 @@
 
 .home-hero__eyebrow-text {
   white-space: nowrap;
+=======
+  z-index: 2;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ============================================================
+   PARTICLES
+============================================================ */
+
+.home-hero__particles {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.home-hero__particle {
+  position: absolute;
+  bottom: -10px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #93c5fd;
+  box-shadow: 0 0 10px rgba(147, 197, 253, 0.8);
+  opacity: 0;
+  animation-name: particle-rise;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+@keyframes particle-rise {
+  0% { opacity: 0; transform: translateY(0); }
+  15% { opacity: 0.7; }
+  85% { opacity: 0.5; }
+  100% { opacity: 0; transform: translateY(-100vh); }
+}
+
+/* ============================================================
+   BRAND MARK
+============================================================ */
+
+.home-hero__mark {
+  position: absolute;
+  top: var(--spacing-8);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  font-weight: var(--font-bold);
+  letter-spacing: var(--tracking-wider);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* ============================================================
+   CENTER CONTENT
+============================================================ */
+
+.home-hero__inner{
+    position:relative;
+    z-index:3;
+
+    width:min(92%,1400px);
+
+    margin-inline:auto;
+
+    padding-inline:clamp(20px,4vw,60px);
+
+    padding-top:clamp(100px,12vh,160px);
+
+    padding-bottom:clamp(60px,8vh,100px);
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:flex-start;
+
+    text-align:left;
+}
+
+.home-hero__title {
+  display:block;
+
+max-width:900px;
+
+line-height:.9;
+
+letter-spacing:-.06em;
+  gap: 0;
+  font-family: var(--font-display);
+  font-weight: var(--font-extrabold);
+  /* text-transform: uppercase; */
+  letter-spacing: -0.03em;
+  line-height: 0.96;
+  color: #ffffff;
+>>>>>>> Stashed changes
 }
 
 .home-hero__eyebrow-icon {
@@ -277,8 +451,11 @@
 
 .home-hero__title > span {
   display: block;
+  font-size: clamp(2.75rem, 7vw, 6.5rem);
+  overflow: hidden;
 }
 
+<<<<<<< Updated upstream
 
 /* Secondary line */
 
@@ -327,6 +504,16 @@
   background: var(--brand-blue);
 
   opacity: 0.75;
+=======
+.home-hero__title-line:last-child {
+  background: linear-gradient(100deg, #ffffff 0%, #60a5fa 45%, #ffffff 100%);
+  background-size: 220% auto;
+  background-position: 0% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-pan 7s ease-in-out infinite;
+>>>>>>> Stashed changes
 }
 
 
@@ -335,6 +522,7 @@
    ============================================================ */
 
 .home-hero__description {
+<<<<<<< Updated upstream
   width: min(100%, 570px);
 
   margin-top: clamp(2rem, 3vw, 2.5rem);
@@ -352,6 +540,13 @@
   line-height: 1.7;
 
   letter-spacing: -0.01em;
+=======
+  max-width: 46ch;
+  margin-top: var(--spacing-7);
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  line-height: var(--leading-relaxed);
+  color: rgba(255, 255, 255, 0.7);
+>>>>>>> Stashed changes
 }
 
 
@@ -361,8 +556,13 @@
 
 .home-hero__actions {
   display: flex;
-  align-items: center;
+  justify-content:flex-start;
+
+align-items:center;
+  gap: var(--spacing-4);
+  margin-top: var(--spacing-9);
   flex-wrap: wrap;
+<<<<<<< Updated upstream
 
   gap: 0.75rem;
 
@@ -1185,11 +1385,87 @@
 
   letter-spacing: 0.08em;
 
+=======
+  justify-content: center;
+}
+
+.home-hero__reel-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  height: 52px;
+  padding-inline: var(--spacing-5) var(--spacing-6);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #ffffff;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
+  transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.home-hero__reel-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+.home-hero__reel-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  color: #ffffff;
+}
+
+/* ============================================================
+   SCROLL INDICATOR — bottom right
+============================================================ */
+
+.home-hero__scroll {
+  position: absolute;
+  right: var(--page-padding);
+  bottom: var(--spacing-8);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.home-hero__scroll-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  text-align: right;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: var(--text-xs);
+>>>>>>> Stashed changes
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}
+
+.home-hero__scroll-content strong {
+  color: #ffffff;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+}
+
+.home-hero__scroll-content small {
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.1em;
 }
 
 .home-hero__scroll-line {
   position: relative;
+<<<<<<< Updated upstream
 
   width: 42px;
   height: 1px;
@@ -1197,10 +1473,17 @@
   overflow: hidden;
 
   background: var(--color-border);
+=======
+  width: 1px;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.18);
+  overflow: hidden;
+>>>>>>> Stashed changes
 }
 
-.home-hero__scroll-line span {
+.home-hero__scroll-fill {
   position: absolute;
+<<<<<<< Updated upstream
 
   inset: 0;
 
@@ -1209,11 +1492,20 @@
   background: var(--brand-blue);
 }
 
+=======
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 40%;
+  background: linear-gradient(180deg, transparent, #38bdf8, transparent);
+}
+>>>>>>> Stashed changes
 
 /* ============================================================
    LARGE DESKTOP
    ============================================================ */
 
+<<<<<<< Updated upstream
 @media (max-width: 1280px) {
   .home-hero__container {
     grid-template-columns:
@@ -1825,5 +2117,48 @@
   .home-hero__background-glow {
     transition: none;
     animation: none;
+=======
+@media (max-width: 900px) {
+  .home-hero__title-line { font-size: clamp(2.25rem, 10vw, 3.5rem); }
+  .home-hero__scroll-content { display: none; }
+  .home-hero__actions{
+
+flex-direction:column;
+
+align-items:stretch;
+
+width:min(420px,100%);
+
+}
+
+.home-hero__actions>*{
+
+width:100%;
+
+justify-content:center;
+
+}
+
+}
+@media (max-width: 640px) {
+  .home-hero__mark { top: var(--spacing-6); font-size: var(--text-xs); }
+  .home-hero__inner { padding-top: var(--spacing-11); }
+
+
+  .home-hero__reel-btn { justify-content: center; }
+
+  .home-hero__scroll {
+    right: var(--spacing-5);
+    bottom: var(--spacing-6);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-hero__light,
+  .home-hero__particle,
+  .home-hero__title-line:last-child,
+  .home-hero__scroll-fill {
+    animation: none !important;
+>>>>>>> Stashed changes
   }
 }
