@@ -1,106 +1,174 @@
-// src\components\home\HomeCTA.jsx
 
 
 // src/components/home/HomeCTA.jsx
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
-import React from "react";
+import SmartVideo from "../SmartVideo";
+
 import "../../styles/components/homeCTA.css";
 
-const HomeCTA = () => {
-  return (
-    <section
-      className="home-cta section-light"
-      data-theme="light"
-      aria-labelledby="home-cta-title"
-    >
-      {/* =====================================================
-          BACKGROUND ATMOSPHERE
-      ===================================================== */}
 
-      <div className="home-cta__glow home-cta__glow--primary" aria-hidden="true" />
-      <div className="home-cta__glow home-cta__glow--secondary" aria-hidden="true" />
+const EASE = [0.16, 1, 0.3, 1];
 
-      <div className="section-container home-cta__container">
-        {/* =====================================================
-            TOP STRUCTURE
-        ===================================================== */}
 
-        <div className="home-cta__top">
-          <div className="home-cta__eyebrow eyebrow">
-            <span>08</span>
-            <span>Start a Conversation</span>
-          </div>
+const fadeUp = {
 
-          <span className="home-cta__top-index mono">
-            Big Day MA
-          </span>
-        </div>
+  hidden: {
+    opacity: 0,
+    y: 40,
+  },
 
-        {/* =====================================================
-            MAIN CTA
-        ===================================================== */}
+  show: {
+    opacity: 1,
+    y: 0,
 
-        <div className="home-cta__content">
-          <div className="home-cta__heading-wrap">
-            <span className="home-cta__label">
-              Final thought
-            </span>
+    transition: {
+      duration: 0.9,
+      ease: EASE,
+    },
+  },
 
-            <h2
-              id="home-cta-title"
-              className="home-cta__title"
-            >
-              Let&apos;s build something
-              <br />
-              <span>people understand.</span>
-            </h2>
-          </div>
-
-          <div className="home-cta__action">
-            <p className="home-cta__description">
-              Have an idea, a challenge, or something that needs
-              to become clearer? Let&apos;s turn it into something
-              meaningful.
-            </p>
-
-            <a
-              href="#contact"
-              className="home-cta__button"
-              aria-label="Start a conversation with Big Day MA"
-            >
-              <span>Start a Conversation</span>
-
-              <span
-                className="home-cta__button-icon"
-                aria-hidden="true"
-              >
-                ↗
-              </span>
-            </a>
-          </div>
-        </div>
-
-        {/* =====================================================
-            BOTTOM STRUCTURE
-        ===================================================== */}
-
-        <div className="home-cta__bottom">
-          <div className="home-cta__line" />
-
-          <div className="home-cta__bottom-meta">
-            <span>Strategy</span>
-            <span>Creative</span>
-            <span>Technology</span>
-          </div>
-
-          <span className="home-cta__year">
-            © {new Date().getFullYear()} Big Day MA
-          </span>
-        </div>
-      </div>
-    </section>
-  );
 };
 
-export default HomeCTA;
 
+
+export default function HomeCTA({
+
+  ctaProject,
+  shouldReduceMotion,
+
+}) {
+
+
+const motionProps = shouldReduceMotion
+
+?
+
+{}
+
+:
+
+{
+
+initial:"hidden",
+
+whileInView:"show",
+
+viewport:{
+  once:true,
+  margin:"-120px",
+}
+
+};
+
+
+
+return (
+
+<section
+
+className="home-cta theme-dark"
+
+data-theme="dark"
+
+>
+
+
+<div className="home-cta__media">
+
+
+<SmartVideo
+
+project={ctaProject}
+
+className="home-cta__video home-media"
+
+/>
+
+
+<div className="home-cta__overlay"/>
+
+
+</div>
+
+
+
+
+
+<div className="container home-cta__inner">
+
+
+<motion.div
+
+className="home-cta__content"
+
+variants={fadeUp}
+
+{...motionProps}
+
+>
+
+
+
+<span className="eyebrow">
+
+Start a Conversation
+
+</span>
+
+
+
+
+<h2 className="home-cta__title">
+
+Have a project
+
+<br />
+
+in mind?
+
+</h2>
+
+
+
+
+<p className="home-cta__text">
+
+Let's build something people understand.
+
+Together we create clear communication,
+
+strong brands and meaningful digital experiences.
+
+</p>
+
+
+
+
+<Link
+
+to="/contact"
+
+className="btn btn-primary btn-lg"
+
+>
+
+Start a Conversation
+
+</Link>
+
+
+
+</motion.div>
+
+
+</div>
+
+
+
+</section>
+
+);
+
+}

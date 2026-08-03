@@ -481,3 +481,18 @@ small { font-size: var(--text-sm); color: var(--color-text-subtle); }
     scroll-behavior: auto !important;
   }
 }
+
+section { padding-block: var(--section-padding); }
+
+@media (max-width: 1024px) {
+  :root { --page-padding: 20px; --section-padding: 88px; }
+}
+
+@media (max-width: 768px) {
+  :root { --page-padding: 16px; --section-padding: 64px; }
+}
+
+@media (max-width: 480px) {
+  :root { --section-padding: 48px; }
+  .btn { width: 100%; }
+}

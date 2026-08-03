@@ -50,7 +50,7 @@ const claritySteps = [
 const ClaritySection = () => {
   return (
     <section
-      className="clarity-section section-light"
+      className="section clarity-section section-light"
       id="clarity"
       aria-labelledby="clarity-section-title"
     >

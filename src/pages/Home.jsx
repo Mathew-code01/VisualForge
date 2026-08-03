@@ -25,6 +25,8 @@ import FeaturedWork from "../components/home/FeaturedWork";
 import { getVideos } from "../firebase/uploadVideo.js";
 import TrustedBy from "../components/home/TrustedBy"
 import ServicesOverview from "../components/home/ServicesOverview"
+import CraftSection from "../components/home/CraftSection";
+import HomeCTA from "../components/home/HomeCTA";
 import "../styles/pages/home.css";
 import SmartVideo from "../components/SmartVideo";
 
@@ -157,44 +159,18 @@ shouldReduceMotion={shouldReduceMotion}
 />
 
       {/* ============================================================
-          4 — BEFORE & AFTER (dark)
-      ============================================================ */}
+5 — THE CRAFT (light)
+============================================================ */}
 
-      <section className="section home-compare theme-dark" data-theme="dark">
-        <div className="container">
-          <motion.span className="eyebrow" variants={fadeUp} {...motionProps}>
-            The Craft
-          </motion.span>
+<CraftSection
 
-          <motion.h2 className="home-compare__title" variants={fadeUp} {...motionProps}>
-            Raw footage, refined.
-          </motion.h2>
+beforeProject={beforeProject}
 
-          <motion.div className="home-compare__grid" variants={stagger} {...motionProps}>
-            <motion.div className="home-compare__panel" variants={staggerItem}>
-              <span className="home-compare__label">Raw Footage</span>
-              <div className="home-compare__media home-compare__media--raw">
-                <SmartVideo project={beforeProject} className="home-media" />
-              </div>
-            </motion.div>
+afterProject={afterProject}
 
-            <motion.div className="home-compare__arrow" variants={staggerItem} aria-hidden="true">
-              <span />
-              <span />
-              <span />
-            </motion.div>
+shouldReduceMotion={shouldReduceMotion}
 
-            <motion.div className="home-compare__panel" variants={staggerItem}>
-              <span className="home-compare__label home-compare__label--final">
-                Final Cinematic Result
-              </span>
-              <div className="home-compare__media home-compare__media--final">
-                <SmartVideo project={afterProject} className="home-media" />
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
+/>
 
       {/* ============================================================
           5 — PROCESS (light)
@@ -231,7 +207,7 @@ shouldReduceMotion={shouldReduceMotion}
           6 — ABOUT BIG DAY (dark, video)
       ============================================================ */}
 
-      <section className="home-about theme-dark" data-theme="dark">
+      <section className="section home-about theme-dark" data-theme="dark">
         <div className="home-about__media">
           <SmartVideo project={aboutProject} className="home-about__video home-media" />
           <div className="home-about__overlay" />
@@ -285,30 +261,10 @@ shouldReduceMotion={shouldReduceMotion}
           8 — FINAL CTA (dark, video)
       ============================================================ */}
 
-      <section className="home-cta theme-dark" data-theme="dark">
-        <div className="home-cta__media">
-          <SmartVideo project={ctaProject} className="home-cta__video home-media" />
-          <div className="home-cta__overlay" />
-        </div>
-
-        <motion.div
-          className="container home-cta__inner"
-          variants={stagger}
-          {...motionProps}
-        >
-          <motion.h2 className="home-cta__title" variants={staggerItem}>
-            Ready to create
-            <br />
-            something unforgettable?
-          </motion.h2>
-
-          <motion.div variants={staggerItem}>
-            <Link to="/contact" className="btn btn-primary btn-lg">
-              Start Your Project
-            </Link>
-          </motion.div>
-        </motion.div>
-      </section>
+      <HomeCTA
+  ctaProject={ctaProject}
+  shouldReduceMotion={shouldReduceMotion}
+/>
     </main>
   );
 }
