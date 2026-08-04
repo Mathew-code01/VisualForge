@@ -5,7 +5,7 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { motion } from "framer-motion";
-import "../../styles/components/AboutThinking.css";
+import "../../styles/components/aboutThinking.css";
 
 const principles = [
   {

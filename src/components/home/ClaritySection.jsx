@@ -10,7 +10,7 @@ import {
   MonitorSmartphone,
 } from "lucide-react";
 
-import "../../styles/components/ClaritySection.css";
+import "../../styles/components/claritySection.css";
 
 const claritySteps = [
   {
