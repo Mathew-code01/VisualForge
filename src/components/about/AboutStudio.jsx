@@ -14,7 +14,7 @@ import {
   Cpu,
 } from "lucide-react";
 
-import "../../styles/components/AboutStudio.css";
+import "../../styles/components/aboutStudio.css";
 
 const disciplines = [
   {
