@@ -5,7 +5,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
-import "../../styles/components/AboutCTA.css";
+import "../../styles/components/aboutCTA.css";
 
 export default function AboutCTA() {
   return (

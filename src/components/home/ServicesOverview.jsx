@@ -14,7 +14,7 @@ import {
     MonitorSmartphone,
 } from "lucide-react";
 
-import "../../styles/components/ServicesOverview.css";
+import "../../styles/components/servicesOverview.css";
 
 const EASE = [0.16, 1, 0.3, 1];
 
