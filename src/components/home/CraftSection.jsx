@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 import SmartVideo from "../SmartVideo";
 
-import "../../styles/components/CraftSection.css";
+import "../../styles/components/craftSection.css";
 
 
 const EASE = [0.16, 1, 0.3, 1];
