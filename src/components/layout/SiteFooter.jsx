@@ -13,12 +13,10 @@ import {
   FiTwitter,
   FiMail,
   FiArrowUp,
-  FiPlay,
-  FiCpu,
-  FiLayers,
-  FiAperture,
+
 } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
+import Logo from "../../assets/BIG DAY LOGO-04.png";
 
 import "../../styles/components/siteFooter.css";
 
@@ -42,12 +40,6 @@ const socialLinks = [
   { label: "LinkedIn", href: "#", icon: <FiLinkedin /> },
 ];
 
-const disciplines = [
-  { number: "01", title: "Strategy", icon: <FiAperture /> },
-  { number: "02", title: "Creative", icon: <FiPlay /> },
-  { number: "03", title: "AI Systems", icon: <FiCpu /> },
-  { number: "04", title: "Digital", icon: <FiLayers /> },
-];
 
 function SiteFooter() {
   const currentYear = new Date().getFullYear();
@@ -64,22 +56,19 @@ function SiteFooter() {
             SECTION 1 — LARGE BRAND STATEMENT
         ================================================ */}
 
-        <section className="bd-footer-hero">
-          <NavLink to="/" className="bd-footer-brand">
-            <span className="bd-footer-brand-mark">
-              <span>B</span>
-              <span>D</span>
-            </span>
-            <span className="bd-footer-brand-name">
-              Big Day<span>.</span>
-            </span>
-          </NavLink>
+        <NavLink to="/" className="bd-footer-brand">
+    <img
+        src={Logo}
+        alt="Big Day"
+        className="bd-footer-logo"
+    />
+</NavLink>
 
           <h2 className="bd-footer-hero__statement">
             Turning complex ideas into
             <span className="gradient-text"> clear digital experiences.</span>
           </h2>
-        </section>
+        
 
         {/* ================================================
             SECTION 2 — FOUR COLUMNS
@@ -155,21 +144,6 @@ function SiteFooter() {
               ))}
             </div>
           </div>
-        </div>
-
-        {/* ================================================
-            DISCIPLINES STRIP
-        ================================================ */}
-
-        <div className="bd-footer-disciplines">
-          {disciplines.map((discipline) => (
-            <div className="bd-footer-discipline" key={discipline.number}>
-              <span className="bd-footer-discipline-number mono">{discipline.number}</span>
-              <span className="bd-footer-discipline-icon">{discipline.icon}</span>
-              <span className="bd-footer-discipline-title">{discipline.title}</span>
-              <FiArrowUpRight className="bd-footer-discipline-arrow" />
-            </div>
-          ))}
         </div>
 
         {/* ================================================

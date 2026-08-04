@@ -354,3 +354,5 @@
 @media (min-width: 1025px) {
   section { --page-padding: 20px; --section-padding: 88px; }
 }
+
+section { padding-bottom: 64px; }

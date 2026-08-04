@@ -280,7 +280,7 @@ small { font-size: var(--text-sm); color: var(--color-text-subtle); }
   margin-inline: auto;
 }
 
-.section { padding-block: var(--section-padding); }
+.section { padding-block: 68px; }
 
 /* ==========================================================================
    06. BUTTONS
@@ -480,23 +480,4 @@ small { font-size: var(--text-sm); color: var(--color-text-subtle); }
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
-
-section { padding-block: var(--section-padding); }
-
-@media (max-width: 1024px) {
-  :root { --page-padding: 20px; --section-padding: 88px; }
-}
-
-@media (max-width: 768px) {
-  :root { --page-padding: 16px; --section-padding: 64px; }
-}
-
-@media (max-width: 480px) {
-  :root { --section-padding: 48px; }
-  .btn { width: 100%; }
-}
-
-@media (min-width: 1025px) {
-  :root { --page-padding: 20px; --section-padding: 88px; }
 }
