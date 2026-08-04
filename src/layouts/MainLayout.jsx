@@ -4,8 +4,8 @@
 // src/layouts/MainLayout.jsx
 // src/layouts/MainLayout.jsx
 import { Outlet, useLocation } from "react-router-dom";
-import Header from "../components/layout/SiteHeader";
-import Footer from "../components/Footer";
+import SiteHeader from "../components/layout/SiteHeader";
+import SiteFooter from "../components/layout/SiteFooter";
 import Loader from "../components/Loader";
 import ScrollToTop from "../components/ScrollToTop";
 import { useEffect, useState } from "react";
@@ -43,11 +43,11 @@ const MainLayout = () => {
       )}
 
       <ScrollToTop />
-      <Header />
+      <SiteHeader />
       <main className={loading ? "content-hidden" : "content-fade-in"}>
         <Outlet />
       </main>
-      <Footer />
+      <SiteFooter />
     </div>
   );
 };

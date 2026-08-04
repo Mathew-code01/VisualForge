@@ -23,7 +23,7 @@ import "../../styles/components/siteFooter.css";
 const companyLinks = [
   { label: "Home", path: "/" },
   { label: "Work", path: "/work" },
-  { label: "About BigDay", path: "/about" },
+  { label: "About", path: "/about" },
   { label: "Contact", path: "/contact" },
 ];
 
@@ -58,59 +58,42 @@ function SiteFooter() {
   return (
     <footer className="bd-footer theme-dark noise" data-theme="dark">
       <div className="bd-footer-shell">
-        <section className="bd-footer-identity">
-          <div className="bd-footer-identity-main">
-            <NavLink to="/" className="bd-footer-brand">
-              <span className="bd-footer-brand-mark">
-                <span>B</span>
-                <span>D</span>
-              </span>
+        {/* ================================================
+            SECTION 1 — LARGE BRAND STATEMENT
+        ================================================ */}
 
-              <span className="bd-footer-brand-name">
-                Big Day<span>.</span>
-              </span>
-            </NavLink>
-
-            <p className="bd-footer-identity-statement">
-              Strategy, design, communication, and technology for ambitious
-              ideas that deserve to be understood.
-            </p>
-          </div>
-
-          <div className="bd-footer-identity-meta">
-            <span className="bd-footer-meta-line" />
-            <span>
-              Creative technology
-              <br />
-              &amp; communication studio
+        <section className="bd-footer-hero">
+          <NavLink to="/" className="bd-footer-brand">
+            <span className="bd-footer-brand-mark">
+              <span>B</span>
+              <span>D</span>
             </span>
-          </div>
+            <span className="bd-footer-brand-name">
+              Big Day<span>.</span>
+            </span>
+          </NavLink>
+
+          <h2 className="bd-footer-hero__statement">
+            Turning complex ideas into
+            <span className="gradient-text"> clear digital experiences.</span>
+          </h2>
         </section>
 
+        {/* ================================================
+            SECTION 2 — FOUR COLUMNS
+        ================================================ */}
+
         <div className="bd-footer-main">
-          <div className="bd-footer-brand-column">
-            <div className="bd-footer-column-index">
-              <span>00</span>
-              <span>Big Day</span>
-            </div>
-
-            <p className="bd-footer-brand-description">
-              We make complex ideas clear through strategy, brand identity,
-              communication, digital experiences, and emerging technology.
-            </p>
-
+          <div className="bd-footer-column bd-footer-status-column">
+            <span className="eyebrow">Studio Status</span>
             <div className="bd-footer-status">
               <span className="bd-footer-status-dot" />
-              <span>Open for selected projects</span>
+              <span>Available for selected projects</span>
             </div>
           </div>
 
           <nav className="bd-footer-column" aria-label="Company">
-            <div className="bd-footer-column-heading">
-              <span>01</span>
-              <h3>Company</h3>
-            </div>
-
+            <h3>Company</h3>
             <ul>
               {companyLinks.map((item) => (
                 <li key={item.label}>
@@ -124,11 +107,7 @@ function SiteFooter() {
           </nav>
 
           <nav className="bd-footer-column" aria-label="Capabilities">
-            <div className="bd-footer-column-heading">
-              <span>02</span>
-              <h3>Capabilities</h3>
-            </div>
-
+            <h3>Capabilities</h3>
             <ul>
               {capabilityLinks.map((item) => (
                 <li key={item.label}>
@@ -142,17 +121,14 @@ function SiteFooter() {
           </nav>
 
           <div className="bd-footer-column bd-footer-connect">
-            <div className="bd-footer-column-heading">
-              <span>03</span>
-              <h3>Connect</h3>
-            </div>
+            <h3>Connect</h3>
 
             <a href="mailto:hello@bigday.com" className="bd-footer-email">
               <FiMail />
               <span>hello@bigday.com</span>
             </a>
 
-            
+            <a
               href={developerWhatsapp}
               target="_blank"
               rel="noreferrer"
@@ -165,7 +141,7 @@ function SiteFooter() {
 
             <div className="bd-footer-socials">
               {socialLinks.map((social) => (
-                
+                <a
                   key={social.label}
                   href={social.href}
                   target="_blank"
@@ -179,38 +155,37 @@ function SiteFooter() {
           </div>
         </div>
 
-        <section className="bd-footer-disciplines">
-          <div className="bd-footer-disciplines-heading">
-            <div className="bd-footer-column-heading">
-              <span>04</span>
-              <h3>How we create clarity</h3>
+        {/* ================================================
+            DISCIPLINES STRIP
+        ================================================ */}
+
+        <div className="bd-footer-disciplines">
+          {disciplines.map((discipline) => (
+            <div className="bd-footer-discipline" key={discipline.number}>
+              <span className="bd-footer-discipline-number mono">{discipline.number}</span>
+              <span className="bd-footer-discipline-icon">{discipline.icon}</span>
+              <span className="bd-footer-discipline-title">{discipline.title}</span>
+              <FiArrowUpRight className="bd-footer-discipline-arrow" />
             </div>
+          ))}
+        </div>
 
-            <p>
-              Different disciplines. One goal:
-              <strong> make ideas easier to understand.</strong>
-            </p>
-          </div>
-
-          <div className="bd-footer-disciplines-grid">
-            {disciplines.map((discipline) => (
-              <div className="bd-footer-discipline" key={discipline.number}>
-                <span className="bd-footer-discipline-number">{discipline.number}</span>
-                <span className="bd-footer-discipline-icon">{discipline.icon}</span>
-                <span className="bd-footer-discipline-title">{discipline.title}</span>
-                <FiArrowUpRight className="bd-footer-discipline-arrow" />
-              </div>
-            ))}
-          </div>
-        </section>
+        {/* ================================================
+            SECTION 3 — LARGE CREATIVE STATEMENT
+        ================================================ */}
 
         <section className="bd-footer-statement">
-          <span className="bd-footer-statement-line" />
+          <span className="gradient-line" />
           <p>
-            The best ideas deserve
-            <span> to be understood.</span>
+            Ideas become powerful
+            <br />
+            when people understand them.
           </p>
         </section>
+
+        {/* ================================================
+            SECTION 4 — BOTTOM BAR
+        ================================================ */}
 
         <div className="bd-footer-bottom">
           <div className="bd-footer-legal">
@@ -220,7 +195,7 @@ function SiteFooter() {
           </div>
 
           <div className="bd-footer-credit">
-            <span>Built with collaboration by</span>
+            <span>Built by</span>
             <a href={developerWhatsapp} target="_blank" rel="noreferrer">
               Mathew Oloyede
               <FiArrowUpRight />

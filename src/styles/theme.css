@@ -496,3 +496,7 @@ section { padding-block: var(--section-padding); }
   :root { --section-padding: 48px; }
   .btn { width: 100%; }
 }
+
+@media (min-width: 1025px) {
+  :root { --page-padding: 20px; --section-padding: 88px; }
+}
