@@ -4,14 +4,14 @@
 // src/pages/NotFound.jsx
 import { Link } from "react-router-dom";
 import { FiArrowLeft, FiPlay } from "react-icons/fi"; // Switched to more "Action" based icons
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import SiteHeader from "../components/layout/SiteHeader";
+import SiteFooter from "../components/layout/SiteFooter";
 import "../styles/pages/notfound.css";
 
 export default function NotFound() {
   return (
     <div className="notfound-root">
-      <Header />
+      <SiteHeader />
       
       <main className="notfound-main">
         {/* Vibrant Accent Orb - Matches the high-end design aesthetic */}
@@ -43,7 +43,7 @@ export default function NotFound() {
         </div>
       </main>
 
-      <Footer />
+      <SiteFooter />
     </div>
   );
 }

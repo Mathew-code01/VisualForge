@@ -1,37 +1,27 @@
-/* src\styles\components\siteFooter.css */
-/* src/styles/components/siteFooter.css */
 
 /* src/styles/components/siteFooter.css */
 /* ==========================================================================
-   Big Day Footer
+   Big Day Footer - Phase 1
    src/styles/components/siteFooter.css
-
-   Compact Premium Footer
-   Uses theme.css variables
 ========================================================================== */
 
 
+/* ===============================
+   FOOTER BASE
+================================ */
+
 .bd-footer {
+
   position: relative;
+
   background: var(--color-bg);
+
   color: var(--color-text);
-  border-top: 1px solid var(--color-border);
-  overflow: hidden;
-}
 
+  border-top:1px solid var(--color-border);
 
-.bd-footer::before {
-  content: "";
-  position: absolute;
-  width: 500px;
-  height: 300px;
-  bottom: -150px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--gradient-glow);
-  filter: blur(70px);
-  opacity: .45;
-  pointer-events: none;
+  overflow:hidden;
+
 }
 
 
@@ -39,41 +29,44 @@
 .bd-footer-shell {
 
   width: min(
-    calc(100% - (var(--page-padding) * 2)),
-    var(--max-width)
+    calc(100% - 80px),
+    1280px
   );
 
-  margin-inline: auto;
+  margin-inline:auto;
 
-  padding-block: 64px 28px;
-
-  position: relative;
-  z-index: 2;
+  padding-block:60px 30px;
 
 }
 
 
-/* ==========================================================
+
+/* ===============================
    BRAND
-========================================================== */
+================================ */
 
 
 .bd-footer-brand {
 
-  display:flex;
-  align-items:center;
 
-  margin-bottom:32px;
+  display:inline-flex;
+
+  margin-bottom:24px;
+
 
 }
 
 
+
 .bd-footer-logo {
 
-  width:180px;
+
+  width:150px;
+
   height:auto;
 
   object-fit:contain;
+
 
 }
 
@@ -81,34 +74,44 @@
 
 .bd-footer-hero__statement {
 
+
   max-width:650px;
 
+
   font-size:clamp(
-    1.7rem,
+    1.8rem,
     3vw,
     2.8rem
   );
 
+
   line-height:1.15;
+
 
   font-weight:700;
 
-  letter-spacing:var(--tracking-tight);
 
-  margin-bottom:60px;
+  letter-spacing:-0.03em;
+
+
+  margin:0 0 50px;
+
 
 }
 
 
 
-/* ==========================================================
-   MAIN GRID
-========================================================== */
+
+/* ===============================
+   MAIN FOOTER GRID
+================================ */
 
 
 .bd-footer-main {
 
+
   display:grid;
+
 
   grid-template-columns:
 
@@ -120,23 +123,31 @@
 
   gap:40px;
 
+
   padding-block:40px;
+
 
   border-top:1px solid var(--color-border);
 
   border-bottom:1px solid var(--color-border);
 
+
 }
+
 
 
 
 .bd-footer-column {
 
+
   display:flex;
+
 
   flex-direction:column;
 
+
   gap:18px;
+
 
 }
 
@@ -144,33 +155,62 @@
 
 .bd-footer-column h3 {
 
+
+  margin:0;
+
+
   font-size:12px;
+
 
   text-transform:uppercase;
 
-  letter-spacing:var(--tracking-wide);
+
+  letter-spacing:.12em;
+
 
   color:var(--color-text-subtle);
 
-  font-weight:600;
 
 }
 
 
 
+
+/* ===============================
+   LINKS
+================================ */
+
+
 .bd-footer-column ul {
+
 
   list-style:none;
 
+
   padding:0;
+
 
   margin:0;
 
+
   display:flex;
+
 
   flex-direction:column;
 
+
   gap:12px;
+
+
+}
+
+
+
+.bd-footer-column li {
+
+
+  margin:0;
+
 
 }
 
@@ -178,103 +218,165 @@
 
 .bd-footer-column a {
 
-  color:var(--color-text-muted);
-
-  font-size:14px;
 
   display:flex;
 
+
   align-items:center;
+
 
   gap:8px;
 
-  transition:
-  color var(--transition-fast),
-  transform var(--transition-fast);
+
+  width:max-content;
+
+
+  color:var(--color-text-muted);
+
+
+  font-size:14px;
+
+
+  text-decoration:none;
+
+
+  transition:.25s ease;
+
 
 }
+
 
 
 .bd-footer-column a:hover {
 
+
   color:var(--color-text);
 
+
   transform:translateX(4px);
+
 
 }
 
 
 
 
-/* ==========================================================
+.bd-footer-column a svg {
+
+
+  font-size:14px;
+
+
+}
+
+
+
+/* ===============================
    STATUS
-========================================================== */
+================================ */
 
 
 .bd-footer-status {
 
+
   display:flex;
+
 
   align-items:center;
 
+
   gap:10px;
+
 
   width:max-content;
 
+
   padding:10px 16px;
+
 
   border-radius:999px;
 
+
   background:var(--glass-bg);
+
 
   border:1px solid var(--glass-border);
 
+
   font-size:13px;
+
 
   color:var(--color-text-muted);
 
+
 }
+
 
 
 
 .bd-footer-status-dot {
 
+
   width:8px;
+
 
   height:8px;
 
+
   border-radius:50%;
+
 
   background:var(--color-success);
 
-  animation:pulse-glow 2s infinite;
 
 }
 
 
 
-/* ==========================================================
-   CONTACT
-========================================================== */
+
+
+/* ===============================
+   CONNECT
+================================ */
+
+
+.bd-footer-connect {
+
+
+  padding:20px;
+
+
+  border-radius:var(--radius-lg);
+
+
+  border:1px solid var(--color-border);
+
+
+  background:var(--glass-bg);
+
+
+}
+
 
 
 .bd-footer-email,
+
+
 .bd-footer-whatsapp {
 
 
   display:flex;
 
+
   align-items:center;
+
 
   gap:10px;
 
 
-  color:var(--color-text-muted);
-
-  font-size:14px;
-
-
 }
+
+
 
 
 .bd-footer-whatsapp {
@@ -282,43 +384,48 @@
 
   padding:12px 16px;
 
+
   border-radius:var(--radius-md);
+
 
   border:1px solid var(--color-border);
 
 
-  transition:
-  border-color var(--transition-fast),
-  background var(--transition-fast);
-
 }
+
 
 
 .bd-footer-whatsapp:hover {
 
+
   border-color:var(--color-primary);
 
-  background:var(--glass-bg);
 
 }
 
 
 
 
-/* ==========================================================
+
+/* ===============================
    SOCIAL ICONS
-========================================================== */
+================================ */
 
 
 .bd-footer-socials {
 
+
   display:flex;
+
 
   gap:10px;
 
-  margin-top:10px;
+
+  margin-top:8px;
+
 
 }
+
 
 
 
@@ -327,26 +434,23 @@
 
   width:38px;
 
+
   height:38px;
 
 
   display:flex;
 
+
   align-items:center;
+
 
   justify-content:center;
 
 
   border-radius:50%;
 
+
   border:1px solid var(--color-border);
-
-
-  color:var(--color-text-muted);
-
-
-  transition:
-  all var(--transition-fast);
 
 
 }
@@ -355,114 +459,82 @@
 
 .bd-footer-socials a:hover {
 
-  color:white;
-
-  border-color:var(--color-primary);
-
-  transform:translateY(-3px);
-
-}
-
-
-
-
-
-/* ==========================================================
-   DISCIPLINES
-========================================================== */
-
-
-.bd-footer-disciplines {
-
-
-  display:grid;
-
-  grid-template-columns:repeat(4,1fr);
-
-
-  margin-top:40px;
-
-
-  border-bottom:1px solid var(--color-border);
-
-
-}
-
-
-.bd-footer-discipline {
-
-
-  padding:24px;
-
-  border-right:1px solid var(--color-border);
-
-
-  display:flex;
-
-  flex-direction:column;
-
-  gap:12px;
-
-
-  transition:
-  background var(--transition-fast);
-
-
-}
-
-
-
-.bd-footer-discipline:last-child {
-
-  border-right:none;
-
-}
-
-
-
-.bd-footer-discipline:hover {
-
-  background:var(--glass-bg);
-
-}
-
-
-
-.bd-footer-discipline-number {
-
-  color:var(--color-accent);
-
-  font-size:12px;
-
-}
-
-
-
-.bd-footer-discipline-icon {
 
   color:var(--color-primary);
 
-  font-size:20px;
+
+  border-color:var(--color-primary);
+
 
 }
 
 
 
-.bd-footer-discipline-title {
+/* ===============================
+   STATEMENT
+================================ */
+
+
+.bd-footer-statement {
+
+
+  padding-block:40px;
+
+
+}
+
+
+
+.bd-footer-statement p {
+
+
+  margin-top:20px;
+
+
+  font-size:clamp(
+    1.5rem,
+    3vw,
+    2.5rem
+  );
 
 
   font-weight:600;
 
-  font-size:15px;
+
+  line-height:1.2;
+
+
+}
+
+
+
+.gradient-line {
+
+
+  display:block;
+
+
+  width:80px;
+
+
+  height:3px;
+
+
+  background:var(--gradient-primary);
+
+
+  border-radius:10px;
+
 
 }
 
 
 
 
-/* ==========================================================
-   BOTTOM AREA
-========================================================== */
+
+/* ===============================
+   BOTTOM BAR
+================================ */
 
 
 .bd-footer-bottom {
@@ -470,7 +542,9 @@
 
   display:flex;
 
+
   justify-content:space-between;
+
 
   align-items:center;
 
@@ -478,7 +552,10 @@
   gap:20px;
 
 
-  padding-top:28px;
+  padding-top:25px;
+
+
+  border-top:1px solid var(--color-border);
 
 
   font-size:13px;
@@ -491,24 +568,18 @@
 
 
 
+
 .bd-footer-credit a {
 
 
-  color:var(--color-text-muted);
-
   display:flex;
+
 
   align-items:center;
 
+
   gap:5px;
 
-}
-
-
-
-.bd-footer-credit a:hover {
-
-  color:var(--color-text);
 
 }
 
@@ -518,18 +589,25 @@
 .bd-footer-top {
 
 
-  background:none;
-
-  border:none;
-
-  color:var(--color-text-muted);
-
-
   display:flex;
+
 
   align-items:center;
 
+
   gap:10px;
+
+
+  border:none;
+
+
+  background:none;
+
+
+  color:inherit;
+
+
+  cursor:pointer;
 
 
 }
@@ -541,16 +619,21 @@
 
   width:32px;
 
+
   height:32px;
+
 
   display:flex;
 
+
   align-items:center;
+
 
   justify-content:center;
 
 
   border-radius:50%;
+
 
   border:1px solid var(--color-border);
 
@@ -560,9 +643,9 @@
 
 
 
-/* ==========================================================
+/* ===============================
    TABLET
-========================================================== */
+================================ */
 
 
 @media(max-width:1024px){
@@ -570,23 +653,12 @@
 
 .bd-footer-main {
 
- grid-template-columns:repeat(2,1fr);
+
+  grid-template-columns:repeat(2,1fr);
+
 
 }
 
-
-.bd-footer-disciplines {
-
- grid-template-columns:repeat(2,1fr);
-
-}
-
-
-.bd-footer-discipline:nth-child(2){
-
- border-right:none;
-
-}
 
 
 }
@@ -594,9 +666,10 @@
 
 
 
-/* ==========================================================
+
+/* ===============================
    MOBILE
-========================================================== */
+================================ */
 
 
 @media(max-width:768px){
@@ -604,26 +677,14 @@
 
 .bd-footer-shell {
 
- padding-block:48px 24px;
+
+ width:calc(100% - 32px);
+
+
+ padding-block:45px 25px;
+
 
 }
-
-
-
-.bd-footer-logo {
-
- width:150px;
-
-}
-
-
-
-.bd-footer-hero__statement {
-
- margin-bottom:40px;
-
-}
-
 
 
 .bd-footer-main {
@@ -631,563 +692,10 @@
 
  grid-template-columns:1fr;
 
- gap:32px;
+ gap:35px;
 
 
 }
-
-
-
-.bd-footer-disciplines {
-
-
- grid-template-columns:1fr;
-
-
-}
-
-
-
-.bd-footer-discipline {
-
-
- border-right:none;
-
- border-bottom:1px solid var(--color-border);
-
-
-}
-
-
-
-.bd-footer-bottom {
-
-
- flex-direction:column;
-
- align-items:flex-start;
-
-
-}
-
-
-
-}
-
-
-
-
-@media(max-width:480px){
-
-
-.bd-footer-shell {
-
- width:calc(100% - 32px);
-
-}
-
-
-.bd-footer-hero__statement {
-
- font-size:1.5rem;
-
-}
-
-
-}
-
-/* ==========================================================================
-   PHASE 2 — PREMIUM CINEMATIC POLISH
-========================================================================== */
-
-
-/* ==========================================================
-   FOOTER AMBIENT LIGHT
-========================================================== */
-
-
-.bd-footer::after {
-
-  content:"";
-
-  position:absolute;
-
-  top:0;
-  left:0;
-
-  width:100%;
-  height:1px;
-
-
-  background:linear-gradient(
-    90deg,
-    transparent,
-    var(--color-primary),
-    transparent
-  );
-
-
-  opacity:.8;
-
-}
-
-
-
-/* ==========================================================
-   LOGO POLISH
-========================================================== */
-
-
-.bd-footer-logo {
-
-
-  filter:
-  drop-shadow(
-    0 10px 30px rgba(37,99,235,.25)
-  );
-
-
-  transition:
-  transform var(--transition-normal),
-  filter var(--transition-normal);
-
-
-}
-
-
-
-.bd-footer-brand:hover .bd-footer-logo {
-
-
-  transform:translateY(-3px);
-
-
-  filter:
-  drop-shadow(
-    0 15px 45px rgba(37,99,235,.45)
-  );
-
-
-}
-
-
-
-
-/* ==========================================================
-   STATEMENT IMPROVEMENT
-========================================================== */
-
-
-.bd-footer-hero__statement {
-
-
-  position:relative;
-
-
-}
-
-
-.bd-footer-hero__statement::after {
-
-
-  content:"";
-
-
-  display:block;
-
-
-  width:80px;
-
-  height:3px;
-
-
-  margin-top:24px;
-
-
-  border-radius:999px;
-
-
-  background:var(--gradient-primary);
-
-
-
-}
-
-
-
-
-/* ==========================================================
-   COLUMN HOVER
-========================================================== */
-
-
-.bd-footer-column {
-
-
-  transition:
-  transform var(--transition-normal);
-
-
-}
-
-
-
-.bd-footer-column:hover {
-
-
- transform:translateY(-3px);
-
-
-}
-
-
-
-
-
-/* ==========================================================
-   LINKS PREMIUM MOTION
-========================================================== */
-
-
-.bd-footer-column a svg {
-
-
- opacity:0;
-
-
- transform:translateX(-5px);
-
-
- transition:
-
- opacity var(--transition-fast),
-
- transform var(--transition-fast);
-
-
-}
-
-
-
-.bd-footer-column a:hover svg {
-
-
- opacity:1;
-
-
- transform:translateX(0);
-
-
-}
-
-
-
-
-/* ==========================================================
-   GLASS CONTACT CARD
-========================================================== */
-
-
-.bd-footer-connect {
-
-
- padding:20px;
-
-
- border-radius:var(--radius-lg);
-
-
- background:
-
- linear-gradient(
-
- 145deg,
-
- rgba(255,255,255,.04),
-
- rgba(255,255,255,.01)
-
- );
-
-
- border:1px solid var(--glass-border);
-
-
- backdrop-filter:blur(20px);
-
-
-
-}
-
-
-
-
-.bd-footer-whatsapp {
-
-
- position:relative;
-
- overflow:hidden;
-
-
-}
-
-
-
-.bd-footer-whatsapp::before {
-
-
- content:"";
-
-
- position:absolute;
-
-
- inset:0;
-
-
- background:
-
- linear-gradient(
-
- 120deg,
-
- transparent,
-
- rgba(56,189,248,.15),
-
- transparent
-
- );
-
-
- transform:translateX(-120%);
-
-
- transition:.7s ease;
-
-
-}
-
-
-
-.bd-footer-whatsapp:hover::before {
-
-
- transform:translateX(120%);
-
-
-}
-
-
-
-
-
-/* ==========================================================
-   DISCIPLINE CARDS
-========================================================== */
-
-
-.bd-footer-discipline {
-
-
- position:relative;
-
- overflow:hidden;
-
-
-}
-
-
-
-.bd-footer-discipline::before {
-
-
- content:"";
-
-
- position:absolute;
-
-
- width:120px;
-
- height:120px;
-
-
- right:-50px;
-
- top:-50px;
-
-
- background:var(--gradient-glow);
-
-
- filter:blur(35px);
-
-
- opacity:0;
-
-
- transition:opacity .4s ease;
-
-
-}
-
-
-
-.bd-footer-discipline:hover::before {
-
-
- opacity:.8;
-
-
-}
-
-
-
-
-
-.bd-footer-discipline-title {
-
-
- transition:
-
- color var(--transition-fast);
-
-
-}
-
-
-
-.bd-footer-discipline:hover
-
-.bd-footer-discipline-title {
-
-
- color:var(--color-primary);
-
-
-}
-
-
-
-
-
-/* ==========================================================
-   BACK TO TOP
-========================================================== */
-
-
-.bd-footer-top {
-
-
- cursor:pointer;
-
-
- transition:
-
- color var(--transition-fast);
-
-
-}
-
-
-
-.bd-footer-top-icon {
-
-
- transition:
-
- transform var(--transition-normal),
-
- border-color var(--transition-fast);
-
-
-}
-
-
-
-.bd-footer-top:hover
-
-.bd-footer-top-icon {
-
-
- transform:translateY(-4px);
-
-
- border-color:var(--color-primary);
-
-
-}
-
-
-
-
-/* ==========================================================
-   FOOTER BORDER GLOW
-========================================================== */
-
-
-.bd-footer-main,
-.bd-footer-disciplines {
-
-
- position:relative;
-
-
-}
-
-
-
-.bd-footer-main::after,
-.bd-footer-disciplines::after {
-
-
- content:"";
-
-
- position:absolute;
-
-
- bottom:-1px;
-
-
- left:20%;
-
-
- width:60%;
-
-
- height:1px;
-
-
- background:
-
- linear-gradient(
-
- transparent,
-
- var(--color-primary),
-
- transparent
-
- );
-
-
- opacity:.25;
-
-
-}
-
-
-
-
-/* ==========================================================
-   MOBILE POLISH
-========================================================== */
-
-
-@media(max-width:768px){
 
 
 .bd-footer-connect {
@@ -1199,322 +707,16 @@
 }
 
 
-
-.bd-footer-column:hover {
-
-
- transform:none;
-
-
-}
-
-
-
-.bd-footer-discipline:hover {
-
-
- background:
-
- rgba(255,255,255,.03);
-
-
-}
-
-
-
-}
-
-/* ==========================================================================
-   PHASE 3 — RESPONSIVE PERFECTION
-   Final spacing, breakpoints, mobile corrections
-========================================================================== */
-
-
-/* ==========================================================
-   LARGE DESKTOP REFINEMENT
-========================================================== */
-
-@media (min-width:1280px){
-
-  .bd-footer-shell {
-
-    padding-top:72px;
-
-  }
-
-
-  .bd-footer-main {
-
-    gap:56px;
-
-  }
-
-
-  .bd-footer-logo {
-
-    width:200px;
-
-  }
-
-
-}
-
-
-
-
-/* ==========================================================
-   LAPTOP / SMALL DESKTOP
-========================================================== */
-
-
-@media(max-width:1200px){
-
-
-.bd-footer-main {
-
-
- grid-template-columns:
-
- repeat(4,minmax(0,1fr));
-
-
- gap:28px;
-
-
-}
-
-
-
-.bd-footer-hero__statement {
-
-
- max-width:600px;
-
-
-}
-
-
-
-.bd-footer-discipline {
-
-
- padding:20px;
-
-
-}
-
-
-}
-
-
-
-/* ==========================================================
-   TABLET LANDSCAPE
-========================================================== */
-
-
-@media(max-width:1024px){
-
-
-.bd-footer-main {
-
-
- grid-template-columns:
-
- repeat(2,1fr);
-
-
- row-gap:40px;
-
-
-}
-
-
-
-.bd-footer-status-column {
-
-
- grid-column:span 2;
-
-
-}
-
-
-
-.bd-footer-disciplines {
-
-
- margin-top:32px;
-
-
-}
-
-
-
-.bd-footer-discipline {
-
-
- min-height:150px;
-
-
-}
-
-
-
-}
-
-
-
-
-/* ==========================================================
-   TABLET PORTRAIT
-========================================================== */
-
-
-@media(max-width:768px){
-
-
-.bd-footer-shell {
-
-
- width:calc(100% - 32px);
-
-
-}
-
-
-
-.bd-footer-brand {
-
-
- margin-bottom:24px;
-
-
-}
-
-
-
-.bd-footer-logo {
-
-
- width:145px;
-
-
-}
-
-
-
-.bd-footer-hero__statement {
-
-
- line-height:1.2;
-
-
- margin-bottom:42px;
-
-
-}
-
-
-
-.bd-footer-main {
-
-
- grid-template-columns:1fr;
-
-
- padding-block:32px;
-
-
-}
-
-
-
-.bd-footer-status-column {
-
-
- grid-column:auto;
-
-
-}
-
-
-
-.bd-footer-connect {
-
-
- order:4;
-
-
-}
-
-
-
-.bd-footer-disciplines {
-
-
- margin-top:24px;
-
-
-}
-
-
-
-.bd-footer-discipline {
-
-
- min-height:auto;
-
-
- padding:22px 18px;
-
-
-}
-
-
-
 .bd-footer-bottom {
 
 
- padding-top:24px;
+ flex-direction:column;
 
 
- gap:16px;
-
-
-}
+ align-items:flex-start;
 
 
 }
-
-
-
-/* ==========================================================
-   SMALL MOBILE
-========================================================== */
-
-
-@media(max-width:480px){
-
-
-.bd-footer {
-
-
- overflow:hidden;
-
-
-}
-
-
-
-.bd-footer-shell {
-
-
- padding-top:42px;
-
-
-}
-
 
 
 .bd-footer-logo {
@@ -1526,44 +728,23 @@
 }
 
 
+}
+
+
+
+
+/* ===============================
+   SMALL MOBILE
+================================ */
+
+
+@media(max-width:480px){
+
 
 .bd-footer-hero__statement {
 
 
- font-size:1.35rem;
-
-
-}
-
-
-
-.bd-footer-column h3 {
-
-
- font-size:11px;
-
-
-}
-
-
-
-.bd-footer-column a {
-
-
- font-size:13px;
-
-
-}
-
-
-
-.bd-footer-status {
-
-
- max-width:100%;
-
-
- font-size:12px;
+ font-size:1.5rem;
 
 
 }
@@ -1583,16 +764,6 @@
 
 
 
-.bd-footer-socials {
-
-
- gap:8px;
-
-
-}
-
-
-
 .bd-footer-socials a {
 
 
@@ -1606,593 +777,21 @@
 
 
 
-.bd-footer-bottom {
-
-
- font-size:12px;
-
-
 }
-
-
-
-.bd-footer-credit {
-
-
- flex-wrap:wrap;
-
-
-}
-
-
-
-.bd-footer-top {
-
-
- width:100%;
-
-
- justify-content:space-between;
-
-
-}
-
-
-}
-
-
-
-
-/* ==========================================================
-   VERY SMALL DEVICES
-========================================================== */
-
-
-@media(max-width:360px){
-
-
-.bd-footer-shell {
-
-
- width:calc(100% - 24px);
-
-
-}
-
-
-
-.bd-footer-hero__statement {
-
-
- font-size:1.2rem;
-
-
-}
-
-
-
-.bd-footer-discipline {
-
-
- padding:18px 14px;
-
-
-}
-
-
-
-.bd-footer-bottom {
-
-
- align-items:flex-start;
-
-
-}
-
-
-}
-
-/* ==========================================================================
-   PHASE 4 — LUXURY FINISHING LAYER
-   Big Day Premium Studio Footer
-========================================================================== */
-
-
-/* ==========================================================
-   CINEMATIC BACKGROUND MOTION
-========================================================== */
-
-
-.bd-footer::before {
-
-  animation:
-  footerGlowMove 12s ease-in-out infinite;
-
-}
-
-
-
-@keyframes footerGlowMove {
-
-
-  0%,
-  100% {
-
-    transform:
-    translateX(-50%)
-    translateY(0);
-
-    opacity:.35;
-
-  }
-
-
-  50% {
-
-    transform:
-    translateX(-50%)
-    translateY(-30px);
-
-    opacity:.6;
-
-  }
-
-
-}
-
-
-
-/* ==========================================================
-   BRAND AREA PREMIUM FEEL
-========================================================== */
-
-
-.bd-footer-brand {
-
-
- position:relative;
-
-
-}
-
-
-
-.bd-footer-brand::after {
-
-
- content:"";
-
-
- position:absolute;
-
-
- left:0;
-
-
- bottom:-10px;
-
-
- width:0;
-
-
- height:2px;
-
-
- background:var(--gradient-primary);
-
-
- transition:
-
- width .5s var(--ease-premium);
-
-
-}
-
-
-
-.bd-footer-brand:hover::after {
-
-
- width:100%;
-
-
-}
-
-
-
-
-
-/* ==========================================================
-   HEADLINE MOTION
-========================================================== */
-
-
-.bd-footer-hero__statement {
-
-
- animation:
-
- footerFadeUp .8s var(--ease-premium);
-
-
-}
-
-
-
-@keyframes footerFadeUp {
-
-
- from {
-
- opacity:0;
-
- transform:translateY(20px);
-
- }
-
-
- to {
-
- opacity:1;
-
- transform:translateY(0);
-
- }
-
-
-}
-
-
-
-
-/* ==========================================================
-   PREMIUM COLUMN SEPARATORS
-========================================================== */
-
-
-.bd-footer-main {
-
-
- backdrop-filter:blur(10px);
-
-
-}
-
-
-
-.bd-footer-column {
-
-
- position:relative;
-
-
-}
-
-
-
-.bd-footer-column:not(:last-child)::after {
-
-
- content:"";
-
-
- position:absolute;
-
-
- right:-20px;
-
-
- top:10%;
-
-
- height:80%;
-
-
- width:1px;
-
-
- background:var(--color-border);
-
-
- opacity:.5;
-
-
-}
-
-
 
 @media(max-width:1024px){
 
+  .bd-footer-shell {
 
-.bd-footer-column:not(:last-child)::after {
+    width:calc(100% - 48px);
 
- display:none;
+  }
 
-}
 
+  .bd-footer-main {
 
-}
+    grid-template-columns:repeat(2,1fr);
 
-
-
-
-/* ==========================================================
-   LINK UNDERLINE EFFECT
-========================================================== */
-
-
-.bd-footer-column a {
-
-
- position:relative;
-
-
- width:max-content;
-
-
-}
-
-
-
-.bd-footer-column a span {
-
-
- position:relative;
-
-
-}
-
-
-
-.bd-footer-column a span::after {
-
-
- content:"";
-
-
- position:absolute;
-
-
- left:0;
-
-
- bottom:-4px;
-
-
- width:0;
-
-
- height:1px;
-
-
- background:var(--color-primary);
-
-
- transition:
-
- width .3s ease;
-
-
-}
-
-
-
-.bd-footer-column a:hover span::after {
-
-
- width:100%;
-
-
-}
-
-
-
-
-
-/* ==========================================================
-   SOCIAL ICON PREMIUM HOVER
-========================================================== */
-
-
-.bd-footer-socials a {
-
-
- position:relative;
-
-
- overflow:hidden;
-
-
-}
-
-
-
-.bd-footer-socials a::before {
-
-
- content:"";
-
-
- position:absolute;
-
-
- inset:0;
-
-
- background:var(--gradient-primary);
-
-
- transform:scale(0);
-
-
- border-radius:inherit;
-
-
- transition:
-
- transform .35s var(--ease-spring);
-
-
- z-index:-1;
-
-
-}
-
-
-
-.bd-footer-socials a:hover {
-
-
- color:white;
-
-
-}
-
-
-
-.bd-footer-socials a:hover::before {
-
-
- transform:scale(1);
-
-
-}
-
-
-
-
-
-/* ==========================================================
-   DISCIPLINE CARD ANIMATION
-========================================================== */
-
-
-.bd-footer-discipline {
-
-
- cursor:pointer;
-
-
-}
-
-
-
-.bd-footer-discipline-icon {
-
-
- transition:
-
- transform .35s var(--ease-spring);
-
-
-}
-
-
-
-.bd-footer-discipline:hover
-
-.bd-footer-discipline-icon {
-
-
- transform:
-
- translateY(-5px)
-
- scale(1.1);
-
-
-}
-
-
-
-.bd-footer-discipline-arrow {
-
-
- transition:
-
- opacity .3s ease,
-
- transform .3s ease;
-
-
-}
-
-
-
-.bd-footer-discipline:hover
-
-.bd-footer-discipline-arrow {
-
-
- opacity:1;
-
-
- transform:
-
- translate(0,0);
-
-
-}
-
-
-
-
-
-/* ==========================================================
-   FOOTER BOTTOM REFINEMENT
-========================================================== */
-
-
-.bd-footer-bottom {
-
-
- opacity:.9;
-
-
-}
-
-
-
-.bd-footer-bottom span {
-
-
- transition:
-
- color var(--transition-fast);
-
-
-}
-
-
-
-.bd-footer-bottom:hover span {
-
-
- color:var(--color-text);
-
-
-}
-
-
-
-
-
-/* ==========================================================
-   PREMIUM REDUCED MOTION SUPPORT
-========================================================== */
-
-
-@media(prefers-reduced-motion:reduce){
-
-
-.bd-footer::before,
-.bd-footer-hero__statement {
-
-
- animation:none;
-
-
-}
-
+  }
 
 }
