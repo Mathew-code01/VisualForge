@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 import SmartVideo from "../SmartVideo";
 
-import "../../styles/components/FeaturedWork.css";
+import "../../styles/components/featuredWork.css";
 
 
 const EASE = [0.16, 1, 0.3, 1];
@@ -178,12 +178,13 @@ className="featured-work__overlay"
     </span>
 
     <h3>
-        {project.title}
-    </h3>
+    {project.title || "Untitled Project"}
+</h3>
 
     <p className="featured-work__description">
-        {project.description}
-    </p>
+    {project.description ||
+        "A cinematic story crafted to connect brands with audiences through powerful visual storytelling."}
+</p>
 
     <div className="featured-work__meta">
 
