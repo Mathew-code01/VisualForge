@@ -1,156 +1,106 @@
 // src/components/Loader.jsx
 // src/components/Loader.jsx
 // src/components/Loader.jsx
-// src/components/Loader.jsx
-// src/components/Loader.jsx
-import { useEffect, useState, useRef } from "react";
+
+import { useEffect, useMemo, useRef, useState } from "react";
+
+import logoMark from "../assets/BIG DAY LOGO-03.png";
+
 import "../styles/components/loader.css";
 
-// Critical assets to preload
-import theArchiveImg from "../assets/images/theArchive.webp";
-import visualExcellenceImg from "../assets/images/visualExcellence.webp";
+const STATUS_MESSAGES = [
+  "Initializing",
+  "Loading Assets",
+  "Preparing Experience",
+  "Almost Ready",
+];
 
-export default function Loader({ onLoadingComplete, isTransition = false }) {
+export default function Loader({ onLoadingComplete, minDuration = 2200 }) {
   const [progress, setProgress] = useState(0);
   const [isExiting, setIsExiting] = useState(false);
-  const [videoReady, setVideoReady] = useState(isTransition);
-  const [assetsReady, setAssetsReady] = useState(false);
 
   const progressRef = useRef(0);
-  const currentYear = new Date().getFullYear();
+  const startRef = useRef(null);
 
-  const unlockScreenSovereign = () => {
-    document.body.classList.remove("loader-active-lock");
-    document.body.style.overflow = "visible";
-    document.body.style.height = "auto";
-    document.documentElement.style.overflow = "visible";
-    document.documentElement.style.height = "auto";
-    window.dispatchEvent(new Event("resize"));
-  };
-
-  useEffect(() => {
-    document.body.classList.add("loader-active-lock");
-
-    const images = [theArchiveImg, visualExcellenceImg];
-    let loaded = 0;
-    if (images.length === 0) {
-      setAssetsReady(true);
-    } else {
-      images.forEach((src) => {
-        const img = new Image();
-        img.src = src;
-        img.onload = img.onerror = () => {
-          loaded++;
-          if (loaded === images.length) setAssetsReady(true);
-        };
-      });
-    }
-
-    if (!videoReady) return;
-
-    const interval = setInterval(
-      () => {
-        let increment = 0;
-        if (isTransition) {
-          increment = 12.0; // Snappy for navigation
-        } else if (document.readyState !== "complete" || !assetsReady) {
-          const remaining = 95 - progressRef.current;
-          increment = Math.max(0.01, Math.random() * (remaining / 40));
-        } else {
-          increment = 4.0;
-        }
-
-        progressRef.current += increment;
-
-        if (progressRef.current >= 100) {
-          progressRef.current = 100;
-          setProgress(100);
-          clearInterval(interval);
-          setTimeout(() => {
-            setIsExiting(true);
-            setTimeout(() => {
-              unlockScreenSovereign();
-              if (onLoadingComplete) onLoadingComplete();
-            }, 800);
-          }, 300);
-        } else {
-          setProgress(Math.floor(progressRef.current));
-        }
-      },
-      isTransition ? 16 : 30
+  const currentMessage = useMemo(() => {
+    const index = Math.min(
+      STATUS_MESSAGES.length - 1,
+      Math.floor((progress / 100) * STATUS_MESSAGES.length)
     );
+    return STATUS_MESSAGES[index];
+  }, [progress]);
+
+  /* Lock scroll while the loader is mounted */
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
 
     return () => {
-      clearInterval(interval);
-      unlockScreenSovereign();
+      document.body.style.overflow = previousOverflow;
     };
-  }, [videoReady, assetsReady, isTransition, onLoadingComplete]);
+  }, []);
+
+  /* Drive progress against a real clock, not arbitrary increments,
+     so the loader always resolves at roughly minDuration regardless
+     of frame rate. */
+  useEffect(() => {
+    let frame;
+
+    const tick = (timestamp) => {
+      if (startRef.current === null) startRef.current = timestamp;
+
+      const elapsed = timestamp - startRef.current;
+      const ratio = Math.min(elapsed / minDuration, 1);
+
+      /* Ease-out so the final stretch feels deliberate, not abrupt */
+      const eased = 1 - Math.pow(1 - ratio, 3);
+      const next = Math.round(eased * 100);
+
+      progressRef.current = next;
+      setProgress(next);
+
+      if (ratio < 1) {
+        frame = requestAnimationFrame(tick);
+        return;
+      }
+
+      setIsExiting(true);
+
+      setTimeout(() => {
+        document.body.style.overflow = "";
+        onLoadingComplete?.();
+      }, 650);
+    };
+
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [minDuration, onLoadingComplete]);
 
   return (
     <div
-      className={`loader-agency-elite ${isExiting ? "exit-active" : ""} ${
-        isTransition ? "mode-transition" : "mode-intro"
-      }`}
+      className={`bd-loader theme-dark ${isExiting ? "is-exiting" : ""}`}
+      role="status"
+      aria-live="polite"
+      aria-label={`Loading, ${progress}% complete`}
     >
-      {/* Video Background: Only for Grand Intro (Dark) */}
-      {!isTransition && (
-        <div className="loader-bg-wrapper">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            onCanPlayThrough={() => setVideoReady(true)}
-            className={`loader-video-asset ${
-              videoReady ? "visible" : "hidden"
-            }`}
-          >
-            <source src="/assets/loader-bg.mp4" type="video/mp4" />
-          </video>
-          <div className="loader-vignette" />
+      <div className="bd-loader__glow" aria-hidden="true" />
+
+      <div className="bd-loader__content">
+        <div className="bd-loader__mark">
+          <img src={logoMark} alt="Big Day" className="bd-loader__logo" />
         </div>
-      )}
 
-      <div className="loader-content-wrap">
-        <header className="loader-ui-top">
-          <div className="ui-item">
-            <span className="label">PROJECT</span>
-            <span className="value">BDMA_ARCHIVE_{currentYear}</span>
-          </div>
-          <div className="status-wrap">
-            <div className={`rec-dot ${progress < 100 ? "active" : ""}`} />
-            <span className="value-status">
-              {isTransition ? "ROUTING" : !videoReady ? "SYNCING" : "ACTIVE"}
-            </span>
-          </div>
-        </header>
+        <div className="bd-loader__status">
+          <span className="mono">{currentMessage}</span>
+          <span className="mono bd-loader__percent">{progress}%</span>
+        </div>
 
-        <main className="loader-hero">
-          <div className="brand-reveal">
-            <h1 className="main-logo">BIGDAY MEDIA</h1>
-            <p className="tagline">Visual Excellence Built for Impact</p>
-          </div>
-          <div className="progress-system">
-            <div className="progress-track">
-              <div className="progress-bar" style={{ width: `${progress}%` }} />
-            </div>
-            <div className="progress-data">
-              <span>{isTransition ? "INTERNAL_LINK" : "LOADING_ASSETS"}</span>
-              <span>{progress}%</span>
-            </div>
-          </div>
-        </main>
-
-        <footer className="loader-ui-bottom">
-          <div className="ui-item">
-            <span className="label">LEAD EDITOR</span>
-            <span className="value-bold">MATHEW.EXE</span>
-          </div>
-          <div className="ui-item text-right">
-            <span className="label">VERSION</span>
-            <span className="value">©_{currentYear}_STABLE</span>
-          </div>
-        </footer>
+        <div className="bd-loader__bar">
+          <div
+            className="bd-loader__bar-fill"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
       </div>
     </div>
   );

@@ -3,6 +3,8 @@
 // src/components/layout/SiteFooter.jsx
 // src/components/layout/SiteFooter.jsx
 
+// src/components/layout/SiteFooter.jsx
+
 import { NavLink } from "react-router-dom";
 import {
   FiArrowUpRight,

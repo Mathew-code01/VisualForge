@@ -5,7 +5,7 @@
 import { useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { useInView } from "../../hooks/useInView";
-import "../../styles/components/contactForm.css";
+import "../../styles/components/contactform.css";
 
 const PROJECT_TYPES = [
   "Strategy",

@@ -429,7 +429,7 @@
 /* Responsive */
 
 @media (max-width: 900px) {
-  .bd-header__inner { display: flex; justify-content: space-between; }
+  .bd-header__inner { display: flex; justify-content: space-between; min-height: var(--header-height-scrolled); }
   .bd-header__nav { display: none; }
   .bd-header__cta { display: none; }
   .bd-header__menu-button { display: inline-flex; }
