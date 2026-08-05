@@ -1,97 +1,243 @@
 /* src/styles/components/loader.css */
 /* src/styles/components/loader.css */
 /* src/styles/components/loader.css */
+/* src/styles/components/loader.css */
 
-.bd-loader {
+.loader-container {
   position: fixed;
   inset: 0;
-  z-index: var(--z-overlay);
+  z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-bg);
-  color: var(--color-text);
-  transition: opacity 600ms var(--ease-premium), visibility 600ms var(--ease-premium);
+  background: #050505;
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 800ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity;
 }
 
-.bd-loader.is-exiting {
+.loader-container--exiting {
   opacity: 0;
   pointer-events: none;
 }
 
-.bd-loader__glow {
+/* ============================================================
+   ATMOSPHERE
+============================================================ */
+
+.loader-atmosphere {
   position: absolute;
-  width: 520px;
-  height: 520px;
-  border-radius: 50%;
-  background: var(--gradient-glow);
-  filter: blur(90px);
-  opacity: 0.5;
-  animation: pulse-glow 3.2s ease-in-out infinite;
+  inset: 0;
   pointer-events: none;
 }
 
-.bd-loader__content {
+.loader-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.35;
+  animation: loader-drift 9s ease-in-out infinite;
+  will-change: transform;
+}
+
+.loader-glow--one {
+  width: 480px;
+  height: 480px;
+  top: -12%;
+  left: -8%;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.5), transparent 70%);
+}
+
+.loader-glow--two {
+  width: 420px;
+  height: 420px;
+  bottom: -14%;
+  right: -6%;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.32), transparent 70%);
+  animation-direction: reverse;
+  animation-duration: 12s;
+}
+
+@keyframes loader-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(3%, -3%, 0) scale(1.06); }
+}
+
+.loader-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ============================================================
+   STAGE
+============================================================ */
+
+.loader-stage {
   position: relative;
   z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--spacing-7);
-  width: min(calc(100% - (var(--page-padding) * 2)), 320px);
+  gap: 28px;
 }
 
-.bd-loader__mark {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: fade-in-up var(--duration-slow) var(--ease-premium) both;
-}
-
-.bd-loader__logo {
-  width: 64px;
-  height: auto;
-  filter: drop-shadow(0 0 24px rgba(37, 99, 235, 0.4));
-}
-
-.bd-loader__status {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  font-size: var(--text-xs);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  color: var(--color-text-subtle);
-  animation: fade-in-up var(--duration-slow) var(--ease-premium) both;
-  animation-delay: 80ms;
-}
-
-.bd-loader__percent { color: var(--color-text); }
-
-.bd-loader__bar {
-  width: 100%;
-  height: 2px;
-  border-radius: 999px;
-  background: var(--color-border);
+.loader-logo-wrap {
+  position: relative;
   overflow: hidden;
-  animation: fade-in-up var(--duration-slow) var(--ease-premium) both;
-  animation-delay: 140ms;
+  border-radius: 4px;
 }
 
-.bd-loader__bar-fill {
-  height: 100%;
-  background: var(--gradient-primary);
-  transition: width 120ms linear;
+.loader-logo {
+  display: block;
+  width: clamp(140px, 18vw, 220px);
+  height: auto;
+  opacity: 0;
+  transform: scale(0.92);
+  filter: blur(14px);
+  animation: loader-reveal 1100ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 120ms;
+  will-change: opacity, transform, filter;
+}
+
+@keyframes loader-reveal {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+    filter: blur(14px);
+  }
+  60% {
+    opacity: 1;
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0px);
+  }
+}
+
+.loader-sweep {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.22) 48%,
+    transparent 76%
+  );
+  background-size: 220% 100%;
+  background-position: 160% 0;
+  animation: loader-sweep-move 1500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 500ms;
+  pointer-events: none;
+  will-change: background-position;
+}
+
+@keyframes loader-sweep-move {
+  0% { background-position: 160% 0; }
+  100% { background-position: -60% 0; }
+}
+
+.loader-rule {
+  position: relative;
+  width: 64px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+  opacity: 0;
+  animation: loader-fade-in 600ms ease forwards;
+  animation-delay: 700ms;
+}
+
+@keyframes loader-fade-in {
+  to { opacity: 1; }
+}
+
+.loader-rule-fill {
+  position: absolute;
+  inset: 0;
+  width: 0%;
+  background: linear-gradient(90deg, #2563eb, #38bdf8);
+  animation: loader-rule-grow 1400ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 750ms;
+  will-change: width;
+}
+
+@keyframes loader-rule-grow {
+  to { width: 100%; }
+}
+
+/* ============================================================
+   EXIT
+============================================================ */
+
+.loader-container--exiting .loader-logo {
+  animation: none;
+  opacity: 1;
+  transform: scale(1.03);
+  filter: blur(6px);
+  transition: transform 800ms cubic-bezier(0.16, 1, 0.3, 1), filter 800ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.loader-container--exiting .loader-rule {
+  transition: opacity 400ms ease;
+  opacity: 0;
+}
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
+@media (max-width: 768px) {
+  .loader-glow--one,
+  .loader-glow--two {
+    filter: blur(70px);
+  }
+
+  .loader-rule {
+    width: 48px;
+  }
 }
 
 @media (max-width: 480px) {
-  .bd-loader__logo { width: 52px; }
+  .loader-logo {
+    width: clamp(120px, 34vw, 180px);
+  }
+
+  .loader-glow--one {
+    width: 320px;
+    height: 320px;
+  }
+
+  .loader-glow--two {
+    width: 280px;
+    height: 280px;
+  }
 }
 
+/* ============================================================
+   REDUCED MOTION
+============================================================ */
+
 @media (prefers-reduced-motion: reduce) {
-  .bd-loader, .bd-loader__mark, .bd-loader__status, .bd-loader__bar, .bd-loader__glow {
-    animation: none !important;
-    transition: opacity 0.01ms;
+  .loader-container,
+  .loader-logo,
+  .loader-sweep,
+  .loader-rule,
+  .loader-rule-fill,
+  .loader-glow {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .loader-logo {
+    opacity: 1;
+    transform: none;
+    filter: none;
   }
 }

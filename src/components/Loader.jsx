@@ -2,35 +2,42 @@
 // src/components/Loader.jsx
 // src/components/Loader.jsx
 
-import { useEffect, useMemo, useRef, useState } from "react";
+// src/components/Loader.jsx
 
+import { useEffect, useRef, useState } from "react";
 import logoMark from "../assets/BIG DAY LOGO-03.png";
-
 import "../styles/components/loader.css";
 
-const STATUS_MESSAGES = [
-  "Initializing",
-  "Loading Assets",
-  "Preparing Experience",
-  "Almost Ready",
-];
+const MIN_DISPLAY_MS = 2200;
+const EXIT_DURATION_MS = 800;
 
-export default function Loader({ onLoadingComplete, minDuration = 2200 }) {
-  const [progress, setProgress] = useState(0);
-  const [isExiting, setIsExiting] = useState(false);
-
-  const progressRef = useRef(0);
+export default function Loader({ onFinish }) {
+  const [phase, setPhase] = useState("entering");
   const startRef = useRef(null);
 
-  const currentMessage = useMemo(() => {
-    const index = Math.min(
-      STATUS_MESSAGES.length - 1,
-      Math.floor((progress / 100) * STATUS_MESSAGES.length)
-    );
-    return STATUS_MESSAGES[index];
-  }, [progress]);
+  useEffect(() => {
+    startRef.current = performance.now();
 
-  /* Lock scroll while the loader is mounted */
+    const revealTimer = setTimeout(() => {
+      setPhase("holding");
+    }, 100);
+
+    const exitTimer = setTimeout(() => {
+      setPhase("exiting");
+    }, MIN_DISPLAY_MS);
+
+    const finishTimer = setTimeout(() => {
+      setPhase("done");
+      onFinish?.();
+    }, MIN_DISPLAY_MS + EXIT_DURATION_MS);
+
+    return () => {
+      clearTimeout(revealTimer);
+      clearTimeout(exitTimer);
+      clearTimeout(finishTimer);
+    };
+  }, [onFinish]);
+
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -40,66 +47,29 @@ export default function Loader({ onLoadingComplete, minDuration = 2200 }) {
     };
   }, []);
 
-  /* Drive progress against a real clock, not arbitrary increments,
-     so the loader always resolves at roughly minDuration regardless
-     of frame rate. */
-  useEffect(() => {
-    let frame;
-
-    const tick = (timestamp) => {
-      if (startRef.current === null) startRef.current = timestamp;
-
-      const elapsed = timestamp - startRef.current;
-      const ratio = Math.min(elapsed / minDuration, 1);
-
-      /* Ease-out so the final stretch feels deliberate, not abrupt */
-      const eased = 1 - Math.pow(1 - ratio, 3);
-      const next = Math.round(eased * 100);
-
-      progressRef.current = next;
-      setProgress(next);
-
-      if (ratio < 1) {
-        frame = requestAnimationFrame(tick);
-        return;
-      }
-
-      setIsExiting(true);
-
-      setTimeout(() => {
-        document.body.style.overflow = "";
-        onLoadingComplete?.();
-      }, 650);
-    };
-
-    frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
-  }, [minDuration, onLoadingComplete]);
+  if (phase === "done") return null;
 
   return (
     <div
-      className={`bd-loader theme-dark ${isExiting ? "is-exiting" : ""}`}
+      className={`loader-container loader-container--${phase}`}
       role="status"
       aria-live="polite"
-      aria-label={`Loading, ${progress}% complete`}
+      aria-label="Loading Big Day"
     >
-      <div className="bd-loader__glow" aria-hidden="true" />
+      <div className="loader-atmosphere" aria-hidden="true">
+        <div className="loader-glow loader-glow--one" />
+        <div className="loader-glow loader-glow--two" />
+        <div className="loader-grain" />
+      </div>
 
-      <div className="bd-loader__content">
-        <div className="bd-loader__mark">
-          <img src={logoMark} alt="Big Day" className="bd-loader__logo" />
+      <div className="loader-stage">
+        <div className="loader-logo-wrap">
+          <img src={logoMark} alt="Big Day" className="loader-logo" draggable="false" />
+          <span className="loader-sweep" aria-hidden="true" />
         </div>
 
-        <div className="bd-loader__status">
-          <span className="mono">{currentMessage}</span>
-          <span className="mono bd-loader__percent">{progress}%</span>
-        </div>
-
-        <div className="bd-loader__bar">
-          <div
-            className="bd-loader__bar-fill"
-            style={{ width: `${progress}%` }}
-          />
+        <div className="loader-rule" aria-hidden="true">
+          <span className="loader-rule-fill" />
         </div>
       </div>
     </div>
