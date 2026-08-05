@@ -103,19 +103,42 @@ function useHeaderTheme(pathname) {
     let ticking = false;
 
     const evaluate = () => {
-      let next = "dark";
+  const sections = Array.from(
+    document.querySelectorAll("[data-theme]")
+  ).filter(
+    (el) =>
+      !el.classList.contains("bd-header") &&
+      !el.classList.contains("bd-mobile")
+  );
 
-      for (const el of sections) {
-        const rect = el.getBoundingClientRect();
-        if (rect.top <= HEADER_THEME_PROBE_Y && rect.bottom > HEADER_THEME_PROBE_Y) {
-          next = el.getAttribute("data-theme") || "dark";
-          break;
-        }
-      }
+  console.clear();
 
-      setTheme(next);
-      ticking = false;
-    };
+  let next = "dark";
+
+  sections.forEach((el) => {
+    const rect = el.getBoundingClientRect();
+
+    console.log({
+      class: el.className,
+      theme: el.dataset.theme,
+      top: Math.round(rect.top),
+      bottom: Math.round(rect.bottom),
+    });
+
+    if (
+      rect.top <= HEADER_THEME_PROBE_Y &&
+      rect.bottom > HEADER_THEME_PROBE_Y
+    ) {
+      next = el.dataset.theme;
+    }
+  });
+
+  console.log("ACTIVE THEME:", next);
+
+setTheme(next);
+
+ticking = false;
+};
 
     const onScroll = () => {
       if (!ticking) {
@@ -137,11 +160,16 @@ function useHeaderTheme(pathname) {
   return theme;
 }
 
+
+
 export default function SiteHeader() {
   const location = useLocation();
 
   const isDesktop = useIsDesktop();
   const theme = useHeaderTheme(location.pathname);
+
+  console.log("Header theme:", theme);
+
   const isLight = theme === "light";
 
   const [scrolled, setScrolled] = useState(false);
