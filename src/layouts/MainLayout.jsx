@@ -16,14 +16,13 @@ const MainLayout = () => {
 
   // Trigger loader on EVERY route change
   useEffect(() => {
-    setLoading(true);
+  document.body.style.overflow = "hidden";
 
-    // We scroll to top immediately when path changes
-    window.scrollTo(0, 0);
-
-    // If it's not the first load, we make the loader faster (transition mode)
-    // If you want it to wait for specific data, you can pass a prop to Loader
-  }, [location.pathname]);
+  return () => {
+    document.body.style.overflow = "";
+    document.documentElement.style.overflow = "";
+  };
+}, []);
 
   const handleLoadingFinished = () => {
     setLoading(false);
@@ -36,10 +35,9 @@ const MainLayout = () => {
       */}
       {loading && (
         <Loader
-          key={location.pathname}
-          onLoadingComplete={handleLoadingFinished}
-          isTransition={!!sessionStorage.getItem("vf-intro")}
-        />
+  key={location.pathname}
+  onFinish={handleLoadingFinished}
+/>
       )}
 
       <ScrollToTop />

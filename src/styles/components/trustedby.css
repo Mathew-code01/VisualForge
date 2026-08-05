@@ -1,35 +1,50 @@
 /* src/styles/components/trustedby.css */
 
+/* src/styles/components/trustedby.css */
+
 .trusted {
+  width: 100%;
+  padding: 42px 0;
 
-  width:100%;
+  overflow: hidden;
 
-  padding:50px 0;
+  /*
+    Neutral bridge between dark and light sections
+    Not pure white, not dark
+  */
+  background: #f3f3f1;
 
-  overflow:hidden;
-
-  background:#050505;
-
+  border-top: 1px solid rgba(0,0,0,0.06);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
 }
 
 
+/* -----------------------------------------
+   TITLE
+------------------------------------------ */
 
 .trusted__title {
 
-  text-align:center;
+  text-align: center;
 
-  margin-bottom:35px;
+  margin-bottom: 28px;
 
-  font-size:12px;
+  font-size: 11px;
 
-  letter-spacing:.18em;
+  letter-spacing: .22em;
 
-  text-transform:uppercase;
+  text-transform: uppercase;
 
-  color:rgba(255,255,255,.45);
+  font-weight: 600;
+
+  color: rgba(0,0,0,.45);
 
 }
 
+
+/* -----------------------------------------
+   MOVING AREA
+------------------------------------------ */
 
 
 .trusted__viewport {
@@ -38,12 +53,22 @@
 
   overflow:hidden;
 
+
   mask-image:
   linear-gradient(
     90deg,
     transparent,
-    black 10%,
-    black 90%,
+    black 12%,
+    black 88%,
+    transparent
+  );
+
+  -webkit-mask-image:
+  linear-gradient(
+    90deg,
+    transparent,
+    black 12%,
+    black 88%,
     transparent
   );
 
@@ -55,37 +80,43 @@
 
   display:flex;
 
-  width:max-content;
-
   align-items:center;
 
-  gap:70px;
+  width:max-content;
+
+  gap:65px;
 
 }
 
 
+/* -----------------------------------------
+   LOGO CONTAINER
+------------------------------------------ */
+
 
 .trusted__logo {
 
-
   width:130px;
 
-  height:50px;
+  height:55px;
+
 
   display:flex;
 
-  justify-content:center;
-
   align-items:center;
 
+  justify-content:center;
 
-  opacity:.55;
-
-  filter:grayscale(100%);
-
-  transition:.3s ease;
 
   flex-shrink:0;
+
+
+  opacity:.75;
+
+
+  transition:
+  opacity .3s ease,
+  transform .3s ease;
 
 }
 
@@ -93,34 +124,56 @@
 
 .trusted__logo:hover {
 
- opacity:1;
+  opacity:1;
 
- filter:none;
+  transform:translateY(-3px);
 
 }
 
+
+
+/* -----------------------------------------
+   LOGO IMAGE
+------------------------------------------ */
 
 
 .trusted__logo img {
 
- max-width:100%;
+  max-width:100%;
 
- max-height:40px;
+  max-height:38px;
 
- object-fit:contain;
+  object-fit:contain;
+
+
+  /*
+    keep original brand colours
+    because some logos need them
+  */
 
 }
 
 
 
-/* TABLET */
+/* -----------------------------------------
+   TABLET
+------------------------------------------ */
+
 
 @media(max-width:768px){
 
 
 .trusted {
 
- padding:40px 0;
+ padding:34px 0;
+
+}
+
+
+
+.trusted__title {
+
+ margin-bottom:22px;
 
 }
 
@@ -138,7 +191,7 @@
 
  width:100px;
 
- height:40px;
+ height:45px;
 
 }
 
@@ -149,6 +202,44 @@
  max-height:30px;
 
 }
+
+
+}
+
+
+
+/* -----------------------------------------
+   MOBILE
+------------------------------------------ */
+
+
+@media(max-width:480px){
+
+
+.trusted {
+
+ padding:30px 0;
+
+}
+
+
+
+.trusted__track {
+
+ gap:35px;
+
+}
+
+
+
+.trusted__logo {
+
+ width:90px;
+
+ height:40px;
+
+}
+
 
 
 }

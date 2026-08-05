@@ -53,7 +53,7 @@ export default function TrustedBy(){
 
   return (
 
-    <section className="trusted">
+    <section className="trusted theme-light">
 
       <p className="trusted__title">
         Trusted by ambitious brands

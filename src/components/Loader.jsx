@@ -2,18 +2,29 @@
 // src/components/Loader.jsx
 // src/components/Loader.jsx
 
-// src/components/Loader.jsx
-
 import { useEffect, useRef, useState } from "react";
 import logoMark from "../assets/BIG DAY LOGO-03.png";
 import "../styles/components/loader.css";
 
-const MIN_DISPLAY_MS = 2200;
-const EXIT_DURATION_MS = 800;
+const MIN_DISPLAY_MS = 1200;
+const EXIT_DURATION_MS = 600;
 
 export default function Loader({ onFinish }) {
   const [phase, setPhase] = useState("entering");
   const startRef = useRef(null);
+
+
+  // ✅ LOCK SCROLL WHILE LOADER EXISTS
+  useEffect(() => {
+    document.body.classList.add("loading");
+
+    return () => {
+      document.body.classList.remove("loading");
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    };
+  }, []);
+
 
   useEffect(() => {
     startRef.current = performance.now();
@@ -31,23 +42,18 @@ export default function Loader({ onFinish }) {
       onFinish?.();
     }, MIN_DISPLAY_MS + EXIT_DURATION_MS);
 
+
     return () => {
       clearTimeout(revealTimer);
       clearTimeout(exitTimer);
       clearTimeout(finishTimer);
     };
+
   }, [onFinish]);
 
-  useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
-  }, []);
 
   if (phase === "done") return null;
+
 
   return (
     <div
