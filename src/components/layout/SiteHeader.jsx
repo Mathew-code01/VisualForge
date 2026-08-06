@@ -53,7 +53,13 @@ const SERVICES = [
   },
 ];
 
-const NAV_LINKS = [
+const DESKTOP_NAV_LINKS = [
+  { label: "Work", href: "/work" },
+  { label: "About", href: "/about" },
+  { label: "Insights", href: "/insights" },
+];
+
+const MOBILE_NAV_LINKS = [
   { label: "Services", href: "/services" },
   { label: "Work", href: "/work" },
   { label: "About", href: "/about" },
@@ -433,7 +439,7 @@ export default function SiteHeader() {
                 </div>
               </div>
 
-              {NAV_LINKS.map((item, index) => (
+              {DESKTOP_NAV_LINKS.map((item, index) => (
                 <Link
                   key={item.label}
                   to={item.href}
@@ -491,7 +497,7 @@ export default function SiteHeader() {
 
 
           <nav className="bd-mobile__nav" aria-label="Mobile navigation">
-            {NAV_LINKS.map((item, index) => (
+            {MOBILE_NAV_LINKS.map((item, index) => (
               <Link
                 key={item.label}
                 to={item.href}
