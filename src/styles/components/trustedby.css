@@ -2,162 +2,447 @@
 
 /* src/styles/components/trustedby.css */
 
+/* src/styles/components/trustedby.css */
+
+/* ==========================================================================
+   TRUSTED BY
+   Premium Bridge Section
+   Designed between dark/light sections
+   ========================================================================== */
+
+
 .trusted {
-  width: 100%;
-  padding: 42px 0;
 
-  overflow: hidden;
+  position:relative;
 
-  /*
-    Neutral bridge between dark and light sections
-    Not pure white, not dark
-  */
-  background: #f3f3f1;
+  width:100%;
 
-  border-top: 1px solid rgba(0,0,0,0.06);
-  border-bottom: 1px solid rgba(0,0,0,0.06);
+  padding:70px 0;
+
+  overflow:hidden;
+
+  isolation:isolate;
+
+
+  background:
+    linear-gradient(
+      180deg,
+      #fafaf9 0%,
+      #f3f4f6 50%,
+      #fafaf9 100%
+    );
+
+
+  border-top:1px solid rgba(0,0,0,.06);
+  border-bottom:1px solid rgba(0,0,0,.06);
+
 }
 
 
-/* -----------------------------------------
+
+/* ==========================================================================
+   Ambient Background Glow
+   ========================================================================== */
+
+
+.trusted::before {
+
+  content:"";
+
+  position:absolute;
+
+  width:500px;
+
+  height:500px;
+
+  top:-250px;
+
+  left:50%;
+
+  transform:translateX(-50%);
+
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(37,99,235,.15),
+      transparent 70%
+    );
+
+
+  filter:blur(70px);
+
+  opacity:.8;
+
+
+  animation:
+    trustedGlow 12s ease-in-out infinite alternate;
+
+
+  pointer-events:none;
+
+}
+
+
+
+@keyframes trustedGlow {
+
+
+  from {
+
+    transform:
+      translateX(-50%)
+      translateY(0)
+      scale(1);
+
+  }
+
+
+  to {
+
+    transform:
+      translateX(-50%)
+      translateY(30px)
+      scale(1.15);
+
+  }
+
+
+}
+
+
+
+/* ==========================================================================
    TITLE
------------------------------------------- */
+   ========================================================================== */
+
 
 .trusted__title {
 
-  text-align: center;
 
-  margin-bottom: 28px;
+  position:relative;
 
-  font-size: 11px;
+  z-index:2;
 
-  letter-spacing: .22em;
 
-  text-transform: uppercase;
+  text-align:center;
 
-  font-weight: 600;
 
-  color: rgba(0,0,0,.45);
+  margin-bottom:34px;
+
+
+  font-size:11px;
+
+
+  letter-spacing:.28em;
+
+
+  text-transform:uppercase;
+
+
+  font-weight:600;
+
+
+  color:rgba(0,0,0,.45);
+
 
 }
 
 
-/* -----------------------------------------
-   MOVING AREA
------------------------------------------- */
+
+/* small line decoration */
+
+
+.trusted__title::before,
+.trusted__title::after {
+
+
+  content:"";
+
+
+  display:inline-block;
+
+
+  width:45px;
+
+
+  height:1px;
+
+
+  background:rgba(37,99,235,.35);
+
+
+  vertical-align:middle;
+
+
+  margin:0 18px;
+
+
+}
+
+
+
+
+
+/* ==========================================================================
+   VIEWPORT
+   ========================================================================== */
 
 
 .trusted__viewport {
+
+
+  position:relative;
+
+  z-index:2;
+
 
   width:100%;
 
   overflow:hidden;
 
 
+
   mask-image:
-  linear-gradient(
-    90deg,
-    transparent,
-    black 12%,
-    black 88%,
-    transparent
-  );
+    linear-gradient(
+      90deg,
+      transparent,
+      black 10%,
+      black 90%,
+      transparent
+    );
+
 
   -webkit-mask-image:
-  linear-gradient(
-    90deg,
-    transparent,
-    black 12%,
-    black 88%,
-    transparent
-  );
+    linear-gradient(
+      90deg,
+      transparent,
+      black 10%,
+      black 90%,
+      transparent
+    );
+
 
 }
 
+
+
+/* ==========================================================================
+   TRACK
+   ========================================================================== */
 
 
 .trusted__track {
 
+
   display:flex;
+
 
   align-items:center;
 
+
   width:max-content;
 
-  gap:65px;
+
+  gap:80px;
+
 
 }
 
 
-/* -----------------------------------------
-   LOGO CONTAINER
------------------------------------------- */
+
+/* ==========================================================================
+   LOGO CARD
+   ========================================================================== */
 
 
 .trusted__logo {
 
-  width:130px;
 
-  height:55px;
+  width:150px;
+
+
+  height:70px;
 
 
   display:flex;
 
+
   align-items:center;
 
+
   justify-content:center;
+
 
 
   flex-shrink:0;
 
 
-  opacity:.75;
+
+  background:
+
+    rgba(255,255,255,.55);
+
+
+
+  border:
+
+    1px solid rgba(0,0,0,.06);
+
+
+
+  border-radius:18px;
+
+
+
+  backdrop-filter:blur(14px);
+
+  -webkit-backdrop-filter:blur(14px);
+
+
+
+  box-shadow:
+
+    0 15px 40px rgba(0,0,0,.05);
+
+
+
+  opacity:.72;
+
+
+
+  animation:
+
+    trustedFloat 6s ease-in-out infinite;
+
 
 
   transition:
-  opacity .3s ease,
-  transform .3s ease;
+
+    opacity .35s ease,
+
+    transform .45s var(--ease-premium),
+
+    box-shadow .35s ease,
+
+    border-color .35s ease;
+
 
 }
+
+
+
+
+.trusted__logo:nth-child(2n){
+
+  animation-delay:1.2s;
+
+}
+
+
+.trusted__logo:nth-child(3n){
+
+  animation-delay:2.2s;
+
+}
+
+
+
+@keyframes trustedFloat {
+
+
+  0%,
+  100% {
+
+    transform:translateY(0);
+
+  }
+
+
+  50% {
+
+    transform:translateY(-8px);
+
+  }
+
+
+}
+
 
 
 
 .trusted__logo:hover {
 
+
   opacity:1;
 
-  transform:translateY(-3px);
+
+  transform:
+
+    translateY(-10px)
+    scale(1.05);
+
+
+
+  border-color:
+
+    rgba(37,99,235,.35);
+
+
+
+  box-shadow:
+
+    0 25px 60px rgba(37,99,235,.15);
+
+
 
 }
 
 
 
-/* -----------------------------------------
-   LOGO IMAGE
------------------------------------------- */
+
+/* ==========================================================================
+   IMAGE
+   ========================================================================== */
 
 
 .trusted__logo img {
 
-  max-width:100%;
 
-  max-height:38px;
+  max-width:85%;
+
+
+  max-height:42px;
+
 
   object-fit:contain;
 
 
-  /*
-    keep original brand colours
-    because some logos need them
-  */
+  transition:
+
+    filter .35s ease,
+
+    transform .35s ease;
+
 
 }
 
 
 
-/* -----------------------------------------
-   TABLET
------------------------------------------- */
+.trusted__logo:hover img {
+
+
+  transform:scale(1.05);
+
+
+}
+
+
+
+
+/* ==========================================================================
+   MOBILE
+   ========================================================================== */
 
 
 @media(max-width:768px){
@@ -165,15 +450,7 @@
 
 .trusted {
 
- padding:34px 0;
-
-}
-
-
-
-.trusted__title {
-
- margin-bottom:22px;
+ padding:55px 0;
 
 }
 
@@ -181,7 +458,7 @@
 
 .trusted__track {
 
- gap:45px;
+ gap:50px;
 
 }
 
@@ -189,9 +466,15 @@
 
 .trusted__logo {
 
- width:100px;
 
- height:45px;
+ width:120px;
+
+
+ height:60px;
+
+
+ border-radius:15px;
+
 
 }
 
@@ -199,7 +482,7 @@
 
 .trusted__logo img {
 
- max-height:30px;
+ max-height:32px;
 
 }
 
@@ -207,10 +490,6 @@
 }
 
 
-
-/* -----------------------------------------
-   MOBILE
------------------------------------------- */
 
 
 @media(max-width:480px){
@@ -218,7 +497,18 @@
 
 .trusted {
 
- padding:30px 0;
+ padding:45px 0;
+
+}
+
+
+
+.trusted__title::before,
+.trusted__title::after {
+
+ width:20px;
+
+ margin:0 10px;
 
 }
 
@@ -234,12 +524,47 @@
 
 .trusted__logo {
 
- width:90px;
 
- height:40px;
+ width:100px;
+
+
+ height:50px;
+
 
 }
 
+
+}
+
+
+
+
+/* ==========================================================================
+   ACCESSIBILITY
+   ========================================================================== */
+
+
+@media(prefers-reduced-motion:reduce){
+
+
+.trusted::before,
+
+.trusted__logo {
+
+
+ animation:none !important;
+
+}
+
+
+.trusted__logo,
+
+.trusted__logo img {
+
+
+ transition:none !important;
+
+}
 
 
 }
