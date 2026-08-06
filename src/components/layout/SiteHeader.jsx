@@ -54,6 +54,7 @@ const SERVICES = [
 ];
 
 const NAV_LINKS = [
+  { label: "Services", href: "/services" },
   { label: "Work", href: "/work" },
   { label: "About", href: "/about" },
   { label: "Insights", href: "/insights" },
@@ -175,7 +176,7 @@ export default function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+
   const [mounted, setMounted] = useState(false);
 
   const servicesRef = useRef(null);
@@ -209,13 +210,13 @@ export default function SiteHeader() {
   useEffect(() => {
     setServicesOpen(false);
     setMobileOpen(false);
-    setMobileServicesOpen(false);
+    
   }, [location.pathname]);
 
   useEffect(() => {
     if (isDesktop) {
       setMobileOpen(false);
-      setMobileServicesOpen(false);
+      
     } else {
       setServicesOpen(false);
     }
@@ -252,7 +253,7 @@ export default function SiteHeader() {
 
       setServicesOpen(false);
       setMobileOpen(false);
-      setMobileServicesOpen(false);
+      
     };
 
     document.addEventListener("keydown", handleKeyDown);
@@ -274,7 +275,7 @@ export default function SiteHeader() {
 
   const closeMobile = useCallback(() => {
     setMobileOpen(false);
-    setMobileServicesOpen(false);
+    
   }, []);
 
   const isActive = (href) => {
@@ -488,67 +489,6 @@ export default function SiteHeader() {
             <p>Strategy, design and visual storytelling for ambitious ideas.</p>
           </div>
 
-          <div className="bd-mobile__services">
-            <button
-              type="button"
-              className="bd-mobile__service-trigger"
-              onClick={() => setMobileServicesOpen((c) => !c)}
-              aria-expanded={mobileServicesOpen}
-              aria-controls="bd-mobile-services-list"
-              tabIndex={mobileOpen ? 0 : -1}
-            >
-              <span>Services</span>
-              <ChevronDown
-                size={19}
-                strokeWidth={1.6}
-                className={mobileServicesOpen ? "is-open" : ""}
-                aria-hidden="true"
-              />
-            </button>
-
-            <div
-              id="bd-mobile-services-list"
-              className={[
-                "bd-mobile__service-list",
-                mobileServicesOpen ? "bd-mobile__service-list--open" : "",
-              ]
-                .filter(Boolean)
-                .join(" ")}
-            >
-              {SERVICES.map((service) => {
-                const Icon = service.icon;
-
-                return (
-                  <Link
-                    key={service.number}
-                    to={service.href}
-                    className="bd-mobile__service"
-                    tabIndex={mobileOpen && mobileServicesOpen ? 0 : -1}
-                    onClick={closeMobile}
-                  >
-                    <Icon size={16} strokeWidth={1.6} className="bd-mobile__service-icon" aria-hidden="true" />
-
-                    <span className="bd-mobile__service-copy">
-                      <strong>{service.title}</strong>
-                      <small>{service.description}</small>
-                    </span>
-
-                    <ArrowUpRight size={17} strokeWidth={1.6} aria-hidden="true" />
-                  </Link>
-                );
-              })}
-
-              <Link
-                to="/services"
-                className="bd-mobile__service-all"
-                tabIndex={mobileOpen && mobileServicesOpen ? 0 : -1}
-                onClick={closeMobile}
-              >
-                <span>View all services</span>
-                <ArrowRight size={15} strokeWidth={1.7} aria-hidden="true" />
-              </Link>
-            </div>
-          </div>
 
           <nav className="bd-mobile__nav" aria-label="Mobile navigation">
             {NAV_LINKS.map((item, index) => (
@@ -562,7 +502,9 @@ export default function SiteHeader() {
                 aria-current={isActive(item.href) ? "page" : undefined}
                 onClick={closeMobile}
               >
-                <span className="bd-mobile__nav-index mono">0{index + 2}</span>
+                <span className="bd-mobile__nav-index mono">
+  {String(index + 1).padStart(2, "0")}
+</span>
                 <span>{item.label}</span>
                 <ArrowUpRight size={18} strokeWidth={1.6} aria-hidden="true" />
               </Link>

@@ -377,65 +377,7 @@
 .bd-mobile__intro { padding-bottom: var(--spacing-6); border-bottom: 1px solid var(--header-border); }
 .bd-mobile__intro p { max-width: 320px; margin-top: var(--spacing-3); font-size: var(--text-sm); line-height: var(--leading-relaxed); }
 
-.bd-mobile__services { padding-block: var(--spacing-6); border-bottom: 1px solid var(--header-border); }
 
-.bd-mobile__service-trigger {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  margin-bottom: var(--spacing-3);
-  padding: 0;
-  border: none;
-  background: transparent;
-  font-family: var(--font-display);
-  font-size: var(--text-2xl);
-  font-weight: var(--font-bold);
-  color: var(--header-text);
-}
-
-.bd-mobile__service-list {
-  display: grid;
-  grid-template-rows: 0fr;
-  opacity: 0;
-  transition: grid-template-rows var(--transition-slow), opacity var(--transition-normal);
-}
-
-.bd-mobile__service-list > * { overflow: hidden; min-height: 0; }
-
-.bd-mobile__service-list--open { grid-template-rows: 1fr; opacity: 1; padding-top: var(--spacing-3); }
-
-.bd-mobile__service {
-  display: grid;
-  grid-template-columns: 20px 1fr 16px;
-  align-items: center;
-  gap: var(--spacing-3);
-  min-height: 56px;
-  padding: var(--spacing-3);
-  border-radius: var(--radius-md);
-  color: var(--header-text);
-  transition: background var(--transition-fast);
-}
-
-.bd-mobile__service:hover { background: var(--header-surface); }
-.bd-mobile__service-icon { color: var(--color-primary); }
-
-.bd-mobile__service-copy { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.bd-mobile__service-copy strong { font-size: var(--text-sm); font-weight: var(--font-semibold); }
-.bd-mobile__service-copy small { color: var(--color-text-subtle); font-size: var(--text-xs); }
-
-.bd-mobile__service-all {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-2);
-  margin-top: var(--spacing-3);
-  padding: var(--spacing-3);
-  border-radius: var(--radius-md);
-  border: 1px dashed var(--header-border);
-  color: var(--header-text-muted);
-  font-size: var(--text-sm);
-}
 
 .bd-mobile__nav { display: flex; flex-direction: column; padding-block: var(--spacing-3); border-bottom: 1px solid var(--header-border); }
 
