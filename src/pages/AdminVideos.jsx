@@ -50,6 +50,21 @@ export default function AdminVideos() {
   const [editDesc, setEditDesc] = useState("");
   const [isSaving, setIsSaving] = useState(false);
 
+
+  const [editForm, setEditForm] = useState({
+  title: "",
+  description: "",
+  category: "",
+  websiteSection: "",
+  displayPosition: "",
+  placement: [],
+  pageVisibility: {},
+  displaySettings: {},
+  featured: false,
+  order: 0,
+  status: "active",
+});
+
   const checkScroll = () => {
     if (filterRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = filterRef.current;
@@ -114,10 +129,44 @@ export default function AdminVideos() {
   };
 
   const openVideo = (vid) => {
-    setSelectedVideo(vid);
-    setIsEditing(false);
-    setEditDesc(vid.description || "");
-  };
+  const firstPlacement = vid.placement?.[0];
+
+  setSelectedVideo(vid);
+
+  setEditForm({
+    title: vid.title || "",
+    description: vid.description || "",
+    category: vid.category || "",
+
+    websiteSection: firstPlacement?.section || "",
+    displayPosition: firstPlacement?.position || "",
+
+    placement: vid.placement || [],
+
+    pageVisibility: {
+      home: false,
+      about: false,
+      services: false,
+      insights: false,
+      work: false,
+      ...vid.pageVisibility,
+    },
+
+    displaySettings: {
+      autoplay: true,
+      muted: true,
+      loop: true,
+      priority: "normal",
+      ...vid.displaySettings,
+    },
+
+    featured: Boolean(vid.featured),
+    order: Number(vid.order || 0),
+    status: vid.status || "active",
+  });
+
+  setIsEditing(false);
+};
 
   const handleSaveDescription = async () => {
     setIsSaving(true);
@@ -133,6 +182,59 @@ export default function AdminVideos() {
       setIsSaving(false);
     }
   };
+
+  const handleSaveVideo = async () => {
+  setIsSaving(true);
+
+  try {
+    const placement =
+      editForm.websiteSection && editForm.displayPosition
+        ? [
+            {
+              section: editForm.websiteSection,
+              position: editForm.displayPosition,
+            },
+          ]
+        : [];
+
+    const updates = {
+      title: editForm.title.trim(),
+      description: editForm.description.trim(),
+      category: editForm.category,
+
+      placement,
+
+      pageVisibility: editForm.pageVisibility,
+
+      displaySettings: editForm.displaySettings,
+
+      featured: editForm.featured,
+      order: Number(editForm.order || 0),
+      status: editForm.status,
+    };
+
+    await updateVideoMetadata(selectedVideo.id, updates);
+
+    const updated = {
+      ...selectedVideo,
+      ...updates,
+    };
+
+    setVideos((prev) =>
+      prev.map((v) =>
+        v.id === selectedVideo.id ? updated : v
+      )
+    );
+
+    setSelectedVideo(updated);
+    setIsEditing(false);
+  } catch (err) {
+    console.error(err);
+    alert("Failed to save video settings.");
+  } finally {
+    setIsSaving(false);
+  }
+};
 
   return (
     <div className="admin-videos theme-dark" data-theme="dark">

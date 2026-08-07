@@ -5,7 +5,7 @@ export const DEFAULT_VIDEO_CONTROL = {
 
   placement: [],
 
-  section: "",
+//   section: "",
 
   status: "active",
 

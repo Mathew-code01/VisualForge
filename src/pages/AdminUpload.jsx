@@ -36,6 +36,8 @@ import { auth } from "../firebase/config";
 
 import {
   CATEGORIES,
+  WEBSITE_SECTIONS,
+  getSectionPositions,
   SectionHeader,
   Badge,
   EmptyState,
@@ -121,6 +123,49 @@ const QueueCard = memo(
             {vid.copiedCategory ? <CheckCircle2 size={14} /> : vid.category ? <Copy size={14} /> : <ClipboardIcon size={14} />}
           </button>
         </div>
+
+        <div className="queue-card__field">
+  <select
+    value={vid.websiteSection || ""}
+    onChange={(e) => {
+      const section = e.target.value;
+
+      updateItemStatus(vid.preview, {
+        websiteSection: section,
+        displayPosition: "",
+      });
+    }}
+  >
+    <option value="">Page placement</option>
+
+    {WEBSITE_SECTIONS.map((section) => (
+      <option key={section.id} value={section.id}>
+        {section.label}
+      </option>
+    ))}
+  </select>
+</div>
+
+{vid.websiteSection && (
+  <div className="queue-card__field">
+    <select
+      value={vid.displayPosition || ""}
+      onChange={(e) =>
+        updateItemStatus(vid.preview, {
+          displayPosition: e.target.value,
+        })
+      }
+    >
+      <option value="">Choose position</option>
+
+      {getSectionPositions(vid.websiteSection).map((position) => (
+        <option key={position.id} value={position.id}>
+          {position.label}
+        </option>
+      ))}
+    </select>
+  </div>
+)}
 
         <div className="queue-card__field queue-card__field--textarea">
           <textarea
@@ -268,11 +313,49 @@ export default function AdminUpload() {
         setVideos((prev) => [
           ...prev,
           {
-            file, preview, title: fileName, category: "",
-            duration: meta.duration || 0, resolution: meta.resolution || "N/A",
-            thumbnail: thumb, progress: 0, selected: false, status: "pending", error: null,
-            warning: inLibrary || durationMatch ? "Already exists in library" : null,
-          },
+  file,
+  preview,
+  title: fileName,
+  category: "",
+
+  duration: meta.duration || 0,
+  resolution: meta.resolution || "N/A",
+  thumbnail: thumb,
+
+  description: "",
+
+  websiteSection: "",
+  displayPosition: "",
+
+  placement: [],
+
+  displaySettings: {
+    autoplay: true,
+    muted: true,
+    loop: true,
+    priority: "normal",
+  },
+
+  pageVisibility: {
+    home: false,
+    about: false,
+    services: false,
+    insights: false,
+    work: false,
+  },
+
+  featured: false,
+  order: 0,
+  status: "pending",
+  progress: 0,
+  selected: false,
+  error: null,
+
+  warning:
+    inLibrary || durationMatch
+      ? "Already exists in library"
+      : null,
+},
         ]);
       } catch (err) {
         console.error("Process error:", err);
@@ -322,7 +405,37 @@ export default function AdminUpload() {
             const s = p >= 101 ? "metadata_saving" : "uploading";
             updateItemStatus(vid.preview, { progress: Math.min(p, 100), status: s });
           },
-          { duration: vid.duration, resolution: vid.resolution, thumbnail: vid.thumbnail, description: vid.description }
+         {
+  duration: vid.duration,
+  resolution: vid.resolution,
+  thumbnail: vid.thumbnail,
+  description: vid.description,
+
+  placement:
+    vid.websiteSection && vid.displayPosition
+      ? [
+          {
+            section: vid.websiteSection,
+            position: vid.displayPosition,
+          },
+        ]
+      : [],
+
+  displaySettings: vid.displaySettings,
+
+  pageVisibility: {
+    ...vid.pageVisibility,
+    ...(vid.websiteSection
+      ? {
+          [vid.websiteSection]: true,
+        }
+      : {}),
+  },
+
+  featured: vid.featured,
+  order: vid.order,
+  status: "active",
+}
         );
 
         if (result.metadataSaved) {

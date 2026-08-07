@@ -313,12 +313,7 @@
 
 .home-cta__inner { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: var(--spacing-8); }
 
-.home-cta__title {
-  color: #ffffff;
-  font-size: clamp(2rem, 5.5vw, 3.75rem);
-  line-height: 1.08;
-  max-width: 18ch;
-}
+
 
 /* ============================================================
    RESPONSIVE
@@ -341,7 +336,7 @@
 @media (max-width: 480px) {
   .home-about__title,
   .home-compare__title,
-  .home-cta__title { max-width: none; }
+ 
 }
 
 @media (prefers-reduced-motion: reduce) {
