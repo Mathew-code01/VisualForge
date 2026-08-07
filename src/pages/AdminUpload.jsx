@@ -1,343 +1,221 @@
 // src/pages/AdminUpload.jsx
 // src/pages/AdminUpload.jsx
 // src/pages/AdminUpload.jsx
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  useMemo,
-  useCallback,
-  memo,
-} from "react";
+// src/pages/AdminUpload.jsx
+
+import { useCallback, useEffect, useMemo, useRef, useState, memo } from "react";
+import { useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
 import {
-  FiCopy,
-  FiClipboard,
-  FiRefreshCw,
-  FiTrash2,
-  FiPlus,
-  FiCheckCircle,
-  FiAlertCircle,
-  FiX,
-  FiSquare,
-  FiCheckSquare,
-  FiEdit3,
-  FiUploadCloud,
-  FiLogOut,
-} from "react-icons/fi";
-// Add 'linkExistingPublitioVideo' to your existing imports from uploadVideo.js
+  Copy,
+  Clipboard as ClipboardIcon,
+  RefreshCw,
+  Trash2,
+  Plus,
+  CheckCircle2,
+  AlertCircle,
+  X,
+  Square,
+  CheckSquare,
+  UploadCloud,
+  LogOut,
+  Link as LinkIcon,
+  DatabaseZap,
+} from "lucide-react";
+
 import uploadVideo, {
-  getVideos ,saveMetadataOnly,
+  getVideos,
+  saveMetadataOnly,
   linkExistingPublitioVideo,
 } from "../firebase/uploadVideo.js";
-import {
- migrateVideos
-}
-from "../firebase/migrateVideos.js";
+import { migrateVideos } from "../firebase/migrateVideos.js";
 import useStorageUsage from "../firebase/useStorageUsage";
 import videoPlaceholder from "../assets/images/video-placeholder.webp";
-import AdminVideos from "./AdminVideos";
 import { extractMetadata, generateThumbnail } from "../utils/processVideo";
+import { auth } from "../firebase/config";
+
+import {
+  CATEGORIES,
+  SectionHeader,
+  Badge,
+  EmptyState,
+} from "../components/admin/AdminShared.jsx";
+
 import "../styles/pages/adminupload.css";
-import { auth } from "../firebase/config"; // Ensure your auth is imported
-import { signOut } from "firebase/auth";
-import { useNavigate } from "react-router-dom"; // To redirect after logout
 
-const CATEGORIES = [
-  "Video Editing",
-  "Corporate",
-  "Commercial",
-  // "Cinematic",
-  // "Travel",
-  // "Event",
-  // "Music Video",
-  // "Documentary",
-  "Motivational",
-  "Sports",
-  // "Lifestyle",
-  // "Education",
-  "Social Media Content",
-  "Promotional Video",
-];
+/* ============================================================
+   QUEUE CARD
+============================================================ */
 
-/* =====================================================================
-    SUB-COMPONENT: VideoItem
-===================================================================== */
-const VideoItem = memo(
-  ({
-    vid,
-    index,
-    updateItemStatus,
-    handleCopyPaste,
-    multiSelectMode,
-    uploading,
-  }) => {
-    return (
-      <div
-        className={`preview-card ${vid.selected ? "is-selected" : ""} ${
-          vid.status === "success" ? "is-complete" : ""
-        }`}
-      >
-        {multiSelectMode && (
-          <div
-            className="selection-overlay"
-            onClick={() =>
-              updateItemStatus(vid.preview, { selected: !vid.selected })
-            }
+const QueueCard = memo(
+  ({ vid, index, updateItemStatus, handleCopyPaste, multiSelectMode, uploading }) => (
+    <div className={`queue-card glass ${vid.selected ? "is-selected" : ""} ${vid.status === "success" ? "is-complete" : ""}`}>
+      {multiSelectMode && (
+        <button
+          type="button"
+          className="queue-card__select"
+          onClick={() => updateItemStatus(vid.preview, { selected: !vid.selected })}
+          aria-label={vid.selected ? "Deselect" : "Select"}
+        >
+          {vid.selected ? <CheckSquare size={16} /> : <Square size={16} />}
+        </button>
+      )}
+
+      <div className="queue-card__thumb">
+        <img src={vid.thumbnail || videoPlaceholder} alt="" loading="lazy" />
+        <div className="queue-card__thumb-meta">
+          <span className="mono">{vid.duration}s</span>
+          {vid.resolution && <span className="mono">{vid.resolution}</span>}
+        </div>
+
+        {!uploading && !multiSelectMode && (
+          <button
+            type="button"
+            className="queue-card__remove"
+            onClick={(e) => {
+              e.stopPropagation();
+              updateItemStatus(vid.preview, { isRemoved: true });
+            }}
+            aria-label="Remove from queue"
           >
-            <div className="custom-checkbox">
-              {vid.selected ? <FiCheckSquare /> : <FiSquare />}
-            </div>
+            <X size={13} />
+          </button>
+        )}
+      </div>
+
+      <div className="queue-card__body">
+        <div className="queue-card__field">
+          <input
+            type="text"
+            value={vid.title}
+            placeholder="Video title"
+            onChange={(e) => updateItemStatus(vid.preview, { title: e.target.value })}
+          />
+          <button
+            type="button"
+            className={`icon-btn ${vid.copiedTitle ? "is-success" : ""}`}
+            onClick={() => handleCopyPaste(index, "title", vid.title ? "copy" : "paste")}
+            aria-label="Copy or paste title"
+          >
+            {vid.copiedTitle ? <CheckCircle2 size={14} /> : vid.title ? <Copy size={14} /> : <ClipboardIcon size={14} />}
+          </button>
+        </div>
+
+        <div className="queue-card__field">
+          <select
+            className={!vid.category && uploading ? "has-error" : ""}
+            value={vid.category}
+            onChange={(e) => updateItemStatus(vid.preview, { category: e.target.value })}
+          >
+            <option value="">Category required</option>
+            {CATEGORIES.map((c) => (
+              <option key={c} value={c}>{c}</option>
+            ))}
+          </select>
+          <button
+            type="button"
+            className={`icon-btn ${vid.copiedCategory ? "is-success" : ""}`}
+            onClick={() => handleCopyPaste(index, "category", vid.category ? "copy" : "paste")}
+            aria-label="Copy or paste category"
+          >
+            {vid.copiedCategory ? <CheckCircle2 size={14} /> : vid.category ? <Copy size={14} /> : <ClipboardIcon size={14} />}
+          </button>
+        </div>
+
+        <div className="queue-card__field queue-card__field--textarea">
+          <textarea
+            value={vid.description || ""}
+            placeholder="About this project (optional)"
+            onChange={(e) => updateItemStatus(vid.preview, { description: e.target.value })}
+          />
+          <button
+            type="button"
+            className={`icon-btn ${vid.copiedDesc ? "is-success" : ""}`}
+            onClick={() => handleCopyPaste(index, "description", vid.description ? "copy" : "paste")}
+            aria-label="Copy or paste description"
+          >
+            {vid.copiedDesc ? <CheckCircle2 size={14} /> : vid.description ? <Copy size={14} /> : <ClipboardIcon size={14} />}
+          </button>
+        </div>
+
+        {vid.warning && (
+          <div className="queue-card__warning">
+            <AlertCircle size={12} />
+            <span>{vid.warning}</span>
           </div>
         )}
 
-        <div className="card-thumb">
-          <img
-            src={vid.thumbnail || videoPlaceholder}
-            alt="Preview"
-            loading="lazy"
-          />
-          <div className="thumb-meta-overlay">
-            <span className="duration-tag">{vid.duration}s</span>
-            {vid.resolution && (
-              <span className="res-tag">{vid.resolution}</span>
-            )}
-          </div>
-
-          {!uploading && !multiSelectMode && (
-            <button
-              className="remove-card-btn"
-              onClick={(e) => {
-                e.stopPropagation();
-                updateItemStatus(vid.preview, { isRemoved: true });
-              }}
-            >
-              <FiX />
-            </button>
-          )}
-        </div>
-
-        <div className="card-body">
-          <div className="field-row">
-            <input
-              type="text"
-              value={vid.title}
-              placeholder="video title"
-              onChange={(e) =>
-                updateItemStatus(vid.preview, { title: e.target.value })
-              }
-            />
-            <button
-              className={`copy-btn ${vid.copiedTitle ? "success-flash" : ""}`}
-              onClick={() =>
-                handleCopyPaste(index, "title", vid.title ? "copy" : "paste")
-              }
-            >
-              {vid.copiedTitle ? (
-                <FiCheckCircle />
-              ) : vid.title ? (
-                <FiCopy />
-              ) : (
-                <FiClipboard />
-              )}
-            </button>
-          </div>
-
-          <div className="field-row">
-            <select
-              className={!vid.category && uploading ? "error-border" : ""} // Highlight if empty during upload attempt
-              value={vid.category}
-              onChange={(e) =>
-                updateItemStatus(vid.preview, { category: e.target.value })
-              }
-            >
-              <option value="">category required</option>
-              {/* changed text to 'required' for professional clarity */}
-              {CATEGORIES.map((c) => (
-                <option key={c} value={c}>
-                  {c.toLowerCase()}
-                </option>
-              ))}
-            </select>
-            <button
-              className={`copy-btn ${
-                vid.copiedCategory ? "success-flash" : ""
-              }`}
-              onClick={() =>
-                handleCopyPaste(
-                  index,
-                  "category",
-                  vid.category ? "copy" : "paste"
-                )
-              }
-            >
-              {vid.copiedCategory ? (
-                <FiCheckCircle />
-              ) : vid.category ? (
-                <FiCopy />
-              ) : (
-                <FiClipboard />
-              )}
-            </button>
-          </div>
-
-          {/* NEW: Description / About Field */}
-          <div className="field-row">
-            <textarea
-              className="description-input-minimal" // Remove error-border logic here
-              value={vid.description || ""}
-              placeholder="about this project (optional - can add later)"
-              onChange={(e) =>
-                updateItemStatus(vid.preview, { description: e.target.value })
-              }
-            />
-            <button
-              className={`copy-btn ${vid.copiedDesc ? "success-flash" : ""}`}
-              onClick={() =>
-                handleCopyPaste(
-                  index,
-                  "description",
-                  vid.description ? "copy" : "paste"
-                )
-              }
-            >
-              {vid.copiedDesc ? (
-                <FiCheckCircle />
-              ) : vid.description ? (
-                <FiCopy />
-              ) : (
-                <FiClipboard />
-              )}
-            </button>
-          </div>
-
-          {vid.warning && (
-            <div className="duplicate-warning-box">
-              <FiAlertCircle size={12} />
-              <span>{vid.warning}. Upload anyway?</span>
+        <div className="queue-card__status">
+          {vid.status === "success" ? (
+            <Badge tone="success" icon={CheckCircle2}>Synced</Badge>
+          ) : vid.status === "uploading" || vid.status === "metadata_saving" ? (
+            <div className="queue-card__progress">
+              <div className="progress-track"><div className="progress-fill" style={{ width: `${vid.progress}%` }} /></div>
+              <span className="mono">{vid.status === "metadata_saving" ? "finalizing" : "syncing"} · {vid.progress}%</span>
             </div>
+          ) : vid.error ? (
+            <div className="queue-card__error">
+              <span>{vid.error}</span>
+              <button type="button" className="btn-text-only" onClick={() => saveMetadataOnly(vid)}>Retry</button>
+            </div>
+          ) : (
+            <Badge tone="neutral">Ready</Badge>
           )}
-
-          <div className="status-container">
-            {vid.status === "success" ? (
-              <span className="status-badge success">
-                <FiCheckCircle /> processed
-              </span>
-            ) : vid.status === "uploading" ||
-              vid.status === "metadata_saving" ? (
-              <div className="upload-progress-wrapper">
-                <div className="progress-info">
-                  <small>
-                    {vid.status === "metadata_saving"
-                      ? "finalizing..."
-                      : "syncing..."}
-                  </small>
-                  <small>{vid.progress}%</small>
-                </div>
-                <div className="progress-bar-bg">
-                  <div
-                    className="progress-bar-fill"
-                    style={{ width: `${vid.progress}%` }}
-                  />
-                </div>
-              </div>
-            ) : vid.error ? (
-              <div className="error-retry-flex">
-                <small className="error-text">err: {vid.error}</small>
-                <button
-                  className="btn-retry"
-                  onClick={() => saveMetadataOnly(vid)}
-                >
-                  retry
-                </button>
-              </div>
-            ) : (
-              <span className="status-badge pending">ready</span>
-            )}
-          </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  )
 );
+QueueCard.displayName = "QueueCard";
 
-/* =====================================================================
-    MAIN COMPONENT: AdminUpload
-===================================================================== */
+/* ============================================================
+   MAIN COMPONENT
+============================================================ */
+
 export default function AdminUpload() {
+  const navigate = useNavigate();
+
   const [videos, setVideos] = useState([]);
-  const [existingLibrary, setExistingLibrary] = useState([]); // <--- Add this
-  const [duplicateWarning, setDuplicateWarning] = useState(null); // <--- Add this for the UI message
+  const [existingLibrary, setExistingLibrary] = useState([]);
+  const [duplicateWarning, setDuplicateWarning] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
   const [clipboard, setClipboard] = useState("");
   const [multiSelectMode, setMultiSelectMode] = useState(false);
-  const [activeTab, setActiveTab] = useState("upload");
   const [recoveryId, setRecoveryId] = useState("");
+  const [migrating, setMigrating] = useState(false);
 
   const inputRef = useRef(null);
 
-  const {
-    publitio,
-    vimeo,
-    loading: usageLoading,
-    isAuditing,
-    error: usageError,
-    refetch,
-  } = useStorageUsage();
-
+  const { publitio, vimeo, loading: usageLoading, isAuditing, error: usageError, refetch } = useStorageUsage();
   if (usageError) console.error("Storage Fetch Error:", usageError);
 
-  // --- Derived State ---
-  const selectedVideos = useMemo(
-    () => videos.filter((v) => v.selected),
-    [videos]
-  );
+  const selectedVideos = useMemo(() => videos.filter((v) => v.selected), [videos]);
   const isAnySelected = selectedVideos.length > 0;
-  const isAllSelected =
-    videos.length > 0 && selectedVideos.length === videos.length;
-  const hasSuccessful = useMemo(
-    () => videos.some((v) => v.status === "success"),
-    [videos]
-  );
-
-  // --- Selection Helpers (Fixed ESLint Error) ---
-  const clearSelection = useCallback(() => {
-    setVideos((prev) => prev.map((v) => ({ ...v, selected: false })));
-  }, []);
+  const isAllSelected = videos.length > 0 && selectedVideos.length === videos.length;
+  const hasSuccessful = useMemo(() => videos.some((v) => v.status === "success"), [videos]);
 
   const toggleSelectAll = useCallback(() => {
-    const targetState = !isAllSelected;
-    setVideos((prev) => prev.map((v) => ({ ...v, selected: targetState })));
+    const target = !isAllSelected;
+    setVideos((prev) => prev.map((v) => ({ ...v, selected: target })));
   }, [isAllSelected]);
 
-  // Fetch the library on mount so we have data to compare against
   useEffect(() => {
-    const fetchLibrary = async () => {
-      const data = await getVideos();
-      setExistingLibrary(data);
-    };
-    fetchLibrary();
+    (async () => setExistingLibrary(await getVideos()))();
   }, []);
-
-  const navigate = useNavigate();
 
   const handleLogout = async () => {
     if (uploading) {
-      const confirmLogout = window.confirm(
-        "A synchronization is currently active. Logging out now will interrupt the process. Continue?"
-      );
-      if (!confirmLogout) return;
+      if (!window.confirm("A synchronization is currently active. Logging out now will interrupt the process. Continue?")) return;
     }
-
     try {
       await signOut(auth);
       navigate("/admin-login");
-    } catch (error) {
-      console.error("Logout failed:", error);
+    } catch (err) {
+      console.error("Logout failed:", err);
     }
   };
 
-  // Inside AdminUpload component, near other useEffects
   useEffect(() => {
     const handleBeforeUnload = (e) => {
       if (uploading) {
@@ -345,30 +223,24 @@ export default function AdminUpload() {
         e.returnValue = "Upload in progress. Are you sure you want to leave?";
       }
     };
-
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, [uploading]);
 
-  // Clean up object URLs
   useEffect(() => {
-    return () =>
-      videos.forEach((v) => v.preview && URL.revokeObjectURL(v.preview));
-  }, [videos]);
+    return () => videos.forEach((v) => v.preview && URL.revokeObjectURL(v.preview));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const updateItemStatus = useCallback((preview, updates) => {
     setVideos((prev) => {
       if (updates.isRemoved) return prev.filter((v) => v.preview !== preview);
-      return prev.map((v) =>
-        v.preview === preview ? { ...v, ...updates } : v
-      );
+      return prev.map((v) => (v.preview === preview ? { ...v, ...updates } : v));
     });
   }, []);
 
   const handleFiles = async (fileList) => {
-    const list = Array.from(fileList).filter((f) =>
-      ["video/mp4", "video/webm", "video/quicktime"].includes(f.type)
-    );
+    const list = Array.from(fileList).filter((f) => ["video/mp4", "video/webm", "video/quicktime"].includes(f.type));
 
     let duplicatesFound = 0;
     let alreadyInQueue = 0;
@@ -376,61 +248,30 @@ export default function AdminUpload() {
     for (const file of list) {
       const fileName = file.name.replace(/\.[^/.]+$/, "");
 
-      // 1. Check if already in the current UI Queue (prevent adding twice)
-      const inQueue = videos.some(
-        (v) => v.title.toLowerCase() === fileName.toLowerCase()
-      );
-      if (inQueue) {
-        alreadyInQueue++;
-        continue; // Skip this file
-      }
+      const inQueue = videos.some((v) => v.title.toLowerCase() === fileName.toLowerCase());
+      if (inQueue) { alreadyInQueue++; continue; }
 
-      // 2. Check if already exists in Database Library
-      const inLibrary = existingLibrary.find(
-        (vid) => vid.title.toLowerCase() === fileName.toLowerCase()
-      );
-
-      if (inLibrary) {
-        duplicatesFound++;
-        // We don't 'continue' here so the admin can still see it
-        // with a warning, OR you can 'continue' to block it entirely.
-      }
+      const inLibrary = existingLibrary.find((vid) => vid.title.toLowerCase() === fileName.toLowerCase());
+      if (inLibrary) duplicatesFound++;
 
       const preview = URL.createObjectURL(file);
 
       try {
         const [thumb, meta] = await Promise.all([
           generateThumbnail(file).catch(() => videoPlaceholder),
-          extractMetadata(file).catch(() => ({
-            duration: 0,
-            resolution: "N/A",
-          })),
+          extractMetadata(file).catch(() => ({ duration: 0, resolution: "N/A" })),
         ]);
 
-        // If duration is exactly the same, it's a hard duplicate
-        const durationMatch = existingLibrary.some(
-          (v) => v.duration === meta.duration && v.duration !== 0
-        );
-        if (durationMatch) {
-          duplicatesFound++;
-        }
+        const durationMatch = existingLibrary.some((v) => v.duration === meta.duration && v.duration !== 0);
+        if (durationMatch) duplicatesFound++;
 
         setVideos((prev) => [
           ...prev,
           {
-            file,
-            preview,
-            title: fileName,
-            category: "",
-            duration: meta.duration || 0,
-            resolution: meta.resolution || "N/A",
-            thumbnail: thumb,
-            progress: 0,
-            selected: false,
-            status: "pending",
-            error: null,
-            warning:
-              inLibrary || durationMatch ? "Already exists in library" : null,
+            file, preview, title: fileName, category: "",
+            duration: meta.duration || 0, resolution: meta.resolution || "N/A",
+            thumbnail: thumb, progress: 0, selected: false, status: "pending", error: null,
+            warning: inLibrary || durationMatch ? "Already exists in library" : null,
           },
         ]);
       } catch (err) {
@@ -438,51 +279,32 @@ export default function AdminUpload() {
       }
     }
 
-    // Professional Feedback
-    if (alreadyInQueue > 0) {
-      setDuplicateWarning(
-        `${alreadyInQueue} file(s) are already in your upload queue.`
-      );
-    } else if (duplicatesFound > 0) {
-      setDuplicateWarning(
-        `${duplicatesFound} file(s) detected in library. Review warnings before sync.`
-      );
-    }
+    if (alreadyInQueue > 0) setDuplicateWarning(`${alreadyInQueue} file(s) are already in your upload queue.`);
+    else if (duplicatesFound > 0) setDuplicateWarning(`${duplicatesFound} file(s) detected in library. Review warnings before sync.`);
   };
 
   const handleUpload = async () => {
     const queue = isAnySelected ? selectedVideos : videos;
+    const incomplete = queue.filter((v) => !v.category);
 
-    // Removed description and length checks
-    const incompleteItems = queue.filter((v) => !v.category);
-
-    if (incompleteItems.length > 0) {
-      setDuplicateWarning(
-        `Action Required: ${incompleteItems.length} video(s) are missing categories.`
-      );
-      // PROFESSIONAL SCROLL: Smoothly scroll to top so they see the banner
+    if (incomplete.length > 0) {
+      setDuplicateWarning(`Action required: ${incomplete.length} video(s) missing categories.`);
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
-    // 2. ADVANCED DUPLICATE GUARD (Keep your existing logic here...)
+
     const duplicateInLibrary = queue.find((v) =>
       existingLibrary.some(
         (lib) =>
           lib.category.toLowerCase() === v.category.toLowerCase() &&
           (lib.title.toLowerCase() === v.title.toLowerCase() ||
-            (lib.duration === v.duration &&
-              lib.resolution === v.resolution &&
-              v.duration > 0))
+            (lib.duration === v.duration && lib.resolution === v.resolution && v.duration > 0))
       )
     );
 
     if (duplicateInLibrary) {
-      setDuplicateWarning(
-        `Duplicate Detected: An identical asset already exists in the ${duplicateInLibrary.category} category.`
-      );
-      updateItemStatus(duplicateInLibrary.preview, {
-        error: "Duplicate Asset",
-      });
+      setDuplicateWarning(`Duplicate detected: an identical asset already exists in "${duplicateInLibrary.category}".`);
+      updateItemStatus(duplicateInLibrary.preview, { error: "Duplicate Asset" });
       return;
     }
 
@@ -491,462 +313,219 @@ export default function AdminUpload() {
 
     for (const vid of queue) {
       if (vid.status === "success") continue;
-
-      updateItemStatus(vid.preview, {
-        status: "uploading",
-        error: null,
-        progress: 0,
-      });
+      updateItemStatus(vid.preview, { status: "uploading", error: null, progress: 0 });
 
       try {
         const result = await uploadVideo(
-          vid.file,
-          vid.title,
-          vid.category,
-          "ADMIN",
+          vid.file, vid.title, vid.category, "ADMIN",
           (p) => {
             const s = p >= 101 ? "metadata_saving" : "uploading";
-            updateItemStatus(vid.preview, {
-              progress: Math.min(p, 100),
-              status: s,
-            });
+            updateItemStatus(vid.preview, { progress: Math.min(p, 100), status: s });
           },
-          {
-            duration: vid.duration,
-            resolution: vid.resolution,
-            thumbnail: vid.thumbnail,
-            description: vid.description,
-          }
+          { duration: vid.duration, resolution: vid.resolution, thumbnail: vid.thumbnail, description: vid.description }
         );
 
         if (result.metadataSaved) {
           updateItemStatus(vid.preview, { ...result, status: "success" });
-
-          // Update local library so the guard catches immediate re-uploads
-          const updatedData = await getVideos();
-          setExistingLibrary(updatedData);
+          setExistingLibrary(await getVideos());
         }
       } catch (err) {
-        updateItemStatus(vid.preview, {
-          status: "file_fail",
-          error: err.message,
-        });
+        updateItemStatus(vid.preview, { status: "file_fail", error: err.message });
         refetch();
       }
     }
+
     setUploading(false);
-    if (refetch) refetch();
+    refetch?.();
   };
 
   const handleCopyPaste = (index, field, action) => {
     const video = videos[index];
     if (action === "copy") {
       setClipboard(video[field]);
-      // Determine which flash key to use
-      const flashKey =
-        field === "title"
-          ? "copiedTitle"
-          : field === "category"
-          ? "copiedCategory"
-          : "copiedDesc";
-
+      const flashKey = field === "title" ? "copiedTitle" : field === "category" ? "copiedCategory" : "copiedDesc";
       updateItemStatus(video.preview, { [flashKey]: true });
-      setTimeout(
-        () => updateItemStatus(video.preview, { [flashKey]: false }),
-        1200
-      );
+      setTimeout(() => updateItemStatus(video.preview, { [flashKey]: false }), 1200);
     } else {
-      // PASTE: Apply to either the single item or all selected items
-      setVideos((prev) =>
-        prev.map((v, i) =>
-          v.selected || i === index ? { ...v, [field]: clipboard } : v
-        )
-      );
+      setVideos((prev) => prev.map((v, i) => (v.selected || i === index ? { ...v, [field]: clipboard } : v)));
     }
   };
 
-  // CHANGE 1: Update the derived state constant
-  const hasValidationErrors = useMemo(() => {
-    // Remove the description check. Now only 'category' is required.
-    return videos.some((v) => !v.category);
-  }, [videos]);
+  const handleRecoveryLink = async () => {
+    if (!recoveryId.trim()) return;
+    try {
+      await linkExistingPublitioVideo(recoveryId.trim());
+      setExistingLibrary(await getVideos());
+      setRecoveryId("");
+      setDuplicateWarning(null);
+    } catch (err) {
+      setDuplicateWarning(err.message || "Recovery failed.");
+    }
+  };
+
+  const handleMigrate = async () => {
+    setMigrating(true);
+    try {
+      await migrateVideos();
+      setExistingLibrary(await getVideos());
+    } catch (err) {
+      console.error("Migration failed:", err);
+    } finally {
+      setMigrating(false);
+    }
+  };
 
   return (
-    <section className="admin-upload">
-      {/* Zebra Section 1: Dark Glassmorphism Storage */}
-      {/* Zebra Section 1: Dark Glassmorphism Storage */}
-      <div className="storage-panel dark-zebra">
-        <div className="panel-inner">
-          <div className="panel-header">
-            <span className="section-label">infrastructure / storage</span>
+    <div className="admin-upload theme-dark" data-theme="dark">
+      {/* ============================================================
+          STORAGE PANEL
+      ============================================================ */}
 
-<button
-onClick={migrateVideos}
->
-Update Video Database
-</button>
+      <section className="admin-panel">
+        <div className="admin-panel__inner">
+          <SectionHeader
+            eyebrow="Infrastructure"
+            title="Storage &amp; Sync"
+            actions={
+              <>
+                <button type="button" className="btn-outline" onClick={handleMigrate} disabled={migrating}>
+                  <DatabaseZap size={13} className={migrating ? "spin" : ""} /> {migrating ? "Migrating…" : "Run Migration"}
+                </button>
+                <button type="button" className="icon-btn" onClick={() => refetch?.(true)} disabled={usageLoading || isAuditing} aria-label="System audit">
+                  <RefreshCw size={14} className={isAuditing ? "spin" : ""} />
+                </button>
+                <button type="button" className={`btn-outline ${uploading ? "is-disabled" : ""}`} onClick={handleLogout} disabled={uploading}>
+                  <LogOut size={13} /> {uploading ? "Syncing…" : "Exit Session"}
+                </button>
+              </>
+            }
+          />
 
-            <div className="header-action-group">
-              {/* 1. SYSTEM AUDIT: Purge Orphaned Files & Failed Uploads */}
-              <button
-                className={`btn-janitor ${isAuditing ? "is-active" : ""}`}
-                onClick={() => {
-                  // Deep Audit for Cloud storage
-                  refetch(true);
-                  // Local Audit: Clear any locally stuck 'uploading' states that aren't actually moving
-                  if (
-                    videos.some(
-                      (v) => v.status === "uploading" && v.progress === 0
-                    )
-                  ) {
-                    setVideos((prev) =>
-                      prev.map((v) =>
-                        v.status === "uploading"
-                          ? {
-                              ...v,
-                              status: "pending",
-                              error: "Session interrupted",
-                            }
-                          : v
-                      )
-                    );
-                  }
-                }}
-                disabled={usageLoading || isAuditing}
-                title="System Audit & Ghost Purge"
-              >
-                <FiRefreshCw className={isAuditing ? "spin" : ""} size={12} />
-                <span className="btn-text">
-                  {isAuditing ? "Auditing..." : "System Audit"}
-                </span>
-              </button>
-
-              <div className="action-divider"></div>
-
-              {/* 2. REFRESH STORAGE: Quick Usage Update */}
-              <button
-                className="icon-refresh-btn"
-                onClick={() => refetch?.()}
-                disabled={usageLoading}
-                title="Refresh Storage Status"
-              >
-                <FiRefreshCw
-                  size={14}
-                  className={usageLoading && !isAuditing ? "spin" : ""}
-                />
-              </button>
-
-              <div className="action-divider"></div>
-
-              {/* 3. EXIT SESSION: Professional Logout */}
-              <button
-                className={`logout-link-minimal ${
-                  uploading ? "is-disabled" : ""
-                }`}
-                onClick={handleLogout}
-                disabled={uploading}
-              >
-                <FiLogOut size={12} />
-                <span className="btn-text">
-                  {uploading ? "Syncing..." : "Exit Session"}
-                </span>
-              </button>
-            </div>
-          </div>
-          {/* ... rest of storage grid ... */}
           <div className="storage-grid">
-            <div className="storage-card glass">
-              <div className="card-head">
-                <h3>Vimeo</h3>
-                <span className="badge">PRO</span>
-              </div>
-              <div className="usage-meter">
-                <div className="meter-label">
-                  <strong>{vimeo?.usedGB || 0}GB</strong>
-                  <span>used</span>
-                </div>
-                <div className="progress-mini">
-                  <div
-                    className="fill"
-                    style={{ width: `${vimeo?.percent || 0}%` }}
-                  />
-                </div>
-              </div>
+            <div className="storage-meter glass">
+              <div className="storage-meter__head"><h4>Vimeo</h4><span className="storage-meter__badge">PRO</span></div>
+              <div className="storage-meter__value"><strong>{vimeo?.usedGB || 0}GB</strong><span>used</span></div>
+              <div className="storage-meter__bar"><div className="storage-meter__fill" style={{ width: `${vimeo?.percent || 0}%` }} /></div>
             </div>
-            <div className="storage-card glass">
-              <div className="card-head">
-                <h3>Publitio</h3>
-                <span className="badge">CDN</span>
-              </div>
-              <div className="usage-meter">
-                <div className="meter-label">
-                  <strong>{publitio?.usedMB || 0}MB</strong>
-                  <span>used</span>
-                </div>
-                <div className="progress-mini">
-                  <div
-                    className="fill"
-                    style={{ width: `${publitio?.percent || 0}%` }}
-                  />
-                </div>
-              </div>
+            <div className="storage-meter glass">
+              <div className="storage-meter__head"><h4>Publitio</h4><span className="storage-meter__badge">CDN</span></div>
+              <div className="storage-meter__value"><strong>{publitio?.usedMB || 0}MB</strong><span>used</span></div>
+              <div className="storage-meter__bar"><div className="storage-meter__fill" style={{ width: `${publitio?.percent || 0}%` }} /></div>
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* Zebra Section 2: White Main View */}
-      <div className="upload-main-container white-zebra">
-        <div className="upload-tabs">
-          <button
-            className={activeTab === "upload" ? "active" : ""}
-            onClick={() => setActiveTab("upload")}
-          >
-            Queue
-          </button>
-          <button
-            className={activeTab === "uploaded" ? "active" : ""}
-            onClick={() => setActiveTab("uploaded")}
-          >
-            Library
-          </button>
-          {/* NEW TAB */}
-          <button
-            className={activeTab === "recovery" ? "active" : ""}
-            onClick={() => setActiveTab("recovery")}
-          >
-            Recovery
-          </button>
+          <div className="recovery-row">
+            <input
+              type="text"
+              placeholder="Publitio resource ID to relink…"
+              value={recoveryId}
+              onChange={(e) => setRecoveryId(e.target.value)}
+            />
+            <button type="button" className="btn-outline" onClick={handleRecoveryLink}>
+              <LinkIcon size={13} /> Relink Asset
+            </button>
+          </div>
         </div>
-        {/* TAB 1: QUEUE (UPLOAD) */}
-        {activeTab === "upload" && (
-          <div className="upload-view-content animate-fade-in">
-            <header className="view-header">
-              <h2 className="elegant-title">
-                Media Queue <span className="count">[{videos.length}]</span>
-              </h2>
-              <div className="header-btns">
+      </section>
+
+      {/* ============================================================
+          UPLOAD WORKSPACE
+      ============================================================ */}
+
+      <section className="admin-panel admin-panel--light theme-light" data-theme="light">
+        <div className="admin-panel__inner">
+          <SectionHeader
+            eyebrow="Pipeline"
+            title={<>Media Queue <span className="count">[{videos.length}]</span></>}
+            actions={
+              <>
                 {hasSuccessful && (
-                  <button
-                    className="btn-text-only"
-                    onClick={() =>
-                      setVideos((v) => v.filter((x) => x.status !== "success"))
-                    }
-                  >
-                    clear completed
+                  <button type="button" className="btn-text-only" onClick={() => setVideos((v) => v.filter((x) => x.status !== "success"))}>
+                    Clear completed
                   </button>
                 )}
-                <button
-                  className={`btn-outline ${multiSelectMode ? "active" : ""}`}
-                  onClick={() => setMultiSelectMode(!multiSelectMode)}
-                >
-                  bulk actions
+                <button type="button" className={`btn-outline ${multiSelectMode ? "active" : ""}`} onClick={() => setMultiSelectMode((v) => !v)}>
+                  Bulk actions
                 </button>
-                <button
-                  className="btn-solid"
-                  onClick={() => inputRef.current?.click()}
-                >
-                  <FiPlus /> add media
+                <button type="button" className="btn-solid" onClick={() => inputRef.current?.click()}>
+                  <Plus size={14} /> Add media
                 </button>
-              </div>
-            </header>
+              </>
+            }
+          />
 
-            {/* PROFESSIONAL DUPLICATE ALERT BANNER */}
-            {duplicateWarning && (
-              <div className="duplicate-alert-banner">
-                <div className="alert-content">
-                  <FiAlertCircle className="alert-icon" />
-                  <span className="alert-text">{duplicateWarning}</span>
-                </div>
-                <button
-                  className="alert-close"
-                  onClick={() => setDuplicateWarning(null)}
-                >
-                  <FiX />
-                </button>
-              </div>
-            )}
-
-            <div
-              className={`drop-area ${dragActive ? "drag-active" : ""}`}
-              onDragOver={(e) => {
-                e.preventDefault();
-                setDragActive(true);
-              }}
-              onDragLeave={() => setDragActive(false)}
-              onDrop={(e) => {
-                e.preventDefault();
-                setDragActive(false);
-                handleFiles(e.dataTransfer.files);
-              }}
-              onClick={() => inputRef.current?.click()}
-            >
-              <input
-                type="file"
-                multiple
-                accept="video/*"
-                ref={inputRef}
-                hidden
-                onChange={(e) => handleFiles(e.target.files)}
-              />
-              <FiUploadCloud className="drop-icon" />
-              <p className="drop-text">
-                Drop cinematic files or click to browse
-              </p>
+          {duplicateWarning && (
+            <div className="alert-banner">
+              <div><AlertCircle size={15} /><span>{duplicateWarning}</span></div>
+              <button type="button" onClick={() => setDuplicateWarning(null)} aria-label="Dismiss"><X size={14} /></button>
             </div>
+          )}
 
-            {/* Bulk Toolbar */}
-            {isAnySelected && (
-              <div className="bulk-bar-float">
-                <div className="selection-info">
-                  <span className="count-badge">{selectedVideos.length}</span>
-                  <span className="label">selected</span>
-                </div>
-                <div className="bar-divider" />
-                <div className="bar-actions">
-                  <button className="action-link" onClick={toggleSelectAll}>
-                    {isAllSelected ? "Deselect All" : "Select All"}
-                  </button>
-                  <select
-                    className="bulk-category-select"
-                    value=""
-                    onChange={(e) => {
-                      if (!e.target.value) return;
-                      setVideos((p) =>
-                        p.map((v) =>
-                          v.selected ? { ...v, category: e.target.value } : v
-                        )
-                      );
-                    }}
-                  >
-                    <option value="" disabled hidden>
-                      category
-                    </option>
-                    {CATEGORIES.map((c) => (
-                      <option key={c} value={c}>
-                        {c.toLowerCase()}
-                      </option>
-                    ))}
-                  </select>
-                  <button
-                    className="action-icon-btn"
-                    onClick={() => {
-                      const t = prompt("Batch Rename:");
-                      if (t)
-                        setVideos((p) =>
-                          p.map((v) => (v.selected ? { ...v, title: t } : v))
-                        );
-                    }}
-                  >
-                    <FiEdit3 />
-                  </button>
-                  <button
-                    className="btn-delete-bulk"
-                    onClick={() =>
-                      setVideos((v) => v.filter((x) => !x.selected))
-                    }
-                  >
-                    <FiTrash2 />
-                  </button>
-                  <div className="bar-divider" />
-                  <button className="close-bulk-btn" onClick={clearSelection}>
-                    <FiX />
-                  </button>
-                </div>
-              </div>
-            )}
+          <div
+            className={`drop-area ${dragActive ? "drag-active" : ""}`}
+            onDragOver={(e) => { e.preventDefault(); setDragActive(true); }}
+            onDragLeave={() => setDragActive(false)}
+            onDrop={(e) => { e.preventDefault(); setDragActive(false); handleFiles(e.dataTransfer.files); }}
+            onClick={() => inputRef.current?.click()}
+          >
+            <input type="file" multiple accept="video/*" ref={inputRef} hidden onChange={(e) => handleFiles(e.target.files)} />
+            <UploadCloud size={26} className="drop-icon" />
+            <p>Drop cinematic files or click to browse</p>
+          </div>
 
-            <div className="preview-grid">
-              {videos.map((vid, i) => (
-                <VideoItem
+          {isAnySelected && (
+            <div className="bulk-bar">
+              <span className="mono">{selectedVideos.length} selected</span>
+              <button type="button" className="btn-text-only" onClick={toggleSelectAll}>{isAllSelected ? "Deselect all" : "Select all"}</button>
+              <select
+                className="bulk-category-select"
+                value=""
+                onChange={(e) => {
+                  if (!e.target.value) return;
+                  setVideos((p) => p.map((v) => (v.selected ? { ...v, category: e.target.value } : v)));
+                }}
+              >
+                <option value="" disabled hidden>Set category</option>
+                {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
+              </select>
+              <button
+                type="button"
+                className="icon-btn icon-btn--danger"
+                onClick={() => setVideos((p) => p.filter((v) => !v.selected))}
+                aria-label="Remove selected"
+              >
+                <Trash2 size={14} />
+              </button>
+            </div>
+          )}
+
+          <div className="queue-grid">
+            {videos.length ? (
+              videos.map((vid, index) => (
+                <QueueCard
                   key={vid.preview}
                   vid={vid}
-                  index={i}
+                  index={index}
                   updateItemStatus={updateItemStatus}
                   handleCopyPaste={handleCopyPaste}
                   multiSelectMode={multiSelectMode}
                   uploading={uploading}
                 />
-              ))}
-            </div>
-
-            {videos.length > 0 && (
-              <div className="sticky-action-bar">
-                <button
-                  className={`btn-main ${
-                    hasValidationErrors ? "btn-disabled-style" : ""
-                  }`}
-                  disabled={uploading || hasValidationErrors} // Physically disable if uploading OR errors exist
-                  onClick={handleUpload}
-                  style={{
-                    opacity: uploading || hasValidationErrors ? 0.5 : 1,
-                    cursor:
-                      uploading || hasValidationErrors
-                        ? "not-allowed"
-                        : "pointer",
-                  }}
-                >
-                  {uploading
-                    ? "Synchronizing with cloud..."
-                    : hasValidationErrors
-                    ? "Complete all fields to proceed" // Helpful text change
-                    : `Begin processing ${
-                        isAnySelected ? selectedVideos.length : videos.length
-                      } files`}
-                </button>
-              </div>
+              ))
+            ) : (
+              <EmptyState title="Queue is empty" text="Drop files above to begin uploading." icon={UploadCloud} />
             )}
           </div>
-        )}
 
-        {/* TAB 2: LIBRARY (ADMIN VIDEOS) */}
-        {activeTab === "uploaded" && <AdminVideos />}
-
-        {/* TAB 3: RECOVERY (MANUAL LINKING) */}
-        {activeTab === "recovery" && (
-          <div className="recovery-view-content animate-fade-in">
-            <header className="view-header">
-              <h2 className="elegant-title">Manual Synchronization</h2>
-              <p className="section-subtitle">
-                Enter the Publitio ID to automatically pull metadata and link to
-                your library.
-              </p>
-            </header>
-
-            <div className="recovery-card glass dark-zebra p-8 border border-white/10 rounded-lg">
-              <div className="input-group mb-6">
-                <label className="text-xs uppercase tracking-widest opacity-50 mb-2 block">
-                  Publitio Short ID
-                </label>
-                <input
-                  type="text"
-                  placeholder="e.g. W4G3p24y"
-                  value={recoveryId}
-                  onChange={(e) => setRecoveryId(e.target.value)}
-                  className="admin-input-minimal w-full bg-transparent border-b border-white/20 py-3 text-xl outline-none focus:border-white transition-all"
-                />
-              </div>
-
-              <button
-                className="btn-solid-large w-full py-4 bg-white text-black font-bold uppercase tracking-widest hover:bg-neutral-200 transition-all"
-                onClick={async () => {
-                  if (!recoveryId) return alert("Please enter a Publitio ID");
-                  try {
-                    await linkExistingPublitioVideo(recoveryId);
-                    alert("Asset Linked Successfully");
-                    setRecoveryId("");
-                    // Optional: Trigger a refresh of your video list here
-                  } catch (err) {
-                    alert("Sync Error: " + err.message);
-                  }
-                }}
-              >
-                Establish Connection
+          {videos.length > 0 && (
+            <div className="upload-footer">
+              <button type="button" className="btn-solid btn-solid--lg" onClick={handleUpload} disabled={uploading}>
+                {uploading ? "Syncing to cloud…" : `Sync ${selectedVideos.length || videos.length} to Big Day`}
               </button>
             </div>
-          </div>
-        )}
-      </div>
-    </section>
+          )}
+        </div>
+      </section>
+    </div>
   );
 }

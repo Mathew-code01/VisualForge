@@ -1,25 +1,36 @@
 // src/pages/AdminVideos.jsx
 // src/pages/AdminVideos.jsx
 // src/pages/AdminVideos.jsx
-import React, { useEffect, useState, useMemo, useRef } from "react";
-// Change this line (around line 4-5)
-import { getVideos, updateVideoDescription } from "../firebase/uploadVideo.js"; 
-import { deleteVideo } from "../firebase/deleteVideo.js";
+// src/pages/AdminVideos.jsx
+
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   RefreshCw,
   Trash2,
   ExternalLink,
   Film,
-  AlertCircle,
-  HardDrive,
-  Layers,
   Search,
   Filter,
-  X,
   Play,
   ChevronLeft,
   ChevronRight,
+  Edit3,
+  Save,
+  X,
 } from "lucide-react";
+
+import { getVideos, updateVideoDescription } from "../firebase/uploadVideo.js";
+import { deleteVideo } from "../firebase/deleteVideo.js";
+
+import {
+  SectionHeader,
+  Badge,
+  LoadingState,
+  EmptyState,
+  Modal,
+  formatDuration,
+} from "../components/admin/AdminShared.jsx";
+
 import "../styles/pages/adminvideos.css";
 
 export default function AdminVideos() {
@@ -31,35 +42,13 @@ export default function AdminVideos() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
 
-  // Logic for smart arrow visibility
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
   const filterRef = useRef(null);
-  // Add these to your other state declarations
+
   const [isEditing, setIsEditing] = useState(false);
   const [editDesc, setEditDesc] = useState("");
   const [isSaving, setIsSaving] = useState(false);
-
-  // Function to handle the update
-  const handleSaveDescription = async () => {
-    setIsSaving(true);
-    try {
-      await updateVideoDescription(selectedVideo.id, editDesc);
-      // Update local state so the UI reflects the change immediately
-      setVideos((prev) =>
-        prev.map((v) =>
-          v.id === selectedVideo.id ? { ...v, description: editDesc } : v
-        )
-      );
-      setSelectedVideo((prev) => ({ ...prev, description: editDesc }));
-      setIsEditing(false);
-    } catch (err) {
-      console.log(err)
-      alert("Failed to sync description to cloud.");
-    } finally {
-      setIsSaving(false);
-    }
-  };
 
   const checkScroll = () => {
     if (filterRef.current) {
@@ -71,20 +60,10 @@ export default function AdminVideos() {
 
   useEffect(() => {
     loadVideos();
-    const handleEsc = (e) => {
-      if (e.key === "Escape") setSelectedVideo(null);
-    };
-    window.addEventListener("keydown", handleEsc);
-
-    // Add resize listener for scroll buttons
     window.addEventListener("resize", checkScroll);
-    return () => {
-      window.removeEventListener("keydown", handleEsc);
-      window.removeEventListener("resize", checkScroll);
-    };
+    return () => window.removeEventListener("resize", checkScroll);
   }, []);
 
-  // Re-check scroll buttons whenever videos or categories change
   useEffect(() => {
     checkScroll();
   }, [videos, activeCategory]);
@@ -93,10 +72,9 @@ export default function AdminVideos() {
     setLoading(true);
     setErrorMessage(null);
     try {
-      const result = await getVideos();
-      setVideos(result);
+      setVideos(await getVideos());
     } catch (err) {
-      console.log(err);
+      console.error(err);
       setErrorMessage("Cloud synchronization failed.");
     } finally {
       setLoading(false);
@@ -105,299 +83,223 @@ export default function AdminVideos() {
 
   const scrollFilters = (direction) => {
     if (filterRef.current) {
-      const scrollAmount = 200;
-      filterRef.current.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      });
-      // Small timeout to check visibility after scroll animation
+      filterRef.current.scrollBy({ left: direction === "left" ? -200 : 200, behavior: "smooth" });
       setTimeout(checkScroll, 350);
     }
   };
 
   const filteredVideos = useMemo(() => {
     return videos.filter((vid) => {
-      const matchesSearch = vid.title
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase());
-      const matchesCategory =
-        activeCategory === "All" || vid.category === activeCategory;
+      const matchesSearch = vid.title.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesCategory = activeCategory === "All" || vid.category === activeCategory;
       return matchesSearch && matchesCategory;
     });
   }, [videos, searchQuery, activeCategory]);
 
-  const categories = useMemo(() => {
-    return ["All", ...new Set(videos.map((v) => v.category || "General"))];
-  }, [videos]);
+  const categories = useMemo(() => ["All", ...new Set(videos.map((v) => v.category || "General"))], [videos]);
 
   const handleDelete = async (vid) => {
-    if (!window.confirm(`Permanently destroy "${vid.title}"?`)) return;
+    if (!window.confirm(`Permanently delete "${vid.title}"?`)) return;
     setDeleting(vid.id);
     try {
       await deleteVideo(vid.id, vid.platform, vid.resourceId);
       setVideos((prev) => prev.filter((v) => v.id !== vid.id));
+      if (selectedVideo?.id === vid.id) setSelectedVideo(null);
     } catch (err) {
-      console.log(err);
-      alert("Asset protection protocol failed.");
+      console.error(err);
+      alert("Delete failed. Please try again.");
     } finally {
       setDeleting(null);
     }
   };
 
+  const openVideo = (vid) => {
+    setSelectedVideo(vid);
+    setIsEditing(false);
+    setEditDesc(vid.description || "");
+  };
+
+  const handleSaveDescription = async () => {
+    setIsSaving(true);
+    try {
+      await updateVideoDescription(selectedVideo.id, editDesc);
+      setVideos((prev) => prev.map((v) => (v.id === selectedVideo.id ? { ...v, description: editDesc } : v)));
+      setSelectedVideo((prev) => ({ ...prev, description: editDesc }));
+      setIsEditing(false);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to sync description to cloud.");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   return (
-    <div className="studio-manager-root">
-      <div className="admin-sub-header">
-        <div className="admin-nav-container">
-          <div className="admin-brand-group">
-            <div className="admin-icon-box">
-              <Layers size={20} />
-            </div>
-            <div className="admin-brand-text">
-              <h1>Studio Assets</h1>
-              <p>
-                {filteredVideos.length} / {videos.length} rendered
-              </p>
-            </div>
+    <div className="admin-videos theme-dark" data-theme="dark">
+      <section className="admin-panel">
+        <div className="admin-panel__inner">
+          <SectionHeader
+            eyebrow="Library"
+            title={<>Studio Assets <span className="count">[{filteredVideos.length}/{videos.length}]</span></>}
+            actions={
+              <button type="button" className={`btn-outline ${loading ? "is-disabled" : ""}`} onClick={loadVideos} disabled={loading}>
+                <RefreshCw size={14} className={loading ? "spin" : ""} /> {loading ? "Syncing" : "Refresh"}
+              </button>
+            }
+          />
+
+          <div className="library-search">
+            <Search size={15} />
+            <input
+              type="text"
+              placeholder="Search the library…"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
 
-          <div className="admin-nav-controls">
-            <div className="admin-search-wrapper">
-              <Search size={16} className="search-icon" />
-              <input
-                type="text"
-                placeholder="Filter library..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
+          {errorMessage && (
+            <div className="alert-banner">
+              <div><span>{errorMessage}</span></div>
+              <button type="button" onClick={() => setErrorMessage(null)} aria-label="Dismiss"><X size={14} /></button>
             </div>
-            <button
-              className={`admin-sync-btn ${loading ? "spinning" : ""}`}
-              onClick={loadVideos}
-              disabled={loading}
-            >
-              <RefreshCw size={14} />
-              <span>{loading ? "Syncing" : "Refresh"}</span>
-            </button>
-          </div>
-        </div>
-      </div>
+          )}
 
-      <main className="admin-workspace">
-        {!loading && videos.length > 0 && (
-          <div className="admin-filter-container">
-            <button
-              className="filter-nav-btn"
-              onClick={() => scrollFilters("left")}
-              style={{
-                opacity: canScrollLeft ? 1 : 0,
-                visibility: canScrollLeft ? "visible" : "hidden",
-                pointerEvents: canScrollLeft ? "all" : "none",
-              }}
-            >
-              <ChevronLeft size={16} />
-            </button>
+          {!loading && videos.length > 0 && (
+            <div className="filter-row">
+              <button
+                type="button"
+                className="filter-nav-btn"
+                onClick={() => scrollFilters("left")}
+                style={{ opacity: canScrollLeft ? 1 : 0, pointerEvents: canScrollLeft ? "all" : "none" }}
+                aria-label="Scroll filters left"
+              >
+                <ChevronLeft size={16} />
+              </button>
 
-            <div
-              className="admin-filter-strip"
-              ref={filterRef}
-              onScroll={checkScroll}
-            >
-              <div className="filter-icon-lock">
-                <Filter size={14} />
+              <div className="filter-strip" ref={filterRef} onScroll={checkScroll}>
+                <Filter size={13} className="filter-strip__icon" />
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    type="button"
+                    className={`filter-chip ${activeCategory === cat ? "is-active" : ""}`}
+                    onClick={() => setActiveCategory(cat)}
+                  >
+                    {cat}
+                  </button>
+                ))}
               </div>
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  className={`admin-chip ${
-                    activeCategory === cat ? "active" : ""
-                  }`}
-                  onClick={() => setActiveCategory(cat)}
-                >
-                  {cat}
-                </button>
+
+              <button
+                type="button"
+                className="filter-nav-btn"
+                onClick={() => scrollFilters("right")}
+                style={{ opacity: canScrollRight ? 1 : 0, pointerEvents: canScrollRight ? "all" : "none" }}
+                aria-label="Scroll filters right"
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
+          )}
+
+          {loading ? (
+            <LoadingState label="Loading library…" />
+          ) : filteredVideos.length ? (
+            <div className="library-grid">
+              {filteredVideos.map((vid) => (
+                <article className="library-card glass" key={vid.id}>
+                  <button type="button" className="library-card__thumb" onClick={() => openVideo(vid)} aria-label={`Preview ${vid.title}`}>
+                    <img src={vid.thumbnail} alt="" loading="lazy" />
+                    <span className="library-card__play"><Play size={16} fill="currentColor" /></span>
+                    <span className="mono library-card__duration">{formatDuration(vid.duration)}</span>
+                  </button>
+
+                  <div className="library-card__body">
+                    <h4>{vid.title}</h4>
+
+                    <div className="library-card__meta">
+                      <Badge tone="neutral">{vid.category || "General"}</Badge>
+                      {vid.resolution && <span className="mono">{vid.resolution}</span>}
+                    </div>
+
+                    <p className="library-card__desc">{vid.description || "No description yet."}</p>
+
+                    <div className="library-card__actions">
+                      <button type="button" className="icon-btn" onClick={() => openVideo(vid)} aria-label="Edit">
+                        <Edit3 size={13} />
+                      </button>
+
+                      <a href={vid.url} target="_blank" rel="noreferrer" className="icon-btn" aria-label="Open source">
+                        <ExternalLink size={13} />
+                      </a>
+
+                      <button
+                        type="button"
+                        className="icon-btn icon-btn--danger"
+                        onClick={() => handleDelete(vid)}
+                        disabled={deleting === vid.id}
+                        aria-label="Delete"
+                      >
+                        <Trash2 size={13} />
+                      </button>
+                    </div>
+                  </div>
+                </article>
               ))}
             </div>
-
-            <button
-              className="filter-nav-btn"
-              onClick={() => scrollFilters("right")}
-              style={{
-                opacity: canScrollRight ? 1 : 0,
-                visibility: canScrollRight ? "visible" : "hidden",
-                pointerEvents: canScrollRight ? "all" : "none",
-              }}
-            >
-              <ChevronRight size={16} />
-            </button>
-          </div>
-        )}
-
-        {errorMessage && (
-          <div className="admin-error-bar">
-            <AlertCircle size={18} /> {errorMessage}
-          </div>
-        )}
-
-        {loading ? (
-          <div className="admin-loader-container">
-            <div className="admin-loader-pulse"></div>
-            <p>Scanning Cloud Database...</p>
-          </div>
-        ) : filteredVideos.length === 0 ? (
-          <div className="admin-empty-state">
-            <HardDrive size={60} strokeWidth={1} />
-            <h3>No matches found</h3>
-          </div>
-        ) : (
-          <div className="admin-asset-grid">
-            {filteredVideos.map((vid) => (
-              <article key={vid.id} className="admin-video-card">
-                <div
-                  className="admin-video-preview"
-                  onClick={() => setSelectedVideo(vid)}
-                >
-                  <img src={vid.thumbnail} alt="" loading="lazy" />
-                  <div className={`admin-badge-platform plat-${vid.platform}`}>
-                    {vid.platform}
-                  </div>
-                  <div className="admin-hover-actions">
-                    <div className="admin-play-trigger">
-                      <Play size={24} fill="currentColor" />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="admin-video-details">
-                  <div className="admin-title-row">
-                    <Film size={14} className="admin-type-icon" />
-                    <h3 title={vid.title}>{vid.title}</h3>
-                  </div>
-                  <div className="admin-meta-row">
-                    <span className="admin-meta-tag">
-                      {vid.category || "General"}
-                    </span>
-                    <span className="admin-meta-dot">•</span>
-                    <span className="admin-meta-size">{vid.size} MB</span>
-                  </div>
-
-                  {/* ADD THIS: Admin Description Row */}
-                  <div className="admin-description-preview">
-                    <p>{vid.description || "No project overview provided."}</p>
-                  </div>
-                  <div className="admin-card-actions">
-                    <button
-                      className="admin-delete-action"
-                      disabled={deleting === vid.id}
-                      onClick={() => handleDelete(vid)}
-                    >
-                      {deleting === vid.id ? (
-                        "Wiping..."
-                      ) : (
-                        <>
-                          <Trash2 size={14} /> Delete
-                        </>
-                      )}
-                    </button>
-                    <a
-                      href={vid.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="admin-external-link"
-                    >
-                      <ExternalLink size={14} />
-                    </a>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        )}
-      </main>
-
-      {selectedVideo && (
-        <div
-          className="admin-modal-overlay"
-          onClick={() => setSelectedVideo(null)}
-        >
-          <div
-            className="admin-modal-content"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Elegant Close Button */}
-            <button
-              className="admin-modal-close"
-              onClick={() => setSelectedVideo(null)}
-            >
-              <X size={20} strokeWidth={1.5} />
-            </button>
-
-            <div className="admin-video-container">
-              <video controls autoPlay className="admin-main-player">
-                <source src={selectedVideo.url} type="video/mp4" />
-              </video>
-            </div>
-
-            {/* Footer follows the Deep Dark / Glassmorphism requirement */}
-            <div className="admin-modal-footer">
-              <div className="modal-footer-info">
-                <span className="modal-category-label">
-                  {selectedVideo.category || "General"}
-                </span>
-
-                <h3 className="modal-title-elegant">{selectedVideo.title}</h3>
-
-                <div className="modal-description-full">
-                  {isEditing ? (
-                    <div className="admin-edit-container">
-                      <textarea
-                        className="admin-edit-textarea"
-                        value={editDesc}
-                        onChange={(e) => setEditDesc(e.target.value)}
-                        autoFocus
-                      />
-                      <div className="admin-edit-actions">
-                        <button
-                          className="admin-save-btn"
-                          onClick={handleSaveDescription}
-                          disabled={isSaving}
-                        >
-                          {isSaving ? "Saving..." : "Save Details"}
-                        </button>
-                        <button
-                          className="admin-cancel-btn"
-                          onClick={() => setIsEditing(false)}
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div
-                      className="admin-description-view"
-                      onClick={() => {
-                        setEditDesc(selectedVideo.description || "");
-                        setIsEditing(true);
-                      }}
-                    >
-                      <p>
-                        {selectedVideo.description ||
-                          "Click to add a project description..."}
-                      </p>
-                      <span className="edit-hint">Click to edit</span>
-                    </div>
-                  )}
-                </div>
-
-                <div className="modal-meta-pills">
-                  <div className="meta-pill-item">{selectedVideo.platform}</div>
-                  <span className="separator">•</span>
-                  <div className="meta-pill-item">{selectedVideo.size} MB</div>
-                </div>
-              </div>
-            </div>
-          </div>
+          ) : (
+            <EmptyState title="No assets found" text="Try adjusting your search or category filter." icon={Film} />
+          )}
         </div>
-      )}
+      </section>
+
+      {/* ============================================================
+          VIDEO PLAYER + EDIT MODAL
+      ============================================================ */}
+
+      <Modal open={Boolean(selectedVideo)} onClose={() => setSelectedVideo(null)} title={selectedVideo?.title}>
+        {selectedVideo && (
+          <div className="video-modal">
+            <div className="video-modal__player">
+              <video src={selectedVideo.url} poster={selectedVideo.thumbnail} controls playsInline />
+            </div>
+
+            <div className="video-modal__meta">
+              <Badge tone="neutral">{selectedVideo.category || "General"}</Badge>
+              <span className="mono">{formatDuration(selectedVideo.duration)}</span>
+              {selectedVideo.resolution && <span className="mono">{selectedVideo.resolution}</span>}
+            </div>
+
+            <div className="video-modal__desc">
+              <div className="video-modal__desc-head">
+                <h4>Description</h4>
+                {!isEditing && (
+                  <button type="button" className="btn-text-only" onClick={() => setIsEditing(true)}>
+                    <Edit3 size={13} /> Edit
+                  </button>
+                )}
+              </div>
+
+              {isEditing ? (
+                <>
+                  <textarea value={editDesc} onChange={(e) => setEditDesc(e.target.value)} rows={4} />
+                  <div className="video-modal__desc-actions">
+                    <button type="button" className="btn-text-only" onClick={() => { setIsEditing(false); setEditDesc(selectedVideo.description || ""); }}>
+                      Cancel
+                    </button>
+                    <button type="button" className="btn-solid btn-solid--sm" onClick={handleSaveDescription} disabled={isSaving}>
+                      <Save size={13} /> {isSaving ? "Saving…" : "Save"}
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <p>{selectedVideo.description || "No description yet."}</p>
+              )}
+            </div>
+          </div>
+        )}
+      </Modal>
     </div>
   );
 }
