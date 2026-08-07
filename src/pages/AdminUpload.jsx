@@ -337,12 +337,13 @@ export default function AdminUpload() {
   },
 
   pageVisibility: {
-    home: false,
-    about: false,
-    services: false,
-    insights: false,
-    work: false,
-  },
+  home: false,
+  services: false,
+  work: false,
+  about: false,
+  insights: false,
+  contact: false,
+},
 
   featured: false,
   order: 0,
@@ -424,13 +425,21 @@ export default function AdminUpload() {
   displaySettings: vid.displaySettings,
 
   pageVisibility: {
-    ...vid.pageVisibility,
-    ...(vid.websiteSection
-      ? {
-          [vid.websiteSection]: true,
-        }
-      : {}),
-  },
+  home: false,
+  services: false,
+  work: false,
+  about: false,
+  insights: false,
+  contact: false,
+
+  ...vid.pageVisibility,
+
+  ...(vid.websiteSection
+    ? {
+        [vid.websiteSection]: true,
+      }
+    : {}),
+},
 
   featured: vid.featured,
   order: vid.order,
@@ -439,9 +448,19 @@ export default function AdminUpload() {
         );
 
         if (result.metadataSaved) {
-          updateItemStatus(vid.preview, { ...result, status: "success" });
-          setExistingLibrary(await getVideos());
-        }
+  updateItemStatus(vid.preview, {
+    ...result,
+    status: "success",
+  });
+
+  setExistingLibrary(await getVideos());
+} else if (result.fileUploaded) {
+  updateItemStatus(vid.preview, {
+    ...result,
+    status: "file_fail",
+    error: result.error || "Metadata save failed. Click Retry.",
+  });
+}
       } catch (err) {
         updateItemStatus(vid.preview, { status: "file_fail", error: err.message });
         refetch();

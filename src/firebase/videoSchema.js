@@ -1,11 +1,12 @@
 // src/firebase/videoSchema.js
 
 
-export const DEFAULT_VIDEO_CONTROL = {
+// src/firebase/videoSchema.js
 
+export const DEFAULT_VIDEO_CONTROL = {
   placement: [],
 
-//   section: "",
+  section: "",
 
   status: "active",
 
@@ -13,19 +14,19 @@ export const DEFAULT_VIDEO_CONTROL = {
 
   order: 0,
 
-  displaySettings:{
-    autoplay:true,
-    muted:true,
-    loop:true,
-    priority:"normal"
+  displaySettings: {
+    autoplay: true,
+    muted: true,
+    loop: true,
+    priority: "normal",
   },
 
-  pageVisibility:{
-    home:false,
-    about:false,
-    services:false,
-    insights:false,
-    work:false
-  }
-
+  pageVisibility: {
+    home: false,
+    services: false,
+    work: false,
+    about: false,
+    insights: false,
+    contact: false,
+  },
 };

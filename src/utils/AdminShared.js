@@ -4,87 +4,62 @@ export const WEBSITE_SECTIONS = [
   {
     id: "home",
     label: "Home",
-  },
-  {
-    id: "about",
-    label: "About",
+    positions: [
+      { id: "hero", label: "Hero" },
+      { id: "featured", label: "Featured" },
+    ],
   },
   {
     id: "services",
     label: "Services",
-  },
-  {
-    id: "insights",
-    label: "Insights",
+    positions: [
+      { id: "hero", label: "Hero" },
+      { id: "featured", label: "Featured" },
+    ],
   },
   {
     id: "work",
     label: "Work",
+    positions: [
+      { id: "hero", label: "Hero" },
+      { id: "featured", label: "Featured" },
+    ],
+  },
+  {
+    id: "about",
+    label: "About",
+    positions: [
+      { id: "hero", label: "Hero" },
+      { id: "featured", label: "Featured" },
+    ],
+  },
+  {
+    id: "insights",
+    label: "Insights",
+    positions: [
+      { id: "hero", label: "Hero" },
+      { id: "featured", label: "Featured" },
+    ],
+  },
+  {
+    id: "contact",
+    label: "Contact",
+    positions: [
+      { id: "hero", label: "Hero" },
+      { id: "featured", label: "Featured" },
+    ],
   },
 ];
 
-const SECTION_POSITIONS = {
-  home: [
-    {
-      id: "hero",
-      label: "Hero",
-    },
-    {
-      id: "featured",
-      label: "Featured",
-    },
-  ],
+export function getSectionPositions(sectionId) {
+  const section = WEBSITE_SECTIONS.find(
+    (item) => item.id === sectionId
+  );
 
-  about: [
-    {
-      id: "intro",
-      label: "Intro",
-    },
-    {
-      id: "featured",
-      label: "Featured",
-    },
-  ],
-
-  services: [
-    {
-      id: "hero",
-      label: "Hero",
-    },
-    {
-      id: "featured",
-      label: "Featured",
-    },
-  ],
-
-  insights: [
-    {
-      id: "hero",
-      label: "Hero",
-    },
-    {
-      id: "featured",
-      label: "Featured",
-    },
-  ],
-
-  work: [
-    {
-      id: "hero",
-      label: "Hero",
-    },
-    {
-      id: "featured",
-      label: "Featured",
-    },
-  ],
-};
-
-export function getSectionPositions(section) {
-  return SECTION_POSITIONS[section] || [];
+  return section?.positions || [];
 }
 
-export const VIDEO_CATEGORIES = [
+export const CATEGORIES = [
   "Video Editing",
   "Corporate",
   "Commercial",

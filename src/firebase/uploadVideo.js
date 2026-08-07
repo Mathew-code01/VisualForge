@@ -20,8 +20,10 @@ import {
     deleteDoc,
     doc,
 } from "firebase/firestore";
-
+import { DEFAULT_VIDEO_CONTROL } from "./videoSchema.js";
 const API_BASE = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+
+
 
 // ✅ NEW: Update an existing video's description
 import { updateDoc } from "firebase/firestore"; // Ensure updateDoc is in your imports
@@ -49,22 +51,53 @@ export async function saveMetadataOnly(videoMetadata) {
     // Log the start of the retry
     console.log(`[FIREBASE LOG] METADATA RETRY START for: ${videoMetadata.title}`);
     
-    // 1. Save metadata to Firestore (Metadata Save Phase)
-    const docRef = await addDoc(collection(db, "videos"), {
-      title: videoMetadata.title,
-      category: videoMetadata.category,
-      uploaderId: videoMetadata.uploaderId || "ADMIN", // Use a default if not provided
-      createdAt: serverTimestamp(),
-      size: videoMetadata.size,
-      duration: videoMetadata.duration,
-      resolution: videoMetadata.resolution,
-      thumbnail: videoMetadata.thumbnail,
-      platform: videoMetadata.platform,
-      url: videoMetadata.uploadedUrl, // Crucial: Use the existing file URL
-      resourceId: videoMetadata.resourceId, // Crucial: Use the existing resource ID
-      description: videoMetadata.description || "", // <--- ADD THIS LINE
-      tags: [],
-    });
+   const docRef = await addDoc(collection(db, "videos"), {
+  title: videoMetadata.title,
+  category: videoMetadata.category,
+  uploaderId: videoMetadata.uploaderId || "ADMIN",
+  createdAt: serverTimestamp(),
+
+  size: videoMetadata.size || 0,
+  duration: videoMetadata.duration || 0,
+  resolution: videoMetadata.resolution || "",
+  thumbnail: videoMetadata.thumbnail || null,
+
+  platform: videoMetadata.platform,
+  url: videoMetadata.uploadedUrl,
+  resourceId: videoMetadata.resourceId,
+
+  description: videoMetadata.description || "",
+  tags: videoMetadata.tags || [],
+
+  placement:
+    videoMetadata.placement ||
+    DEFAULT_VIDEO_CONTROL.placement,
+
+  section:
+    videoMetadata.section ||
+    DEFAULT_VIDEO_CONTROL.section,
+
+  status:
+    videoMetadata.status ||
+    DEFAULT_VIDEO_CONTROL.status,
+
+  featured:
+    videoMetadata.featured ??
+    DEFAULT_VIDEO_CONTROL.featured,
+
+  order:
+    videoMetadata.order ??
+    DEFAULT_VIDEO_CONTROL.order,
+
+  displaySettings:
+    videoMetadata.displaySettings ||
+    DEFAULT_VIDEO_CONTROL.displaySettings,
+
+  pageVisibility: {
+    ...DEFAULT_VIDEO_CONTROL.pageVisibility,
+    ...(videoMetadata.pageVisibility || {}),
+  },
+});
 
     console.log(`[FIREBASE LOG] METADATA RETRY SUCCESS. Document ID: ${docRef.id}`);
 
@@ -100,7 +133,8 @@ export async function recoverGhostAsset(publitioId, title, category, description
       size: parseFloat((data.size / (1024 * 1024)).toFixed(2)),
       duration: data.duration || 0,
       resolution: `${data.width}x${data.height}`,
-      tags: ["recovered-manual"]
+      tags: ["recovered-manual"],
+      ...DEFAULT_VIDEO_CONTROL
     });
 
     return { success: true, id: docRef.id };
@@ -155,8 +189,36 @@ export async function uploadVideo(
         platform: uploadResult.platform,
         url: uploadResult.url,
         resourceId: uploadResult.resourceId,
-        description: metadata.description || "", // <--- ADD THIS LINE
-        tags: [],
+        description: metadata.description || "",
+tags: [],
+placement:
+  metadata.placement ||
+  DEFAULT_VIDEO_CONTROL.placement,
+
+section:
+  metadata.section ||
+  DEFAULT_VIDEO_CONTROL.section,
+
+status:
+  metadata.status ||
+  DEFAULT_VIDEO_CONTROL.status,
+
+featured:
+  metadata.featured ??
+  DEFAULT_VIDEO_CONTROL.featured,
+
+order:
+  metadata.order ??
+  DEFAULT_VIDEO_CONTROL.order,
+
+displaySettings:
+  metadata.displaySettings ||
+  DEFAULT_VIDEO_CONTROL.displaySettings,
+
+pageVisibility: {
+  ...DEFAULT_VIDEO_CONTROL.pageVisibility,
+  ...(metadata.pageVisibility || {}),
+},
       });
 
       return {
@@ -397,6 +459,7 @@ export async function linkExistingPublitioVideo(publitioId) {
       duration: data.duration || 0,
       resolution: `${data.width}x${data.height}`,
       tags: ["recovered"],
+      ...DEFAULT_VIDEO_CONTROL
     });
 
     return { success: true, id: docRef.id };
