@@ -11,6 +11,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { AuthProvider } from "./context/AuthContext";
 
+import AdminVideos from "./pages/AdminVideos";
 import MainLayout from "./layouts/MainLayout";
 import Home from "./pages/Home";
 import Services from "./pages/Services";
@@ -48,6 +49,14 @@ const router = createBrowserRouter([
           </ProtectedRouteWrapper>
         ),
       },
+      {
+  path: "admin-videos",
+  element: (
+    <ProtectedRouteWrapper>
+      <AdminVideos />
+    </ProtectedRouteWrapper>
+  ),
+},
     ],
   },
   { path: "*", element: <NotFound /> },
