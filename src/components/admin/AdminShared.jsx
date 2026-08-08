@@ -5,6 +5,7 @@
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import { X, Loader2, Inbox } from "lucide-react";
+import "../../styles/components/adminShared.css";
 
 /* ============================================================
    SHARED CONSTANTS

@@ -1,0 +1,377 @@
+/* src/styles/components/adminShared.css */
+/* ==========================================================================
+   ADMIN SHARED — base layer imported by adminupload.css and adminvideos.css
+   Elite, restrained, Apple-grade admin styling built on theme.css tokens.
+   ========================================================================== */
+
+.mono { font-family: var(--font-mono); }
+
+/* ============================================================
+   LAYOUT — wide admin canvas, not the marketing max-width
+============================================================ */
+
+.admin-panel {
+  --admin-max-width: 1680px;
+  padding-block: var(--spacing-9);
+}
+
+.admin-panel--light {
+  background: var(--color-bg);
+}
+
+.admin-panel__inner {
+  width: min(calc(100% - (var(--page-padding) * 2)), var(--admin-max-width));
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-7);
+}
+
+/* ============================================================
+   SECTION HEADER
+============================================================ */
+
+.admin-section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--spacing-6);
+  flex-wrap: wrap;
+  padding-bottom: var(--spacing-6);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.admin-section-header__sub {
+  margin-top: var(--spacing-2);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  max-width: 52ch;
+}
+
+.admin-section-header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  flex-wrap: wrap;
+}
+
+.section-label {
+  display: block;
+  font-size: 11px;
+  font-weight: var(--font-semibold);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+  margin-bottom: var(--spacing-2);
+}
+
+.elegant-title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-3);
+}
+
+.elegant-title .count {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--color-text-subtle);
+}
+
+/* ============================================================
+   BUTTONS
+   Deliberately restrained — no gradient sheen on every control,
+   that reads as marketing chrome, not tool chrome.
+============================================================ */
+
+.btn-solid,
+.btn-outline,
+.btn-text-only {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  letter-spacing: 0;
+  text-transform: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--transition-fast), border-color var(--transition-fast),
+    color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.btn-solid {
+  padding: 10px 18px;
+  background: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  color: #ffffff;
+}
+
+.btn-solid:hover {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.28);
+}
+
+.btn-solid:active { transform: translateY(0); }
+.btn-solid:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+.btn-solid--sm { padding: 7px 14px; font-size: var(--text-xs); }
+.btn-solid--lg { padding: 14px 28px; font-size: var(--text-base); border-radius: var(--radius-lg); }
+
+.btn-outline {
+  padding: 10px 18px;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+}
+
+.btn-outline:hover { border-color: var(--color-border-hover); background: rgba(37, 99, 235, 0.05); }
+.btn-outline.active { background: rgba(37, 99, 235, 0.1); border-color: var(--color-primary); color: var(--color-primary); }
+.btn-outline.is-disabled,
+.btn-outline:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-text-only {
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--color-text-subtle);
+}
+
+.btn-text-only:hover { color: var(--color-primary); }
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-muted);
+  transition: color var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.icon-btn:hover { color: var(--color-text); border-color: var(--color-border-hover); background: rgba(255, 255, 255, 0.03); }
+.icon-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.icon-btn--danger:hover { color: #f87171; border-color: rgba(239, 68, 68, 0.4); background: rgba(239, 68, 68, 0.06); }
+.icon-btn.is-success { color: #4ade80; border-color: rgba(74, 222, 128, 0.4); }
+
+.spin { animation: admin-spin 900ms linear infinite; }
+@keyframes admin-spin { to { transform: rotate(360deg); } }
+
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+/* ============================================================
+   BADGE
+============================================================ */
+
+.admin-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 10.5px;
+  font-weight: var(--font-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  line-height: 1.6;
+}
+
+.admin-badge--neutral { background: rgba(255, 255, 255, 0.06); color: var(--color-text-subtle); border: 1px solid var(--color-border); }
+.admin-badge--success { background: rgba(34, 197, 94, 0.12); color: #4ade80; }
+.admin-badge--warning { background: rgba(245, 158, 11, 0.12); color: #fbbf24; }
+.admin-badge--danger { background: rgba(239, 68, 68, 0.12); color: #f87171; }
+
+/* ============================================================
+   LOADING / EMPTY STATES
+============================================================ */
+
+.admin-loading-state,
+.admin-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-11) var(--spacing-6);
+  border-radius: var(--radius-xl);
+  border: 1px dashed var(--color-border);
+  color: var(--color-text-subtle);
+  text-align: center;
+}
+
+.admin-loading-state { font-size: var(--text-sm); }
+.admin-loading-state svg { color: var(--color-primary); }
+
+.admin-empty-state svg { color: var(--color-text-subtle); }
+.admin-empty-state strong { color: var(--color-text); font-size: var(--text-base); font-weight: var(--font-semibold); }
+.admin-empty-state p { font-size: var(--text-sm); max-width: 34ch; line-height: var(--leading-relaxed); }
+
+/* ============================================================
+   MODAL
+   Sized generously — this is where "squeezed to one side" was
+   most visible for the video preview. Centered, wide, no
+   awkward side-gutters.
+============================================================ */
+
+.admin-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay, 1200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-7);
+  background: rgba(5, 5, 5, 0.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  animation: admin-fade-in 220ms var(--ease-premium) forwards;
+}
+
+.admin-modal {
+  width: min(920px, 100%);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-lg);
+  animation: admin-modal-in 320ms var(--ease-premium) forwards;
+}
+
+@keyframes admin-modal-in {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+
+.admin-modal__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-5) var(--spacing-7);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.admin-modal__head h3 {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--color-text);
+}
+
+.admin-modal__body { padding: var(--spacing-7); overflow-y: auto; }
+
+.admin-modal__footer {
+  padding: var(--spacing-5) var(--spacing-7);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-3);
+}
+
+@keyframes admin-fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* ============================================================
+   STORAGE METER
+============================================================ */
+
+.storage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-4);
+}
+
+.storage-meter {
+  padding: var(--spacing-6);
+  border-radius: var(--radius-xl);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  transition: border-color var(--transition-fast);
+}
+
+.storage-meter:hover { border-color: var(--color-border-hover); }
+
+.storage-meter__head { display: flex; align-items: center; justify-content: space-between; }
+.storage-meter__head h4 { font-size: var(--text-base); font-weight: var(--font-semibold); color: var(--color-text); }
+
+.storage-meter__badge {
+  font-size: 10px;
+  font-weight: var(--font-semibold);
+  letter-spacing: var(--tracking-wide);
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(37, 99, 235, 0.12);
+  color: var(--color-accent);
+}
+
+.storage-meter__value { display: flex; align-items: baseline; gap: var(--spacing-2); }
+.storage-meter__value strong { font-family: var(--font-display); font-size: var(--text-2xl); font-weight: var(--font-bold); color: var(--color-text); }
+.storage-meter__value span { font-size: 11px; color: var(--color-text-subtle); }
+
+.storage-meter__bar { height: 5px; border-radius: 999px; background: rgba(255, 255, 255, 0.07); overflow: hidden; }
+.storage-meter__fill { height: 100%; background: var(--gradient-primary); border-radius: 999px; transition: width 500ms var(--ease-premium); }
+
+/* ============================================================
+   ALERT BANNER
+============================================================ */
+
+.alert-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-4);
+  padding: var(--spacing-4) var(--spacing-5);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  background: rgba(245, 158, 11, 0.07);
+  color: #fbbf24;
+  font-size: var(--text-sm);
+}
+
+.alert-banner > div:first-child { display: flex; align-items: center; gap: var(--spacing-3); }
+.alert-banner button { display: inline-flex; background: none; border: none; color: inherit; padding: 2px; border-radius: 4px; }
+.alert-banner button:hover { background: rgba(245, 158, 11, 0.15); }
+
+/* ============================================================
+   RESPONSIVE — shared
+============================================================ */
+
+@media (max-width: 1024px) {
+  .storage-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+}
+
+@media (max-width: 768px) {
+  .admin-section-header { flex-direction: column; align-items: flex-start; }
+  .admin-modal-backdrop { padding: 0; align-items: flex-end; }
+  .admin-modal {
+    width: 100%;
+    max-height: 100vh;
+    height: 100vh;
+    border-radius: 0;
+    animation: admin-modal-in-mobile 300ms var(--ease-premium) forwards;
+  }
+}
+
+@keyframes admin-modal-in-mobile {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spin, .admin-modal, .admin-modal-backdrop { animation: none; }
+}
