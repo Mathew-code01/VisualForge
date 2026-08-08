@@ -261,3 +261,854 @@
   .library-grid { grid-template-columns: 1fr; }
   .video-modal__player video { aspect-ratio: 4 / 3; }
 }
+
+/* ============================================================
+   VIDEO MODAL — DETAIL VIEW
+============================================================ */
+
+.video-details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--spacing-3);
+}
+
+.video-detail-card {
+  min-width: 0;
+  padding: var(--spacing-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.035),
+      rgba(255, 255, 255, 0.015)
+    );
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  transition:
+    border-color var(--transition-fast),
+    background var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.video-detail-card:hover {
+  border-color: var(--color-border-hover);
+  background: rgba(255, 255, 255, 0.045);
+  transform: translateY(-1px);
+}
+
+.video-detail-card__label {
+  display: block;
+  font-size: 10px;
+  line-height: 1.2;
+  font-weight: var(--font-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+}
+
+.video-detail-card strong {
+  min-width: 0;
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+
+/* ============================================================
+   VIDEO SETTINGS SECTIONS
+============================================================ */
+
+.video-settings-section {
+  padding-top: var(--spacing-5);
+  border-top: 1px solid var(--color-border);
+}
+
+.video-settings-section__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-4);
+}
+
+.video-settings-section__head > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.section-label {
+  display: block;
+  font-size: 10px;
+  line-height: 1.2;
+  font-weight: var(--font-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  color: var(--color-accent);
+}
+
+.video-settings-section h4 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  line-height: 1.25;
+  font-weight: var(--font-semibold);
+  color: var(--color-text);
+}
+
+
+/* ============================================================
+   VISIBILITY / SETTINGS SUMMARY
+============================================================ */
+
+.visibility-summary,
+.settings-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.visibility-summary .muted {
+  color: var(--color-text-subtle);
+  font-size: var(--text-sm);
+}
+
+
+/* ============================================================
+   MODAL FOOTER ACTIONS
+============================================================ */
+
+.video-modal__footer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-3);
+  padding-top: var(--spacing-2);
+}
+
+
+/* ============================================================
+   VIDEO EDITOR
+============================================================ */
+
+.video-editor {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-7);
+}
+
+.video-editor__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-5);
+  padding-top: var(--spacing-6);
+  border-top: 1px solid var(--color-border);
+}
+
+.video-editor__section:first-child {
+  padding-top: 0;
+  border-top: none;
+}
+
+.video-editor__section-head {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.video-editor__section-head h4 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  line-height: 1.25;
+  color: var(--color-text);
+}
+
+.video-editor__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--spacing-5);
+}
+
+.video-editor__grid .admin-field--full {
+  grid-column: 1 / -1;
+}
+
+
+/* ============================================================
+   ADMIN FORM FIELDS
+============================================================ */
+
+.admin-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  min-width: 0;
+}
+
+.admin-field > span {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 11px;
+  line-height: 1.3;
+  font-weight: var(--font-semibold);
+  letter-spacing: 0.03em;
+  color: var(--color-text-muted);
+}
+
+.admin-field > span small {
+  font-size: 10px;
+  color: var(--color-text-subtle);
+  font-weight: var(--font-regular);
+}
+
+.admin-field input,
+.admin-field select,
+.admin-field textarea {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
+  color: var(--color-text);
+  outline: none;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    background var(--transition-fast);
+}
+
+.admin-field input,
+.admin-field select {
+  height: 44px;
+  padding: 0 var(--spacing-4);
+}
+
+.admin-field textarea {
+  min-height: 120px;
+  padding: var(--spacing-3) var(--spacing-4);
+  resize: vertical;
+}
+
+.admin-field input::placeholder,
+.admin-field textarea::placeholder {
+  color: var(--color-text-subtle);
+}
+
+.admin-field input:hover,
+.admin-field select:hover,
+.admin-field textarea:hover {
+  border-color: var(--color-border-hover);
+}
+
+.admin-field input:focus,
+.admin-field select:focus,
+.admin-field textarea:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
+  background: var(--color-bg-elevated);
+}
+
+.admin-field select {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--color-text-subtle) 50%),
+    linear-gradient(135deg, var(--color-text-subtle) 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) 18px,
+    calc(100% - 13px) 18px;
+  background-size:
+    5px 5px,
+    5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 40px;
+}
+
+.admin-field select option {
+  background: #111111;
+  color: #ffffff;
+}
+
+.admin-field input:disabled,
+.admin-field select:disabled,
+.admin-field textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--color-bg-subtle);
+}
+
+
+/* ============================================================
+   CHECKBOX GRID
+============================================================ */
+
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--spacing-3);
+}
+
+
+/* ============================================================
+   CUSTOM CHECKBOX
+============================================================ */
+
+.admin-checkbox {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  min-height: 46px;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.025);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  user-select: none;
+
+  transition:
+    border-color var(--transition-fast),
+    background var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.admin-checkbox:hover {
+  border-color: var(--color-border-hover);
+  background: rgba(255, 255, 255, 0.045);
+  color: var(--color-text);
+}
+
+.admin-checkbox input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.admin-checkbox__box {
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid var(--color-border);
+  border-radius: 5px;
+  background: var(--color-bg);
+  color: transparent;
+
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.admin-checkbox input:checked + .admin-checkbox__box {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.admin-checkbox:has(input:checked) {
+  border-color: rgba(37, 99, 235, 0.4);
+  background: rgba(37, 99, 235, 0.08);
+  color: var(--color-text);
+}
+
+.admin-checkbox input:focus-visible + .admin-checkbox__box {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+
+/* ============================================================
+   FEATURED CHECKBOX — FULL WIDTH
+============================================================ */
+
+.video-editor__section > .admin-checkbox {
+  width: 100%;
+}
+
+
+/* ============================================================
+   TECHNICAL INFORMATION
+============================================================ */
+
+.technical-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-bg);
+}
+
+.technical-grid > div {
+  min-width: 0;
+  min-height: 82px;
+  padding: var(--spacing-4);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  border-right: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.technical-grid > div:nth-child(3n) {
+  border-right: none;
+}
+
+.technical-grid > div:nth-last-child(-n + 3) {
+  border-bottom: none;
+}
+
+.technical-grid span {
+  font-size: 10px;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-subtle);
+}
+
+.technical-grid strong {
+  min-width: 0;
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  line-height: 1.4;
+  font-weight: var(--font-medium);
+  overflow-wrap: anywhere;
+}
+
+
+/* ============================================================
+   EDITOR ACTIONS
+============================================================ */
+
+.video-editor__actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-3);
+
+  margin-top: var(--spacing-2);
+  padding: var(--spacing-4) 0 2px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      transparent,
+      var(--color-bg) 18%
+    );
+}
+
+.video-editor__actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+}
+
+
+/* ============================================================
+   ADMIN BUTTONS — LOCAL SUPPORT
+============================================================ */
+
+.admin-videos .btn-solid,
+.admin-videos .btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  min-height: 40px;
+  padding: 0 15px;
+  border-radius: var(--radius-md);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  transition:
+    transform var(--transition-fast),
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.admin-videos .btn-solid {
+  border: 1px solid var(--color-primary);
+  background: var(--color-primary);
+  color: #ffffff;
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.18);
+}
+
+.admin-videos .btn-solid:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.28);
+}
+
+.admin-videos .btn-outline {
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-muted);
+}
+
+.admin-videos .btn-outline:hover:not(:disabled) {
+  border-color: var(--color-border-hover);
+  background: var(--glass-bg);
+  color: var(--color-text);
+}
+
+.admin-videos .btn-solid:disabled,
+.admin-videos .btn-outline:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+
+/* ============================================================
+   ICON BUTTONS
+============================================================ */
+
+.admin-videos .icon-btn {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+
+  transition:
+    border-color var(--transition-fast),
+    background var(--transition-fast),
+    color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.admin-videos .icon-btn:hover:not(:disabled) {
+  border-color: var(--color-border-hover);
+  background: var(--glass-bg);
+  color: var(--color-text);
+  transform: translateY(-1px);
+}
+
+.admin-videos .icon-btn--danger:hover:not(:disabled) {
+  border-color: rgba(239, 68, 68, 0.45);
+  background: rgba(239, 68, 68, 0.08);
+  color: var(--color-danger);
+}
+
+.admin-videos .icon-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+
+/* ============================================================
+   MODAL SCROLL / LARGE MODAL SUPPORT
+============================================================ */
+
+/*
+   Your Modal component controls the actual outer modal.
+   These rules make sure the content itself behaves correctly
+   when the editor becomes taller than the viewport.
+*/
+
+.video-modal {
+  width: 100%;
+  min-width: 0;
+}
+
+.video-modal__player {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+.video-modal__player video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+}
+
+
+/* ============================================================
+   VIDEO MODAL META
+============================================================ */
+
+.video-modal__meta {
+  min-height: 28px;
+  flex-wrap: wrap;
+}
+
+.video-modal__meta .mono {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-elevated);
+  color: var(--color-text-subtle);
+  font-size: 10px;
+}
+
+
+/* ============================================================
+   STATUS / EMPTY TEXT
+============================================================ */
+
+.admin-videos .muted {
+  color: var(--color-text-subtle);
+}
+
+
+/* ============================================================
+   SEARCH + ALERT SPACING
+============================================================ */
+
+.admin-videos .library-search {
+  margin-bottom: var(--spacing-5);
+}
+
+.admin-videos .filter-row {
+  margin-top: var(--spacing-5);
+  margin-bottom: var(--spacing-6);
+}
+
+.admin-videos .alert-banner {
+  margin-top: var(--spacing-4);
+}
+
+
+/* ============================================================
+   CARD ACTION ACCESSIBILITY
+============================================================ */
+
+.library-card__thumb:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+}
+
+.library-card__thumb:focus-visible .library-card__play {
+  opacity: 1;
+}
+
+
+/* ============================================================
+   LOADING / SPINNER
+============================================================ */
+
+.spin {
+  animation: admin-video-spin 0.8s linear infinite;
+}
+
+@keyframes admin-video-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* ============================================================
+   RESPONSIVE — TABLET
+============================================================ */
+
+@media (max-width: 900px) {
+
+  .video-details-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .video-editor__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .checkbox-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .technical-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .technical-grid > div:nth-child(3n) {
+    border-right: 1px solid var(--color-border);
+  }
+
+  .technical-grid > div:nth-child(2n) {
+    border-right: none;
+  }
+
+  .technical-grid > div:nth-last-child(-n + 3) {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .technical-grid > div:nth-last-child(-n + 2) {
+    border-bottom: none;
+  }
+}
+
+
+/* ============================================================
+   RESPONSIVE — MOBILE
+============================================================ */
+
+@media (max-width: 640px) {
+
+  .video-modal {
+    gap: var(--spacing-5);
+  }
+
+  .video-modal__player {
+    border-radius: var(--radius-md);
+  }
+
+  .video-modal__meta {
+    gap: var(--spacing-2);
+  }
+
+  .video-details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .video-editor {
+    gap: var(--spacing-6);
+  }
+
+  .video-editor__section {
+    gap: var(--spacing-4);
+    padding-top: var(--spacing-5);
+  }
+
+  .video-editor__grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-4);
+  }
+
+  .video-editor__grid .admin-field--full {
+    grid-column: auto;
+  }
+
+  .checkbox-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .technical-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .technical-grid > div,
+  .technical-grid > div:nth-child(2n),
+  .technical-grid > div:nth-child(3n) {
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .technical-grid > div:last-child {
+    border-bottom: none;
+  }
+
+  .video-modal__footer-actions {
+    justify-content: stretch;
+  }
+
+  .video-modal__footer-actions .btn-solid {
+    width: 100%;
+  }
+
+  .video-editor__actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    padding-top: var(--spacing-5);
+  }
+
+  .video-editor__actions button {
+    width: 100%;
+  }
+
+  .admin-field input,
+  .admin-field select {
+    height: 46px;
+  }
+}
+
+
+/* ============================================================
+   RESPONSIVE — SMALL MOBILE
+============================================================ */
+
+@media (max-width: 420px) {
+
+  .library-card__body {
+    padding: var(--spacing-4);
+  }
+
+  .video-detail-card {
+    padding: var(--spacing-3);
+  }
+
+  .video-settings-section__head {
+    flex-direction: column;
+  }
+
+  .video-modal__player video {
+    aspect-ratio: 16 / 10;
+  }
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .library-card,
+  .library-card__thumb img,
+  .library-card__play,
+  .video-detail-card,
+  .admin-checkbox,
+  .admin-checkbox__box,
+  .admin-videos .icon-btn,
+  .admin-videos .btn-solid,
+  .admin-videos .btn-outline {
+    transition: none !important;
+  }
+
+  .spin {
+    animation: none !important;
+  }
+}
