@@ -20,6 +20,65 @@ export const CATEGORIES = [
   "Promotional Video",
 ];
 
+export const WEBSITE_SECTIONS = [
+  {
+    id: "home",
+    label: "Home",
+    positions: [
+      { id: "hero", label: "Hero" },
+      { id: "featured", label: "Featured" },
+    ],
+  },
+  {
+    id: "services",
+    label: "Services",
+    positions: [
+      { id: "hero", label: "Hero" },
+      { id: "featured", label: "Featured" },
+    ],
+  },
+  {
+    id: "work",
+    label: "Work",
+    positions: [
+      { id: "hero", label: "Hero" },
+      { id: "featured", label: "Featured" },
+    ],
+  },
+  {
+    id: "about",
+    label: "About",
+    positions: [
+      { id: "hero", label: "Hero" },
+      { id: "featured", label: "Featured" },
+    ],
+  },
+  {
+    id: "insights",
+    label: "Insights",
+    positions: [
+      { id: "hero", label: "Hero" },
+      { id: "featured", label: "Featured" },
+    ],
+  },
+  {
+    id: "contact",
+    label: "Contact",
+    positions: [
+      { id: "hero", label: "Hero" },
+      { id: "featured", label: "Featured" },
+    ],
+  },
+];
+
+export function getSectionPositions(sectionId) {
+  const section = WEBSITE_SECTIONS.find(
+    (item) => item.id === sectionId
+  );
+
+  return section?.positions || [];
+}
+
 /* ============================================================
    HELPERS
 ============================================================ */
