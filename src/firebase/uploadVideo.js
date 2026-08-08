@@ -308,6 +308,48 @@ async function uploadToVimeo(file, title, onProgress) {
   };
 }
 
+export async function updateVideoMetadata(docId, updates) {
+  try {
+    const videoRef = doc(db, "videos", docId);
+
+    await updateDoc(videoRef, {
+      title: updates.title || "",
+      description: updates.description || "",
+      category: updates.category || "",
+
+      placement: Array.isArray(updates.placement)
+        ? updates.placement
+        : [],
+
+      pageVisibility: {
+        home: false,
+        services: false,
+        work: false,
+        about: false,
+        insights: false,
+        contact: false,
+        ...(updates.pageVisibility || {}),
+      },
+
+      displaySettings: {
+        autoplay: true,
+        muted: true,
+        loop: true,
+        priority: "normal",
+        ...(updates.displaySettings || {}),
+      },
+
+      featured: Boolean(updates.featured),
+      order: Number(updates.order || 0),
+      status: updates.status || "active",
+    });
+
+    return { success: true };
+  } catch (err) {
+    console.error("Failed to update video metadata:", err);
+    throw err;
+  }
+}
 
 /* =======================================================
    TUS UPLOADER
