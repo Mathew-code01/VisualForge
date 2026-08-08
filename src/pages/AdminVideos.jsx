@@ -19,7 +19,11 @@ import {
   X,
 } from "lucide-react";
 
-import { getVideos, updateVideoDescription } from "../firebase/uploadVideo.js";
+import {
+  getVideos,
+  updateVideoDescription,
+  updateVideoMetadata,
+} from "../firebase/uploadVideo.js";
 import { deleteVideo } from "../firebase/deleteVideo.js";
 
 import {
@@ -132,6 +136,7 @@ export default function AdminVideos() {
   const firstPlacement = vid.placement?.[0];
 
   setSelectedVideo(vid);
+  setEditDesc(vid.description || "");
 
   setEditForm({
     title: vid.title || "",
@@ -326,26 +331,36 @@ export default function AdminVideos() {
                     </div>
 
                     <p className="library-card__desc">{vid.description || "No description yet."}</p>
+<div className="library-card__actions">
+  <button
+    type="button"
+    className="icon-btn"
+    onClick={() => openVideo(vid)}
+    aria-label="Edit"
+  >
+    <Edit3 size={13} />
+  </button>
 
-                    <div className="library-card__actions">
-                      <button type="button" className="icon-btn" onClick={() => openVideo(vid)} aria-label="Edit">
-                        <Edit3 size={13} />
-                      </button>
+  <a
+    href={vid.url}
+    target="_blank"
+    rel="noreferrer"
+    className="icon-btn"
+    aria-label="Open source"
+  >
+    <ExternalLink size={13} />
+  </a>
 
-                      <a href={vid.url} target="_blank" rel="noreferrer" className="icon-btn" aria-label="Open source">
-                        <ExternalLink size={13} />
-                      </a>
-
-                      <button
-                        type="button"
-                        className="icon-btn icon-btn--danger"
-                        onClick={() => handleDelete(vid)}
-                        disabled={deleting === vid.id}
-                        aria-label="Delete"
-                      >
-                        <Trash2 size={13} />
-                      </button>
-                    </div>
+  <button
+    type="button"
+    className="icon-btn icon-btn--danger"
+    onClick={() => handleDelete(vid)}
+    disabled={deleting === vid.id}
+    aria-label="Delete"
+  >
+    <Trash2 size={13} />
+  </button>
+</div>
                   </div>
                 </article>
               ))}
