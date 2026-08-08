@@ -1,5 +1,7 @@
 // src/components/admin/AdminShared.jsx
 
+// src/components/admin/AdminShared.jsx
+
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import { X, Loader2, Inbox } from "lucide-react";
