@@ -9,24 +9,22 @@
 // ✅ NEW: Import the initialized db instance
 import { db } from "./config.js"; 
 
-// ✅ NEW: Import Firestore functions from the installed npm package
 import {
-    collection,
-    addDoc,
-    serverTimestamp,
-    query,
-    orderBy,
-    getDocs,
-    deleteDoc,
-    doc,
+  collection,
+  addDoc,
+  serverTimestamp,
+  query,
+  orderBy,
+  getDocs,
+  deleteDoc,
+  doc,
+  updateDoc,
 } from "firebase/firestore";
 import { DEFAULT_VIDEO_CONTROL } from "./videoSchema.js";
 const API_BASE = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
 
 
-// ✅ NEW: Update an existing video's description
-import { updateDoc } from "firebase/firestore"; // Ensure updateDoc is in your imports
 
 export async function updateVideoDescription(docId, newDescription) {
   try {
@@ -314,11 +312,19 @@ export async function updateVideoMetadata(docId, updates) {
 
     await updateDoc(videoRef, {
       title: updates.title || "",
+
       description: updates.description || "",
+
       category: updates.category || "",
+
+      section: updates.section || "",
 
       placement: Array.isArray(updates.placement)
         ? updates.placement
+        : [],
+
+      tags: Array.isArray(updates.tags)
+        ? updates.tags
         : [],
 
       pageVisibility: {
@@ -340,13 +346,21 @@ export async function updateVideoMetadata(docId, updates) {
       },
 
       featured: Boolean(updates.featured),
+
       order: Number(updates.order || 0),
+
       status: updates.status || "active",
     });
 
-    return { success: true };
+    return {
+      success: true,
+    };
   } catch (err) {
-    console.error("Failed to update video metadata:", err);
+    console.error(
+      "Failed to update video metadata:",
+      err
+    );
+
     throw err;
   }
 }

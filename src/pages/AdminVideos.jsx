@@ -17,6 +17,7 @@ import {
   Edit3,
   Save,
   X,
+  Check,
 } from "lucide-react";
 
 import {
@@ -33,6 +34,9 @@ import {
   EmptyState,
   Modal,
   formatDuration,
+  CATEGORIES,
+  WEBSITE_SECTIONS,
+  getSectionPositions,
 } from "../components/admin/AdminShared.jsx";
 
 import "../styles/pages/adminvideos.css";
@@ -62,6 +66,7 @@ export default function AdminVideos() {
   websiteSection: "",
   displayPosition: "",
   placement: [],
+  tags: [],
   pageVisibility: {},
   displaySettings: {},
   featured: false,
@@ -132,21 +137,32 @@ export default function AdminVideos() {
     }
   };
 
-  const openVideo = (vid) => {
+ const openVideo = (vid) => {
   const firstPlacement = vid.placement?.[0];
 
   setSelectedVideo(vid);
-  setEditDesc(vid.description || "");
 
   setEditForm({
     title: vid.title || "",
     description: vid.description || "",
     category: vid.category || "",
 
-    websiteSection: firstPlacement?.section || "",
-    displayPosition: firstPlacement?.position || "",
+    websiteSection:
+      firstPlacement?.section ||
+      vid.section ||
+      "",
 
-    placement: vid.placement || [],
+    displayPosition:
+      firstPlacement?.position ||
+      "",
+
+    placement: Array.isArray(vid.placement)
+      ? vid.placement
+      : [],
+
+    tags: Array.isArray(vid.tags)
+      ? vid.tags
+      : [],
 
     pageVisibility: {
       home: false,
@@ -154,7 +170,8 @@ export default function AdminVideos() {
       services: false,
       insights: false,
       work: false,
-      ...vid.pageVisibility,
+      contact: false,
+      ...(vid.pageVisibility || {}),
     },
 
     displaySettings: {
@@ -162,7 +179,7 @@ export default function AdminVideos() {
       muted: true,
       loop: true,
       priority: "normal",
-      ...vid.displaySettings,
+      ...(vid.displaySettings || {}),
     },
 
     featured: Boolean(vid.featured),
@@ -189,6 +206,8 @@ export default function AdminVideos() {
   };
 
   const handleSaveVideo = async () => {
+  if (!selectedVideo) return;
+
   setIsSaving(true);
 
   try {
@@ -207,18 +226,27 @@ export default function AdminVideos() {
       description: editForm.description.trim(),
       category: editForm.category,
 
+      section: editForm.websiteSection,
+
       placement,
+
+      tags: editForm.tags,
 
       pageVisibility: editForm.pageVisibility,
 
       displaySettings: editForm.displaySettings,
 
-      featured: editForm.featured,
+      featured: Boolean(editForm.featured),
+
       order: Number(editForm.order || 0),
+
       status: editForm.status,
     };
 
-    await updateVideoMetadata(selectedVideo.id, updates);
+    await updateVideoMetadata(
+      selectedVideo.id,
+      updates
+    );
 
     const updated = {
       ...selectedVideo,
@@ -226,13 +254,17 @@ export default function AdminVideos() {
     };
 
     setVideos((prev) =>
-      prev.map((v) =>
-        v.id === selectedVideo.id ? updated : v
+      prev.map((video) =>
+        video.id === selectedVideo.id
+          ? updated
+          : video
       )
     );
 
     setSelectedVideo(updated);
     setIsEditing(false);
+
+    alert("Video settings saved successfully.");
   } catch (err) {
     console.error(err);
     alert("Failed to save video settings.");
@@ -375,48 +407,787 @@ export default function AdminVideos() {
           VIDEO PLAYER + EDIT MODAL
       ============================================================ */}
 
-      <Modal open={Boolean(selectedVideo)} onClose={() => setSelectedVideo(null)} title={selectedVideo?.title}>
-        {selectedVideo && (
-          <div className="video-modal">
-            <div className="video-modal__player">
-              <video src={selectedVideo.url} poster={selectedVideo.thumbnail} controls playsInline />
+      <Modal
+  open={Boolean(selectedVideo)}
+  onClose={() => {
+    if (!isSaving) {
+      setSelectedVideo(null);
+      setIsEditing(false);
+    }
+  }}
+  title={isEditing ? "Edit Video Asset" : selectedVideo?.title}
+>
+  {selectedVideo && (
+    <div className="video-modal">
+
+      {/* ======================================================
+          VIDEO PREVIEW
+      ====================================================== */}
+
+      <div className="video-modal__player">
+        <video
+          src={selectedVideo.url}
+          poster={selectedVideo.thumbnail}
+          controls
+          playsInline
+        />
+      </div>
+
+      {/* ======================================================
+          TECHNICAL META
+      ====================================================== */}
+
+      <div className="video-modal__meta">
+        <Badge tone="neutral">
+          {selectedVideo.category || "General"}
+        </Badge>
+
+        <span className="mono">
+          {formatDuration(selectedVideo.duration)}
+        </span>
+
+        {selectedVideo.resolution && (
+          <span className="mono">
+            {selectedVideo.resolution}
+          </span>
+        )}
+
+        {selectedVideo.platform && (
+          <span className="mono">
+            {selectedVideo.platform}
+          </span>
+        )}
+      </div>
+
+      {!isEditing ? (
+        <>
+          {/* ==================================================
+              READ-ONLY VIEW
+          ================================================== */}
+
+          <div className="video-details-grid">
+
+            <div className="video-detail-card">
+              <span className="video-detail-card__label">
+                Title
+              </span>
+
+              <strong>
+                {selectedVideo.title || "Untitled"}
+              </strong>
             </div>
 
-            <div className="video-modal__meta">
-              <Badge tone="neutral">{selectedVideo.category || "General"}</Badge>
-              <span className="mono">{formatDuration(selectedVideo.duration)}</span>
-              {selectedVideo.resolution && <span className="mono">{selectedVideo.resolution}</span>}
+            <div className="video-detail-card">
+              <span className="video-detail-card__label">
+                Category
+              </span>
+
+              <strong>
+                {selectedVideo.category || "General"}
+              </strong>
             </div>
 
-            <div className="video-modal__desc">
-              <div className="video-modal__desc-head">
-                <h4>Description</h4>
-                {!isEditing && (
-                  <button type="button" className="btn-text-only" onClick={() => setIsEditing(true)}>
-                    <Edit3 size={13} /> Edit
-                  </button>
-                )}
+            <div className="video-detail-card">
+              <span className="video-detail-card__label">
+                Website Section
+              </span>
+
+              <strong>
+                {selectedVideo.section ||
+                  selectedVideo.placement?.[0]?.section ||
+                  "Not assigned"}
+              </strong>
+            </div>
+
+            <div className="video-detail-card">
+              <span className="video-detail-card__label">
+                Position
+              </span>
+
+              <strong>
+                {selectedVideo.placement?.[0]?.position ||
+                  "Not assigned"}
+              </strong>
+            </div>
+
+            <div className="video-detail-card">
+              <span className="video-detail-card__label">
+                Status
+              </span>
+
+              <Badge
+                tone={
+                  selectedVideo.status === "active"
+                    ? "success"
+                    : "neutral"
+                }
+              >
+                {selectedVideo.status || "active"}
+              </Badge>
+            </div>
+
+            <div className="video-detail-card">
+              <span className="video-detail-card__label">
+                Order
+              </span>
+
+              <strong>
+                {Number(selectedVideo.order || 0)}
+              </strong>
+            </div>
+
+            <div className="video-detail-card">
+              <span className="video-detail-card__label">
+                Featured
+              </span>
+
+              <strong>
+                {selectedVideo.featured ? "Yes" : "No"}
+              </strong>
+            </div>
+
+            <div className="video-detail-card">
+              <span className="video-detail-card__label">
+                Priority
+              </span>
+
+              <strong>
+                {selectedVideo.displaySettings?.priority ||
+                  "normal"}
+              </strong>
+            </div>
+
+          </div>
+
+          {/* ==================================================
+              DESCRIPTION
+          ================================================== */}
+
+          <div className="video-modal__desc">
+            <div className="video-modal__desc-head">
+              <h4>Description</h4>
+            </div>
+
+            <p>
+              {selectedVideo.description ||
+                "No description yet."}
+            </p>
+          </div>
+
+          {/* ==================================================
+              VISIBILITY
+          ================================================== */}
+
+          <div className="video-settings-section">
+            <div className="video-settings-section__head">
+              <div>
+                <span className="section-label">
+                  Visibility
+                </span>
+
+                <h4>Website Pages</h4>
               </div>
+            </div>
 
-              {isEditing ? (
-                <>
-                  <textarea value={editDesc} onChange={(e) => setEditDesc(e.target.value)} rows={4} />
-                  <div className="video-modal__desc-actions">
-                    <button type="button" className="btn-text-only" onClick={() => { setIsEditing(false); setEditDesc(selectedVideo.description || ""); }}>
-                      Cancel
-                    </button>
-                    <button type="button" className="btn-solid btn-solid--sm" onClick={handleSaveDescription} disabled={isSaving}>
-                      <Save size={13} /> {isSaving ? "Saving…" : "Save"}
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <p>{selectedVideo.description || "No description yet."}</p>
+            <div className="visibility-summary">
+              {Object.entries(
+                selectedVideo.pageVisibility || {}
+              )
+                .filter(([, enabled]) => enabled)
+                .map(([page]) => (
+                  <Badge key={page} tone="neutral">
+                    {page}
+                  </Badge>
+                ))}
+
+              {!Object.values(
+                selectedVideo.pageVisibility || {}
+              ).some(Boolean) && (
+                <span className="muted">
+                  Not visible on any page
+                </span>
               )}
             </div>
           </div>
-        )}
-      </Modal>
+
+          {/* ==================================================
+              DISPLAY SETTINGS
+          ================================================== */}
+
+          <div className="video-settings-section">
+            <div className="video-settings-section__head">
+              <div>
+                <span className="section-label">
+                  Playback
+                </span>
+
+                <h4>Display Settings</h4>
+              </div>
+            </div>
+
+            <div className="settings-summary">
+              <Badge tone="neutral">
+                Autoplay:{" "}
+                {selectedVideo.displaySettings?.autoplay
+                  ? "On"
+                  : "Off"}
+              </Badge>
+
+              <Badge tone="neutral">
+                Muted:{" "}
+                {selectedVideo.displaySettings?.muted
+                  ? "On"
+                  : "Off"}
+              </Badge>
+
+              <Badge tone="neutral">
+                Loop:{" "}
+                {selectedVideo.displaySettings?.loop
+                  ? "On"
+                  : "Off"}
+              </Badge>
+
+              <Badge tone="neutral">
+                Priority:{" "}
+                {selectedVideo.displaySettings?.priority ||
+                  "normal"}
+              </Badge>
+            </div>
+          </div>
+
+          {/* ==================================================
+              EDIT BUTTON
+          ================================================== */}
+
+          <div className="video-modal__footer-actions">
+            <button
+              type="button"
+              className="btn-solid"
+              onClick={() => setIsEditing(true)}
+            >
+              <Edit3 size={14} />
+              Edit Video
+            </button>
+          </div>
+        </>
+      ) : (
+        <>
+          {/* ==================================================
+              EDITOR
+          ================================================== */}
+
+          <div className="video-editor">
+
+            {/* BASIC INFORMATION */}
+
+            <section className="video-editor__section">
+              <div className="video-editor__section-head">
+                <span className="section-label">
+                  Content
+                </span>
+
+                <h4>Basic Information</h4>
+              </div>
+
+              <div className="video-editor__grid">
+
+                <label className="admin-field admin-field--full">
+                  <span>Title</span>
+
+                  <input
+                    type="text"
+                    value={editForm.title}
+                    onChange={(e) =>
+                      setEditForm((prev) => ({
+                        ...prev,
+                        title: e.target.value,
+                      }))
+                    }
+                    placeholder="Video title"
+                  />
+                </label>
+
+                <label className="admin-field">
+                  <span>Category</span>
+
+                  <select
+                    value={editForm.category}
+                    onChange={(e) =>
+                      setEditForm((prev) => ({
+                        ...prev,
+                        category: e.target.value,
+                      }))
+                    }
+                  >
+                    <option value="">
+                      Select category
+                    </option>
+
+                    {CATEGORIES.map((category) => (
+                      <option
+                        key={category}
+                        value={category}
+                      >
+                        {category}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label className="admin-field">
+                  <span>Status</span>
+
+                  <select
+                    value={editForm.status}
+                    onChange={(e) =>
+                      setEditForm((prev) => ({
+                        ...prev,
+                        status: e.target.value,
+                      }))
+                    }
+                  >
+                    <option value="active">
+                      Active
+                    </option>
+
+                    <option value="draft">
+                      Draft
+                    </option>
+
+                    <option value="archived">
+                      Archived
+                    </option>
+                  </select>
+                </label>
+
+                <label className="admin-field admin-field--full">
+                  <span>Description</span>
+
+                  <textarea
+                    rows={5}
+                    value={editForm.description}
+                    onChange={(e) =>
+                      setEditForm((prev) => ({
+                        ...prev,
+                        description: e.target.value,
+                      }))
+                    }
+                    placeholder="Describe this video..."
+                  />
+                </label>
+
+              </div>
+            </section>
+
+            {/* WEBSITE PLACEMENT */}
+
+            <section className="video-editor__section">
+
+              <div className="video-editor__section-head">
+                <span className="section-label">
+                  Placement
+                </span>
+
+                <h4>Where should this video appear?</h4>
+              </div>
+
+              <div className="video-editor__grid">
+
+                <label className="admin-field">
+                  <span>Website Section</span>
+
+                  <select
+                    value={editForm.websiteSection}
+                    onChange={(e) => {
+                      const section = e.target.value;
+
+                      setEditForm((prev) => ({
+                        ...prev,
+                        websiteSection: section,
+                        displayPosition: "",
+                      }));
+                    }}
+                  >
+                    <option value="">
+                      Select section
+                    </option>
+
+                    {WEBSITE_SECTIONS.map((section) => (
+                      <option
+                        key={section.id}
+                        value={section.id}
+                      >
+                        {section.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label className="admin-field">
+                  <span>Display Position</span>
+
+                  <select
+                    value={editForm.displayPosition}
+                    onChange={(e) =>
+                      setEditForm((prev) => ({
+                        ...prev,
+                        displayPosition: e.target.value,
+                      }))
+                    }
+                    disabled={!editForm.websiteSection}
+                  >
+                    <option value="">
+                      Select position
+                    </option>
+
+                    {getSectionPositions(
+                      editForm.websiteSection
+                    ).map((position) => (
+                      <option
+                        key={position.id}
+                        value={position.id}
+                      >
+                        {position.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+              </div>
+            </section>
+
+            {/* PAGE VISIBILITY */}
+
+            <section className="video-editor__section">
+
+              <div className="video-editor__section-head">
+                <span className="section-label">
+                  Visibility
+                </span>
+
+                <h4>Show On Pages</h4>
+              </div>
+
+              <div className="checkbox-grid">
+
+                {[
+                  ["home", "Home"],
+                  ["services", "Services"],
+                  ["work", "Work"],
+                  ["about", "About"],
+                  ["insights", "Insights"],
+                  ["contact", "Contact"],
+                ].map(([key, label]) => (
+                  <label
+                    key={key}
+                    className="admin-checkbox"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={
+                        Boolean(
+                          editForm.pageVisibility[key]
+                        )
+                      }
+                      onChange={(e) =>
+                        setEditForm((prev) => ({
+                          ...prev,
+                          pageVisibility: {
+                            ...prev.pageVisibility,
+                            [key]: e.target.checked,
+                          },
+                        }))
+                      }
+                    />
+
+                    <span className="admin-checkbox__box">
+                      <Check size={12} />
+                    </span>
+
+                    <span>{label}</span>
+                  </label>
+                ))}
+
+              </div>
+            </section>
+
+            {/* PLAYBACK */}
+
+            <section className="video-editor__section">
+
+              <div className="video-editor__section-head">
+                <span className="section-label">
+                  Playback
+                </span>
+
+                <h4>Display Settings</h4>
+              </div>
+
+              <div className="checkbox-grid">
+
+                {[
+                  ["autoplay", "Autoplay"],
+                  ["muted", "Muted"],
+                  ["loop", "Loop"],
+                ].map(([key, label]) => (
+                  <label
+                    key={key}
+                    className="admin-checkbox"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={Boolean(
+                        editForm.displaySettings[key]
+                      )}
+                      onChange={(e) =>
+                        setEditForm((prev) => ({
+                          ...prev,
+                          displaySettings: {
+                            ...prev.displaySettings,
+                            [key]:
+                              e.target.checked,
+                          },
+                        }))
+                      }
+                    />
+
+                    <span className="admin-checkbox__box">
+                      <Check size={12} />
+                    </span>
+
+                    <span>{label}</span>
+                  </label>
+                ))}
+
+              </div>
+
+              <div className="video-editor__grid">
+
+                <label className="admin-field">
+                  <span>Priority</span>
+
+                  <select
+                    value={
+                      editForm.displaySettings.priority ||
+                      "normal"
+                    }
+                    onChange={(e) =>
+                      setEditForm((prev) => ({
+                        ...prev,
+                        displaySettings: {
+                          ...prev.displaySettings,
+                          priority: e.target.value,
+                        },
+                      }))
+                    }
+                  >
+                    <option value="low">
+                      Low
+                    </option>
+
+                    <option value="normal">
+                      Normal
+                    </option>
+
+                    <option value="high">
+                      High
+                    </option>
+                  </select>
+                </label>
+
+                <label className="admin-field">
+                  <span>Display Order</span>
+
+                  <input
+                    type="number"
+                    min="0"
+                    value={editForm.order}
+                    onChange={(e) =>
+                      setEditForm((prev) => ({
+                        ...prev,
+                        order: e.target.value,
+                      }))
+                    }
+                  />
+                </label>
+
+              </div>
+            </section>
+
+            {/* FEATURED */}
+
+            <section className="video-editor__section">
+
+              <div className="video-editor__section-head">
+                <span className="section-label">
+                  Curation
+                </span>
+
+                <h4>Featured Content</h4>
+              </div>
+
+              <label className="admin-checkbox">
+                <input
+                  type="checkbox"
+                  checked={editForm.featured}
+                  onChange={(e) =>
+                    setEditForm((prev) => ({
+                      ...prev,
+                      featured: e.target.checked,
+                    }))
+                  }
+                />
+
+                <span className="admin-checkbox__box">
+                  <Check size={12} />
+                </span>
+
+                <span>
+                  Feature this video on the website
+                </span>
+              </label>
+            </section>
+
+            {/* TAGS */}
+
+            <section className="video-editor__section">
+
+              <div className="video-editor__section-head">
+                <span className="section-label">
+                  Organization
+                </span>
+
+                <h4>Tags</h4>
+              </div>
+
+              <label className="admin-field admin-field--full">
+
+                <span>
+                  Tags{" "}
+                  <small>
+                    Separate with commas
+                  </small>
+                </span>
+
+                <input
+                  type="text"
+                  value={editForm.tags.join(", ")}
+                  onChange={(e) =>
+                    setEditForm((prev) => ({
+                      ...prev,
+                      tags: e.target.value
+                        .split(",")
+                        .map((tag) => tag.trim())
+                        .filter(Boolean),
+                    }))
+                  }
+                  placeholder="commercial, brand, campaign"
+                />
+
+              </label>
+
+            </section>
+
+            {/* TECHNICAL INFORMATION */}
+
+            <section className="video-editor__section">
+
+              <div className="video-editor__section-head">
+                <span className="section-label">
+                  Asset
+                </span>
+
+                <h4>Technical Information</h4>
+              </div>
+
+              <div className="technical-grid">
+
+                <div>
+                  <span>Platform</span>
+                  <strong>
+                    {selectedVideo.platform || "—"}
+                  </strong>
+                </div>
+
+                <div>
+                  <span>Resolution</span>
+                  <strong>
+                    {selectedVideo.resolution || "—"}
+                  </strong>
+                </div>
+
+                <div>
+                  <span>Duration</span>
+                  <strong>
+                    {formatDuration(
+                      selectedVideo.duration
+                    )}
+                  </strong>
+                </div>
+
+                <div>
+                  <span>File Size</span>
+                  <strong>
+                    {selectedVideo.size
+                      ? `${selectedVideo.size} MB`
+                      : "—"}
+                  </strong>
+                </div>
+
+                <div>
+                  <span>Resource ID</span>
+                  <strong className="mono">
+                    {selectedVideo.resourceId || "—"}
+                  </strong>
+                </div>
+
+                <div>
+                  <span>Uploader</span>
+                  <strong>
+                    {selectedVideo.uploaderId || "—"}
+                  </strong>
+                </div>
+
+              </div>
+            </section>
+
+            {/* ACTIONS */}
+
+            <div className="video-editor__actions">
+
+              <button
+                type="button"
+                className="btn-outline"
+                disabled={isSaving}
+                onClick={() => {
+                  openVideo(selectedVideo);
+                }}
+              >
+                <X size={14} />
+                Cancel
+              </button>
+
+              <button
+                type="button"
+                className="btn-solid"
+                disabled={isSaving}
+                onClick={handleSaveVideo}
+              >
+                <Save size={14} />
+
+                {isSaving
+                  ? "Saving..."
+                  : "Save Changes"}
+              </button>
+
+            </div>
+
+          </div>
+        </>
+      )}
+    </div>
+  )}
+</Modal>
     </div>
   );
 }
