@@ -406,11 +406,13 @@ export default function AdminUpload() {
             const s = p >= 101 ? "metadata_saving" : "uploading";
             updateItemStatus(vid.preview, { progress: Math.min(p, 100), status: s });
           },
-         {
+        {
   duration: vid.duration,
   resolution: vid.resolution,
   thumbnail: vid.thumbnail,
   description: vid.description,
+
+  section: vid.websiteSection || "",
 
   placement:
     vid.websiteSection && vid.displayPosition
@@ -425,21 +427,21 @@ export default function AdminUpload() {
   displaySettings: vid.displaySettings,
 
   pageVisibility: {
-  home: false,
-  services: false,
-  work: false,
-  about: false,
-  insights: false,
-  contact: false,
+    home: false,
+    services: false,
+    work: false,
+    about: false,
+    insights: false,
+    contact: false,
 
-  ...vid.pageVisibility,
+    ...vid.pageVisibility,
 
-  ...(vid.websiteSection
-    ? {
-        [vid.websiteSection]: true,
-      }
-    : {}),
-},
+    ...(vid.websiteSection
+      ? {
+          [vid.websiteSection]: true,
+        }
+      : {}),
+  },
 
   featured: vid.featured,
   order: vid.order,
