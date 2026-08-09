@@ -38,6 +38,7 @@ import {
   WEBSITE_SECTIONS,
   getSectionPositions,
 } from "../components/admin/AdminShared.jsx";
+import AdminNavigation from "../components/admin/AdminNavigation.jsx";
 
 import "../styles/pages/adminvideos.css";
 
@@ -274,8 +275,14 @@ export default function AdminVideos() {
 };
 
   return (
-    <div className="admin-videos theme-dark" data-theme="dark">
-      <section className="admin-panel">
+  <div className="admin-shell">
+
+    <AdminNavigation />
+
+    <main className="admin-shell__content">
+      <div className="admin-videos theme-dark" data-theme="dark">
+
+        <section className="admin-panel">
         <div className="admin-panel__inner">
           <SectionHeader
             eyebrow="Library"
@@ -1187,7 +1194,11 @@ export default function AdminVideos() {
       )}
     </div>
   )}
-</Modal>
-    </div>
-  );
-}
+ </Modal>
+
+      </div>
+
+    </main>
+
+  </div>
+);
