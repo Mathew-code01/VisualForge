@@ -56,18 +56,16 @@ function SiteFooter() {
             SECTION 1 — LARGE BRAND STATEMENT
         ================================================ */}
 
-        <NavLink to="/" className="bd-footer-brand">
-    <img
-        src={Logo}
-        alt="Big Day"
-        className="bd-footer-logo"
-    />
-</NavLink>
+        <div className="bd-footer-hero">
+  <NavLink to="/" className="bd-footer-brand">
+    <img src={Logo} alt="Big Day" className="bd-footer-logo" />
+  </NavLink>
 
-          <h2 className="bd-footer-hero__statement">
-            Turning complex ideas into
-            <span className="gradient-text"> clear digital experiences.</span>
-          </h2>
+  <h2 className="bd-footer-hero__statement">
+    Turning complex ideas into
+    <span className="gradient-text"> clear digital experiences.</span>
+  </h2>
+</div>
         
 
         {/* ================================================
