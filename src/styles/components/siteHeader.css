@@ -131,7 +131,6 @@
 .bd-header__logo-image { width: auto; height: auto; }
 .bd-header__logo-image--wide { width: 106px; }
 .bd-header__logo-image--stacked { display: none; width: 30px; }
-.bd-header__logo-image--invert { filter: brightness(0) invert(1); }
 
 /* Nav */
 
