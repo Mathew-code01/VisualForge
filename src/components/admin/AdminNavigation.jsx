@@ -25,7 +25,7 @@ export default function AdminNavigation() {
         <nav className="admin-nav__links">
 
           <NavLink
-            to="/admin"
+            to="/admin-upload"
             end
             className={({ isActive }) =>
               `admin-nav__link ${isActive ? "is-active" : ""}`
