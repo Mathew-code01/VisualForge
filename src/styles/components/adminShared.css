@@ -375,3 +375,193 @@
 @media (prefers-reduced-motion: reduce) {
   .spin, .admin-modal, .admin-modal-backdrop { animation: none; }
 }
+
+/* ============================================================
+   ADMIN NAVIGATION
+============================================================ */
+
+.admin-nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  width: 100%;
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(8, 8, 10, 0.97),
+      rgba(8, 8, 10, 0.92)
+    );
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.admin-nav__inner {
+  width: min(
+    calc(100% - (var(--page-padding) * 2)),
+    1680px
+  );
+
+  min-height: 68px;
+
+  margin-inline: auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 32px;
+}
+
+.admin-nav__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  flex-shrink: 0;
+}
+
+.admin-nav__brand-mark {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: var(--font-bold);
+  letter-spacing: 0.08em;
+
+  color: #fff;
+}
+
+.admin-nav__brand-label {
+  padding-left: 12px;
+
+  border-left: 1px solid rgba(255, 255, 255, 0.14);
+
+  color: rgba(255, 255, 255, 0.48);
+
+  font-size: 11px;
+  font-weight: var(--font-medium);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.admin-nav__links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  margin-left: auto;
+}
+
+.admin-nav__link {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  min-height: 38px;
+  padding: 8px 13px;
+
+  border-radius: var(--radius-md);
+
+  color: rgba(255, 255, 255, 0.55);
+
+  font-size: 13px;
+  font-weight: var(--font-medium);
+
+  text-decoration: none;
+
+  transition:
+    color var(--transition-fast),
+    background var(--transition-fast);
+}
+
+.admin-nav__link svg {
+  opacity: 0.7;
+
+  transition:
+    opacity var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.admin-nav__link:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.admin-nav__link:hover svg {
+  opacity: 1;
+}
+
+.admin-nav__link.is-active {
+  color: #fff;
+  background: rgba(37, 99, 235, 0.12);
+}
+
+.admin-nav__link.is-active svg {
+  opacity: 1;
+  color: var(--color-accent);
+}
+
+.admin-nav__link.is-active::after {
+  content: "";
+
+  position: absolute;
+
+  left: 12px;
+  right: 12px;
+  bottom: -1px;
+
+  height: 2px;
+
+  border-radius: 999px;
+
+  background: var(--color-primary);
+}
+
+
+/* ============================================================
+   ADMIN NAV RESPONSIVE
+============================================================ */
+
+@media (max-width: 768px) {
+  .admin-nav__inner {
+    min-height: auto;
+
+    padding-block: 12px;
+
+    flex-direction: column;
+    align-items: stretch;
+
+    gap: 12px;
+  }
+
+  .admin-nav__brand {
+    justify-content: space-between;
+  }
+
+  .admin-nav__links {
+    width: 100%;
+
+    margin-left: 0;
+
+    overflow-x: auto;
+
+    scrollbar-width: none;
+  }
+
+  .admin-nav__links::-webkit-scrollbar {
+    display: none;
+  }
+
+  .admin-nav__link {
+    flex: 0 0 auto;
+  }
+
+  .admin-nav__link.is-active::after {
+    display: none;
+  }
+}

@@ -42,6 +42,7 @@ import {
   Badge,
   EmptyState,
 } from "../components/admin/AdminShared.jsx";
+import AdminNavigation from "../components/admin/AdminNavigation.jsx";
 
 import "../styles/pages/adminupload.css";
 
@@ -510,6 +511,8 @@ export default function AdminUpload() {
   };
 
   return (
+    <>
+     <AdminNavigation />
     <div className="admin-upload theme-dark" data-theme="dark">
       {/* ============================================================
           STORAGE PANEL
@@ -661,5 +664,6 @@ export default function AdminUpload() {
         </div>
       </section>
     </div>
+    </>
   );
 }
