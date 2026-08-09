@@ -377,52 +377,66 @@
 }
 
 /* ============================================================
-   ADMIN NAVIGATION
+   ADMIN SHELL
+   Sidebar sits underneath the main site header.
+============================================================ */
+
+.admin-shell {
+  display: flex;
+  min-height: calc(100vh - var(--site-header-height, 0px));
+}
+
+/* ============================================================
+   ADMIN NAVIGATION — SIDEBAR
 ============================================================ */
 
 .admin-nav {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  position: fixed;
+  top: var(--site-header-height, 0px);
+  left: 0;
+  bottom: 0;
 
-  width: 100%;
+  width: 248px;
+
+  z-index: 900;
 
   background:
     linear-gradient(
-      to bottom,
-      rgba(8, 8, 10, 0.97),
-      rgba(8, 8, 10, 0.92)
+      180deg,
+      rgba(8, 8, 10, 0.98),
+      rgba(8, 8, 10, 0.94)
     );
 
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
 
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
+
+  overflow-y: auto;
 }
 
 .admin-nav__inner {
-  width: min(
-    calc(100% - (var(--page-padding) * 2)),
-    1680px
-  );
-
-  min-height: 68px;
-
-  margin-inline: auto;
+  min-height: 100%;
+  padding: 28px 16px 20px;
 
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  gap: 32px;
+  flex-direction: column;
 }
+
+/* ============================================================
+   BRAND
+============================================================ */
 
 .admin-nav__brand {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  flex-direction: column;
+  gap: 5px;
 
-  flex-shrink: 0;
+  padding: 8px 12px 24px;
+
+  margin-bottom: 14px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .admin-nav__brand-mark {
@@ -430,40 +444,42 @@
   font-size: 15px;
   font-weight: var(--font-bold);
   letter-spacing: 0.08em;
-
   color: #fff;
 }
 
 .admin-nav__brand-label {
-  padding-left: 12px;
+  color: rgba(255, 255, 255, 0.42);
 
-  border-left: 1px solid rgba(255, 255, 255, 0.14);
-
-  color: rgba(255, 255, 255, 0.48);
-
-  font-size: 11px;
+  font-size: 10px;
   font-weight: var(--font-medium);
-  letter-spacing: 0.08em;
+
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
+/* ============================================================
+   NAV LINKS
+============================================================ */
+
 .admin-nav__links {
   display: flex;
-  align-items: center;
-  gap: 4px;
+  flex-direction: column;
+  gap: 5px;
 
-  margin-left: auto;
+  width: 100%;
 }
 
 .admin-nav__link {
   position: relative;
 
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 
-  min-height: 38px;
-  padding: 8px 13px;
+  width: 100%;
+  min-height: 44px;
+
+  padding: 10px 12px;
 
   border-radius: var(--radius-md);
 
@@ -476,14 +492,18 @@
 
   transition:
     color var(--transition-fast),
-    background var(--transition-fast);
+    background var(--transition-fast),
+    transform var(--transition-fast);
 }
 
 .admin-nav__link svg {
+  flex-shrink: 0;
+
   opacity: 0.7;
 
   transition:
     opacity var(--transition-fast),
+    color var(--transition-fast),
     transform var(--transition-fast);
 }
 
@@ -494,11 +514,12 @@
 
 .admin-nav__link:hover svg {
   opacity: 1;
+  transform: translateX(1px);
 }
 
 .admin-nav__link.is-active {
   color: #fff;
-  background: rgba(37, 99, 235, 0.12);
+  background: rgba(37, 99, 235, 0.13);
 }
 
 .admin-nav__link.is-active svg {
@@ -506,47 +527,124 @@
   color: var(--color-accent);
 }
 
-.admin-nav__link.is-active::after {
+/* Blue active indicator on left */
+
+.admin-nav__link.is-active::before {
   content: "";
 
   position: absolute;
 
-  left: 12px;
-  right: 12px;
-  bottom: -1px;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
 
-  height: 2px;
+  width: 3px;
 
-  border-radius: 999px;
+  border-radius: 0 999px 999px 0;
 
   background: var(--color-primary);
 }
 
+/* ============================================================
+   SIDEBAR FOOTER
+============================================================ */
+
+.admin-nav__footer {
+  margin-top: auto;
+
+  padding: 20px 12px 4px;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.admin-nav__status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  color: rgba(255, 255, 255, 0.35);
+
+  font-size: 10px;
+  letter-spacing: 0.04em;
+}
+
+.admin-nav__status-dot {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #4ade80;
+
+  box-shadow: 0 0 10px rgba(74, 222, 128, 0.45);
+}
 
 /* ============================================================
-   ADMIN NAV RESPONSIVE
+   ADMIN CONTENT OFFSET
+============================================================ */
+
+.admin-shell__content {
+  flex: 1;
+  min-width: 0;
+
+  margin-left: 248px;
+}
+
+/* ============================================================
+   MOBILE
 ============================================================ */
 
 @media (max-width: 768px) {
+
+  .admin-shell {
+    display: block;
+  }
+
+  .admin-nav {
+    position: sticky;
+
+    top: var(--site-header-height, 0px);
+
+    width: 100%;
+    height: auto;
+
+    max-height: none;
+
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+    overflow: visible;
+  }
+
   .admin-nav__inner {
     min-height: auto;
 
-    padding-block: 12px;
+    padding: 12px 16px;
 
-    flex-direction: column;
-    align-items: stretch;
-
-    gap: 12px;
+    display: block;
   }
 
   .admin-nav__brand {
-    justify-content: space-between;
+    padding: 4px 4px 12px;
+    margin-bottom: 10px;
+
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .admin-nav__brand-label {
+    padding-left: 10px;
+
+    border-left: 1px solid rgba(255, 255, 255, 0.14);
   }
 
   .admin-nav__links {
-    width: 100%;
+    flex-direction: row;
 
-    margin-left: 0;
+    width: 100%;
 
     overflow-x: auto;
 
@@ -558,10 +656,24 @@
   }
 
   .admin-nav__link {
+    width: auto;
+
     flex: 0 0 auto;
+
+    min-height: 40px;
+
+    padding: 8px 12px;
   }
 
-  .admin-nav__link.is-active::after {
+  .admin-nav__link.is-active::before {
     display: none;
+  }
+
+  .admin-nav__footer {
+    display: none;
+  }
+
+  .admin-shell__content {
+    margin-left: 0;
   }
 }

@@ -511,9 +511,12 @@ export default function AdminUpload() {
   };
 
   return (
-    <>
-     <AdminNavigation />
-    <div className="admin-upload theme-dark" data-theme="dark">
+  <div className="admin-shell">
+
+    <AdminNavigation />
+
+    <main className="admin-shell__content">
+      <div className="admin-upload theme-dark" data-theme="dark">
       {/* ============================================================
           STORAGE PANEL
       ============================================================ */}
@@ -662,8 +665,9 @@ export default function AdminUpload() {
             </div>
           )}
         </div>
-      </section>
-    </div>
-    </>
+           </section>
+      </div>
+    </main>
+  </div>
   );
 }
